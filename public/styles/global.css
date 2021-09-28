@@ -1,0 +1,46 @@
+:root {
+	--black: #000000;
+	--white: #FFFFFF;
+    --primary-white: #D8D3E5;
+	--primary-red: #D33333;
+	--primary-purple: #ba97e4;
+	--primary-background: #0D1117;
+	--secondary-background: #12171F;
+    --secondary-white: #F1F1F1;
+    --primary-gray: rgba(165, 165, 165, 0.86);
+}
+
+* {
+	margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-size: 16px;
+    vertical-align: baseline;
+}
+
+*:focus:not(:focus-visible) {
+    outline-color: var(--primary-purple);
+    outline-width: 2.7px;
+    outline-style: dashed;
+    outline-offset: 6px;
+}
+
+a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, body, canvas, caption, center, cite, code, dd, del, details, dfn, div, dl, dt, em, embed, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, ins, kbd, label, legend, li, mark, menu, nav, object, ol, output, p, pre, q, ruby, s, samp, section, small, span, strike, strong, sub, summary, sup, table, tbody, td, tfoot, th, thead, time, tr, tt, u, ul, var, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    position: relative;
+    vertical-align: baseline;
+}
+
+body, html {
+    background: var(--primary-background);
+}
+
+.features_list_item:nth-last-child() {
+    display: none!important;
+}
