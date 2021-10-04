@@ -1,5 +1,5 @@
 import React from 'react'
-import SvgIcon from '../sub-components/icons/SvgIcon'
+import SvgIcon from "../icons/SvgIcon"
 import Features from './Features';
 import {
     

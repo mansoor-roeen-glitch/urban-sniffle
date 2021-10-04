@@ -25,11 +25,12 @@ const List = styled.ul `
     width: fit-content;
     height: fit-content;
     width: 100%;
+
 `
 
 const StyledWrapper = styled.div `
     width: 100%;
-    padding-top: 20px;
+    padding-top: 10px;
     background: transparent;
     
     align-items: center;

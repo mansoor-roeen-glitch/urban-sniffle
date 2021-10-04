@@ -58,7 +58,7 @@ const HeaderList = styled.ul `
     list-style: none;
     display: grid;
     grid-template-columns: 1fr 100px 100px 100px;
-    grid-template-rows: 36px;
+    grid-template-rows: auto;
 `;
 
 const ContentHeader = styled.div `

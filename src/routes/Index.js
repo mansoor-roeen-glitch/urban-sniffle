@@ -3,9 +3,11 @@ import { Route, Redirect, Router, Switch } from "react-router-dom";
 import { createBrowserHistory } from 'history';
 
 // Importing Components 
-import Base from './Base';
-import CreateService from './CreateService';
+import Base from './Base/Base';
+import Service from './Service/Service';
+import CreateService from './Create/Create';
 import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer'
 
 export default function Index({authenticated}) {
     
@@ -39,9 +41,12 @@ export default function Index({authenticated}) {
             <Switch>
             
                 <Route path="/" exact component={Base} />
+                <Route path="/service/:id/:hostname" component={Service} /> 
                 <Route path="/create-service" exact component={CreateService} />
             
             </Switch>
+
+            <Footer />
 
         </Router>
     )

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import SvgIcon from '../sub-components/icons/SvgIcon'
+import SvgIcon from '../icons/SvgIcon'
 
 export default function Features({active}) {
     
@@ -123,7 +123,7 @@ const Wrapper = styled.div `
     background: white;
     position: absolute;
     right: calc(5% + 110px);
-    background: #12171F;
+    background: var(--secondary-background);
     border: none;
 
     box-shadow: 0 3px 20px rgb(255 255 255 / 5%), 0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(255 255 255 / 10%);

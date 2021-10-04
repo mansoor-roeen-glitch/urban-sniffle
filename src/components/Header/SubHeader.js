@@ -1,8 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import PrimaryButton from '../../sub-components/buttons/PrimaryButton'
-import SvgIcon from '../../sub-components/icons/SvgIcon'
 
 export default function Header({path, pathName}) {
     return (
@@ -116,11 +113,12 @@ const StyledImage = styled.div `
 
 const Wrapper = styled.div `
     width: 100%;
-    height: 80px;
+    height: 70px;
     background: var(--secondary-background);
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 30px;
 `;
 
 const InnerWrapper = styled.div `

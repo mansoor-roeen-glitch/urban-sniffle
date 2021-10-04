@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default function ServiceItem({service}) {
     return (
-        <Link style={{textDecoration: "none", outline: "none"}} to={`/service/${service.id}-${service.hostname}`}>
+        <Link style={{textDecoration: "none", outline: "none"}} to={`/service/${service.id}/${service.hostname}`}>
             <StyledWrapper id={service.id} >
                 <StyledGrid>
 
@@ -48,7 +48,7 @@ const ServiceDetailText = styled.span `
     text-transform: capitalize;
 `;
 
-const ServiceDetail = styled.div `
+const ServiceDetail = styled.div ` 
 
 `;
 
@@ -74,6 +74,10 @@ const StyledGrid = styled.div `
     justify-content: space-between;
     grid-template-columns: 1fr 40px 40px 40px;
     column-gap: 60px;
+
+    &:hover {
+        opacity: .8;
+    }
 `;
 
 const StyledWrapper = styled.li `
@@ -88,12 +92,8 @@ const StyledWrapper = styled.li `
     border: none;
     list-style: none;
     border-bottom-width: 0.3px;
-    border-bottom-color: rgba(216, 211, 230, 0.15);
+    border-bottom-color: rgba(216, 211, 230, 0.12);
     border-bottom-style: solid;
-
-    &:hover {
-        opacity: .8;
-    }
 
 `;
 
