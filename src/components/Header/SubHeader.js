@@ -122,7 +122,7 @@ const Wrapper = styled.div `
 `;
 
 const InnerWrapper = styled.div `
-    width: 95%;
+    width: 93%;
     max-width: 1400px;
     height: fit-content;
     display: flex;

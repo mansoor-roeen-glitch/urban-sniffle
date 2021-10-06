@@ -66,7 +66,7 @@ const ServiceHostnameText = styled.span `
 `;
 
 const StyledGrid = styled.div `
-    width: 100%;
+    width: 93%;
     height: auto;
 
     max-width: 1400px;

@@ -23,7 +23,7 @@ const OuterWrapper = styled.header `
 `;
 
 const InnerWrapper = styled.nav `
-    width: 95%;
+    width: 93%;
     height: 65px;
 
     display: flex;

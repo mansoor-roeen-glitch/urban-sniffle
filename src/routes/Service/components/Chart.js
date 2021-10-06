@@ -13,7 +13,7 @@ export default function Chart({text, heading, usage, total, unit}) {
                 <SubHeadingText>
                     {usage}{unit} out of {total}{unit} used 
                 </SubHeadingText>
-            </HeadingContainer>
+            </HeadingContainer> 
             
             <ChartWrapper>
                 <TextWrapper>
@@ -37,7 +37,7 @@ export default function Chart({text, heading, usage, total, unit}) {
 }
 
 const SubHeadingText = styled.span `
-    font-size: 16px;
+    font-size: 0.97rem;
     margin-top: 10px;
     color: var(--white);
     opacity: .5;
@@ -45,7 +45,7 @@ const SubHeadingText = styled.span `
 `;
 
 const HeadingText = styled.span `
-    font-size: 20px;
+    font-size: 1.22rem;
     font-weight: normal;
     color: var(--white);
     opacity: .8;

@@ -121,10 +121,23 @@ const Charts = styled.div `
 
     column-gap: 6%;
     padding-top: 15px;
+
+    @media screen and (max-width: 980px) {
+        justify-content: center;
+    }
+
+    @media screen and (max-width: 755px) {
+        display: grid;
+        grid-template-columns: 200px 200px;
+        grid-template-rows: repeat(auto, 2);
+        justify-content: flex-start;
+        row-gap: 10px;
+    }
+
 `;
 
 const InnerWrapper = styled.div `
-    width: 95%;
+    width: 90%;
     height: fit-content;
     padding-top: 50px;
 

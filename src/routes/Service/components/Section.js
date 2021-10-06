@@ -28,12 +28,23 @@ const DetailWrapper = styled.div `
 
 const ContentWrapper = styled.div `
 
-    width: 100%;
+    width: 93%;
     height: fit-content;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 130px;
     grid-column-gap: 60px;
+
+    @media screen and (max-width: 980px) {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 130px 130px 130px;
+        grid-column-gap: 45px;
+    }
+
+    @media screen and (max-width: 625px) {
+        grid-template-columns: 1fr;
+        grid-template-rows: 130px 130px 130px 130px 130px ;
+    }
 
 `;
 

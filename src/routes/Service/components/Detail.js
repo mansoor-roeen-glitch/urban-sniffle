@@ -21,14 +21,14 @@ export default function Detail({heading, value}) {
 }
 
 const StyledHeading = styled.span `
-    font-size: 22px;
+    font-size: 1.34rem;
     font-weight: 300;
     color: var(--primary-purple);
     opacity: .9;
 `;
 
 const ContentText = styled.span `
-    font-size: 22px;
+    font-size: 1.34rem;
     font-weight: 300;
     font-style: normal;
     color: var(--white);
