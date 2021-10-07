@@ -53,7 +53,7 @@ const PathWrapper = styled.div `
 const PathText = styled.span `
     font-style: normal;
     font-weight: normal;
-    font-size: 20px;
+    font-size: 1.22rem;
     line-height: 124%;
     /* or 8px */
     color: var(--primary-white);
@@ -81,7 +81,7 @@ const StyledUsernameWrapper = styled.div `
 
 const StyledUserName = styled.span `
     color: var(--primary-purple);
-    font-size: 22px;
+    font-size: 1.35rem;
     font-weight: 300;
 `;
 

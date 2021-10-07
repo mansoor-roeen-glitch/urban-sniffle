@@ -91,7 +91,7 @@ const StyledText = styled.div `
     text-align: center;
     font-style: normal;
     font-weight: normal;
-    font-size: 22px;
+    font-size: 1.35rem;
     color: var(--white);
     opacity: .8;
 `;

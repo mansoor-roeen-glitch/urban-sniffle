@@ -42,7 +42,7 @@ const ServiceDetailText = styled.span `
     font-family: "Josefin Sans";
     font-style: normal;
     font-weight: 300;
-    font-size: 20px;
+    font-size: 1.22rem;
     line-height: 124%;
     color: var(--white);
     text-transform: capitalize;
@@ -59,7 +59,7 @@ const ServiceHostname = styled.div `
 const ServiceHostnameText = styled.span `
     font-style: normal;
     font-weight: 300;
-    font-size: 22px;
+    font-size: 1.296rem;
     line-height: 124%;
     color: var(--white);
     opacity: .9;

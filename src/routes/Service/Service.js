@@ -111,7 +111,7 @@ const ItemButton = styled.button `
 `;
 
 const ItemText = styled.span `
-    font-size: 20px;
+    font-size: 1.22rem;
     font-weight: 300;
     font-style: normal;
     line-height: normal;

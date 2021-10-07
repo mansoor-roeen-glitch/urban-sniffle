@@ -52,7 +52,7 @@ const ActivityText = styled.span `
 
     font-style: normal;
     font-weight: 400;
-    font-size: 24px;
+    font-size: 1.497rem;
 `;
 
 const ActivityHeading = styled.div `
@@ -82,6 +82,7 @@ const TemporaryText = styled.p `
     position: absolute;
     top: 40px;
     left: 30px;
+    padding-right: 30px;
     max-width: 500px;
 `;
 
@@ -99,7 +100,21 @@ const InnerWrapper = styled.div `
     grid-template-columns: 2.6fr auto;
     grid-template-rows: auto;
     column-gap: 70px;
+
+    @media screen and (max-width: 1400px) {
+        column-gap: 35px;
+    }
+
+    @media screen and (max-width: 1000px) {
+        grid-template-columns: auto;
+        grid-template-rows: 450px 400px;
+        column-gap: 0px;
+        row-gap: 30px;
+        height: fit-content;
+        padding-bottom: 50px;
+    }
 `;
+
 
 const Wrapper = styled.div `
     width: 100%;

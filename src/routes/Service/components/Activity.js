@@ -25,9 +25,8 @@ export default function Activity({activity}) {
 const EmitTime = styled.span `
     color: var(--white);
     opacity: .5;
-    font-size: 16px;
+    font-size: 0.97rem;
     font-weight: 300;
-    font-size: normal;
 `;
 
 const Wrapper = styled.div `

@@ -47,7 +47,7 @@ const ListItem = styled.li `
 const ItemText = styled.span `
     font-style: normal;
     font-weight: normal;
-    font-size: 14px;
+    font-size: 0.85rem;
     line-height: 124%;
     text-transform: uppercase;
 
