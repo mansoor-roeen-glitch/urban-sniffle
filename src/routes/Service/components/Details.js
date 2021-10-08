@@ -102,8 +102,8 @@ export default function Details() {
                 </Charts>
             
                 <Content>
-                    <Section data={general} heading="General Detials" />
-                    <Section data={vm} heading="VM details" />
+                    <Section data={general} heading="General Detials" rows={3} rowHeight={130} />
+                    <Section data={vm} heading="VM details" rows={3} rowHeight={130} />
                 </Content>
             
             </InnerWrapper>

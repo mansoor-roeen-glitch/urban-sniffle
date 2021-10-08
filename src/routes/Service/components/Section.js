@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import PrimaryHeading from "../../../components/texts/PrimaryHeading";
 import Detail from './Detail';
 
-export default function Section({data, heading}) {
+export default function Section({data, heading, rows, rowHeight}) {
     return (
         <GeneralSec>
             <HeadingWrapper>
                 <PrimaryHeading text={heading} />
             </HeadingWrapper>
-            <ContentWrapper>
+            <ContentWrapper count={data.length} rows={rows} rowHeight={rowHeight}>
                 {data.map((item) => {
                     return (
                         <DetailWrapper>
@@ -32,18 +32,18 @@ const ContentWrapper = styled.div `
     height: fit-content;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 130px;
+    grid-template-rows: ${props => props.rowHeight}px;
     grid-column-gap: 60px;
 
     @media screen and (max-width: 980px) {
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: 130px 130px 130px;
+        grid-template-rows: repeat(${props => props.rows}, 130px);
         grid-column-gap: 45px;
     }
 
     @media screen and (max-width: 625px) {
         grid-template-columns: 1fr;
-        grid-template-rows: 130px 130px 130px 130px 130px ;
+        grid-template-rows: repeat(${props => props.count}, 130px);
     }
 
 `;
