@@ -46,8 +46,8 @@ const RightWrapper = styled.div `
 `;
 
 const StyledLogo = styled.img `
-    width: 48px;
-    height: 40px;
+    width: 35px;
+    height: 30px;
 `;
 
 const StyledTitle = styled.span `

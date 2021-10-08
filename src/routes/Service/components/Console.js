@@ -99,7 +99,7 @@ const InnerWrapper = styled.div `
     display: grid;
     grid-template-columns: 2.6fr auto;
     grid-template-rows: auto;
-    column-gap: 70px;
+    column-gap: 40px;
 
     @media screen and (max-width: 1400px) {
         column-gap: 35px;

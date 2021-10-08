@@ -25,23 +25,23 @@ export default function Header() {
             src: "features.svg",
             name: "features button", 
             action: setFeaturesBtn,
-            width: "31px",
-            height: "30px"
+            width: "26px",
+            height: "25px"
         },
         {
             src: "bell.svg",
             name: "Notifications button", 
             action: setNotificationBtn,
-            width: "35px",
-            height: "35px"
+            width: "30px",
+            height: "30px"
 
         },
         {
             src: "profile.svg",
             name: "Profile button", 
             action: setProfileBtn,
-            width: "35px",
-            height: "35px"
+            width: "30px",
+            height: "30px"
 
         }
     ]

@@ -9,7 +9,7 @@ export default function PrimaryHeading({text}) {
 
 const StyledHeader = styled.h2 `
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 1.82rem;
     color: var(--white);
     opacity: .85;
