@@ -7,7 +7,7 @@ export default function ServiceList({services}) {
     return (
         <StyledWrapper>
             <List>
-                {services.map((service, index) => {
+                {services && services.map((service, index) => {
                     return (
                         <ServiceItem service={service} key={index} />
                     )

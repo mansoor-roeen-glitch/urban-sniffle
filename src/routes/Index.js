@@ -9,19 +9,19 @@ import Create from './Create/Create';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer'
 
-export default function Index() {
-    
+export default function Index({config}) {
+
     const history = createBrowserHistory();
 
     return (
         
         <Router history={history}>            
-            <Header />
+            <Header config={config} />
             <Switch>
             
-                <Route path="/" exact component={Base} />
-                <Route path="/service/:id/:hostname" component={Service} /> 
-                <Route path="/create" exact component={Create} />
+                <Route path="/" exact render={() => <Base config={config} />} />
+                <Route path="/service/:id/:hostname" render={() => <Service config={config} />} /> 
+                <Route path="/create" exact render={() => <Create />} />
             
             </Switch>
             <Footer />

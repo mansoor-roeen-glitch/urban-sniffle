@@ -6,7 +6,7 @@ import SecondaryButton from '../../components/buttons/SecondaryButton';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-export default function Login() {
+export default function Login(props) {
 
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -15,6 +15,12 @@ export default function Login() {
     const [success, setSuccess] = React.useState(false)
     const [error, setError] = React.useState(false)
     const [loading, setLoading] = React.useState(false)
+
+    function resetValues () {
+        setEmail("")
+        setUsername("")
+        setPassword("")
+    }
 
     function isValidEmailAddress(emailAddress) {
         var pattern = new RegExp(/^(("[\w-+\s]+")|([\w-+]+(?:\.[\w-+]+)*)|("[\w-+\s]+")([\w-+]+(?:\.[\w-+]+)*))(@((?:[\w-+]+\.)*\w[\w-+]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][\d]\.|1[\d]{2}\.|[\d]{1,2}\.))((25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\.){2}(25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\]?$)/i);
@@ -42,6 +48,7 @@ export default function Login() {
     const handleSubmit =  async () => {
 
         if (!email, !username, !email) {
+            displayError("Please fill the form properly", 4000)
             return;
         }
 
@@ -50,6 +57,7 @@ export default function Login() {
             return;
         }
 
+        setError(false)
         setLoading(true);
 
         let response = await axios({
@@ -63,8 +71,19 @@ export default function Login() {
             }
         })
             .then((res) => {setLoading(false); setSuccess(true); return res})
-            .catch((error ) => {setLoading(false); displayError("Invalid credentials", 4000); console.log(error)})
+            .catch((error ) => {setLoading(false); displayError("Invalid credentials", 4000); resetValues(); console.log(error);})
 
+        if (response.status === 200) {
+
+            if (localStorage.getItem("x-token")) {
+                localStorage.removeItem("x-token")
+            }
+
+            localStorage.setItem('x-token', response.data.key)
+            window.location.pathname = '/'
+            
+        }
+            
     };
 
     return (
@@ -78,6 +97,10 @@ export default function Login() {
                             <ErrorMessage>{error}</ErrorMessage>
                         )} 
 
+                        {loading && (
+                            <LoadingMessage>Please wait, loading ... </LoadingMessage>
+                        )}
+
                     </MessageWrapper>
                 </HeadingWrapper>
                 <FormWrapper>
@@ -87,11 +110,11 @@ export default function Login() {
                         <SecondaryInput value={password} setValue={setPassword} type="password" htmlfor="Password" placeholder="Enter your password" icon="/images/lock.svg" />
                     </Form>
                     <ResetWrapper>
-                        <Link to="/reset" style={{textDecoration: "none"}}>
+                        <span onClick={() => {window.location.pathname = "/reset"}} style={{textDecoration: "none"}}>
                             <ResetText>
                                 forgot password ?
                             </ResetText>
-                        </Link>
+                        </span>
                     </ResetWrapper>
                 </FormWrapper>
                 <ButtonWrapper>
@@ -99,11 +122,11 @@ export default function Login() {
                         <SecondaryButton text="Login" onClick={handleSubmit} />
                     </PrimaryButtonWrapper>
                     <SecondaryButtonWrapper>
-                        <Link to="/register" style={{textDecoration: "none"}}>
+                        <span onClick={() => {window.location.pathname = "/register"}} style={{textDecoration: "none"}}>
                             <SecondaryButtonContent>
                                 don't have an account? sign up now
                             </SecondaryButtonContent>
-                        </Link>
+                        </span>
                     </SecondaryButtonWrapper>
                 </ButtonWrapper>
             </InnerWrapper>
@@ -111,9 +134,13 @@ export default function Login() {
     )
 }
 
-const SuccessMessage = styled.div ``;
+const LoadingMessage = styled.span `
+    color: #929FB2;
+    font-size: inherit;
+    font-weight: inherit;
+`;
 
-const ErrorMessage = styled.div `
+const ErrorMessage = styled.span `
     color: var(--secondary-red);
     font-size: inherit;
     font-weight: inherit;
@@ -126,7 +153,7 @@ const MessageWrapper = styled.div `
 
     font-size: 18px;
     font-weight: 400;
-    
+
 `;
 
 const ResetText = styled.span `

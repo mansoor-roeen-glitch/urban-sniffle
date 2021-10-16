@@ -5,128 +5,33 @@ import PrimarySearchBar from '../../components/inputs/PrimarySearchBar';
 import ServiceItemPlaceholder from './components/ServiceItemPlaceholder';
 import ServiceList from './components/ServiceList';
 import SubHeader from '../../components/Header/SubHeader';
+import axios from 'axios';
 
-export default function BaseRoute() {
+export default function BaseRoute({config}) {
 
-    // Static-data , for development
-    const res = [
-        {
-            "id": 10,
-            "owner": "danhosler",
-            "billing_id": null,
-            "machine_id": 1000010,
-            "hostname": "test-object-9817826196",
-            "plan": "Basic",
-            "node": "magus",
-            "status": "active",
-            "service_plan": {
-                "template": "Ubuntu Focal",
-                "size": 128,
-                "ram": 1024,
-                "swap": 0,
-                "cores": 4,
-                "bandwidth": 1024,
-                "cpu_units": 1024,
-                "cpu_limit": "0.00",
-                "ipv6_ips": 1,
-                "ipv4_ips": 0,
-                "internal_ips": 1,
-                "type": "lxc",
-                "storage": 2,
-                "ip_pools": [
-                    1
-                ]
-            },
-            "billing_type": null
-        },
-        {
-            "id": 11,
-            "owner": "ss",
-            "billing_id": null,
-            "machine_id": 1000011,
-            "hostname": "luram-ipsum-berom",
-            "plan": "Basic",
-            "node": "magus",
-            "status": "active",
-            "service_plan": {
-                "template": "Ubuntu Focal",
-                "size": 128,
-                "ram": 1024,
-                "swap": 0,
-                "cores": 4,
-                "bandwidth": 1024,
-                "cpu_units": 1024,
-                "cpu_limit": "0.00",
-                "ipv6_ips": 1,
-                "ipv4_ips": 0,
-                "internal_ips": 1,
-                "type": "lxc",
-                "storage": 2,
-                "ip_pools": [
-                    1
-                ]
-            },
-            "billing_type": null
-        },
-        {
-            "id": 12,
-            "owner": "ss",
-            "billing_id": null,
-            "machine_id": 1000012,
-            "hostname": "hosnet-serveless-servers",
-            "plan": "Basic",
-            "node": "magus",
-            "status": "error",
-            "service_plan": {
-                "template": "Ubuntu Focal",
-                "size": 128,
-                "ram": 1024,
-                "swap": 0,
-                "cores": 4,
-                "bandwidth": 1024,
-                "cpu_units": 1024,
-                "cpu_limit": "0.00",
-                "ipv6_ips": 1,
-                "ipv4_ips": 0,
-                "internal_ips": 1,
-                "type": "lxc",
-                "storage": 2,
-                "ip_pools": [
-                    1
-                ]
-            },
-            "billing_type": null
-        },
-        {
-            "id": 10,
-            "owner": "danhosler",
-            "billing_id": null,
-            "machine_id": 1000010,
-            "hostname": "test-object-9817826196",
-            "plan": "Basic",
-            "node": "magus",
-            "status": "active",
-            "service_plan": {
-                "template": "Ubuntu Focal",
-                "size": 128,
-                "ram": 1024,
-                "swap": 0,
-                "cores": 4,
-                "bandwidth": 1024,
-                "cpu_units": 1024,
-                "cpu_limit": "0.00",
-                "ipv6_ips": 1,
-                "ipv4_ips": 0,
-                "internal_ips": 1,
-                "type": "lxc",
-                "storage": 2,
-                "ip_pools": [
-                    1
-                ]
-            },
-            "billing_type": null
-        },
-    ]
+    const [loading, setLoading] = React.useState(true);
+    const [services, setServices] = React.useState([]);
+    const [error, setError] = React.useState()
+
+    const getServices = async () => {
+        const response = await axios({
+            method: "get",
+            url: "https://hosnet.io/api/services/",
+            headers: {
+                'Authorization': `Token ${config}`,
+                'content-type': "application/json"
+            }
+        })
+            .then((res) => {setLoading(false); setServices(res.data.results); return res})
+            .catch((err) => {setError(true); setLoading(false); return err});
+
+    }
+
+    React.useEffect(() => {
+
+        getServices()
+
+    }, [])
 
     return (
         <Wrapper>
@@ -140,7 +45,7 @@ export default function BaseRoute() {
             </Header> 
 
             <ServiceItemPlaceholder />
-            <ServiceList services={res} />
+            <ServiceList services={services} />
 
         </Wrapper>
     )
