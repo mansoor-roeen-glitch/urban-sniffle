@@ -9,7 +9,7 @@ export default function Header({path, pathName}) {
                     <ProfileWrapper>
                         <StyledImage>
                             
-                            <svg width="32" height="32" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="28" height="28" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M17 0C7.61175 0 0 7.61175 0 17C0 26.3882 7.61175 34 17 34C26.3882 34 34 26.3882 34 17C34 7.61175 26.3882 0 17 0ZM17 31.1667C12.5757 31.1667 8.62183 29.1252 6.02225 25.9392C6.38917 25.1062 7.1315 24.5296 8.66717 24.174C11.8462 23.4402 14.9841 22.7842 13.4739 20.0019C9.00433 11.7569 12.2003 7.08333 17 7.08333C21.7062 7.08333 24.9815 11.5841 20.5261 20.0019C19.0598 22.7673 22.0844 23.4246 25.3328 24.174C26.8657 24.5282 27.6137 25.1019 27.9834 25.9321C25.3824 29.1238 21.4271 31.1667 17 31.1667Z" fill="white" fill-opacity="0.85"/>
                             </svg>
 
@@ -60,6 +60,8 @@ const PathText = styled.span `
 
     display: flex;
     align-items: center;
+    opacity: .8;
+    font-weight: 300;
 `;
 
 const StyledArrow = styled.div `
@@ -104,6 +106,9 @@ const ProfileWrapper = styled.div `
 
 const StyledImage = styled.div `
     margin-right: 12px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
 
     * {
 

@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import Details from './components/Details'
 import Console from './components/Console';
 import Billing from './components/Billing';
-import Settings from './components/Settings';
 
 export default function Service(props) {
 
@@ -24,10 +23,6 @@ export default function Service(props) {
         {
             text: "Billing",
             index: 2
-        },
-        {
-            text: "Settings",
-            index: 3
         }
     ]
 
@@ -72,8 +67,6 @@ export default function Service(props) {
                         case 2:
                             return <Billing />;
                         
-                        case 3: 
-                            return <Settings />
                     }
                 })()}
 

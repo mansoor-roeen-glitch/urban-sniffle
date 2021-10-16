@@ -131,11 +131,12 @@ export default function BaseRoute() {
     return (
         <Wrapper>
             <SubHeader />
+            
             <Header>
                 <SearchWrapper>
                     <PrimarySearchBar name="SearchBar" className="Primary-Search-Bar" id="Primary-Search-Bar" />
                 </SearchWrapper>
-                <PrimaryButton to="/create" text="New" />
+                <PrimaryButton to="/create" text="New" width="80px" height="40px" />
             </Header> 
 
             <ServiceItemPlaceholder />

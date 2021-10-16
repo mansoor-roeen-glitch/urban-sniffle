@@ -2,11 +2,12 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-export default function PrimaryButton({to, text}) {
+export default function PrimaryButton({to, text, height, width}) {
+
     return (
         <ButtonWrapper>
             <Link style={{textDecoration: "none"}} to={to}>
-                <StyledButton>
+                <StyledButton height={height} width={width}>
                     <StyledButtonText>
                         {text}
                     </StyledButtonText>
@@ -27,10 +28,10 @@ const ButtonWrapper = styled.div `
 `;
 
 const StyledButton = styled.button `
-    width: 80px;
-    height: 40px;
+    width: ${props => props.width};
+    height: ${props => props.height};
     background: transparent;
-    border-color: var(--primary-purple);
+    border-color: var(--secondary-purple);
     border-width: 0.5px;
     border-style: solid;
 

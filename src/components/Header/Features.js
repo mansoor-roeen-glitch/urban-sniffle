@@ -13,36 +13,36 @@ export default function Features({active}) {
             name: "Services",
             to: "/dashboard",
             svg: "services.svg",
-            width: "30px",
-            height: "30px"
+            width: "25px",
+            height: "25px"
         },
         {
             name: "Plans",
             to: "/plans",
             svg: "services.svg",
-            width: "30px",
-            height: "30px"
+            width: "25px",
+            height: "25px"
         },
         {
             name: "Templates",
             to: "/templates",
             svg: "services.svg",
-            width: "30px",
-            height: "30px"
+            width: "25px",
+            height: "25px"
         },
         {
             name: "Pools",
             to: "/pools",
             svg: "services.svg",
-            width: "30px",
-            height: "30px"
+            width: "25px",
+            height: "25px"
         },
         {
             name: "Support",
             to: "/support",
             svg: "services.svg",
-            width: "30px",
-            height: "30px"
+            width: "25px",
+            height: "25px"
         }
     ]
     
@@ -53,7 +53,7 @@ export default function Features({active}) {
                     return (
                     
                         <ListItem>
-                            <Link style={{textDecoration: "none", display: "flex", alignItems: "center", padding: "0px 15px", columnGap: "3px", width: "100%"}} to={feature.to}>
+                            <Link style={{textDecoration: "none", display: "flex", alignItems: "center", padding: "0px 25px", columnGap: "3px", width: "100%"}} to={feature.to}>
                                 <SvgIcon path={`/images/${feature.svg}`} alt={feature.name} width={feature.width} color="#FFFFFF" height={feature.height} />
                                 <ItemText>{feature.name}</ItemText>
                             </Link>
@@ -77,18 +77,20 @@ const StyledSeperator = styled.div `
 `;
 
 const ItemText = styled.span `
-    font-size: 22px;
+    font-size: 19px;
     text-decoration: none;
     font-weight: normal;
     font-style: normal;
-    color: var(--primary-white);
+    color: var(--white);
     padding: 0px 10px;
 
-    font-family: "Josefin Sans", "Roboto", sans-serif;
+    font-family: "Roboto", sans-serif;
 
     width: 100%;
     height: 100%;
     
+    opacity: .9;
+
     &:hover {
         opacity: .8;
     }

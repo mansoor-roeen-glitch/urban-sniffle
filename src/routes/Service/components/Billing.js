@@ -25,7 +25,8 @@ export default function Billing() {
                     pricing: "$50.00",
                     type: "option"
                 }
-            ]
+            ],
+            selected: 0
         },
         {
             heading: "Monthly Charge",

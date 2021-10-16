@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import PrimaryDropdown from '../../../components/dropdowns/PrimaryDropdown';
 import Chart from './Chart';
 import Section from './Section';
 
@@ -29,7 +30,14 @@ export default function Details() {
         {
             heading: "Hostname",
             value: "hosnet-serverless-server",
-            type: "detail"
+            type: "input",
+            htmltype: "text"
+        },
+        {
+            heading: "password",
+            value: "your password",
+            type: "input",
+            htmltype: "password"
         }
     ]
 

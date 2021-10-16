@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export default function Detail({heading, value}) {
+export default function PrimaryInput({heading, value, htmltype}) {
     return (
         <Wrapper>
             <HeadingWrapper>
@@ -10,11 +10,10 @@ export default function Detail({heading, value}) {
                 </StyledHeading>    
             </HeadingWrapper>        
             <ContentWrapper>
-                <ContentTextWrapper>
-                    <ContentText>
-                        {value}
-                    </ContentText>
-                </ContentTextWrapper>
+                <ContentInput maxLength={40} minLength={5} placeholder={value} name={heading} /> 
+                <ContentLabel htmlFor={heading} itemType={htmltype}>
+                    hostname
+                </ContentLabel>
             </ContentWrapper>
         </Wrapper>
     )
@@ -28,17 +27,22 @@ const StyledHeading = styled.span `
     text-transform: uppercase;
 `;
 
-const ContentText = styled.span `
+const ContentInput = styled.input `
     font-size: 1.15rem;
     font-weight: 300;
     font-style: normal;
     color: var(--white);
     opacity: .85;
+
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    outline: none;
 `;
 
-const ContentTextWrapper = styled.div `
-    width: fit-content;
-    height: fit-content;
+const ContentLabel = styled.label `
+    display: none;
 `;
 
 const ContentWrapper = styled.div `
@@ -53,7 +57,7 @@ const ContentWrapper = styled.div `
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding-left: 15px;
+    padding: 0px 15px;
 `;
 
 const HeadingWrapper = styled.div `

@@ -12,6 +12,8 @@
     --primary-cyan: #B2D1FF;
 	--secondary-purple: #ba97e498;
 	--chart-bg: #242a35;
+    --secondary-red: #dd6464b0;
+
 }
 
 * {
@@ -46,6 +48,7 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
 
 body, html {
     background: var(--primary-background);
+    font-size: 15.5px;
 }
 
 .features_list_item:nth-last-child() {
@@ -67,4 +70,3 @@ background: #888;
 ::-webkit-scrollbar-thumb:hover {
 background: #555;
 }
-  

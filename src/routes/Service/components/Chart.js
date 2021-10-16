@@ -25,7 +25,7 @@ export default function Chart({text, heading, usage, total, unit}) {
                     padAngle={0}
                     // used to hide labels
                     labelComponent={<span/>}
-                    innerRadius={70}
+                    innerRadius={68}
                     width={200} height={200}
                     data={[{'key': "", 'y': usage}, {'key': "", 'y': (total-usage)} ]}
                     colorScale={["#ba97e4", "#242a35" ]}

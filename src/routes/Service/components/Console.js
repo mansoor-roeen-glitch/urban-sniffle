@@ -1,5 +1,5 @@
 import React from 'react'
-import styled, { ServerStyleSheet } from 'styled-components'
+import styled from 'styled-components'
 import Activity from './Activity';
 
 export default function Console() {
@@ -51,7 +51,7 @@ const ActivityText = styled.span `
     opacity: .8;
 
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 1.497rem;
 `;
 
@@ -69,7 +69,7 @@ const ActivityHeading = styled.div `
 const ActivityWrapper = styled.div `
     background: var(--secondary-background);
     height: 100%;
-    padding: 25px 0px;
+    padding: 35px 10px;
 
     display: flex;
     align-items: center;
@@ -99,7 +99,7 @@ const InnerWrapper = styled.div `
     display: grid;
     grid-template-columns: 2.6fr auto;
     grid-template-rows: auto;
-    column-gap: 40px;
+    column-gap: 30px;
 
     @media screen and (max-width: 1400px) {
         column-gap: 35px;
