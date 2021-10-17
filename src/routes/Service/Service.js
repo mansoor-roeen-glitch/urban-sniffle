@@ -1,15 +1,61 @@
 import React from 'react';
 import SubHeader from '../../components/Header/SubHeader';
 import styled from 'styled-components';
+import axios from 'axios';
 
 import Details from './components/Details'
 import Console from './components/Console';
 import Billing from './components/Billing';
 
-export default function Service(props) {
+export default function Service (props) {
 
-    const {id, hostname} = props.match.params
+    const {id, hostname} = props.details
     const [selected, setSelected] = React.useState(0)
+
+    console.log(id)
+
+    const [loading, setLoading] = React.useState(true);
+    const [success, setSuccess] = React.useState()
+    const [details, setDetails] = React.useState()
+    const [error, setError] = React.useState()
+
+    const getServiceDetails = async () => {
+
+        let response = await axios({
+            method: "get",
+            url: `https://hosnet.io/api/services/${id}`,
+            headers: {
+                "content-type": "application/json",
+                "Authorization": `Token ${props.config}`
+            }
+        })
+            .then((res) => {return {status: res.status, data: res.data}})
+            .catch((error ) => {return {status: 400, data: error};})
+    
+        if (response.status === 200) {
+
+            console.log(response)
+            setDetails(response.data)
+            setLoading(false)
+            setSuccess(true)
+            setError(false)
+
+        } else {
+
+            setLoading(false)
+            setSuccess(false)
+            setError(true)
+
+        }
+
+    }
+
+    React.useEffect(() => {
+
+        setLoading(true)
+        getServiceDetails()
+
+    }, [])
 
     const selectOptions = [
         {
@@ -28,6 +74,18 @@ export default function Service(props) {
 
     const handleOptionClick = (index) => {
         setSelected(index)
+    }
+
+    if (loading) {
+
+        return <h1>Loading ... </h1>
+
+    }
+
+    if (error) {
+
+        return <h1>Something went wrong</h1>
+
     }
 
     return (
@@ -59,13 +117,13 @@ export default function Service(props) {
                     switch(selected) {
                         
                         case 0:
-                            return <Details />;
+                            return <Details data={details} />;
 
                         case 1:
-                            return <Console />;
+                            return <Console data={details} />;
                         
                         case 2:
-                            return <Billing />;
+                            return <Billing data={details} />;
                         
                     }
                 })()}

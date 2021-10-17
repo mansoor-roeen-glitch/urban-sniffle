@@ -70,8 +70,8 @@ export default function Login(props) {
                 "content-type": "application/json"
             }
         })
-            .then((res) => {setLoading(false); setSuccess(true); return res})
-            .catch((error ) => {setLoading(false); displayError("Invalid credentials", 4000); resetValues(); console.log(error);})
+            .then((res) => {setLoading(false); setSuccess(true); return {status: res.status, data: res.data}})
+            .catch((error ) => {setLoading(false); displayError("Invalid credentials", 4000); resetValues(); return {status: 400, data: error};})
 
         if (response.status === 200) {
 
@@ -83,6 +83,8 @@ export default function Login(props) {
             window.location.pathname = '/'
             
         }
+
+        return;
             
     };
 

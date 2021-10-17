@@ -2,14 +2,14 @@ import React from 'react'
 import styled from 'styled-components'
 import ServiceItem from './ServiceItem'
 
-export default function ServiceList({services}) {
+export default function ServiceList({services, handleClickChange}) {
     
     return (
         <StyledWrapper>
             <List>
                 {services && services.map((service, index) => {
                     return (
-                        <ServiceItem service={service} key={index} />
+                        <ServiceItem handleClickChange={handleClickChange} service={service} key={index} />
                     )
                 })}
             </List>

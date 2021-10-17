@@ -10,9 +10,9 @@ export default function PrimaryInput({heading, value, htmltype}) {
                 </StyledHeading>    
             </HeadingWrapper>        
             <ContentWrapper>
-                <ContentInput maxLength={40} minLength={5} placeholder={value} name={heading} /> 
+                <ContentInput type={htmltype} maxLength={40} minLength={5} placeholder={value} name={heading} /> 
                 <ContentLabel htmlFor={heading} itemType={htmltype}>
-                    hostname
+                    {heading}
                 </ContentLabel>
             </ContentWrapper>
         </Wrapper>
@@ -39,6 +39,11 @@ const ContentInput = styled.input `
     background-color: transparent;
     border: none;
     outline: none;
+
+    &::placeholder {
+        color: var(--white);
+        opacity: .6;
+    }
 `;
 
 const ContentLabel = styled.label `

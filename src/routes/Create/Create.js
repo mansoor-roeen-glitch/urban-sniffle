@@ -1,12 +1,23 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import PrimaryButton from '../../components/buttons/PrimaryButton';
 import SubHeader from '../../components/Header/SubHeader';
 import PrimaryInput from '../../components/inputs/PrimaryInput'
 import Section from '../Service/components/Section';
 
-export default function Create() {
+export default function Create({data, config}) {
     
+    const [node, setNode] = useState(0)
+    const [planType, setPlanType] = useState(0)
+    const [template, setTemplate] = useState(0)
+    const [billingType, setBillingType] = useState(0)
+
+    const [hostname, setHostname] = useState("")
+    const [password, setPassword] = useState("")
+
+    console.log(config)
+
     const staticdata = [
         {
             heading: "hostname",
@@ -28,10 +39,6 @@ export default function Create() {
                 {
                     value: "Magus",
                     type: "option"
-                },
-                {
-                    value: "Nasom",
-                    type: "option"
                 }
             ],
             selected: 0
@@ -40,23 +47,7 @@ export default function Create() {
             heading: "Plan Type",
             value: "Basic plan",
             type: "dropdown",
-            options: [
-                {
-                    value: "Basic Plan",
-                    pricing: "$15.00",
-                    type: "option"
-                },
-                {
-                    value: "Normal Plan",
-                    pricing: "$30.00",
-                    type: "option"
-                },
-                {
-                    value: "Advance Plan",
-                    pricing: "$50.00",
-                    type: "option"
-                }
-            ],
+            options: [],
             selected: 0
         },
         {
@@ -82,19 +73,14 @@ export default function Create() {
         ,
         {
             heading: "billing type",
-            value: "unknown",
+            value: "Strip",
             type: "dropdown",
-            options: [
-                {
-                    value: "unknown...",
-                    type: "option"
-                }
-            ],
+            options: [],
             selected: 0  
         }
 
     ]
-    
+
     return (
         <Wrapper>
             <SubHeader path={true} pathName="Create service" />

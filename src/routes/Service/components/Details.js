@@ -1,35 +1,34 @@
 import React from 'react'
 import styled from 'styled-components'
-import PrimaryDropdown from '../../../components/dropdowns/PrimaryDropdown';
 import Chart from './Chart';
 import Section from './Section';
 
-export default function Details() {
+export default function Details({data}) {
 
     const general = [
         {
             heading: "Owner",
-            value: "Hostler",
+            value: data.owner,
             type: "detail"
         },
         {
             heading: "Plan",
-            value: "Basic",
+            value: data.plan,
             type: "detail"
         },
         {
             heading: "Node",
-            value: "Taban",
+            value: data.node,
             type: "detail"
         },
         {
             heading: "Status",
-            value: "Running",
+            value: data.status,
             type: "detail"
         },
         {
             heading: "Hostname",
-            value: "hosnet-serverless-server",
+            value: data.hostname,
             type: "input",
             htmltype: "text"
         },
@@ -44,32 +43,32 @@ export default function Details() {
     const vm = [
         {
             heading: "Template",
-            value: "Ubunto Focal",
+            value: data.service_plan.template,
             type: "detail"
         },
         {
             heading: "Size",
-            value: "128",
+            value: data.service_plan.size,
             type: "detail"
         },
         {
             heading: "Ram",
-            value: "1024",
+            value: data.service_plan.ram,
             type: "detail"
         },
         {
             heading: "Bandwidth",
-            value: "1024",
+            value: data.service_plan.bandwidth,
             type: "detail"
         },
         {
             heading: "IPV6 IPS",
-            value: "1",
+            value: data.service_plan.ipv6_ips,
             type: "detail"
         },
         {
             heading: "IPV4 IPS",
-            value: "1",
+            value: data.service_plan.ipv4_ips,
             type: "detail"
         }
     ]

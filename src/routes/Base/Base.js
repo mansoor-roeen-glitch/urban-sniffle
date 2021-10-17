@@ -7,7 +7,7 @@ import ServiceList from './components/ServiceList';
 import SubHeader from '../../components/Header/SubHeader';
 import axios from 'axios';
 
-export default function BaseRoute({config}) {
+export default function BaseRoute({config, handleClickChange}) {
 
     const [loading, setLoading] = React.useState(true);
     const [services, setServices] = React.useState([]);
@@ -24,7 +24,6 @@ export default function BaseRoute({config}) {
         })
             .then((res) => {setLoading(false); setServices(res.data.results); return res})
             .catch((err) => {setError(true); setLoading(false); return err});
-
     }
 
     React.useEffect(() => {
@@ -45,7 +44,7 @@ export default function BaseRoute({config}) {
             </Header> 
 
             <ServiceItemPlaceholder />
-            <ServiceList services={services} />
+            <ServiceList handleClickChange={handleClickChange} services={services} />
 
         </Wrapper>
     )

@@ -2,31 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 import Section from './Section';
 
-export default function Billing() {
+export default function Billing({data}) {
 
     const bd = [
         {
             heading: "Plan Type",
-            value: "Basic plan",
-            type: "dropdown",
-            options: [
-                {
-                    value: "Basic Plan",
-                    pricing: "$15.00",
-                    type: "option"
-                },
-                {
-                    value: "Normal Plan",
-                    pricing: "$30.00",
-                    type: "option"
-                },
-                {
-                    value: "Advance Plan",
-                    pricing: "$50.00",
-                    type: "option"
-                }
-            ],
-            selected: 0
+            value: data.plan + " plan",
+            type: "detail"
         },
         {
             heading: "Monthly Charge",
@@ -35,7 +17,7 @@ export default function Billing() {
         },
         {
             heading: "Payment Method",
-            value: "click to reveal",
+            value: data.billing_type,
             type: "detail"
         }
     ]
@@ -43,17 +25,17 @@ export default function Billing() {
     const pb = [
         {
             heading: "Bandwidth",
-            value: "1024",
+            value: data.service_plan.bandwidth,
             type: "detail"
         },
         {
             heading: "Size",
-            value: "128",
+            value: data.service_plan.size,
             type: "detail"
         },
         {
             heading: "Ram",
-            value: "1024",
+            value: data.service_plan.ram,
             type: "detail"
         },
         
@@ -66,6 +48,7 @@ export default function Billing() {
                 <Section data={pb} heading="Plan Benifits" rows={2} rowHeight={170 / 2} />
             </InnerWrapper>
         </Wrapper>
+
     )
 }
 

@@ -29,7 +29,6 @@ export default function PrimaryDropdown({heading, options, selected}) {
             <ContentWrapper onClick={handleClick}>
                 <ContentTextWrapper>
                     <ContentText>
-                        {options[selectedOption].value}
                     </ContentText>
                 </ContentTextWrapper>
                 <ContentSvgWrapper>
@@ -41,12 +40,8 @@ export default function PrimaryDropdown({heading, options, selected}) {
             {isActive && (
                 <DropdownMenuWrapper>
                     <DropDownMenu>
-                        {options.map((option, index) => {
+                        { options && options.map((option, index) => {
                             
-                            if (index === selected) {
-                                return null;
-                            }
-
                             return (
                                 <DropdownButton onClick={() => {handleOptionClick(option, index)}}>
                                     <PrimaryOption option={option} />

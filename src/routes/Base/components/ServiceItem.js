@@ -2,9 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom';
 
-export default function ServiceItem({service}) {
+export default function ServiceItem({service, handleClickChange}) {
     return (
-        <Link style={{textDecoration: "none", outline: "none"}} to={`/service/${service.id}/${service.hostname}`}>
+        <Link onClick={() => {handleClickChange(service.id, service.hostname)}} style={{textDecoration: "none", outline: "none"}} to={`/service/${service.id}/${service.hostname}`}>
             <StyledWrapper id={service.id} >
                 <StyledGrid>
 
@@ -49,7 +49,9 @@ const ServiceDetailText = styled.span `
 `;
 
 const ServiceDetail = styled.div ` 
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 const ServiceHostname = styled.div `
@@ -72,8 +74,8 @@ const StyledGrid = styled.div `
     max-width: 1400px;
     display: grid;
     justify-content: space-between;
-    grid-template-columns: 1fr 40px 40px 40px;
-    column-gap: 60px;
+    grid-template-columns: 1fr 70px 70px 70px;
+    column-gap: 40px;
 
     &:hover {
         opacity: .8;

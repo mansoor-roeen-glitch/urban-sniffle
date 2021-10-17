@@ -11,7 +11,14 @@ import Footer from '../components/Footer/Footer'
 
 export default function Index({config}) {
 
+    const [selected, setSelected] = React.useState(false)
     const history = createBrowserHistory();
+ 
+    const handleClickChange = (id, hostname) => {
+
+        setSelected({id, hostname})
+
+    }
 
     return (
         
@@ -19,8 +26,8 @@ export default function Index({config}) {
             <Header config={config} />
             <Switch>
             
-                <Route path="/" exact render={() => <Base config={config} />} />
-                <Route path="/service/:id/:hostname" render={() => <Service config={config} />} /> 
+                <Route path="/" exact render={() => <Base config={config} handleClickChange={handleClickChange} />} />
+                <Route path="/service/:id/:hostname" render={() => <Service config={config} details={selected} />} /> 
                 <Route path="/create" exact render={() => <Create />} />
             
             </Switch>

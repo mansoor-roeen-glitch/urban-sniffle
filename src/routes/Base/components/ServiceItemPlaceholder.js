@@ -41,7 +41,7 @@ const Content = styled.div ``;
 const ListItem = styled.li `
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
 `;
 
 const ItemText = styled.span `
@@ -57,8 +57,9 @@ const ItemText = styled.span `
 const HeaderList = styled.ul `
     list-style: none;
     display: grid;
-    grid-template-columns: 1fr 100px 100px 100px;
+    grid-template-columns: 1fr 70px 70px 70px;
     grid-template-rows: auto;
+    column-gap: 40px;
 `;
 
 const ContentHeader = styled.div `
