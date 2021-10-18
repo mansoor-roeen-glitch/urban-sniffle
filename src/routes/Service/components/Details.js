@@ -1,13 +1,12 @@
 import React from 'react'
-import { useState } from 'react/cjs/react.development';
 import styled from 'styled-components'
 import Chart from './Chart';
 import Section from './Section';
 
 export default function Details({data, serviceStatus}) {
 
-    const [hostname, setHostname] = useState(data.hostname);
-    const [password, setPassword] = useState("your password");
+    const [hostname, setHostname] = React.useState(data.hostname);
+    const [password, setPassword] = React.useState("your password");
 
     const general = [
         {
