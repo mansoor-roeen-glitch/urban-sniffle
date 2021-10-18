@@ -6,7 +6,7 @@ export default function PrimaryOption({option}) {
         <StyledOptionWrapper>
             <StyledOption>
                 <StyledOptionText>
-                    {option.value}
+                    {option.name}
                 </StyledOptionText>
             </StyledOption>
         </StyledOptionWrapper>

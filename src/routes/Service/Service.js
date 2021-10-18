@@ -12,15 +12,13 @@ export default function Service (props) {
     const {id, hostname} = props.details
     const [selected, setSelected] = React.useState(0)
 
-    console.log(id)
-
+    const [serviceStatus, setServiceStatus] = React.useState();
     const [loading, setLoading] = React.useState(true);
     const [success, setSuccess] = React.useState()
     const [details, setDetails] = React.useState()
     const [error, setError] = React.useState()
 
     const getServiceDetails = async () => {
-
         let response = await axios({
             method: "get",
             url: `https://hosnet.io/api/services/${id}`,
@@ -31,20 +29,43 @@ export default function Service (props) {
         })
             .then((res) => {return {status: res.status, data: res.data}})
             .catch((error ) => {return {status: 400, data: error};})
-    
-        if (response.status === 200) {
+        
+        return response;
+    }
 
-            console.log(response)
-            setDetails(response.data)
+    const getServiceStatus = async () => {
+        let response = await axios({
+            method: "post",
+            url: `https://hosnet.io/api/services/${id}/status/`,
+            headers: {
+                "content-type": "application/json",
+                "Authorization": `Token ${props.config}`
+            }
+        })
+            .then((res) => {return {status: 200, data: res.data}})
+            .catch((error ) => {return {status: 400, data: error};})
+        
+        return response;
+    }
+
+    const getDetails = async () => {
+
+        const serviceStatus = await getServiceStatus()
+        const serviceDetails = await getServiceDetails()
+
+        if (serviceDetails.status === 200 && serviceStatus.status === 200) {
+
+            setDetails(serviceDetails.data)
+            setServiceStatus(serviceStatus.data)
             setLoading(false)
             setSuccess(true)
             setError(false)
 
         } else {
 
+            setError(true)
             setLoading(false)
             setSuccess(false)
-            setError(true)
 
         }
 
@@ -53,7 +74,7 @@ export default function Service (props) {
     React.useEffect(() => {
 
         setLoading(true)
-        getServiceDetails()
+        getDetails()
 
     }, [])
 
@@ -113,11 +134,11 @@ export default function Service (props) {
 
             <ContentWrapper>
 
-                {(() => {
+                { (() => {
                     switch(selected) {
                         
                         case 0:
-                            return <Details data={details} />;
+                            return <Details data={details} serviceStatus={serviceStatus} />;
 
                         case 1:
                             return <Console data={details} />;

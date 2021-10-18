@@ -28,7 +28,7 @@ export default function Index({config}) {
             
                 <Route path="/" exact render={() => <Base config={config} handleClickChange={handleClickChange} />} />
                 <Route path="/service/:id/:hostname" render={() => <Service config={config} details={selected} />} /> 
-                <Route path="/create" exact render={() => <Create />} />
+                <Route path="/create" exact render={() => <Create config={config}  />} />
             
             </Switch>
             <Footer />

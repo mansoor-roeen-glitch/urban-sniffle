@@ -10,14 +10,12 @@ export default function Login(props) {
 
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
-    const [email, setEmail] = React.useState("");
 
     const [success, setSuccess] = React.useState(false)
     const [error, setError] = React.useState(false)
     const [loading, setLoading] = React.useState(false)
 
     function resetValues () {
-        setEmail("")
         setUsername("")
         setPassword("")
     }
@@ -47,12 +45,12 @@ export default function Login(props) {
 
     const handleSubmit =  async () => {
 
-        if (!email, !username, !email) {
+        if (!password, !username) {
             displayError("Please fill the form properly", 4000)
             return;
         }
 
-        if (!isValidEmailAddress(email) || !isValidUsername(username)) {
+        if (!isValidUsername(username)) {
             displayError("Please fill the form properly", 4000)
             return;
         }
@@ -64,7 +62,7 @@ export default function Login(props) {
             method: "post",
             url: "https://hosnet.io/auth/login/",
             data: {
-                username, password, email
+                username, password
             },
             headers: {
                 "content-type": "application/json"
@@ -108,7 +106,6 @@ export default function Login(props) {
                 <FormWrapper>
                     <Form>
                         <SecondaryInput value={username} setValue={setUsername} type="text" htmlfor="Username" placeholder="Enter your username" icon="/images/person.svg" />
-                        <SecondaryInput value={email} setValue={setEmail} type="email" htmlfor="Email address" placeholder="Enter your email address" icon="/images/email.svg" />
                         <SecondaryInput value={password} setValue={setPassword} type="password" htmlfor="Password" placeholder="Enter your password" icon="/images/lock.svg" />
                     </Form>
                     <ResetWrapper>

@@ -18,7 +18,7 @@ export default function Chart({text, heading, usage, total, unit}) {
             <ChartWrapper>
                 <TextWrapper>
                     <StyledText>
-                        {text}
+                        {parseInt(usage / total * 100)}%
                     </StyledText>
                 </TextWrapper>
                 <VictoryPie

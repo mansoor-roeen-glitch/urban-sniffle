@@ -23,10 +23,10 @@ export default function Section({data, heading, rows, rowHeight}) {
                                         return <Detail value={item.value} heading={item.heading} />;
 
                                     case "dropdown":
-                                        return <PrimaryDropdown heading={item.heading} options={item.options} selected={0} />;
+                                        return <PrimaryDropdown onChange={item.onChange} heading={item.heading} value={item.value} options={item.options} selected={0} />;
                                     
                                     case "input":
-                                        return <PrimaryInput heading={item.heading} value={item.value} htmltype={item.htmltype} />
+                                        return <PrimaryInput onChange={item.onChange} inputValue={item.inputValue} heading={item.heading} value={item.value} htmltype={item.htmltype} />
                                 }
                             })()}
 

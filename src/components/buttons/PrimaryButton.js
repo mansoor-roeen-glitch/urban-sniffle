@@ -2,12 +2,12 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-export default function PrimaryButton({to, text, height, width}) {
+export default function PrimaryButton({to, text, height, width, onClick}) {
 
     return (
         <ButtonWrapper>
             <Link style={{textDecoration: "none"}} to={to}>
-                <StyledButton height={height} width={width}>
+                <StyledButton onClick={onClick} height={height} width={width}>
                     <StyledButtonText>
                         {text}
                     </StyledButtonText>

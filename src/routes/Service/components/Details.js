@@ -1,9 +1,16 @@
 import React from 'react'
+import { useState } from 'react/cjs/react.development';
 import styled from 'styled-components'
 import Chart from './Chart';
 import Section from './Section';
 
-export default function Details({data}) {
+export default function Details({data, serviceStatus}) {
+
+    const [hostname, setHostname] = useState(data.hostname);
+    const [password, setPassword] = useState("your password");
+
+
+    console.log(serviceStatus)
 
     const general = [
         {
@@ -30,13 +37,17 @@ export default function Details({data}) {
             heading: "Hostname",
             value: data.hostname,
             type: "input",
-            htmltype: "text"
+            htmltype: "text",
+            inputValue: hostname,
+            onChange: setHostname
         },
         {
-            heading: "password",
+            heading: "Password",
             value: "your password",
             type: "input",
-            htmltype: "password"
+            htmltype: "password",
+            inputValue: password,
+            onChange: setPassword
         }
     ]
 
@@ -76,23 +87,23 @@ export default function Details({data}) {
     const charts = [
         {
             heading: "Bandwith Usage",
-            text: "75%",
-            total: 1024,
-            usage: 760,
+            text: parseInt(serviceStatus.bandwidth_used / serviceStatus.bandwidth_used * 100) + "%",
+            total: parseInt(serviceStatus.bandwidth_max / 1000),
+            usage: parseInt(serviceStatus.bandwidth_used / 1000),
             unit: " MB"
         },
         {
             heading: "Disk Usage",
-            text: "50%",
-            total: 1024,
-            usage: 512,
+            text: parseInt(serviceStatus.disk_used / serviceStatus.disk_used * 100) + "%",
+            total: parseInt(serviceStatus.disk_max / 1000),
+            usage: parseInt(serviceStatus.disk_used / 1000),
             unit: " MB"
         },
         {
             heading: "Memory Usage",
-            text: "24%",
-            total: 100,
-            usage: 24,
+            text: parseInt(serviceStatus.mem_used / serviceStatus.mem_used * 100) + "%",
+            total: parseInt(serviceStatus.mem_max / 1000),
+            usage: parseInt(serviceStatus.mem_used / 1000),
             unit: " MB"
         }
     ]

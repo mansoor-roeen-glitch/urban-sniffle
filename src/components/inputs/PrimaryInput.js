@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export default function PrimaryInput({heading, value, htmltype}) {
+export default function PrimaryInput({heading, value, htmltype, onChange, inputValue}) {
     return (
         <Wrapper>
             <HeadingWrapper>
@@ -10,7 +10,7 @@ export default function PrimaryInput({heading, value, htmltype}) {
                 </StyledHeading>    
             </HeadingWrapper>        
             <ContentWrapper>
-                <ContentInput type={htmltype} maxLength={40} minLength={5} placeholder={value} name={heading} /> 
+                <ContentInput onChange={(event) => {onChange(event.target.value)}} inputValue={inputValue} type={htmltype} maxLength={40} minLength={5} placeholder={value} name={heading} /> 
                 <ContentLabel htmlFor={heading} itemType={htmltype}>
                     {heading}
                 </ContentLabel>

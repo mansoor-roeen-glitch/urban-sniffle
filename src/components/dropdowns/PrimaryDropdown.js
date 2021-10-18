@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import SvgIcon from '../icons/SvgIcon'
 import PrimaryOption from './PrimaryOption';
 
-export default function PrimaryDropdown({heading, options, selected}) {
+export default function PrimaryDropdown({heading, options, selected, onChange}) {
 
     const [isActive, setIsActive ] = React.useState(false);
     const [selectedOption, setSelectedOption] = React.useState(selected)
@@ -15,9 +15,8 @@ export default function PrimaryDropdown({heading, options, selected}) {
     const handleOptionClick = (option, index) => {
         setIsActive(!isActive)
         setSelectedOption(index)
+        onChange(index)
     }
-
-    console.log(heading)
 
     return (
         <Wrapper>
@@ -29,6 +28,7 @@ export default function PrimaryDropdown({heading, options, selected}) {
             <ContentWrapper onClick={handleClick}>
                 <ContentTextWrapper>
                     <ContentText>
+                        { options[selectedOption].name }
                     </ContentText>
                 </ContentTextWrapper>
                 <ContentSvgWrapper>
@@ -41,7 +41,6 @@ export default function PrimaryDropdown({heading, options, selected}) {
                 <DropdownMenuWrapper>
                     <DropDownMenu>
                         { options && options.map((option, index) => {
-                            
                             return (
                                 <DropdownButton onClick={() => {handleOptionClick(option, index)}}>
                                     <PrimaryOption option={option} />

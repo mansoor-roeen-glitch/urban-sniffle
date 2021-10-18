@@ -8,6 +8,7 @@ import axios from 'axios';
 
 export default function Register() {
 
+    const [repeatPassword, setRepeatPassword] = React.useState("")
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [email, setEmail] = React.useState("");
@@ -16,6 +17,31 @@ export default function Register() {
     const [error, setError] = React.useState(false)
     const [loading, setLoading] = React.useState(false)
     
+    function checkPassword(s) {
+    
+        if(s) {
+           var test = (x) => !isNaN(x);
+           var check = (x, y, i) => x + i === y;
+        
+           for(var i = 0; i < s.length - 2; i++) {
+             if(test(s[i])) {
+                if(test(s[i + 1]) && test(s[i + 2])) {
+                  if(check(Number(s[i]),Number(s[i + 1]), 1) &&
+                    check(Number(s[i]), Number(s[i + 2]), 2)) {
+                    return false;
+                  }
+                }
+             } else if(!test(s[i + 1]) && !test(s[i + 2])) {
+                if(check(s.charCodeAt(i), s.charCodeAt(i + 1), 1) &&
+                    check(s.charCodeAt(i), s.charCodeAt(i + 2), 2)) {
+                    return false;
+                  }
+             }
+           }
+        }
+        return true;
+    }    
+
     function isValidEmailAddress(emailAddress) {
         var pattern = new RegExp(/^(("[\w-+\s]+")|([\w-+]+(?:\.[\w-+]+)*)|("[\w-+\s]+")([\w-+]+(?:\.[\w-+]+)*))(@((?:[\w-+]+\.)*\w[\w-+]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][\d]\.|1[\d]{2}\.|[\d]{1,2}\.))((25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\.){2}(25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\]?$)/i);
         return pattern.test(emailAddress);
@@ -41,8 +67,21 @@ export default function Register() {
 
     const handleSubmit =  async () => {
 
-        if (!email, !username, !email) {
+        if (!email || !username || !password || !repeatPassword) {
             displayError("Please fill the form properly", 4000)
+            return;
+        }
+
+        if (password !== repeatPassword) {
+            displayError("Password does not match", 3000);
+            setRepeatPassword("")
+            setPassword("")
+
+            return;
+        }
+
+        if (!isValidUsername(username)) {
+            displayError("Username cannot contian special characters", 4000)
             return;
         }
 
@@ -51,8 +90,8 @@ export default function Register() {
             return;
         }
 
-        if (!isValidUsername(username)) {
-            displayError("Username cannot contian special characters", 4000)
+        if (password.length < 8) {
+            displayError("This password is too short. It must contain at least 8 characters.", 3000);
             return;
         }
 
@@ -69,8 +108,8 @@ export default function Register() {
                 "content-type": "application/json"
             }
         })
-            .then((res) => {setLoading(false); setSuccess(true); return res})
-            .catch((error ) => {setLoading(false); displayError("This username or email is already in use", 4000); console.log(error);})
+            .then((res) => {setLoading(false); setSuccess(true); return {status: 200, data: res.data}})
+            .catch((error ) => {setLoading(false); displayError("This username or email is already in use", 4000); return {status: false, error: error};})
 
         if (response.status === 200) {
 
@@ -79,7 +118,9 @@ export default function Register() {
             }
 
             localStorage.setItem('x-token', JSON.stringify(response.data.key))
-        }
+            window.location.pathname = '/'
+        
+        } 
 
     };
 
@@ -104,9 +145,10 @@ export default function Register() {
                 </HeadingWrapper>
                 <FormWrapper>
                     <Form>
-                        <SecondaryInput value={username} setValue={setUsername} type="text" htmlfor="Username" placeholder="Enter your username" icon="/images/person.svg" />
-                        <SecondaryInput value={email} setValue={setEmail} type="email" htmlfor="Email address" placeholder="Enter your email address" icon="/images/email.svg" />
-                        <SecondaryInput value={password} setValue={setPassword} type="password" htmlfor="Password" placeholder="Enter your password" icon="/images/lock.svg" />
+                        <SecondaryInput value={username} setValue={setUsername} type="text" minChar="2" htmlfor="Username" placeholder="Enter your username" icon="/images/person.svg" />
+                        <SecondaryInput value={email} setValue={setEmail} type="email" minChar="6" htmlfor="Email address" placeholder="Enter your email address" icon="/images/email.svg" />
+                        <SecondaryInput value={password} setValue={setPassword} type="password" minChar="8" htmlfor="Password" placeholder="Enter your password" icon="/images/lock.svg" />
+                        <SecondaryInput value={repeatPassword} setValue={setRepeatPassword} minChar="8" type="password" htmlfor="Repeat password" placeholder="Repeat your password" icon="/images/lock.svg" />
                     </Form>
                 </FormWrapper>
                 <ButtonWrapper>
@@ -218,6 +260,7 @@ const InnerWrapper = styled.div `
 
     padding-top: 50px;
     padding-bottom: 50px;
+    margin-top: 60px;
 `;
 
 const Wrapper = styled.div `
