@@ -11,7 +11,7 @@ export default function Features({active}) {
     let features = [
         {
             name: "Services",
-            to: "/dashboard",
+            to: "/",
             svg: "services.svg",
             width: "25px",
             height: "25px"
@@ -53,7 +53,7 @@ export default function Features({active}) {
                     return (
                     
                         <ListItem>
-                            <Link style={{textDecoration: "none", display: "flex", alignItems: "center", padding: "0px 25px", columnGap: "3px", width: "100%"}} to={feature.to}>
+                            <Link ref={(elem) => {if (elem) {elem.style.setProperty("outline", "none", "important")}}} style={{textDecoration: "none", display: "flex", alignItems: "center", padding: "0px 25px", columnGap: "3px", width: "100%"}} to={feature.to}>
                                 <SvgIcon path={`/images/${feature.svg}`} alt={feature.name} width={feature.width} color="#FFFFFF" height={feature.height} />
                                 <ItemText>{feature.name}</ItemText>
                             </Link>
@@ -90,6 +90,7 @@ const ItemText = styled.span `
     height: 100%;
     
     opacity: .9;
+    outline: none!important;
 
     &:hover {
         opacity: .8;
@@ -115,11 +116,12 @@ const ListItem = styled.li `
         display: none;
     }
 
+    outline: none!important;
 `;
 
 const Wrapper = styled.div `
     height: fit-content;
-    width: 320px;
+    width: 290px;
 
     top: calc(65px + 10px);
     background: white;

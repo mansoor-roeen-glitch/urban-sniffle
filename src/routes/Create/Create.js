@@ -163,8 +163,28 @@ export default function Create({config}) {
 
     }, [])    
 
-    if (loading ) {
-        return <h1>Loading ... </h1>
+    if (loading) {
+
+        return (
+            <Wrapper>
+                <SubHeader path={true} pathName="Create service" />
+                {/* Loading will be included below this */}
+                <h1>Please wait, loading</h1>
+            </Wrapper>
+        )
+
+    }
+
+    if (error) {
+        
+        return (
+            <Wrapper>
+                <SubHeader path={true} pathName="Create service" />
+                {/* Error will be included below this */}
+                <h1>Something went wrong, try again later</h1>
+            </Wrapper>
+        )
+
     }
 
     return (

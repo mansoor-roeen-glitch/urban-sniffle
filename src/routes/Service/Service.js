@@ -107,13 +107,25 @@ export default function Service (props) {
 
     if (loading) {
 
-        return <h1>Loading ... </h1>
+        return (
+            <Wrapper>
+                <SubHeader path={true} pathName={hostname} />
+                {/* Loading will be included below this */}
+                <h1>something went wrong</h1>
+            </Wrapper>
+        )
 
     }
 
     if (error) {
 
-        return <h1>Something went wrong</h1>
+        return (
+            <Wrapper>
+                <SubHeader path={true} pathName={hostname} />
+                {/* Error will be included below this */}
+                <h1>something went wrong</h1>
+            </Wrapper>
+        )
 
     }
 
@@ -123,6 +135,9 @@ export default function Service (props) {
             <HeaderWrapper>
                 <InnerWrapper>
                     <List>
+
+                        {/* We will map through all the service options */}
+
                         {selectOptions.map((option) => {
                             return (
                                 <Item className={selected === option.index ? "Option-Selected" : ""} style={{opacity: selected === option.index ? "1" : ".5"}}>
@@ -136,12 +151,14 @@ export default function Service (props) {
                                 </Item>
                             )
                         })}
+                        
                     </List>
                 </InnerWrapper>
             </HeaderWrapper>
 
             <ContentWrapper>
-
+                
+                {/* Showing content based on user selection */}
                 { (() => {
                     switch(selected) {
                         
