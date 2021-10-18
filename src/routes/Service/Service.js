@@ -43,7 +43,7 @@ export default function Service (props) {
             }
         })
             .then((res) => {return {status: 200, data: res.data}})
-            .catch((error ) => {return {status: 400, data: error};})
+            .catch((error ) => {return {status: false, data: error};})
         
         return response;
     }
@@ -57,6 +57,14 @@ export default function Service (props) {
 
             setDetails(serviceDetails.data)
             setServiceStatus(serviceStatus.data)
+            setLoading(false)
+            setSuccess(true)
+            setError(false)
+
+        } else if (serviceDetails.status === 200 && !serviceStatus.status) {
+
+            setDetails(serviceDetails.data)
+            setServiceStatus(false)
             setLoading(false)
             setSuccess(true)
             setError(false)

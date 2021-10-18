@@ -9,9 +9,6 @@ export default function Details({data, serviceStatus}) {
     const [hostname, setHostname] = useState(data.hostname);
     const [password, setPassword] = useState("your password");
 
-
-    console.log(serviceStatus)
-
     const general = [
         {
             heading: "Owner",
@@ -111,15 +108,18 @@ export default function Details({data, serviceStatus}) {
     return (
         <Wrapper>
             <InnerWrapper>
-                <Charts>
-                    {charts.map((chart, index) => {
-                        return (
-                            <Chart usage={chart.usage} heading={chart.heading} total={chart.total} text={chart.text} unit={chart.unit} />
-                        )
-                    })}
-                </Charts>
+                
+                {serviceStatus && (
+                    <Charts>
+                        { charts.map((chart, index) => {
+                            return (
+                                <Chart usage={chart.usage} heading={chart.heading} total={chart.total} text={chart.text} unit={chart.unit} />
+                            )
+                        })}
+                    </Charts>
+                )}
             
-                <Content>
+                <Content marginTop={serviceStatus ? "50px" : "0px"}>
                     <Section data={general} heading="General Detials" rows={3} rowHeight={130} />
                     <Section data={vm} heading="VM details" rows={3} rowHeight={130} />
                 </Content>
@@ -130,7 +130,7 @@ export default function Details({data, serviceStatus}) {
 }
 
 const Content = styled.div `
-    margin-top: 50px;
+    margin-top: ${props => props.marginTop};
 `;
 
 const Charts = styled.div `
