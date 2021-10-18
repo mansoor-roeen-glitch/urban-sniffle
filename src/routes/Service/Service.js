@@ -17,6 +17,24 @@ export default function Service (props) {
     const [success, setSuccess] = React.useState()
     const [details, setDetails] = React.useState()
     const [error, setError] = React.useState()
+    const [serviceConsole, setServiceConsole] = React.useState()
+
+
+
+    const createConsoleSession = async () => {
+        let response = await axios({
+            method: "post",
+            url: `https://hosnet.io/api/services/${id}/console_login/`,
+            headers: {
+                "content-type": "application/json",
+                "Authorization": `Token ${props.config}`
+            }
+        })
+            .then((res) => {return {status: res.status, data: res.data}})
+            .catch((error ) => {return {status: 400, data: error};})
+
+        return response;
+    }
 
     const getServiceDetails = async () => {
         let response = await axios({
@@ -52,11 +70,13 @@ export default function Service (props) {
 
         const serviceStatus = await getServiceStatus()
         const serviceDetails = await getServiceDetails()
+        const serviceConsole = await createConsoleSession()
 
-        if (serviceDetails.status === 200 && serviceStatus.status === 200) {
+        if (serviceDetails.status === 200 && serviceStatus.status === 200 && serviceConsole.status == 200) {
 
             setDetails(serviceDetails.data)
             setServiceStatus(serviceStatus.data)
+            setServiceConsole(serviceConsole.data)
             setLoading(false)
             setSuccess(true)
             setError(false)
@@ -166,7 +186,7 @@ export default function Service (props) {
                             return <Details data={details} serviceStatus={serviceStatus} />;
 
                         case 1:
-                            return <Console data={details} />;
+                            return <Console data={details} serviceConsole={serviceConsole}/>;
                         
                         case 2:
                             return <Billing data={details} />;

@@ -1,9 +1,64 @@
-import React from 'react'
+import React, { useEffect, useRef }  from 'react'
 import styled from 'styled-components'
 import Activity from './Activity';
+import { Terminal } from "xterm";
+import { FitAddon } from "xterm-addon-fit";
+import { AttachAddon } from 'xterm-addon-attach';
+const proxmox = require('proxmox-client');
 
-export default function Console() {
+export default function Console({data, serviceConsole}) {
+    const XTerm = useRef(null);
+    useEffect(() => {
+    console.log("myContainer..", XTerm.current);
 
+    // list nodes
+    let term;
+    const fitAddon = new FitAddon();
+    term = new Terminal({
+      convertEol: true,
+      fontFamily: `'Fira Mono', monospace`,
+      fontSize: 15,
+      fontWeight: 900,
+      rendererType: "dom" // default is canvas
+    });
+
+    //Styling
+    term.setOption("theme", {
+      background: "black",
+      foreground: "white"
+    });
+
+    term.loadAddon(fitAddon);
+    term.open(XTerm.current);
+    fitAddon.fit();
+proxmox.auth('localhost:3000', serviceConsole.username, serviceConsole.password).then(() => {
+  proxmox.post('/nodes/'+serviceConsole.node+'/'+serviceConsole.type+'/'+serviceConsole.machine+'/termproxy', undefined).then((res) => {
+    if(res.status !== 200) {
+      console.log("statusCode is not 200");
+    }
+    res = JSON.parse(res.text).data;
+    console.log(res);
+    let ticket = encodeURIComponent(res.ticket);
+    let port = encodeURIComponent(res.port);
+    let socketUrl = 'ws://localhost:3000/api2/json/nodes/'+serviceConsole.node+'/'+serviceConsole.type+'/'+serviceConsole.machine+'/vncwebsocket?port='+port+'&vncticket='+ticket
+    const socket = new WebSocket(socketUrl);
+    socket.binaryType = 'arraybuffer';
+    socket.onopen = function (e) {
+    socket.send(serviceConsole.username+":" + res.ticket + "\n");
+  };
+    const attachAddon = new AttachAddon(socket);
+    term.loadAddon(attachAddon);
+    term.onData(function(data) {
+	    socket.send("0:" + unescape(encodeURIComponent(data)).length.toString() + ":" +  data);
+    });
+  })
+  .catch((err) => {
+    console.log('Error:', err);
+  });
+  }).catch((err) => {
+    console.log(err);
+  });
+});
     const activities = [
         {
             name: "drunkenpirate47x",
@@ -20,16 +75,7 @@ export default function Console() {
     return (
         <Wrapper>
             <InnerWrapper>
-                <ConsoleWrapper>
-                    <TemporaryText>
-                                        Microsoft Windows [Version 10.0.18363.1734]
-                    (c) 2019 Microsoft Corporation. All rights reserved.
-
-                    C:\Users\user Microsoft Windows [Version 10.0.18363.1734]
-                    'Microsoft' is not recognized as an internal or external command,
-                    operable program or batch file.
-
-                    </TemporaryText>
+                <ConsoleWrapper ref={XTerm}>
                 </ConsoleWrapper>
                 <ActivityWrapper>
                     <ActivityHeading>
