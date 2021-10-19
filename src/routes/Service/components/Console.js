@@ -7,6 +7,15 @@ import { AttachAddon } from 'xterm-addon-attach';
 const proxmox = require('proxmox-client');
 
 export default function Console({data, serviceConsole}) {
+    let states = {
+        start:         1,
+        connecting:    2,
+        connected:     3,
+        disconnecting: 4,
+        disconnected:  5,
+        reconnecting:  6,
+    };
+    let state = states.start;
     const XTerm = useRef(null);
     useEffect(() => {
     console.log("myContainer..", XTerm.current);
@@ -31,34 +40,38 @@ export default function Console({data, serviceConsole}) {
     term.loadAddon(fitAddon);
     term.open(XTerm.current);
     fitAddon.fit();
-proxmox.auth('localhost:3000', serviceConsole.username, serviceConsole.password).then(() => {
-  proxmox.post('/nodes/'+serviceConsole.node+'/'+serviceConsole.type+'/'+serviceConsole.machine+'/termproxy', undefined).then((res) => {
-    if(res.status !== 200) {
-      console.log("statusCode is not 200");
-    }
-    res = JSON.parse(res.text).data;
-    console.log(res);
-    let ticket = encodeURIComponent(res.ticket);
-    let port = encodeURIComponent(res.port);
-    let socketUrl = 'ws://localhost:3000/api2/json/nodes/'+serviceConsole.node+'/'+serviceConsole.type+'/'+serviceConsole.machine+'/vncwebsocket?port='+port+'&vncticket='+ticket
-    const socket = new WebSocket(socketUrl);
-    socket.binaryType = 'arraybuffer';
-    socket.onopen = function (e) {
-    socket.send(serviceConsole.username+":" + res.ticket + "\n");
-  };
-    const attachAddon = new AttachAddon(socket);
-    term.loadAddon(attachAddon);
-    term.onData(function(data) {
-	    socket.send("0:" + unescape(encodeURIComponent(data)).length.toString() + ":" +  data);
+    proxmox.auth('localhost:3000', serviceConsole.username, serviceConsole.password).then(() => {
+      proxmox.post('/nodes/'+serviceConsole.node+'/'+serviceConsole.type+'/'+serviceConsole.machine+'/termproxy', undefined).then((res) => {
+        if(res.status !== 200) {
+          console.log("statusCode is not 200");
+        }
+        res = JSON.parse(res.text).data;
+        console.log(res);
+        let protocol = (window.location.protocol === 'https:') ? 'wss://' : 'ws://';
+        let ticket = encodeURIComponent(res.ticket);
+        let port = encodeURIComponent(res.port);
+        let socketUrl = protocol+window.location.host+'/api2/json/nodes/'+serviceConsole.node+'/'+serviceConsole.type+'/'+serviceConsole.machine+'/vncwebsocket?port='+port+'&vncticket='+ticket
+        const socket = new WebSocket(socketUrl);
+        socket.binaryType = 'arraybuffer';
+        socket.onopen = function (e) {
+            socket.send(serviceConsole.username+":" + res.ticket + "\n");
+            state = states.connected;
+        };
+        const attachAddon = new AttachAddon(socket);
+        term.loadAddon(attachAddon);
+        term.onData(function(data) {
+            if (state === states.connected) {
+                socket.send("0:" + unescape(encodeURIComponent(data)).length.toString() + ":" + data);
+            }
+        });
+      })
+      .catch((err) => {
+        console.log('Error:', err);
+      });
+      }).catch((err) => {
+        console.log(err);
+      });
     });
-  })
-  .catch((err) => {
-    console.log('Error:', err);
-  });
-  }).catch((err) => {
-    console.log(err);
-  });
-});
     const activities = [
         {
             name: "drunkenpirate47x",
