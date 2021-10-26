@@ -6,7 +6,7 @@ export default function PrimarySearchBar(props) {
     return (
         <Wrapper>
             
-            <StyledInput name={props.name} placeholder="Filter by records" className={props.className} id={props.id} />
+            <StyledInput value={props.value} onChange={(e) => {props.onChange(e.target.value); props.valueHasChanged(e.target.value)}} name={props.name} placeholder="Filter by records" className={props.className} id={props.id} />
             
             <StyledLabel htmlFor={props.name} >
                 <SvgIcon path="/images/search.svg" alt="Search Svg" width="22px" height="22px" />

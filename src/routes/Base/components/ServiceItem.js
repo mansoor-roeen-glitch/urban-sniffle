@@ -2,33 +2,33 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom';
 
-export default function ServiceItem({service, handleClickChange}) {
+export default function ServiceItem({item, handleClickChange, redirectTo, type}) {
     return (
-        <Link onClick={() => {handleClickChange(service.id, service.hostname)}} style={{textDecoration: "none", outline: "none"}} to={`/service/${service.id}/${service.hostname}`}>
-            <StyledWrapper id={service.id} >
+        <Link onClick={() => {type === "service" && handleClickChange(item[0], item[1])}} style={{textDecoration: "none", outline: "none"}} to={redirectTo}>
+            <StyledWrapper id={item[0]} >
                 <StyledGrid>
 
                     <ServiceHostname>
                         <ServiceHostnameText>
-                            {service.hostname}
+                            {item[1]}
                         </ServiceHostnameText>
                     </ServiceHostname>
 
                     <ServiceDetail>
                         <ServiceDetailText>
-                            {service.plan}
+                            {item[2]}
                         </ServiceDetailText>
                     </ServiceDetail>
 
                     <ServiceDetail>
                         <ServiceDetailText>
-                            {service.status}
+                            {item[3]}
                         </ServiceDetailText>
                     </ServiceDetail>
 
                     <ServiceDetail>
                         <ServiceDetailText>
-                            {service.service_plan.ram}
+                            {item[4]}
                         </ServiceDetailText>
                     </ServiceDetail>
 

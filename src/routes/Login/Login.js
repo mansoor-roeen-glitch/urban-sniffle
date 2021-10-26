@@ -73,12 +73,13 @@ export default function Login(props) {
 
         if (response.status === 200) {
 
+            console.log(response)
+
             if (localStorage.getItem("x-token")) {
                 localStorage.removeItem("x-token")
             }
 
             localStorage.setItem('x-token', response.data.key)
-            window.location.pathname = '/'
             
         }
 

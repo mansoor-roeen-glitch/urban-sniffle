@@ -8,6 +8,10 @@ import Service from './Service/Service';
 import Create from './Create/Create';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer'
+import Plans from './Plans/Plans';
+import Plan from './Plans/components/Plan';
+import Templates from './templates/Templates';
+import Template from './templates/components/Template'
 
 export default function Index({config}) {
 
@@ -16,7 +20,7 @@ export default function Index({config}) {
  
     const handleClickChange = (id, hostname) => {
 
-        setSelected({id, hostname})
+        setSelected({hostname, id})
 
     }
 
@@ -27,8 +31,12 @@ export default function Index({config}) {
             <Switch>
             
                 <Route path="/" exact render={() => <Base config={config} handleClickChange={handleClickChange} />} />
-                <Route path="/service/:id/:hostname" render={() => <Service config={config} details={selected} />} /> 
+                <Route path="/services/:id/:hostname" render={() => <Service config={config} details={selected} />} /> 
                 <Route path="/create" exact render={() => <Create config={config}  />} />
+                <Route path="/plans" exact render={() => <Plans config={config} />} />
+                <Route path="/plans/:id" render={() => <Plan config={config} />} /> 
+                <Route path="/templates" exact render={() => <Templates config={config} />} />
+                <Route path="/templates/:id" render={() => <Template config={config} />} /> 
             
             </Switch>
             <Footer />

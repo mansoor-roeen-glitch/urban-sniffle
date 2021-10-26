@@ -2,15 +2,35 @@ import React from 'react'
 import styled from 'styled-components'
 import ServiceItem from './ServiceItem'
 
-export default function ServiceList({services, handleClickChange}) {
+export default function ServiceList({data, handleClickChange, type}) {
     
     return (
         <StyledWrapper>
             <List>
-                {services && services.map((service, index) => {
-                    return (
-                        <ServiceItem handleClickChange={handleClickChange} service={service} key={index} />
-                    )
+                {data && data.map((item, index) => {
+                    switch (type) {
+
+                        case "services": 
+                            return (
+                                <ServiceItem type="service" handleClickChange={handleClickChange} item={[
+                                    item.id, item.hostname, item.plan, item.status, item.service_plan.ram
+                                ]} redirectTo={`/services/${item.id}/${item.hostname}`} key={index} />
+                            );
+
+                        case "plans":
+                            return (
+                                <ServiceItem type="plan" item={[
+                                    item.id, item.name, item.size, item.period, item.bandwidth
+                                ]} redirectTo={`/plans/${item.id}`} key={index} />
+                            );
+
+                        case "templates":
+                            return (
+                                <ServiceItem type="template" item={[
+                                    item.id, item.name, item.type, item.id, item.file
+                                ]} redirectTo={`/templates/${item.id}`} key={index} />
+                            );
+                    }
                 })}
             </List>
         </StyledWrapper>

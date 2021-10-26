@@ -44,8 +44,8 @@ export default function Billing({data}) {
     return (
         <Wrapper>
             <InnerWrapper>
-                <Section data={bd} heading="Billing Details" rows={2} rowHeight={170 / 2} />
-                <Section data={pb} heading="Plan Benifits" rows={2} rowHeight={170 / 2} />
+                <Section data={bd} heading="Billing Details" rows={1} rowHeight={130} />
+                <Section data={pb} heading="Plan Benifits" rows={1} rowHeight={130} />
             </InnerWrapper>
         </Wrapper>
 

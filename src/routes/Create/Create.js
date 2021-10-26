@@ -8,6 +8,7 @@ import Section from '../Service/components/Section';
 
 export default function Create({config}) {
     
+    console.log(config)
     const [node, setNode] = useState(0)
     const [planType, setPlanType] = useState(0)
     const [template, setTemplate] = useState(0)
@@ -23,46 +24,31 @@ export default function Create({config}) {
 
     const createService = async () => {
 
+        console.log("okay so its called ")
+
         const response = await axios({
+            
             method: "post",
             url: "https://hosnet.io/api/services/",
+            
             data: {
                 
-                "id": 88,
-            "owner": "sss",
-            "billing_id": null,
-            "machine_id": 1000018,
-            "hostname": "sodlksadfafjslakj",
-            "plan": "Basic",
-            "node": "magus",
-            "status": "error",
-            "service_plan": {
-                "template": "Winn",
-                "storage": "local-zfs",
-                "size": 128,
-                "ram": 1024,
-                "swap": 0,
-                "cores": 4,
-                "bandwidth": 1024,
-                "cpu_units": 1024,
-                "cpu_limit": "0.00",
-                "ipv6_ips": 1,
-                "ipv4_ips": 0,
-                "internal_ips": 1,
-                "type": "lxc",
-                "ip_pools": [
-                    1
-                ]
+                "owner": "sss",
+                "hostname": "hostname-102",
+                "password": "somethig123!",
+                "plan": "Basic",
+                "node": "magus",
+                "status": "pending"
+
             },
-            "billing_type": null
-            },
+            
             headers: {
                 'Authorization': `Token ${config}`,
                 'content-type': "application/json"
             }
-        })
 
-        console.log(response)
+        }).then((response) => {console.log(response)})
+
 
     }
 

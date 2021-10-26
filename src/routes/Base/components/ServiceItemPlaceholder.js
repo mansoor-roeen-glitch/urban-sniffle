@@ -1,31 +1,23 @@
 import React from 'react'
 import styled from 'styled-components';
 
-export default function ServiceItemPlaceholder() {
+export default function ServiceItemPlaceholder({data}) {
     return (
         <ContentWrapper>
                 <ContentHeader>
                     <HeaderList>
-                        <ListItem style={{justifyContent: "flex-start"}}>
-                            <ItemText>
-                                Hostname
-                            </ItemText>
-                        </ListItem>
-                        <ListItem>
-                            <ItemText>
-                                Plan
-                            </ItemText>
-                        </ListItem>
-                        <ListItem>
-                            <ItemText>
-                                Status
-                            </ItemText>
-                        </ListItem>
-                        <ListItem>
-                            <ItemText>
-                                Ram
-                            </ItemText>
-                        </ListItem>
+                        {data && data.map((item, index) => {
+                            return (
+                            
+                                <ListItem style={{justifyContent: index === 0 ? "flex-start" : "center"}}>
+                                    <ItemText>
+                                        {item}
+                                    </ItemText>
+                                </ListItem>
+                            
+                            )
+                            
+                        })}
                     </HeaderList>
                 </ContentHeader>
                 <Content>

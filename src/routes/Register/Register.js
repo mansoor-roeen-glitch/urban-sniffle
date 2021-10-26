@@ -117,7 +117,7 @@ export default function Register() {
                 localStorage.removeItem("x-token")
             }
 
-            localStorage.setItem('x-token', JSON.stringify(response.data.key))
+            localStorage.setItem('x-token', response.data.key)
             window.location.pathname = '/'
         
         } 

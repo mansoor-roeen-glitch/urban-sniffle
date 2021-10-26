@@ -119,8 +119,8 @@ export default function Details({data, serviceStatus}) {
                 )}
             
                 <Content marginTop={serviceStatus ? "50px" : "0px"}>
-                    <Section data={general} heading="General Detials" rows={3} rowHeight={130} />
-                    <Section data={vm} heading="VM details" rows={3} rowHeight={130} />
+                    <Section data={general} heading="General Detials" rows={2} rowHeight={130} />
+                    <Section data={vm} heading="VM details" rows={2} rowHeight={130} />
                 </Content>
             
             </InnerWrapper>

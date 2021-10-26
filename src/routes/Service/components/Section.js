@@ -48,7 +48,7 @@ const ContentWrapper = styled.div `
     height: fit-content;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: ${props => props.rowHeight}px;
+    grid-template-rows: repeat(${props => props.rows}, ${props => props.rowHeight}px);
     grid-column-gap: 60px;
 
     @media screen and (max-width: 980px) {
@@ -83,14 +83,14 @@ const GeneralSec = styled.div `
     background: var(--primary-background);
     display: flex;
     flex-direction: column;
-    margin-bottom: 80px;
+    margin-bottom: 40px;
 
     @media screen and (max-width: 1000px) {
-        margin-bottom: 60px;
+        margin-bottom: 30px;
     }
 
     @media screen and (max-width: 800px) {
-        margin-bottom: 30px;
+        margin-bottom: 15px;
     }
 
 `;

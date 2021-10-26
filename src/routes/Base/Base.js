@@ -9,9 +9,33 @@ import axios from 'axios';
 
 export default function BaseRoute({config, handleClickChange}) {
 
+    const [foundMatch, setFoundMatch] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
     const [services, setServices] = React.useState([]);
+    const [search, setSearch] = React.useState("")
     const [error, setError] = React.useState()
+
+    const handleValueChange = (value) => {
+            const keyword = value;
+        
+            if (keyword !== '') {
+              
+                const searchRes = services.filter((service) => {
+                
+                    return service.hostname.toLowerCase().startsWith(keyword.toLowerCase());
+                    // Use the toLowerCase() method to make it case-insensitive
+                
+                });
+
+                setFoundMatch(searchRes);
+
+            } else {
+              
+                setFoundMatch(false);
+                // If the text field is empty, show all users
+            
+            }
+    }
 
     const getServices = async () => {
         const response = await axios({
@@ -34,17 +58,17 @@ export default function BaseRoute({config, handleClickChange}) {
 
     return (
         <Wrapper>
-            <SubHeader />
+            <SubHeader path={true} pathName="Dashboard" />
             
             <Header>
                 <SearchWrapper>
-                    <PrimarySearchBar name="SearchBar" className="Primary-Search-Bar" id="Primary-Search-Bar" />
+                    <PrimarySearchBar valueHasChanged={handleValueChange} value={search} onChange={setSearch} name="SearchBar" className="Primary-Search-Bar" id="Primary-Search-Bar" />
                 </SearchWrapper>
                 <PrimaryButton to="/create" text="New" width="80px" height="40px" />
             </Header> 
 
-            <ServiceItemPlaceholder />
-            <ServiceList handleClickChange={handleClickChange} services={services} />
+            <ServiceItemPlaceholder data={["hostname", "plan", "status", "ram"]} />
+            <ServiceList handleClickChange={handleClickChange} data={foundMatch ? foundMatch : services} type="services" />
 
         </Wrapper>
     )
