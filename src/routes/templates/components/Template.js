@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components';
 import Section from '../../Service/components/Section';
 import SubHeader from '../../../components/Header/SubHeader'
@@ -6,7 +6,7 @@ import PrimaryButton from '../../../components/buttons/PrimaryButton';
 
 export default function Plan() {
     
-    const [details, setDetails] = React.useState(
+    const [details, setDetails] = useState(
         
         {
             "id": 1,
@@ -17,10 +17,10 @@ export default function Plan() {
 
     );
 
-    const [file, setFile] = React.useState(details.file);
-    const [type, setType] = React.useState(details.type);
-    const [name, setName] = React.useState(details.name);
-    const [id, setId] = React.useState(details.id);
+    const [file, setFile] = useState(details.file);
+    const [type, setType] = useState(details.type);
+    const [name, setName] = useState(details.name);
+    const [id, setId] = useState(details.id);
 
     const data = [
         {

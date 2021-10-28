@@ -1,6 +1,5 @@
 import axios from 'axios';
-import React from 'react'
-import { useEffect } from 'react/cjs/react.development';
+import React, {useEffect} from 'react'
 import styled from 'styled-components'
 import PrimaryButton from '../../components/buttons/PrimaryButton';
 import SubHeader from '../../components/Header/SubHeader';
