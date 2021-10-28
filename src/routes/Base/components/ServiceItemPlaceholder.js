@@ -9,7 +9,7 @@ export default function ServiceItemPlaceholder({data}) {
                         {data && data.map((item, index) => {
                             return (
                             
-                                <ListItem style={{justifyContent: index === 0 ? "flex-start" : "center"}}>
+                                <ListItem key={index} style={{justifyContent: index === 0 ? "flex-start" : "center"}}>
                                     <ItemText>
                                         {item}
                                     </ItemText>

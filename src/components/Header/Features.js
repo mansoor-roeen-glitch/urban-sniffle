@@ -52,7 +52,7 @@ export default function Features({active}) {
                 {features.map((feature, index) => {
                     return (
                     
-                        <ListItem>
+                        <ListItem key={index}>
                             <Link ref={(elem) => {if (elem) {elem.style.setProperty("outline", "none", "important")}}} style={{textDecoration: "none", display: "flex", alignItems: "center", padding: "0px 25px", columnGap: "3px", width: "100%"}} to={feature.to}>
                                 <SvgIcon path={`/images/${feature.svg}`} alt={feature.name} width={feature.width} color="#FFFFFF" height={feature.height} />
                                 <ItemText>{feature.name}</ItemText>

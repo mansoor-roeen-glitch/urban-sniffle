@@ -112,7 +112,7 @@ export default function Details({data, serviceStatus}) {
                     <Charts>
                         { charts.map((chart, index) => {
                             return (
-                                <Chart usage={chart.usage} heading={chart.heading} total={chart.total} text={chart.text} unit={chart.unit} />
+                                <Chart key={index} usage={chart.usage} heading={chart.heading} total={chart.total} text={chart.text} unit={chart.unit} />
                             )
                         })}
                     </Charts>

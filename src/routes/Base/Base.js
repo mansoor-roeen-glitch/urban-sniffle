@@ -51,7 +51,7 @@ export default function BaseRoute({config, handleClickChange}) {
     }
 
     React.useEffect(() => {
-
+        
         getServices()
 
     }, [])

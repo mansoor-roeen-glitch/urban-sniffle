@@ -158,9 +158,9 @@ export default function Service (props) {
 
                         {/* We will map through all the service options */}
 
-                        {selectOptions.map((option) => {
+                        {selectOptions.map((option, index) => {
                             return (
-                                <Item className={selected === option.index ? "Option-Selected" : ""} style={{opacity: selected === option.index ? "1" : ".5"}}>
+                                <Item key={index} className={selected === option.index ? "Option-Selected" : ""} style={{opacity: selected === option.index ? "1" : ".5"}}>
                                     <ItemButton onClick={() => {handleOptionClick(option.index)}}>
                                         <ItemText>{option.text}</ItemText>
                                     </ItemButton>

@@ -45,8 +45,8 @@ const ContentWrapper = styled.div `
     height: 47px;
     width: 100%;
 
-    border-width: 0.5px;
-    border-color: var(--secondary-purple);
+    border-width: 1px;
+    border-color: var(--border-purple);
     border-style: solid;
     border-radius: 3px;
 

@@ -8,23 +8,140 @@ import Section from '../Service/components/Section';
 
 export default function Create({config}) {
     
-    console.log(config)
     const [node, setNode] = useState(0)
     const [planType, setPlanType] = useState(0)
     const [template, setTemplate] = useState(0)
     const [billingMethod, setBillingMethod] = useState(0)
 
-    const [hostname, setHostname] = useState("")
-    const [password, setPassword] = useState("")
+    const [hostname, setHostname] = useState({
+        
+        value: "",
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    })
+
+    const [password, setPassword] = useState({
+
+        value: "",
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    })
+
+    const [ownerLoading, setOwnerLoading] = useState(true);
+    const [ownerDetails, setOwnerDetails] = useState()
+    const [ownerSuccess, setOwnerSuccess] = useState();
 
     const [details, setDetails] = useState()
     const [loading, setLoading] = useState(true)
     const [success, setSuccess] = useState()
     const [error, setError] = useState()
 
+    const isValidPassword = (input) => {
+        if (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(input)) {
+            return true
+        } else {
+            return false
+        }
+    }
+ 
+    const isValidHostname = (input) => {
+        if (/^[a-zA-Z0-9-_]+$/.test(input)) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    const validateForm = ({hostnameField, passwordField}) => {
+        
+        let isHostnameValid = false;
+        let isPasswordValid = false;
+
+        if (!hostnameField || !isValidHostname(hostnameField)) {
+            
+            setHostname((prevState) => ({
+                
+                ...prevState,
+                value: "",
+                hasErrorMessage: true,
+                errorMes: "only alphabets, numbers, dash, and underscore",
+
+            }))
+
+            isHostnameValid = false 
+        
+        } else {
+
+            isHostnameValid = true;
+
+        }
+
+        if (!passwordField) {
+            
+            setPassword((prevState) => ({
+
+                ...prevState,
+                value: "",
+                hasErrorMessage: true,
+                errorMes: "please fill in the input properly"
+
+            }))
+            
+            isPasswordValid = false
+        } 
+
+        if (passwordField) {
+            if (passwordField.length < 8 ) {
+
+                setPassword((prevState) => ({
+                    ...prevState,
+                    value: "",
+                    hasErrorMessage: true,
+                    errorMes: "must be more than 6 characters long"
+                }))
+            
+            } else {
+
+                if (!isValidPassword(passwordField)) {
+                    setPassword((prevState) => ({
+                        
+                        ...prevState,
+                        value: "",
+                        hasErrorMessage: true,
+                        errorMes: "must have one numeric digit, one uppercase, lowercase letter"
+                    
+                    }))
+                
+                } else {
+
+                    isPasswordValid = true    
+
+                }
+            
+            }
+        }
+
+        return {isHostnameValid, isPasswordValid};
+
+    }
+
     const createService = async () => {
 
-        console.log("okay so its called ")
+        const checkForm = validateForm({
+            
+            hostnameField: hostname.value,
+            passwordField: password.value
+            
+        })
+
+        if (!checkForm.isHostnameValid || !checkForm.isPasswordValid) {
+            return null;
+        }
+
 
         const response = await axios({
             
@@ -33,12 +150,12 @@ export default function Create({config}) {
             
             data: {
                 
-                "owner": "sss",
-                "hostname": "hostname-102",
-                "password": "somethig123!",
-                "plan": "Basic",
-                "node": "magus",
-                "status": "pending"
+                "owner": ownerDetails.username,
+                "hostname": hostname,
+                "password": password,
+                "plan": staticdata[3].options[planType].name,
+                "node": staticdata[2].options[node].name,
+                "template": staticdata[4].options[template].name
 
             },
             
@@ -47,8 +164,10 @@ export default function Create({config}) {
                 'content-type': "application/json"
             }
 
-        }).then((response) => {console.log(response)})
-
+        })
+        
+        .then((res) => {console.log(res)})
+        .catch((err) => {console.log(err)});
 
     }
 
@@ -56,7 +175,7 @@ export default function Create({config}) {
 
         const response = await axios({
             method: "get",
-            url: `https://hosnet.io/api/${endpoint}/`,
+            url: `https://hosnet.io/${endpoint}/`,
             headers: {
                 'Authorization': `Token ${config}`,
                 'content-type': "application/json"
@@ -75,7 +194,10 @@ export default function Create({config}) {
             value: "example-hostname",
             type: "input",
             htmltype: "text",
-            inputValue: hostname,
+            inputValue: hostname.value,
+            errorMes: hostname.errorMes,
+            messageDur: hostname.messageDur,
+            hasErrorMessage: hostname.hasErrorMessage,
             onChange: setHostname
         },
         {
@@ -83,7 +205,10 @@ export default function Create({config}) {
             value: "your-password",
             type: "input",
             htmltype: "password",
-            inputValue: password,
+            inputValue: password.value,
+            errorMes: password.errorMes,
+            messageDur: password.messageDur,
+            hasErrorMessage: password.hasErrorMessage,
             onChange: setPassword
         },
         {
@@ -113,10 +238,13 @@ export default function Create({config}) {
 
     useEffect( async () => {
 
-        const plans = await fetchDetail("plans");
-        const templates = await fetchDetail("templates");
+        const owner = await fetchDetail("auth/user");
+        const plans = await fetchDetail("api/plans");
+        const templates = await fetchDetail("api/templates");
 
-        if (plans.status === 200 && templates.status === 200) {
+        if (plans.status === 200 && templates.status === 200 && owner.status === 200) {
+
+            setOwnerDetails(owner.data)
 
             setDetails({
                 plans: {
@@ -138,6 +266,9 @@ export default function Create({config}) {
                     onChange: setTemplate  
                 }})
 
+
+            setOwnerLoading(false)
+            setOwnerSuccess(true)
             setLoading(false)
             setSuccess(true)
             

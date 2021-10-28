@@ -1,7 +1,42 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 
-export default function PrimaryInput({heading, value, htmltype, onChange, inputValue}) {
+export default function PrimaryInput({heading, value, htmltype, onChange, inputValue, errorMes, messageDur, hasErrorMessage}) {
+
+    const [error, setError] = useState(false)
+    const [errorMessage, setErrorMessage] = useState();
+    const [messageDuration, setMessageDuration] = useState(messageDur); 
+
+    const handleErrorMessage = () => {
+
+        setError(true)
+        setErrorMessage(errorMes)
+
+        setTimeout(() => {
+
+            onChange((prevState) => ({
+                
+                ...prevState,
+                errorMes: "",
+                hasErrorMessage: false
+
+            }))
+
+            setError(false);
+            setErrorMessage("")
+
+        }, messageDuration)
+
+    }
+
+    useEffect(() => {
+
+        if (hasErrorMessage) {
+            handleErrorMessage();
+        }
+
+    }, [hasErrorMessage])
+
     return (
         <Wrapper>
             <HeadingWrapper>
@@ -9,8 +44,8 @@ export default function PrimaryInput({heading, value, htmltype, onChange, inputV
                     {heading}
                 </StyledHeading>    
             </HeadingWrapper>        
-            <ContentWrapper>
-                <ContentInput onChange={(event) => {onChange(event.target.value)}} inputValue={inputValue} type={htmltype} maxLength={40} minLength={5} placeholder={value} name={heading} /> 
+            <ContentWrapper error={error}>
+                <ContentInput error={error} onChange={(event) => {setError(false); onChange(prevState => ({...prevState, hasErrorMessage: false, errorMes: "", value: event.target.value}))}} inputValue={inputValue} type={htmltype} maxLength={40} minLength={5} placeholder={value} name={heading} /> 
                 <ContentLabel htmlFor={heading} itemType={htmltype}>
                     {heading}
                 </ContentLabel>
@@ -54,8 +89,8 @@ const ContentWrapper = styled.div `
     height: 47px;
     width: 100%;
 
-    border-width: 0.5px;
-    border-color: var(--secondary-purple);
+    border-width: 1px;
+    border-color: ${props => !props.error ? `var(--border-purple)` : `var(--border-red)`};
     border-style: solid;
     border-radius: 3px;
 

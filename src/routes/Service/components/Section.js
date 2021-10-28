@@ -26,7 +26,7 @@ export default function Section({data, heading, rows, rowHeight}) {
                                         return <PrimaryDropdown onChange={item.onChange} heading={item.heading} value={item.value} options={item.options} selected={0} />;
                                     
                                     case "input":
-                                        return <PrimaryInput onChange={item.onChange} inputValue={item.inputValue} heading={item.heading} value={item.value} htmltype={item.htmltype} />
+                                        return <PrimaryInput onChange={item.onChange} inputValue={item.inputValue} heading={item.heading} value={item.value} htmltype={item.htmltype} errorMes={item.errorMes} messageDur={item.messageDur} hasErrorMessage={item.hasErrorMessage} />
                                 }
                             })()}
 
