@@ -38,7 +38,7 @@ const StyledButton = styled.button `
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 4px;
+    border-radius: 1px;
     cursor: pointer;
 
     &:hover {

@@ -2,9 +2,19 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom';
 
-export default function ServiceItem({item, handleClickChange, redirectTo, type}) {
+export default function ServiceItem({item, handleClickChange, redirectTo, type, handlePlanClick, handleTemplateClick, details}) {
     return (
-        <Link onClick={() => {type === "service" && handleClickChange(item[0], item[1])}} style={{textDecoration: "none", outline: "none"}} to={redirectTo}>
+        <Link onClick={() => {
+
+            if (type === "service") {
+                handleClickChange(item[0], item[1])
+            } else if (type === "plan") {
+                handlePlanClick(details)
+            } else if (type === "template") {
+                handleTemplateClick(details)
+            }
+
+        }} style={{textDecoration: "none", outline: "none"}} to={redirectTo}>
             <StyledWrapper id={item[0]} >
                 <StyledGrid>
 

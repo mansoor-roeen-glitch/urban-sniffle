@@ -110,7 +110,7 @@ function App() {
   }, [])
 
   return (
-    <div className="App_Wrapper" style={{display: "flex", flexDirection: "column", minHeight: "100vh", height: "fit-content", paddingBottom: "60px", overflowX: "hidden"}}>
+    <div className="App_Wrapper" style={{display: "flex", flexDirection: "column", minHeight: "100vh", height: "fit-content", paddingBottom: "120px", overflowX: "hidden"}}>
       <Router history={history}>
         {!loading ? (
           <Switch>

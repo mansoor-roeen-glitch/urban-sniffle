@@ -5,13 +5,13 @@ import PrimaryDropdown from '../../../components/dropdowns/PrimaryDropdown';
 import PrimaryHeading from "../../../components/texts/PrimaryHeading";
 import PrimaryInput from '../../../components/inputs/PrimaryInput';
 
-export default function Section({data, heading, rows, rowHeight}) {
+export default function Section({data, heading, rows, rows2, rows3, rowHeight}) {
     return (
         <GeneralSec>
             <HeadingWrapper>
                 <PrimaryHeading text={heading} />
             </HeadingWrapper>
-            <ContentWrapper count={data.length} rows={rows} rowHeight={rowHeight}>
+            <ContentWrapper count={data.length} rows={rows} rows2={rows2} rows3={rows3} rowHeight={rowHeight}>
                 {data.map((item) => {
                     return (
                         <DetailWrapper>
@@ -53,21 +53,21 @@ const ContentWrapper = styled.div `
 
     @media screen and (max-width: 980px) {
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: repeat(${props => props.rows}, 120px);
+        grid-template-rows: repeat(${props => props.rows2}, ${props => props.rowHeight}px);
         grid-column-gap: 45px;
 
     }
 
     @media screen and (max-width: 625px) {
         grid-template-columns: 1fr;
-        grid-template-rows: repeat(${props => props.count}, 120px);
+        grid-template-rows: repeat(${props => props.rows3}, ${props => props.rowHeight}px);
     }
 
 `;
 
 const HeadingWrapper = styled.div `
 
-    margin-bottom: 35px;
+    margin-bottom: 45px;
     width: 100%;
 
     display: flex;
@@ -83,14 +83,5 @@ const GeneralSec = styled.div `
     background: var(--primary-background);
     display: flex;
     flex-direction: column;
-    margin-bottom: 40px;
-
-    @media screen and (max-width: 1000px) {
-        margin-bottom: 30px;
-    }
-
-    @media screen and (max-width: 800px) {
-        margin-bottom: 15px;
-    }
 
 `;

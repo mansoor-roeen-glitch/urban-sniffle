@@ -2,20 +2,11 @@ import React, {useState} from 'react'
 import styled from 'styled-components';
 import Section from '../../Service/components/Section';
 import SubHeader from '../../../components/Header/SubHeader'
-import PrimaryButton from '../../../components/buttons/PrimaryButton';
+import Button from '../../../components/buttons/ActionButton';
 
-export default function Plan() {
+export default function Plan(props) {
     
-    const [details, setDetails] = useState(
-        
-        {
-            "id": 1,
-            "name": "Ubuntu Focal",
-            "type": "kvm",
-            "file": "9004"
-        }
-
-    );
+    const [details, setDetails] = useState(props.details);
 
     const [file, setFile] = useState(details.file);
     const [type, setType] = useState(details.type);
@@ -66,16 +57,16 @@ export default function Plan() {
         }
 
     ]
-    
+
     return (
         <Wrapper>
             <SubHeader path={true} pathName={details.name} />
             <InnerWrapper>
                 <Content>
-                    <Section data={data} heading="Update Template" rows={2} rowHeight={130} />
+                    <Section data={data} heading="Update Template" rows={2} rows2={2} rows3={4} rowHeight={130} rows2={2} rows3={4} />
                 </Content>
                 <ButtonWrapper>
-                    <PrimaryButton to="/" height="45px" width="180px" text="Update Template" />
+                    <Button height="45px" width="180px" text="Update Template" />
                 </ButtonWrapper>
             </InnerWrapper>
         </Wrapper>
@@ -85,6 +76,7 @@ export default function Plan() {
 const ButtonWrapper = styled.div `
     height: fit-content;
     width: fit-content;
+    margin-top: 15px;
 `;
 
 const Content = styled.div `

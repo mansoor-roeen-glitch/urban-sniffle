@@ -7,7 +7,7 @@ import PrimarySearchBar from '../../components/inputs/PrimarySearchBar';
 import ServiceItemPlaceholder from '../Base/components/ServiceItemPlaceholder';
 import ServiceList from '../Base/components/ServiceList';
 
-export default function Plans({config}) {
+export default function Templates({config, handleTemplateClick}) {
 
     const [error, setError] = React.useState();
     const [templates, setTemplates] = React.useState();
@@ -55,11 +55,11 @@ export default function Plans({config}) {
                 <SearchWrapper>
                     <PrimarySearchBar name="SearchBar" className="Primary-Search-Bar" id="Primary-Search-Bar" />
                 </SearchWrapper>
-                <PrimaryButton to="/create" text="New plan" width="110px" height="40px" />
+                <PrimaryButton to="/templates/create" text="New" width="80px" height="40px" />
             </Header>
 
             <ServiceItemPlaceholder data={["name", "type", "id", "file"]} />
-            <ServiceList data={templates} type="templates" />
+            <ServiceList handleTemplateClick={handleTemplateClick} data={templates} type="templates" />
 
         </Wrapper>
     )

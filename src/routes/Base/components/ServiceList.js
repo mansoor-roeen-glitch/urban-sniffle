@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import ServiceItem from './ServiceItem'
 
-export default function ServiceList({data, handleClickChange, type}) {
+export default function ServiceList({data, handleClickChange, type, handlePlanClick, handleTemplateClick}) {
     
     return (
         <StyledWrapper>
@@ -19,14 +19,14 @@ export default function ServiceList({data, handleClickChange, type}) {
 
                         case "plans":
                             return (
-                                <ServiceItem type="plan" item={[
+                                <ServiceItem type="plan" handlePlanClick={handlePlanClick} details={item} item={[
                                     item.id, item.name, item.size, item.period, item.bandwidth
                                 ]} redirectTo={`/plans/${item.id}`} key={index} />
                             );
 
                         case "templates":
                             return (
-                                <ServiceItem type="template" item={[
+                                <ServiceItem handleTemplateClick={handleTemplateClick} details={item} type="template" item={[
                                     item.id, item.name, item.type, item.id, item.file
                                 ]} redirectTo={`/templates/${item.id}`} key={index} />
                             );

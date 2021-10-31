@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
-import PrimaryButton from '../../components/buttons/PrimaryButton';
+import Button from '../../components/buttons/ActionButton';
 import SubHeader from '../../components/Header/SubHeader';
 import PrimaryInput from '../../components/inputs/PrimaryInput'
 import Section from '../Service/components/Section';
@@ -229,7 +229,13 @@ export default function Create({config}) {
         {
             heading: "billing method",
             value: "stripe",
-            type: "detail",
+            type: "dropdown",
+            options: [
+                {
+                    name: "stripe",
+                    type: "option"
+                }
+            ],
             selected: billingMethod,
             onChange: setBillingMethod  
         }
@@ -308,9 +314,9 @@ export default function Create({config}) {
         <Wrapper>
             <SubHeader path={true} pathName="Create service" />
             <InnerWrapper>
-                <Section data={staticdata} heading="Create new service" rows={2} rowHeight={130}  />
+                <Section data={staticdata} heading="Create new service" rows={2} rowHeight={130} />
                 <ButtonWrapper>
-                    <PrimaryButton onClick={createService} text="Proceed to checkout" to="/create" width="200px" height="45px" />
+                    <Button onClick={createService} text="Proceed to checkout" width="200px" height="50px" />
                 </ButtonWrapper>
             </InnerWrapper>
         </Wrapper>
@@ -320,6 +326,9 @@ export default function Create({config}) {
 const ButtonWrapper = styled.div `
     width: fit-content;
     height: fit-content;
+    margin-top: 15px;
+
+    
 `;
 
 const Wrapper = styled.div `

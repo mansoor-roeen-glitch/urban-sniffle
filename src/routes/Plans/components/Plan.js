@@ -2,41 +2,83 @@ import React from 'react'
 import styled from 'styled-components';
 import Section from '../../Service/components/Section';
 import SubHeader from '../../../components/Header/SubHeader'
-import PrimaryButton from '../../../components/buttons/PrimaryButton';
+import Button from '../../../components/buttons/ActionButton';
 
-export default function Plan() {
+export default function Plan(props) {
     
-    const [details, setDetails] = React.useState(
-        
-        {
-            "id": 1,
-            "size": 128,
-            "ram": 1024,
-            "swap": 0,
-            "cores": 4,
-            "bandwidth": 1024,
-            "cpu_units": 1024,
-            "cpu_limit": "0.00",
-            "ipv6_ips": 1,
-            "ipv4_ips": 0,
-            "internal_ips": 1,
-            "name": "Basic",
-            "price": 1.0,
-            "term": 1,
-            "period": "month",
-            "ip_pools": []
-        }
+    const [details, setDetails] = React.useState(props.details);
 
-    );
+    const [bandwidth, setBandwidth] = React.useState({
 
-    const [bandwidth, setBandwidth] = React.useState(details.bandwidth);
-    const [cpuu, setCpuu] = React.useState(details.cpu_units);
-    const [cpul, setCpul] = React.useState(details.cpu_limit);
-    const [size, setSize] = React.useState(details.size);
-    const [swap, setSwap] = React.useState(details.ram);
-    const [ram, setRam] = React.useState(details.ram);
-    const [name, setName] = React.useState(details.name);
-    const [price, setPrice] = React.useState(details.price);
+        value: details.bandwidth,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const [cpuu, setCpuu] = React.useState({
+
+        value: details.cpu_units,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const [cpul, setCpul] = React.useState({
+
+        value: details.cpu_limit,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+    
+    const [size, setSize] = React.useState({
+
+        value: details.size,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const [swap, setSwap] = React.useState({
+
+        value: details.swap,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const [ram, setRam] = React.useState({
+
+        value: details.ram,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const [name, setName] = React.useState({
+
+        value: details.name,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const [price, setPrice] = React.useState({
+
+        value: details.price,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
 
     const data = [
         {
@@ -111,10 +153,10 @@ export default function Plan() {
             <SubHeader path={true} pathName={details.name} />
             <InnerWrapper>
                 <Content>
-                    <Section data={data} heading="Update Plan" rows={3} rowHeight={130} />
+                    <Section data={data} heading="Update Plan" rows={3} rows2={4} rows3={8} rowHeight={130} />
                 </Content>
                 <ButtonWrapper>
-                    <PrimaryButton to="/" height="45px" width="140px" text="Update Plan" />
+                    <Button height="45px" width="140px" text="Update Plan" />
                 </ButtonWrapper>
             </InnerWrapper>
         </Wrapper>
@@ -124,6 +166,7 @@ export default function Plan() {
 const ButtonWrapper = styled.div `
     height: fit-content;
     width: fit-content;
+    margin-top: 15px;
 `;
 
 const Content = styled.div `

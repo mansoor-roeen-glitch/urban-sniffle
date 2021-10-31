@@ -119,14 +119,20 @@ export default function Details({data, serviceStatus}) {
                 )}
             
                 <Content marginTop={serviceStatus ? "50px" : "0px"}>
-                    <Section data={general} heading="General Detials" rows={2} rowHeight={130} />
-                    <Section data={vm} heading="VM details" rows={2} rowHeight={130} />
+                    <Section data={general} heading="General Detials" rows={2} rows2={3} rows3={6} rowHeight={130} />
+                    <RowGap />
+                    <Section data={vm} heading="VM details" rows={2} rows2={3} rows3={6} rowHeight={130} />
                 </Content>
             
             </InnerWrapper>
         </Wrapper>
     )
 }
+
+const RowGap = styled.div `
+    width: 100%;
+    height: 45px;
+`;
 
 const Content = styled.div `
     margin-top: ${props => props.marginTop};
