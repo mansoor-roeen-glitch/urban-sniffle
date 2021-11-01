@@ -44,7 +44,20 @@ export default function Plans({config, handlePlanClick}) {
     }, [])
 
     if (loading) {
-        return <h1>Loading</h1>
+        return (
+            <Wrapper>
+                <SubHeader path={true} loading={true} pathName="Plans" />
+            </Wrapper>
+        )
+    }
+
+    if (!loading && error) {
+        return (
+            <Wrapper>
+                <SubHeader path={true} pathName="Plans" />
+                <h1>Error occured</h1>
+            </Wrapper>
+        )
     }
 
     return (

@@ -290,7 +290,7 @@ export default function Create({config}) {
 
         return (
             <Wrapper>
-                <SubHeader path={true} pathName="Create service" />
+                <SubHeader path={true} loading={true} pathName="Create service" />
                 {/* Loading will be included below this */}
                 <h1>Please wait, loading</h1>
             </Wrapper>

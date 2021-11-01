@@ -44,7 +44,20 @@ export default function Templates({config, handleTemplateClick}) {
     }, [])
 
     if (loading) {
-        return <h1>Loading</h1>
+        return (
+            <Wrapper>
+                <SubHeader path={true} loading={true} pathName="Templates" />
+            </Wrapper>
+        )
+    }
+
+    if (!loading && error) {
+        return (
+            <Wrapper>
+                <SubHeader path={true} pathName="Templates" />
+                <h1>Error occured</h1>
+            </Wrapper>
+        )
     }
 
     return (

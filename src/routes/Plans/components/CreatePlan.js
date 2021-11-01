@@ -92,6 +92,33 @@ export default function CreatePlan({config}) {
 
     });
 
+    const [ipv4, setIpv4] = React.useState({
+
+        value: "",
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const [ipv6, setIpv6] = React.useState({
+
+        value: "",
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const [internalIps, setInternalIps] = React.useState({
+
+        value: "",
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
     const data = [
         {
             heading: "name",
@@ -193,6 +220,39 @@ export default function CreatePlan({config}) {
             messageDur: cpul.messageDur,
             hasErrorMessage: cpul.hasErrorMessage,
             onChange: setCpul
+        },
+        {
+            heading: "ipv6 ips",
+            value: "Type the value",
+            type: "input",
+            htmlType: "number",
+            inputValue: ipv6.value,
+            errorMes: ipv6.errorMes,
+            messageDur: ipv6.messageDur,
+            hasErrorMessage: ipv6.hasErrorMessage,
+            onChange: setIpv6
+        }, 
+        {
+            heading: "ipv4 ips",
+            value: "Type the value",
+            type: "input",
+            htmlType: "number",
+            inputValue: ipv4.value,
+            errorMes: ipv4.errorMes,
+            messageDur: ipv4.messageDur,
+            hasErrorMessage: ipv4.hasErrorMessage,
+            onChange: setIpv4
+        },
+        {
+            heading: "internal ips",
+            value: "Type the value",
+            type: "input",
+            htmlType: "number",
+            inputValue: internalIps.value,
+            errorMes: internalIps.errorMes,
+            messageDur: internalIps.messageDur,
+            hasErrorMessage: internalIps.hasErrorMessage,
+            onChange: setInternalIps
         }
     ]
 
@@ -290,6 +350,36 @@ export default function CreatePlan({config}) {
             isFormValid = false
         }
 
+        if (!ipv4.value || !/^\d+$/.test(ipv4.value)) {
+            setIpv4(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int only"
+            }))
+
+            isFormValid = false
+        }
+
+        if (!ipv6.value || !/^\d+$/.test(ipv6.value)) {
+            setIpv6(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int only"
+            }))
+
+            isFormValid = false
+        }
+
+        if (!internalIps.value || !/^\d+$/.test(internalIps.value)) {
+            setInternalIps(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int only"
+            }))
+
+            isFormValid = false
+        }
+
         return isFormValid;
 
     }
@@ -302,6 +392,8 @@ export default function CreatePlan({config}) {
             setLoading(false)
             return;
         }
+
+        setLoading(true)
 
         let conf = {
             headers: {
@@ -321,6 +413,11 @@ export default function CreatePlan({config}) {
             cpu_limit: cpul.value, 
             name: name.value,
             price: price.value, 
+            ipv4_ips: ipv4.value,
+            ipv6_ips: ipv6.value,
+            internal_ips: internalIps.value,
+            term: 1,
+            ip_pools: [1]
 
         }, conf)
             
@@ -336,6 +433,7 @@ export default function CreatePlan({config}) {
 
             .catch((err) => {
 
+                console.log(err)
                 setError(err)
                 setSuccess(false)
                 setLoading(false)
@@ -346,10 +444,10 @@ export default function CreatePlan({config}) {
 
     return (
         <Wrapper>
-            <SubHeader path={true} pathName="Create plan" />
+            <SubHeader loading={loading} path={true} pathName="Create plan" />
             <InnerWrapper>
 
-                <Section data={data} heading="Create new plan" rows={3} rows2={4} rows3={8} rowHeight={130}  />
+                <Section data={data} heading="Create new plan" rows={4} rows2={6} rows3={12} rowHeight={130}  />
                 
                 <ButtonWrapper>
                     <Button onClick={hanldeClick} text="Create Plan" width="125px" height="45px" />

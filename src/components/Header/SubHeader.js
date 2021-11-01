@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export default function Header({path, pathName}) {
+export default function Header({path, pathName, loading}) {
     return (
-        <Wrapper>
+        <Wrapper loading={loading}>
             <InnerWrapper>
                 <ContentWrapper>
                     <ProfileWrapper>
@@ -97,7 +97,7 @@ const ContentWrapper = styled.div `
 const ProfileWrapper = styled.div `
     height: fit-content;
     width: fit-content;
-    background: transparent;
+    background: "transparent";
 
     display: flex;
     align-items: center;
@@ -124,6 +124,35 @@ const Wrapper = styled.div `
     align-items: center;
     justify-content: center;
     margin-bottom: 30px;
+
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: -3px;
+        width: 100%;
+        height: 2px;
+        background: ${props => props.loading ? '#46484F' : "transparent"};
+    }
+
+    &::before {
+        content: "";
+        position: absolute;
+        bottom: -3px;
+        width: 40%;
+        height: 2px;
+        background: ${props => props.loading ? '#787E91' : "transparent"};
+        animation: loadingAnim 2s ease infinite ;
+        z-index: 2;
+    }
+
+    @keyframes loadingAnim {
+        0% {
+            left: -40%;
+        }
+        100% {
+            left: 100%;
+        }
+    }
 `;
 
 const InnerWrapper = styled.div `

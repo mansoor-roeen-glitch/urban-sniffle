@@ -5,6 +5,7 @@ import SubHeader from '../../../components/Header/SubHeader'
 import Button from '../../../components/buttons/ActionButton';
 import DeleteBtn from '../../../components/buttons/DangerActionButton';
 import axios from 'axios';
+import { set } from 'js-cookie';
 
 export default function Plan(props) {
     
@@ -89,6 +90,33 @@ export default function Plan(props) {
     const [cores, setCores] = React.useState({
 
         value: details.cores,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const [ipv4, setIpv4] = React.useState({
+
+        value: details.ipv4_ips,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const [ipv6, setIpv6] = React.useState({
+
+        value: details.ipv6_ips,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const [internalIps, setInternalIps] = React.useState({
+
+        value: details.internal_ips,
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -187,7 +215,7 @@ export default function Plan(props) {
             onChange: setSwap
         },
         {
-            heading: "cpu_limit",
+            heading: "cpu limit",
             value: cpul.value,
             type: "input",
             htmlType: "number",
@@ -196,10 +224,47 @@ export default function Plan(props) {
             messageDur: cpul.messageDur,
             hasErrorMessage: cpul.hasErrorMessage,
             onChange: setCpul
+        },
+        {
+            heading: "ipv6 ips",
+            value: ipv6.value,
+            type: "input",
+            htmlType: "number",
+            inputValue: ipv6.value,
+            errorMes: ipv6.errorMes,
+            messageDur: ipv6.messageDur,
+            hasErrorMessage: ipv6.hasErrorMessage,
+            onChange: setIpv6
+        }, 
+        {
+            heading: "ipv4 ips",
+            value: ipv4.value,
+            type: "input",
+            htmlType: "number",
+            inputValue: ipv4.value,
+            errorMes: ipv4.errorMes,
+            messageDur: ipv4.messageDur,
+            hasErrorMessage: ipv4.hasErrorMessage,
+            onChange: setIpv4
+        },
+        {
+            heading: "internal ips",
+            value: internalIps.value,
+            type: "input",
+            htmlType: "number",
+            inputValue: internalIps.value,
+            errorMes: internalIps.errorMes,
+            messageDur: internalIps.messageDur,
+            hasErrorMessage: internalIps.hasErrorMessage,
+            onChange: setInternalIps
         }
     ]
 
     const handleDelete = () => {
+
+        setLoading(true)
+        setError(false)
+        setSuccess(false)
 
         const conf = {
             headers: {
@@ -212,14 +277,10 @@ export default function Plan(props) {
 
         .then((res) => {
 
-            if (res.status === 200) {
-
-                setSuccess(true)
-                setError(false)
-                setLoading(false)
+            setSuccess(true)
+            setError(false)
+            setLoading(false)
                 
-            }
-
         })
 
         .catch((err) => {
@@ -230,13 +291,13 @@ export default function Plan(props) {
         
         })
     }
-    
+
     return (
         <Wrapper>
-            <SubHeader path={true} pathName={details.name} />
+            <SubHeader path={true} loading={loading} pathName={details.name} />
             <InnerWrapper>
                 <Content>
-                    <Section data={data} heading="Update Plan" rows={3} rows2={4} rows3={8} rowHeight={130} />
+                    <Section data={data} heading="Update Plan" rows={4} rows2={6} rows3={12} rowHeight={130} />
                 </Content>
                 <ButtonWrapper>
                     <Button height="45px" width="140px" text="Update Plan" />

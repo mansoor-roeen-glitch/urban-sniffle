@@ -16,7 +16,7 @@ export default function Plan(props) {
 
     const [file, setFile] = useState({
 
-        value: details.file,
+        value: "",
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -25,7 +25,7 @@ export default function Plan(props) {
 
     const [name, setName] = useState({
         
-        value: details.name,
+        value: "",
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -82,7 +82,7 @@ export default function Plan(props) {
 
         let isFormValid = true;
 
-        if (!file) {
+        if (!file.value) {
             setFile(prevState => ({
                 ...prevState,
                 hasErrorMessage: true,
@@ -93,7 +93,7 @@ export default function Plan(props) {
 
         }
 
-        if (!name) {
+        if (!name.value) {
             setName(prevState => ({
                 ...prevState,
                 hasErrorMessage: true, 
@@ -104,7 +104,7 @@ export default function Plan(props) {
 
         }
 
-        if (name === details.name && file === details.file) {
+        if (name.value === details.name && file === details.file) {
             
             setName(prevState => ({
                 ...prevState,
@@ -127,7 +127,17 @@ export default function Plan(props) {
 
     const handleClick = () => {
         
+        setLoading(true);
+        setError(false);
+
         let isFormValid = checkForm();
+
+        if (!isFormValid) {
+            setError(true)
+            setLoading(false)
+
+            return;
+        }
 
         const reqData = {
             name: name.value,
@@ -146,7 +156,6 @@ export default function Plan(props) {
 
             .then((res) => {
 
-                console.log(res)
                 setSuccess(true)
                 setError(false)
                 setLoading(false)
@@ -165,6 +174,9 @@ export default function Plan(props) {
     
     const handleDelete = () => {
 
+        setLoading(true)
+        setError(false)
+
         const conf = {
             headers: {
                 'Authorization': `Token ${props.config}`,
@@ -176,13 +188,9 @@ export default function Plan(props) {
 
         .then((res) => {
 
-            if (res.status === 200) {
-
-                setSuccess(true)
-                setError(false)
-                setLoading(false)
-                
-            }
+            setSuccess(true)
+            setError(false)
+            setLoading(false)
 
         })
 
@@ -197,7 +205,7 @@ export default function Plan(props) {
 
     return (
         <Wrapper>
-            <SubHeader path={true} pathName={details.name} />
+            <SubHeader path={true} loading={loading} pathName={details.name} />
             <InnerWrapper>
                 <Content>
                     <Section data={data} heading="Update Template" rows={1} rows2={2} rows3={4} rowHeight={130} rows2={2} rows3={4} />

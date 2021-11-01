@@ -56,10 +56,25 @@ export default function BaseRoute({config, handleClickChange}) {
 
     }, [])
 
+    if (loading) {
+        return (
+            <Wrapper>
+                <SubHeader path={true} loading={loading} pathName="Dashboard" />
+            </Wrapper>
+        )
+    }
+
+    if (!loading && error) {
+        <Wrapper>
+            <SubHeader path={true} loading={loading} pathName="Dashboard" />
+            <h1>Something went wrong</h1>
+        </Wrapper>
+    }
+
     return (
         <Wrapper>
+
             <SubHeader path={true} pathName="Dashboard" />
-            
             <Header>
                 <SearchWrapper>
                     <PrimarySearchBar valueHasChanged={handleValueChange} value={search} onChange={setSearch} name="SearchBar" className="Primary-Search-Bar" id="Primary-Search-Bar" />
