@@ -6,6 +6,7 @@ import axios from 'axios';
 import Details from './components/Details'
 import Console from './components/Console';
 import Billing from './components/Billing';
+import Actions from './components/Actions'
 
 export default function Service (props) {
 
@@ -17,6 +18,7 @@ export default function Service (props) {
     const [details, setDetails] = React.useState()
     const [error, setError] = React.useState()
     const [serviceConsoleData, setServiceConsoleData] = React.useState()
+    const [actionLoading, setActionLoading] = React.useState(false)
 
     const createConsoleSession = async () => {
         let response = await axios({
@@ -69,8 +71,6 @@ export default function Service (props) {
         const serviceDetails = await getServiceDetails()
         const serviceConsole = await createConsoleSession()
 
-        console.log(serviceConsole)
-
         if (serviceDetails.status === 200 && serviceStatus.status === 200 && serviceConsole.status === 200) {
 
             setServiceConsoleData(serviceConsole.data)
@@ -89,13 +89,24 @@ export default function Service (props) {
             setSuccess(true)
             setError(false)
 
+        } else if (serviceDetails.status === 200 && !serviceConsole.status && !serviceStatus.status) {
+
+            setServiceConsoleData(false)
+            setDetails(serviceDetails.data)
+            setServiceStatus(false)
+            setLoading(false)
+            setSuccess(true)
+            setError(false)
+
         } else {
 
             setError(true)
             setLoading(false)
             setSuccess(false)
-
+        
         }
+
+        console.log(serviceDetails)
 
     }
 
@@ -118,6 +129,11 @@ export default function Service (props) {
         {
             text: "Billing",
             index: 2
+        }
+        ,
+        {
+            text: "Actions",
+            index: 3
         }
     ]
 
@@ -151,7 +167,7 @@ export default function Service (props) {
 
     return (
         <Wrapper>
-            <SubHeader path={true} pathName={hostname} />
+            <SubHeader path={true} loading={actionLoading} pathName={hostname} />
             <HeaderWrapper>
                 <InnerWrapper>
                     <List>
@@ -190,7 +206,10 @@ export default function Service (props) {
                         
                         case 2:
                             return <Billing data={details} />;
-                        
+                            
+                        case 3:
+                            return <Actions data={details} setLoadingAnim={setActionLoading} config={props.config} />;
+                            
                     }
                 })()}
 

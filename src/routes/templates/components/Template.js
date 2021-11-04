@@ -208,7 +208,7 @@ export default function Plan(props) {
             <SubHeader path={true} loading={loading} pathName={details.name} />
             <InnerWrapper>
                 <Content>
-                    <Section data={data} heading="Update Template" rows={1} rows2={2} rows3={4} rowHeight={130} rows2={2} rows3={4} />
+                    <Section data={data} heading="Update Template" rows={1} rows2={2} rows3={4} rowHeight={115} rows2={2} rows3={4} />
                 </Content>
                 <ButtonWrapper>
                     <Button height="45px" width="180px" text="Update Template" onClick={handleClick} />

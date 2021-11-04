@@ -85,23 +85,10 @@ export default function Console({data, serviceConsole}) {
 
         
         }).catch((err) => {
-            console.log(err);
+            console.log('Error:', err);
         });
 
     });
-
-    const activities = [
-        {
-            name: "drunkenpirate47x",
-            message: "Destroyed the service",
-            emitTime: "Jun 19 at 1:24 AM"
-        },
-        {
-            name: "drunkenpirate47x",
-            message: "Started the service",
-            emitTime: "Jun 8 at 1:25 AM"
-        }
-    ]
 
     return (
         <Wrapper>
@@ -109,64 +96,14 @@ export default function Console({data, serviceConsole}) {
                 <ConsoleWrapper ref={XTerm}>
                 
                 </ConsoleWrapper>
-                <ActivityWrapper>
-                    <ActivityHeading>
-                        <ActivityText>
-                            Latest activities
-                        </ActivityText>
-                    </ActivityHeading>
-                    {activities.map((activity, index) => {
-                        return (<Activity activity={activity} key={index} />)
-                    })}
-                </ActivityWrapper>
             </InnerWrapper>
         </Wrapper>
     )
 }
 
-const ActivityText = styled.span `
-    color: var(--white);
-    opacity: .8;
-
-    font-style: normal;
-    font-weight: 500;
-    font-size: 1.497rem;
-`;
-
-const ActivityHeading = styled.div `
-    width: 100%;
-    height: fit-content;
-    margin-bottom: 10px;
-    background: transparent;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`;
-
-const ActivityWrapper = styled.div `
-    background: var(--secondary-background);
-    height: 100%;
-    padding: 35px 10px;
-
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    row-gap: 20px;
-`; 
-
-const TemporaryText = styled.p `
-    color: var(--white);
-    position: absolute;
-    top: 40px;
-    left: 30px;
-    padding-right: 30px;
-    max-width: 500px;
-`;
-
 const ConsoleWrapper = styled.div `
-    height: 100%;
-    background: black;
+    height: fit-content;
+    width: fit-content;
 `
 
 const InnerWrapper = styled.div `

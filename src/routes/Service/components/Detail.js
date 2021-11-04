@@ -42,7 +42,7 @@ const ContentTextWrapper = styled.div `
 `;
 
 const ContentWrapper = styled.div `
-    height: 47px;
+    height: 44px;
     width: 100%;
 
     border-width: 1px;
@@ -69,5 +69,5 @@ const Wrapper = styled.div `
     width: 100%;
     display: flex;
     flex-direction: column;
-    row-gap: 20px;
+    row-gap: 16px;
 `; 

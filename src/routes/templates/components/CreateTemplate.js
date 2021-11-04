@@ -158,7 +158,7 @@ export default function CreateTemplate({config}) {
             <SubHeader path={true} pathName="Create template" />
             <InnerWrapper>
 
-                <Section data={data} heading="Create new template" rows={1} rows2={2} rows3={3} rowHeight={130}  />
+                <Section data={data} heading="Create new template" rows={1} rows2={2} rows3={3} rowHeight={115}  />
                 
                 <ButtonWrapper>
                     <Button onClick={hanldeClick} text="Create Template" width="180px" height="45px" />

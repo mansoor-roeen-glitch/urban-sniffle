@@ -6,6 +6,7 @@ import ServiceItemPlaceholder from './components/ServiceItemPlaceholder';
 import ServiceList from './components/ServiceList';
 import SubHeader from '../../components/Header/SubHeader';
 import axios from 'axios';
+import ErrorMessage from '../../components/messages/ErrorMessage';
 
 export default function BaseRoute({config, handleClickChange}) {
 

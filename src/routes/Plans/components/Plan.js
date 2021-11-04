@@ -6,6 +6,8 @@ import Button from '../../../components/buttons/ActionButton';
 import DeleteBtn from '../../../components/buttons/DangerActionButton';
 import axios from 'axios';
 import { set } from 'js-cookie';
+import SuccessMessage from '../../../components/messages/SuccessMessage';
+import ErrorMessage from '../../../components/messages/ErrorMessage';
 
 export default function Plan(props) {
     
@@ -14,10 +16,13 @@ export default function Plan(props) {
     const [loading, setLoading] = React.useState(false)
     const [success, setSuccess] = React.useState(false)
     const [error, setError] = React.useState(false)
+    const [showMessage, setShowMessage] = React.useState(false);
 
+    const [ipPool, setIpPool] = React.useState(0);
+    console.log(details)
     const [bandwidth, setBandwidth] = React.useState({
 
-        value: details.bandwidth,
+        value: JSON.stringify(details.bandwidth),
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -26,7 +31,7 @@ export default function Plan(props) {
 
     const [cpuu, setCpuu] = React.useState({
 
-        value: details.cpu_units,
+        value: JSON.stringify(details.cpu_units),
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -44,7 +49,7 @@ export default function Plan(props) {
     
     const [size, setSize] = React.useState({
 
-        value: details.size,
+        value: JSON.stringify(details.size),
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -53,7 +58,7 @@ export default function Plan(props) {
 
     const [swap, setSwap] = React.useState({
 
-        value: details.swap,
+        value: JSON.stringify(details.swap),
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -62,7 +67,7 @@ export default function Plan(props) {
 
     const [ram, setRam] = React.useState({
 
-        value: details.ram,
+        value: JSON.stringify(details.ram),
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -80,7 +85,7 @@ export default function Plan(props) {
 
     const [price, setPrice] = React.useState({
 
-        value: details.price,
+        value: JSON.stringify(details.price),
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -89,7 +94,7 @@ export default function Plan(props) {
     
     const [cores, setCores] = React.useState({
 
-        value: details.cores,
+        value: JSON.stringify(details.cores),
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -98,7 +103,7 @@ export default function Plan(props) {
 
     const [ipv4, setIpv4] = React.useState({
 
-        value: details.ipv4_ips,
+        value: JSON.stringify(details.ipv4_ips),
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -107,7 +112,7 @@ export default function Plan(props) {
 
     const [ipv6, setIpv6] = React.useState({
 
-        value: details.ipv6_ips,
+        value: JSON.stringify(details.ipv6_ips),
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -116,12 +121,39 @@ export default function Plan(props) {
 
     const [internalIps, setInternalIps] = React.useState({
 
-        value: details.internal_ips,
+        value: JSON.stringify(details.internal_ips),
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
 
     });
+
+    const [term, setTerm] = React.useState({
+
+        value: JSON.stringify(details.term),
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+
+    const successRedirect = () => {
+        window.location.pathname = '/plans/';
+    }
+
+    const handleMessage = (messageType, duration, message) => {
+
+        setShowMessage({messageType, duration, message});
+        
+        setTimeout(() => {
+            
+            setShowMessage(false);
+
+        }, duration * 1000)
+
+    }
+
 
     const data = [
         {
@@ -257,8 +289,233 @@ export default function Plan(props) {
             messageDur: internalIps.messageDur,
             hasErrorMessage: internalIps.hasErrorMessage,
             onChange: setInternalIps
+        },
+        {
+            heading: "term",
+            value: "Type the value",
+            type: "input",
+            htmlType: "number",
+            inputValue: term.value,
+            errorMes: term.errorMes,
+            messageDur: term.messageDur,
+            hasErrorMessage: term.hasErrorMessage,
+            onChange: setTerm
+        },
+        {
+            heading: "ip pool",
+            value: "1",
+            type: "dropdown",
+            options: [
+                {
+                    name: 1,
+                    type: "option"
+                }
+            ],
+            selected: ipPool,
+            onChange: setIpPool
         }
     ]
+
+    const validateForm = () => {
+
+        let isFormValid = true;
+
+        if (!name.value || name.value.length < 2 || name.value.length > 20) {
+            setName(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be between 1-20 char long"
+            }))
+
+            isFormValid = false
+        }
+
+        if (!/^\d+(?:[.,]\d+)*$/.test(price.value) || !price.value) {
+            setPrice(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must only be int or float"
+            }))
+
+            isFormValid = false
+        }
+
+        if (!size.value || !/^\d+$/.test(size.value)) {
+            setSize(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must only be int only"
+            }))
+
+            isFormValid = false
+        }
+
+        if (!cores.value || !/^\d+$/.test(cores.value)) {
+            setCores(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int only"
+            }))
+
+            isFormValid = false
+        }
+
+        if (!ram.value || !/^\d+$/.test(ram.value)) {
+            setRam(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int only"
+            }))
+
+            isFormValid = false
+        }
+
+        if (!bandwidth.value || !/^\d+$/.test(bandwidth.value)) {
+            setBandwidth(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int only"
+            }))
+
+            isFormValid = false
+        }
+
+        if (!cpul.value || !/^\d+(?:[.,]\d+)*$/.test(cpul.value)) {
+            setCpul(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int only"
+            }))
+
+            isFormValid = false
+        }
+
+        if (!swap.value || !/^\d+$/.test(swap.value)) {
+            setSwap(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int only"
+            }))
+
+            isFormValid = false
+        }
+
+        if (!cpuu.value || !/^\d+(?:[.,]\d+)*$/.test(cpuu.value)) {
+            setCpuu(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int or float only"
+            }))
+
+            isFormValid = false
+        }
+
+        if (!ipv4.value || !/^\d+$/.test(ipv4.value)) {
+            setIpv4(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int only"
+            }))
+
+            isFormValid = false
+        }
+
+        if (!ipv6.value || !/^\d+$/.test(ipv6.value)) {
+            setIpv6(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int only"
+            }))
+
+            isFormValid = false
+        }
+
+        if (!internalIps.value || !/^\d+$/.test(internalIps.value)) {
+            setInternalIps(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int only"
+            }))
+
+            isFormValid = false
+        }
+
+        if (!term.value || !/^\d+$/.test(term.value)) {
+            setTerm(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int only"
+            }))
+
+            isFormValid = false
+        }
+
+        return isFormValid;
+
+    }
+
+    const hanldeClick = () => {
+        
+        let isFormValid = validateForm()
+
+        if (!isFormValid) {
+            setLoading(false)
+            return;
+        }
+
+        setLoading(true)
+
+        let conf = {
+            headers: {
+                'Authorization': `Token ${props.config}`,
+                'content-type': 'application/json'
+            }
+        }
+
+        axios.put(`https://hosnet.io/api/plans/${details.id}/`, { 
+            
+            size: size.value,
+            ram: ram.value,
+            swap: swap.value,
+            cores: cores.value,
+            bandwidth: bandwidth.value, 
+            cpu_units: cpuu.value,
+            cpu_limit: cpul.value, 
+            name: name.value,
+            price: price.value, 
+            ipv4_ips: ipv4.value,
+            ipv6_ips: ipv6.value,
+            internal_ips: internalIps.value,
+            term: term.value,
+            ip_pools: [data[13].options[ipPool].name]
+
+        }, conf)
+            
+            .then((res) => {
+
+                if (res.status === 200) {
+                    setSuccess(true)
+                    setError(false)
+                    setLoading(false)
+                    handleMessage("success", 5, "Plan was updated successfully!")
+
+                    setTimeout(() => {
+                        successRedirect();
+                    }, 2000)
+                }
+
+            })
+
+            .catch((err) => {
+
+                setError(err)
+                setSuccess(false)
+                setLoading(false)
+                handleMessage("error", 5, "Something went wrong, try again later")
+
+            })
+
+    }
 
     const handleDelete = () => {
 
@@ -294,13 +551,32 @@ export default function Plan(props) {
 
     return (
         <Wrapper>
+
+            {showMessage && 
+
+                showMessage.messageType === "success" && (
+
+                    <SuccessMessage message={showMessage.message} duration={showMessage.duration} isVisible={true} />
+
+                )
+            }
+
+            {showMessage && 
+
+                showMessage.messageType === "error" && (
+
+                    <ErrorMessage message={showMessage.message} duration={showMessage.duration} isVisible={true} />
+
+                )
+            }
+
             <SubHeader path={true} loading={loading} pathName={details.name} />
             <InnerWrapper>
                 <Content>
-                    <Section data={data} heading="Update Plan" rows={4} rows2={6} rows3={12} rowHeight={130} />
+                    <Section data={data} heading="Update Plan" rows={5} rows2={7} rows3={14} rowHeight={115} />
                 </Content>
                 <ButtonWrapper>
-                    <Button height="45px" width="140px" text="Update Plan" />
+                    <Button height="45px" width="140px" text="Update Plan" onClick={hanldeClick} />
                     <DeleteBtn height="45px" width="140px" text="Delete Plan" onClick={handleDelete} />
                 </ButtonWrapper>
             </InnerWrapper>
@@ -323,9 +599,10 @@ const Content = styled.div `
 const InnerWrapper = styled.div `
     width: 93%;
     height: fit-content;
-    padding-top: 15px;
+    padding-top: 25px;
 
     max-width: 1400px;
+    margin-bottom: 15px;
 `;
 
 const Wrapper = styled.div `

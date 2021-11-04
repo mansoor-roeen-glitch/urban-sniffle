@@ -57,5 +57,5 @@ const StyledButtonText = styled.span `
     background: transparent;
     color: var(--primary-background);
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 500;
 `;

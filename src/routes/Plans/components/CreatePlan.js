@@ -4,12 +4,17 @@ import SubHeader from '../../../components/Header/SubHeader';
 import Section from '../../Service/components/Section';
 import Button from '../../../components/buttons/ActionButton'
 import axios from 'axios';
+import SuccessMessage from '../../../components/messages/SuccessMessage';
+import ErrorMessage from '../../../components/messages/ErrorMessage';
 
 export default function CreatePlan({config}) {
     
     const [loading, setLoading] = React.useState(false)
     const [success, setSuccess] = React.useState(false)
     const [error, setError] = React.useState(false)
+    const [showMessage, setShowMessage] = React.useState(false);
+
+    const [ipPool, setIpPool] = React.useState(0);
 
     const [bandwidth, setBandwidth] = React.useState({
 
@@ -118,6 +123,31 @@ export default function CreatePlan({config}) {
         hasErrorMessage: false
 
     });
+
+    const [term, setTerm] = React.useState({
+
+        value: "",
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const successRedirect = () => {
+        window.location.pathname = '/plans/';
+    }
+
+    const handleMessage = (messageType, duration, message) => {
+
+        setShowMessage({messageType, duration, message});
+        
+        setTimeout(() => {
+            
+            setShowMessage(false);
+
+        }, duration * 1000)
+
+    }
 
     const data = [
         {
@@ -253,6 +283,30 @@ export default function CreatePlan({config}) {
             messageDur: internalIps.messageDur,
             hasErrorMessage: internalIps.hasErrorMessage,
             onChange: setInternalIps
+        },
+        {
+            heading: "term",
+            value: "Type the value",
+            type: "input",
+            htmlType: "number",
+            inputValue: term.value,
+            errorMes: term.errorMes,
+            messageDur: term.messageDur,
+            hasErrorMessage: term.hasErrorMessage,
+            onChange: setTerm
+        },
+        {
+            heading: "ip pool",
+            value: "1",
+            type: "dropdown",
+            options: [
+                {
+                    name: 1,
+                    type: "option"
+                }
+            ],
+            selected: ipPool,
+            onChange: setIpPool
         }
     ]
 
@@ -380,6 +434,16 @@ export default function CreatePlan({config}) {
             isFormValid = false
         }
 
+        if (!term.value || !/^\d+$/.test(term.value)) {
+            setTerm(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int only"
+            }))
+
+            isFormValid = false
+        }
+
         return isFormValid;
 
     }
@@ -416,8 +480,8 @@ export default function CreatePlan({config}) {
             ipv4_ips: ipv4.value,
             ipv6_ips: ipv6.value,
             internal_ips: internalIps.value,
-            term: 1,
-            ip_pools: [1]
+            term: term.value,
+            ip_pools: [data[13].options[ipPool].name]
 
         }, conf)
             
@@ -427,16 +491,21 @@ export default function CreatePlan({config}) {
                     setSuccess(true)
                     setError(false)
                     setLoading(false)
+                    handleMessage("success", 5, "Plan created successfully!")
+
+                    setTimeout(() => {
+                        successRedirect();
+                    }, 2000)
                 }
 
             })
 
             .catch((err) => {
 
-                console.log(err)
                 setError(err)
                 setSuccess(false)
                 setLoading(false)
+                handleMessage("error", 5, "Something went wrong, try again later")
 
             })
 
@@ -444,10 +513,30 @@ export default function CreatePlan({config}) {
 
     return (
         <Wrapper>
+            
+            {showMessage && 
+
+                showMessage.messageType === "success" && (
+
+                    <SuccessMessage message={showMessage.message} duration={showMessage.duration} isVisible={true} />
+
+                )
+            }
+
+            {showMessage && 
+
+                showMessage.messageType === "error" && (
+
+                    <ErrorMessage message={showMessage.message} duration={showMessage.duration} isVisible={true} />
+    
+                )
+            }
+
+
             <SubHeader loading={loading} path={true} pathName="Create plan" />
             <InnerWrapper>
 
-                <Section data={data} heading="Create new plan" rows={4} rows2={6} rows3={12} rowHeight={130}  />
+                <Section data={data} heading="Create new plan" rows={5} rows2={7} rows3={14} rowHeight={115}  />
                 
                 <ButtonWrapper>
                     <Button onClick={hanldeClick} text="Create Plan" width="125px" height="45px" />
@@ -477,5 +566,5 @@ const InnerWrapper = styled.div `
     max-width: 1400px;
     padding-top: 25px;
 
-    margin-bottom: 60px;
+    margin-bottom: 15px;
 `;

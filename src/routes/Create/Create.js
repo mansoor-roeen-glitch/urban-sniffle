@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import Button from '../../components/buttons/ActionButton';
 import SubHeader from '../../components/Header/SubHeader';
 import PrimaryInput from '../../components/inputs/PrimaryInput'
+import ErrorMessage from '../../components/messages/ErrorMessage';
+import SuccessMessage from '../../components/messages/SuccessMessage';
 import Section from '../Service/components/Section';
 
 export default function Create({config}) {
@@ -39,6 +41,24 @@ export default function Create({config}) {
     const [loading, setLoading] = useState(true)
     const [success, setSuccess] = useState()
     const [error, setError] = useState()
+
+    const [showMessage, setShowMessage] = React.useState(false);
+
+    const successRedirect = () => {
+        window.location.pathname = '/';
+    }
+
+    const handleMessage = (messageType, duration, message) => {
+
+        setShowMessage({messageType, duration, message});
+        
+        setTimeout(() => {
+            
+            setShowMessage(false);
+
+        }, duration * 1000)
+
+    }
 
     const isValidPassword = (input) => {
         if (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(input)) {
@@ -151,12 +171,12 @@ export default function Create({config}) {
             data: {
                 
                 "owner": ownerDetails.username,
-                "hostname": hostname,
-                "password": password,
+                "hostname": hostname.value,
+                "password": password.value,
                 "plan": staticdata[3].options[planType].name,
                 "node": staticdata[2].options[node].name,
-                "template": staticdata[4].options[template].name
-
+                "template": staticdata[4].options[template].name,
+                "billing_type": 2
             },
             
             headers: {
@@ -166,8 +186,24 @@ export default function Create({config}) {
 
         })
         
-        .then((res) => {console.log(res)})
-        .catch((err) => {console.log(err)});
+        .then((res) => {
+            if (res.status === 201) {
+                setSuccess(true)
+                setError(false)
+
+                handleMessage("success", 5, "Service created successfully")
+                setTimeout(() => {
+                    successRedirect()
+                }, 3000)
+            }
+        })
+        
+        .catch((err) => {
+            
+            handleMessage("error", 5, "Something went wrong, try again later")
+            return {error: err, status: false}
+
+        });
 
     }
 
@@ -182,7 +218,12 @@ export default function Create({config}) {
             }
         })
             .then((res) => {return {data: res.data, status: 200}})
-            .catch((err) => {return {error: err, status: false}});
+            .catch((err) => {
+            
+                handleMessage("error", 5, "Something went wrong, try again later")
+                return {error: err, status: false}
+            
+            });
 
         return response
 
@@ -276,7 +317,6 @@ export default function Create({config}) {
             setOwnerLoading(false)
             setOwnerSuccess(true)
             setLoading(false)
-            setSuccess(true)
             
 
         } else {
@@ -312,9 +352,28 @@ export default function Create({config}) {
 
     return (
         <Wrapper>
+
+            {showMessage && 
+
+                showMessage.messageType === "success" && (
+
+                        <SuccessMessage message={showMessage.message} duration={showMessage.duration} isVisible={true} />
+
+                    )
+                }
+
+            {showMessage && 
+
+                showMessage.messageType === "error" && (
+
+                    <ErrorMessage message={showMessage.message} duration={showMessage.duration} isVisible={true} />
+
+                )
+            }
+
             <SubHeader path={true} pathName="Create service" />
             <InnerWrapper>
-                <Section data={staticdata} heading="Create new service" rows={2} rowHeight={130} />
+                <Section data={staticdata} heading="Create new service" rows={2} rows2={3} rows3={6} rowHeight={115} />
                 <ButtonWrapper>
                     <Button onClick={createService} text="Proceed to checkout" width="200px" height="50px" />
                 </ButtonWrapper>
