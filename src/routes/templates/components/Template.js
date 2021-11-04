@@ -5,6 +5,8 @@ import SubHeader from '../../../components/Header/SubHeader'
 import Button from '../../../components/buttons/ActionButton';
 import DeleteBtn from '../../../components/buttons/DangerActionButton';
 import axios from 'axios';
+import ErrorMessage from '../../../components/messages/ErrorMessage';
+import SuccessMessage from '../../../components/messages/SuccessMessage';
 
 export default function Plan(props) {
     
@@ -16,7 +18,7 @@ export default function Plan(props) {
 
     const [file, setFile] = useState({
 
-        value: "",
+        value: details.file,
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -25,7 +27,7 @@ export default function Plan(props) {
 
     const [name, setName] = useState({
         
-        value: "",
+        value: details.name,
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -34,6 +36,23 @@ export default function Plan(props) {
 
     const [type, setType] = useState(0);
     const [id, setId] = useState(details.id);
+    const [showMessage, setShowMessage] = useState(false);
+
+    const successRedirect = () => {
+        window.location.pathname = '/templates/';
+    }
+
+    const handleMessage = (messageType, duration, message) => {
+
+        setShowMessage({messageType, duration, message});
+        
+        setTimeout(() => {
+            
+            setShowMessage(false);
+
+        }, duration * 1000)
+
+    }
 
     const data = [
         {
@@ -104,7 +123,7 @@ export default function Plan(props) {
 
         }
 
-        if (name.value === details.name && file === details.file) {
+        if (name.value === details.name && file === details.file && data[1].options[type].name === details.type) {
             
             setName(prevState => ({
                 ...prevState,
@@ -159,6 +178,11 @@ export default function Plan(props) {
                 setSuccess(true)
                 setError(false)
                 setLoading(false)
+                handleMessage("success", 5, "Template was updated successfully!")
+
+                setTimeout(() => {
+                    successRedirect();
+                }, 2000)
 
             })
 
@@ -167,6 +191,7 @@ export default function Plan(props) {
                 setError(err)
                 setSuccess(false)
                 setLoading(false)
+                handleMessage("error", 5, "Something went wrong, try again later")
 
             })
 
@@ -191,6 +216,11 @@ export default function Plan(props) {
             setSuccess(true)
             setError(false)
             setLoading(false)
+            handleMessage("success", 5, "Template was deleted successfully!")
+
+            setTimeout(() => {
+                successRedirect();
+            }, 2000)
 
         })
 
@@ -199,12 +229,32 @@ export default function Plan(props) {
             setError(err)
             setSuccess(false)
             setLoading(false)
+            handleMessage("error", 5, "Something went wrong, try again later")
         
         })
     }
 
     return (
         <Wrapper>
+
+            {showMessage && 
+
+                showMessage.messageType === "success" && (
+
+                    <SuccessMessage message={showMessage.message} duration={showMessage.duration} isVisible={true} />
+
+                )
+            }
+
+            {showMessage && 
+
+                showMessage.messageType === "error" && (
+
+                    <ErrorMessage message={showMessage.message} duration={showMessage.duration} isVisible={true} />
+
+                )
+            }
+
             <SubHeader path={true} loading={loading} pathName={details.name} />
             <InnerWrapper>
                 <Content>

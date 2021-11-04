@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import Section from '../../Service/components/Section';
 import Button from '../../../components/buttons/ActionButton';
 import axios from 'axios';
+import ErrorMessage from '../../../components/messages/ErrorMessage';
+import SuccessMessage from '../../../components/messages/SuccessMessage';
 
 export default function CreateTemplate({config}) {
 
@@ -30,6 +32,24 @@ export default function CreateTemplate({config}) {
         hasErrorMessage: false
 
     });
+
+    const [showMessage, setShowMessage] = useState(false);
+
+    const successRedirect = () => {
+        window.location.pathname = '/templates/';
+    }
+
+    const handleMessage = (messageType, duration, message) => {
+
+        setShowMessage({messageType, duration, message});
+        
+        setTimeout(() => {
+            
+            setShowMessage(false);
+
+        }, duration * 1000)
+
+    }
 
     const data = [
         {
@@ -139,6 +159,13 @@ export default function CreateTemplate({config}) {
                     setSuccess(true)
                     setError(false)
                     setLoading(false)
+
+                    handleMessage("success", 5, "Template created successfully!")
+
+                    setTimeout(() => {
+                        successRedirect();
+                    }, 2000)
+
                 }
 
             })
@@ -148,6 +175,7 @@ export default function CreateTemplate({config}) {
                 setError(err)
                 setSuccess(false)
                 setLoading(false)
+                handleMessage("error", 5, "Something went wrong, try again later")
 
             })
 
@@ -155,6 +183,25 @@ export default function CreateTemplate({config}) {
 
     return (
         <Wrapper>
+
+            {showMessage && 
+
+                showMessage.messageType === "success" && (
+
+                    <SuccessMessage message={showMessage.message} duration={showMessage.duration} isVisible={true} />
+
+                )
+            }
+
+            {showMessage && 
+
+                showMessage.messageType === "error" && (
+
+                    <ErrorMessage message={showMessage.message} duration={showMessage.duration} isVisible={true} />
+
+                )
+            }
+
             <SubHeader path={true} pathName="Create template" />
             <InnerWrapper>
 

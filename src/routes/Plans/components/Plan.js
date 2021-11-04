@@ -537,7 +537,12 @@ export default function Plan(props) {
             setSuccess(true)
             setError(false)
             setLoading(false)
-                
+            
+            handleMessage("success", 5, "Plan was deleted successfully!")
+
+            setTimeout(() => {
+                successRedirect();
+            }, 2000)
         })
 
         .catch((err) => {
@@ -545,6 +550,7 @@ export default function Plan(props) {
             setError(err)
             setSuccess(false)
             setLoading(false)
+            handleMessage("error", 5, "Something went wrong, try again later")
         
         })
     }
