@@ -44,6 +44,10 @@ const ItemText = styled.span `
     text-transform: uppercase;
 
     color: var(--primary-gray);
+    
+    @media screen and (max-width: 600px) {
+        font-size: 0.75rem;
+    }
 `;
 
 const HeaderList = styled.ul `

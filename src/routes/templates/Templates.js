@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, {useEffect} from 'react'
+import { Redirect } from 'react-router-dom';
 import styled from 'styled-components'
 import PrimaryButton from '../../components/buttons/PrimaryButton';
 import SubHeader from '../../components/Header/SubHeader';
@@ -7,7 +8,7 @@ import PrimarySearchBar from '../../components/inputs/PrimarySearchBar';
 import ServiceItemPlaceholder from '../Base/components/ServiceItemPlaceholder';
 import ServiceList from '../Base/components/ServiceList';
 
-export default function Templates({config, handleTemplateClick}) {
+export default function Templates({config, handleTemplateClick, userDataLoading, userData}) {
 
     const [error, setError] = React.useState();
     const [templates, setTemplates] = React.useState();
@@ -60,6 +61,20 @@ export default function Templates({config, handleTemplateClick}) {
         )
     }
 
+    if (!loading && userDataLoading) {
+        return (
+            <Wrapper>
+                <SubHeader path={true} loading={userDataLoading} pathName="Plans" />
+            </Wrapper>
+        )
+    }
+
+    if (!userDataLoading && !loading && userData.is_staff === false) {
+        return (
+            <Redirect to="/" push={true} />
+        )
+    }
+
     return (
         <Wrapper>
             <SubHeader path={true} pathName="Templates" />
@@ -68,7 +83,9 @@ export default function Templates({config, handleTemplateClick}) {
                 <SearchWrapper>
                     <PrimarySearchBar name="SearchBar" className="Primary-Search-Bar" id="Primary-Search-Bar" />
                 </SearchWrapper>
+                    
                 <PrimaryButton to="/templates/create" text="New" width="80px" height="40px" />
+
             </Header>
 
             <ServiceItemPlaceholder data={["name", "type", "id", "file"]} />

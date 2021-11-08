@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default function ServiceItem({item, handleClickChange, redirectTo, type, handlePlanClick, handleTemplateClick, details}) {
     return (
+        
         <Link onClick={() => {
 
             if (type === "service") {
@@ -56,6 +57,10 @@ const ServiceDetailText = styled.span `
     line-height: 124%;
     color: var(--white);
     text-transform: capitalize;
+
+    @media screen and (max-width: 600px) {
+        font-size: 1.1rem;
+    }
 `;
 
 const ServiceDetail = styled.div ` 
@@ -75,6 +80,10 @@ const ServiceHostnameText = styled.span `
     line-height: 124%;
     color: var(--white);
     opacity: .9;
+
+    @media screen and (max-width: 600px) {
+        font-size: 1rem;
+    }
 `;
 
 const StyledGrid = styled.div `
@@ -90,6 +99,7 @@ const StyledGrid = styled.div `
     &:hover {
         opacity: .8;
     }
+    
 `;
 
 const StyledWrapper = styled.li `

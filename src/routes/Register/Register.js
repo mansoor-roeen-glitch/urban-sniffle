@@ -16,7 +16,11 @@ export default function Register() {
     const [success, setSuccess] = React.useState(false)
     const [error, setError] = React.useState(false)
     const [loading, setLoading] = React.useState(false)
-    
+
+    function redirectToApp () {
+        window.location.pathname = '/';
+    }
+
     function checkPassword(s) {
     
         if(s) {
@@ -67,18 +71,18 @@ export default function Register() {
 
     const handleSubmit =  async () => {
 
-        if (!email || !username || !password || !repeatPassword) {
+        if (!email || !username || !password ) {
             displayError("Please fill the form properly", 4000)
             return;
         }
 
-        if (password !== repeatPassword) {
-            displayError("Password does not match", 3000);
-            setRepeatPassword("")
-            setPassword("")
+        // if (password !== repeatPassword) {
+        //     displayError("Password does not match", 3000);
+        //     setRepeatPassword("")
+        //     setPassword("")
 
-            return;
-        }
+        //     return;
+        // }
 
         if (!isValidUsername(username)) {
             displayError("Username cannot contian special characters", 4000)
@@ -118,8 +122,8 @@ export default function Register() {
             }
 
             localStorage.setItem('x-token', response.data.key)
-            window.location.pathname = '/'
-        
+            redirectToApp()
+
         } 
 
     };
@@ -148,7 +152,6 @@ export default function Register() {
                         <SecondaryInput value={username} setValue={setUsername} type="text" minChar="2" htmlfor="Username" placeholder="Enter your username" icon="/images/person.svg" />
                         <SecondaryInput value={email} setValue={setEmail} type="email" minChar="6" htmlfor="Email address" placeholder="Enter your email address" icon="/images/email.svg" />
                         <SecondaryInput value={password} setValue={setPassword} type="password" minChar="8" htmlfor="Password" placeholder="Enter your password" icon="/images/lock.svg" />
-                        <SecondaryInput value={repeatPassword} setValue={setRepeatPassword} minChar="8" type="password" htmlfor="Repeat password" placeholder="Repeat your password" icon="/images/lock.svg" />
                     </Form>
                 </FormWrapper>
                 <ButtonWrapper>
@@ -178,10 +181,13 @@ const ErrorMessage = styled.span `
     color: var(--secondary-red);
     font-size: inherit;
     font-weight: inherit;
+    text-align: center;
+
+    width: 90%;
 `;
 
 const MessageWrapper = styled.div `
-    margin-top: 20px;
+    margin-top: 15px;
     width: 100%;
     height: 20px;
 
@@ -226,31 +232,31 @@ const ButtonWrapper = styled.div `
 
 const PrimaryButtonWrapper = styled.div `
     width: 100%;
-    height: 60px;
+    height: 52px;
 `;
 
 const Form = styled.div `
     display: flex;
     flex-direction: column;
 
-    row-gap: 45px;
+    row-gap: 40px;
 `;
 
 const FormWrapper = styled.div `
     width: 88%;
     height: fit-content;
-    margin-bottom: 100px;
+    margin-bottom: 80px;
 `;
 
 const HeadingWrapper = styled.div `
     height: fit-content;
     width: fit-content;
 
-    margin-bottom: calc(90px - 50px);
+    margin-bottom: calc(80px - 50px);
 `;
 
 const InnerWrapper = styled.div `
-    width: 440px;
+    width: 385px;
     height: fit-content;
     background-color: var(--secondary-background);
 
@@ -260,12 +266,10 @@ const InnerWrapper = styled.div `
 
     padding-top: 50px;
     padding-bottom: 50px;
-    margin-top: 60px;
 `;
 
 const Wrapper = styled.div `
     width: 100%;
-    height: calc(100vh - 60px);
     background-color: var(--primary-background);
 
     display: flex;

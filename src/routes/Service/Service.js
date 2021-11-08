@@ -147,7 +147,6 @@ export default function Service (props) {
             <Wrapper>
                 <SubHeader path={true} loading={true} pathName={hostname} />
                 {/* Loading will be included below this */}
-                <h1>something went wrong</h1>
             </Wrapper>
         )
 

@@ -1,3 +1,4 @@
+import { Redirect } from 'react-router-dom';
 import React, {useState} from 'react'
 import SubHeader from '../../../components/Header/SubHeader';
 import styled from 'styled-components';
@@ -7,7 +8,7 @@ import axios from 'axios';
 import ErrorMessage from '../../../components/messages/ErrorMessage';
 import SuccessMessage from '../../../components/messages/SuccessMessage';
 
-export default function CreateTemplate({config}) {
+export default function CreateTemplate({config, userDataLoading, userData}) {
 
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false)
@@ -179,6 +180,20 @@ export default function CreateTemplate({config}) {
 
             })
 
+    }
+
+    if (userDataLoading) {
+        return (
+            <Wrapper>
+                <SubHeader path={true} loading={userDataLoading} pathName="Create plan" />
+            </Wrapper>
+        )
+    }
+
+    if (!userDataLoading && userData.is_staff === false) {
+        return (
+            <Redirect to="/" push={true} />
+        )
     }
 
     return (

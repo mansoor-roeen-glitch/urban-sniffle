@@ -86,7 +86,7 @@ export default function Create({config}) {
             setHostname((prevState) => ({
                 
                 ...prevState,
-                value: "",
+                
                 hasErrorMessage: true,
                 errorMes: "only alphabets, numbers, dash, and underscore",
 
@@ -105,7 +105,7 @@ export default function Create({config}) {
             setPassword((prevState) => ({
 
                 ...prevState,
-                value: "",
+                
                 hasErrorMessage: true,
                 errorMes: "please fill in the input properly"
 
@@ -119,7 +119,7 @@ export default function Create({config}) {
 
                 setPassword((prevState) => ({
                     ...prevState,
-                    value: "",
+                    
                     hasErrorMessage: true,
                     errorMes: "must be more than 6 characters long"
                 }))
@@ -130,7 +130,7 @@ export default function Create({config}) {
                     setPassword((prevState) => ({
                         
                         ...prevState,
-                        value: "",
+                        
                         hasErrorMessage: true,
                         errorMes: "must have one numeric digit, one uppercase, lowercase letter"
                     
@@ -332,7 +332,6 @@ export default function Create({config}) {
             <Wrapper>
                 <SubHeader path={true} loading={true} pathName="Create service" />
                 {/* Loading will be included below this */}
-                <h1>Please wait, loading</h1>
             </Wrapper>
         )
 

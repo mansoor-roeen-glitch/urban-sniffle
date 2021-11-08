@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, {useEffect} from 'react'
+import { Redirect } from 'react-router-dom';
 import styled from 'styled-components'
 import PrimaryButton from '../../components/buttons/PrimaryButton';
 import SubHeader from '../../components/Header/SubHeader';
@@ -7,7 +8,7 @@ import PrimarySearchBar from '../../components/inputs/PrimarySearchBar';
 import ServiceItemPlaceholder from '../Base/components/ServiceItemPlaceholder';
 import ServiceList from '../Base/components/ServiceList';
 
-export default function Plans({config, handlePlanClick}) {
+export default function Plans({config, handlePlanClick, userDataLoading, userData}) {
 
     const [error, setError] = React.useState();
     const [plans, setPlans] = React.useState();
@@ -46,7 +47,7 @@ export default function Plans({config, handlePlanClick}) {
     if (loading) {
         return (
             <Wrapper>
-                <SubHeader path={true} loading={true} pathName="Plans" />
+                <SubHeader path={true} loading={true || userDataLoading} pathName="Plans" />
             </Wrapper>
         )
     }
@@ -60,15 +61,32 @@ export default function Plans({config, handlePlanClick}) {
         )
     }
 
+    if (!loading && userDataLoading) {
+        return (
+            <Wrapper>
+                <SubHeader path={true} loading={userDataLoading} pathName="Plans" />
+            </Wrapper>
+        )
+    }
+
+    if (!userDataLoading && !loading && userData.is_staff === false) {
+        return (
+            <Redirect to="/" push={true} />
+        )
+    }
+
     return (
         <Wrapper>
             <SubHeader path={true} pathName="Plans" />
             
             <Header>
+        
                 <SearchWrapper>
                     <PrimarySearchBar name="SearchBar" className="Primary-Search-Bar" id="Primary-Search-Bar" />
                 </SearchWrapper>
+                
                 <PrimaryButton to="/plans/create" text="New" width="80px" height="40px" />
+
             </Header>
 
             <ServiceItemPlaceholder data={["name", "size", "period", "bandwidth"]} />

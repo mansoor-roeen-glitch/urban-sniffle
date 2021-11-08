@@ -7,6 +7,7 @@ import DeleteBtn from '../../../components/buttons/DangerActionButton';
 import axios from 'axios';
 import ErrorMessage from '../../../components/messages/ErrorMessage';
 import SuccessMessage from '../../../components/messages/SuccessMessage';
+import {Redirect} from 'react-router-dom'
 
 export default function Plan(props) {
     
@@ -234,6 +235,20 @@ export default function Plan(props) {
         })
     }
 
+    if (props.userDataLoading) {
+        return (
+            <Wrapper>
+                <SubHeader path={true} loading={props.userDataLoading} pathName="Create plan" />
+            </Wrapper>
+        )
+    }
+
+    if (!props.userDataLoading && props.userData.is_staff === false) {
+        return (
+            <Redirect to="/" push={true} />
+        )
+    }
+
     return (
         <Wrapper>
 
@@ -255,15 +270,17 @@ export default function Plan(props) {
                 )
             }
 
-            <SubHeader path={true} loading={loading} pathName={details.name} />
+            <SubHeader path={true} loading={loading || props.userDataLoading ? true : false} pathName={details.name} />
             <InnerWrapper>
                 <Content>
-                    <Section data={data} heading="Update Template" rows={1} rows2={2} rows3={4} rowHeight={115} rows2={2} rows3={4} />
+                    <Section data={data} heading="Update Template" rows={1} rows2={2} rows3={3} rowHeight={115} />
                 </Content>
+                
                 <ButtonWrapper>
                     <Button height="45px" width="180px" text="Update Template" onClick={handleClick} />
                     <DeleteBtn height="45px" width="180px" text="Delete Template" onClick={handleDelete} />
                 </ButtonWrapper>
+
             </InnerWrapper>
         </Wrapper>
     )

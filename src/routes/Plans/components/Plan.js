@@ -5,9 +5,9 @@ import SubHeader from '../../../components/Header/SubHeader'
 import Button from '../../../components/buttons/ActionButton';
 import DeleteBtn from '../../../components/buttons/DangerActionButton';
 import axios from 'axios';
-import { set } from 'js-cookie';
 import SuccessMessage from '../../../components/messages/SuccessMessage';
 import ErrorMessage from '../../../components/messages/ErrorMessage';
+import { Redirect } from 'react-router-dom';
 
 export default function Plan(props) {
     
@@ -19,7 +19,6 @@ export default function Plan(props) {
     const [showMessage, setShowMessage] = React.useState(false);
 
     const [ipPool, setIpPool] = React.useState(0);
-    console.log(details)
     const [bandwidth, setBandwidth] = React.useState({
 
         value: JSON.stringify(details.bandwidth),
@@ -555,6 +554,20 @@ export default function Plan(props) {
         })
     }
 
+    if (props.userDataLoading) {
+        return (
+            <Wrapper>
+                <SubHeader path={true} loading={props.userDataLoading} pathName="Create plan" />
+            </Wrapper>
+        )
+    }
+
+    if (!props.userDataLoading && props.userData.is_staff === false) {
+        return (
+            <Redirect to="/" push={true} />
+        )
+    }
+
     return (
         <Wrapper>
 
@@ -576,15 +589,17 @@ export default function Plan(props) {
                 )
             }
 
-            <SubHeader path={true} loading={loading} pathName={details.name} />
+            <SubHeader path={true} pathName={details.name} />
             <InnerWrapper>
                 <Content>
                     <Section data={data} heading="Update Plan" rows={5} rows2={7} rows3={14} rowHeight={115} />
                 </Content>
+
                 <ButtonWrapper>
                     <Button height="45px" width="140px" text="Update Plan" onClick={hanldeClick} />
                     <DeleteBtn height="45px" width="140px" text="Delete Plan" onClick={handleDelete} />
                 </ButtonWrapper>
+
             </InnerWrapper>
         </Wrapper>
     )

@@ -14,7 +14,7 @@ import {
 
 } from './StyledHeader';
 
-export default function Header() {
+export default function Header({userDataLoading, userData, userDataSuccess}) {
 
     let [featuresBtn, setFeaturesBtn] = React.useState(false);
     let [profileBtn, setProfileBtn] = React.useState(false);
@@ -64,13 +64,13 @@ export default function Header() {
                         
                         {navbarItems.map((item, index) => {
                             return (
-                                <StyledItem key={index} onClick={() => {item.action(args => !args)}} >
+                                <StyledItem key={index} onClick={() => {item.action(args => !args);}} >
                                     <SvgIcon width={item.width} height={item.height} path={`/images/${item.src}`} alt={item.name} />
                                 </StyledItem>
                             )
                         })}
 
-                        <Features active={featuresBtn} />
+                        <Features active={featuresBtn} userDataLoading={userDataLoading} userData={userData} userDataSuccess={userDataSuccess} />
 
                     </StyledList>
                 </RightWrapper>

@@ -62,6 +62,10 @@ const PathText = styled.span `
     align-items: center;
     opacity: .8;
     font-weight: 300;
+
+    @media screen and (max-width: 600px) {
+        font-size: 1.1rem;
+    }
 `;
 
 const StyledArrow = styled.div `
@@ -85,6 +89,10 @@ const StyledUserName = styled.span `
     color: var(--primary-purple);
     font-size: 1.35rem;
     font-weight: 300;
+
+    @media screen and (max-width: 600px) {
+        font-size: 1.1rem;
+    }
 `;
 
 const ContentWrapper = styled.div `
@@ -128,18 +136,18 @@ const Wrapper = styled.div `
     &::after {
         content: "";
         position: absolute;
-        bottom: -3px;
+        bottom: 3px;
         width: 100%;
-        height: 2px;
+        height: 1px;
         background: ${props => props.loading ? '#46484F' : "transparent"};
     }
 
     &::before {
         content: "";
         position: absolute;
-        bottom: -3px;
+        bottom: 3px;
         width: 40%;
-        height: 2px;
+        height: 1px;
         background: ${props => props.loading ? '#787E91' : "transparent"};
         animation: loadingAnim 2s ease infinite ;
         z-index: 2;

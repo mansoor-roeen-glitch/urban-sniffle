@@ -60,4 +60,9 @@ const StyledButtonText = styled.span `
     color: #bb4040;
     font-size: 18px;
     font-weight: 500;
+
+    @media screen and (max-width: 600px) {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+    }
 `;

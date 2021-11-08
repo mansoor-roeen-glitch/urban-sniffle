@@ -52,4 +52,8 @@ const StyledButtonText = styled.span `
     color: var(--primary-purple);
     font-size: 18px;
     font-weight: 400;
+
+    @media screen and (max-width: 600px) {
+        font-size: 0.95rem;
+    }
 `;

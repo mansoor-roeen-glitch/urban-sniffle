@@ -1,13 +1,14 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import ServiceItem from './ServiceItem'
 
 export default function ServiceList({data, handleClickChange, type, handlePlanClick, handleTemplateClick}) {
-    
+
     return (
         <StyledWrapper>
             <List>
-                {data && data.map((item, index) => {
+                {data.length > 0 ? data.map((item, index) => {
                     switch (type) {
 
                         case "services": 
@@ -31,11 +32,41 @@ export default function ServiceList({data, handleClickChange, type, handlePlanCl
                                 ]} redirectTo={`/templates/${item.id}`} key={index} />
                             );
                     }
-                })}
+                }) : (
+                    <MessageWrapper>
+                        <MessageInnerWrapper>
+                            <Message>
+                                You currently have no {type} set up, <Link to={type === 'services' ? '/create' : `/${type}/create`} style={{fontSize: '19px', color: '#ba97e4'}}>click here</Link> if you want to create a new {type}
+                            </Message>
+                        </MessageInnerWrapper>
+                    </MessageWrapper>
+                )}
             </List>
         </StyledWrapper>
     )
 }
+
+const MessageInnerWrapper = styled.div `
+    max-width: 1400px;
+    width: 92%;
+`;
+
+const Message = styled.p `
+    color: var(--white);
+    font-size: 19px;
+    width: 500px;
+`
+
+const MessageWrapper = styled.div `
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: fit-content;
+
+    padding-top: 25px;
+
+`;
 
 const List = styled.ul `
     list-style: none;

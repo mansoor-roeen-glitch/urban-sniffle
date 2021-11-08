@@ -3,12 +3,36 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import SvgIcon from '../icons/SvgIcon'
 
-export default function Features({active}) {
+export default function Features({active, userDataLoading, userData, userDataSuccess}) {
     
     // Using static data for now
     // Features will be depending on the backend
     
-    let features = [
+    let userFeatures = [
+        {
+            name: "Services",
+            to: "/",
+            svg: "services.svg",
+            width: "22.5px",
+            height: "22.5px"
+        },
+        {
+            name: "Support",
+            to: "/support",
+            svg: "support.svg",
+            width: "22.5px",
+            height: "22.5px"
+        },
+        {
+            name: "Logout",
+            to: "/auth/logout",
+            svg: "logout.svg",
+            width: "22.5px",
+            height: "22.5px"
+        }
+    ]
+
+    let adminFeatures = [
         {
             name: "Services",
             to: "/",
@@ -19,26 +43,36 @@ export default function Features({active}) {
         {
             name: "Plans",
             to: "/plans",
-            svg: "services.svg",
+            svg: "plans.svg",
             width: "22.5px",
             height: "22.5px"
         },
         {
             name: "Templates",
             to: "/templates",
-            svg: "services.svg",
+            svg: "templates.svg",
             width: "22.5px",
             height: "22.5px"
         },
         {
             name: "Support",
             to: "/support",
-            svg: "services.svg",
+            svg: "support.svg",
+            width: "22.5px",
+            height: "22.5px"
+        },
+        {
+            name: "Logout",
+            to: "/auth/logout",
+            svg: "logout.svg",
             width: "22.5px",
             height: "22.5px"
         }
     ]
-    
+
+    const isAdmin = !userDataLoading && userData.is_staff ;
+    const features = userDataLoading ? userFeatures : isAdmin ? adminFeatures : userFeatures;
+
     return (
         <Wrapper style={{display: active ? "flex" : "none"}}>
             <List>
@@ -119,10 +153,10 @@ const Wrapper = styled.div `
     top: calc(65px + 10px);
     background: white;
     position: absolute;
-    right: calc(5% + 110px);
+    right: 5%;
     background: var(--secondary-background);
     border: none;
 
     box-shadow: 0 3px 20px rgb(255 255 255 / 5%), 0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(255 255 255 / 10%);
-    z-index: 2;
+    z-index: 10;
 `;

@@ -1,24 +1,62 @@
 import React from "react";
-import { Route, Router, Switch, Redirect, withRouter, useLocation } from "react-router";
+import { BrowserRouter, Route, Router, Switch } from "react-router-dom";
 import {createBrowserHistory} from 'history'
-import Index from "./routes/Index";
 import Register from "./routes/Register/Register";
 import Login from './routes/Login/Login'
 import Reset from "./routes/Reset/Reset";
 import axios from "axios";
+
+// Components
+import Base from './routes/Base/Base';
+import Service from './routes/Service/Service';
+import Create from './routes/Create/Create';
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer'
+import Plans from './routes/Plans/Plans';
+import Plan from './routes/Plans/components/Plan';
+import CreatePlan from './routes/Plans/components/CreatePlan';
+import Templates from './routes/templates/Templates';
+import Template from './routes/templates/components/Template'
+import CreateTemplate from './routes/templates/components/CreateTemplate';
+import Logout from './routes/Logout/Logout';
+import styled from 'styled-components';
+import getUserDetails from "./functions/getUserDetails";
 
 function App() {
 
   const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState(false)
 
+  const [userData, setUserData] = React.useState()
+  const [userDataLoading, setUserDataLoading] = React.useState(true)
+  const [userDataSuccess, setUserDataSuccess] = React.useState(false)
+  const [userDataError, setUserDataError] = React.useState(false)
+
   const [pathname, setPathname] = React.useState(window.location.pathname)
   const [redirectTo, setRedirectTo] = React.useState("")
   const [config, setConfig] = React.useState({})
   const [token, setToken] = React.useState("")
 
+  const [selected, setSelected] = React.useState(false)
+  const [selectedPlan, setSelectedPlan] = React.useState()
+  const [selectedTemplate, setSelectedTemplate] = React.useState()
+
+
   const history = createBrowserHistory();
 
+  const handleClickChange = (id, hostname) => {
+
+      setSelected({hostname, id})
+
+  }
+
+  const handlePlanClick = (details) => {
+      setSelectedPlan(details)
+  }
+
+  const handleTemplateClick = (details) => {
+      setSelectedTemplate(details)
+  }
   const authswtich = () => {
     if (redirectTo === "/login") {
       redirectTo("/register")
@@ -49,6 +87,15 @@ function App() {
 
   }
 
+  const getUserData = async (token) => {
+    const response = await getUserDetails(token);
+    if (response.success === true ) {
+      setUserData(response.data);
+      setUserDataLoading(false)
+      setUserDataSuccess(true)
+    }
+  }
+
   const notAuthenticated = (path) => {
 
     const reLocation = () => {
@@ -76,6 +123,8 @@ function App() {
       setToken(xtoken)
       
       if (checkToken(xtoken)) {
+
+        getUserData(xtoken)
 
         setConfig({
         
@@ -110,21 +159,47 @@ function App() {
   }, [])
 
   return (
-    <div className="App_Wrapper" style={{display: "flex", flexDirection: "column", minHeight: "100vh", height: "fit-content", paddingBottom: "150px", overflowX: "hidden"}}>
-      <Router history={history}>
+    <div className="App_Wrapper" style={{display: "flex", flexDirection: "column", minHeight: "100vh", height: "fit-content", overflowX: "hidden", justifyContent: "center"}}>
+      <BrowserRouter history={history}>
         {!loading ? (
           <Switch>
-            <Route path="/" exact render={() => <Index config={token} />} />
+
             <Route path="/login" exact render={() => <Login />}  />
             <Route path="/register" exact render={() => <Register />}  />
             <Route path="/reset" exact component={Reset} />
+            <Route path="/auth/logout" exact render={() => <Logout />} />
+
+
+            <Wrapper>
+              <Header config={config} userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} />
+
+              <Route path="/" exact render={() => <Base config={token} handleClickChange={handleClickChange} />} />
+              <Route path="/services/:id/:hostname" exact render={() => <Service config={token} details={selected} />} /> 
+              <Route path="/create" exact render={() => <Create config={token}  />} />
+              <Route path="/plans" exact render={() => <Plans userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handlePlanClick={handlePlanClick} />} />
+              <Route path="/plans/create" exact render={() => <CreatePlan userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} />} />
+              <Route path="/plans/:id" exact render={() => <Plan userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} details={selectedPlan} />} /> 
+              <Route path="/templates" exact render={() => < Templates userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handleTemplateClick={handleTemplateClick} />} />
+              <Route path="/templates/create" exact render={() => <CreateTemplate userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} />} />
+              <Route path="/templates/:id" exact render={() => <Template userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} details={selectedTemplate} />} /> 
+              
+              <Footer />
+              
+            </Wrapper>
+
           </Switch>
         ) : (
           <span>Loading</span>
         )}
-      </Router>
+      </BrowserRouter>
     </div>
   );
 }
+
+const Wrapper = styled.div `
+  min-height: 100vh;
+  height: fit-content;
+  padding-bottom: 130px;
+`;
 
 export default App;

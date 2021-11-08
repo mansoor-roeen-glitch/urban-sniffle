@@ -173,11 +173,12 @@ const SCWrapper = styled.div `
 
 const Paragraph = styled.p `
     font-size: 20px;
-    font-weight: normal;
+    font-weight: 300;
 
     color: var(--white-actions);
     margin-top: 30px;
     max-width: 700px;
+    width: 93%;
     
 `;
 
@@ -193,6 +194,14 @@ const ButtonWrapper = styled.div `
     column-gap: 20px;
     margin-top: 40px;
     display: flex;
+
+    @media screen and (max-width: 580px) {
+        display: grid;
+        grid-template-rows: repeat(2, auto);
+        grid-template-columns: repeat(2, auto);
+        grid-row-gap: 20px;
+    }
+
 `;
 
 const InnerWrapper = styled.div `

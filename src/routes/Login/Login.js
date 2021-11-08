@@ -15,6 +15,11 @@ export default function Login(props) {
     const [error, setError] = React.useState(false)
     const [loading, setLoading] = React.useState(false)
 
+
+    function redirectToApp () {
+        window.location.pathname = '/';
+    }
+
     function resetValues () {
         setUsername("")
         setPassword("")
@@ -73,13 +78,12 @@ export default function Login(props) {
 
         if (response.status === 200) {
 
-            console.log(response)
-
             if (localStorage.getItem("x-token")) {
                 localStorage.removeItem("x-token")
             }
 
             localStorage.setItem('x-token', response.data.key)
+            redirectToApp()
             
         }
 
@@ -144,15 +148,22 @@ const ErrorMessage = styled.span `
     color: var(--secondary-red);
     font-size: inherit;
     font-weight: inherit;
+    text-align: center;
+
+    width: 90%;
 `;
 
 const MessageWrapper = styled.div `
-    margin-top: 20px;
+    margin-top: 15px;
     width: 100%;
     height: 20px;
 
     font-size: 18px;
     font-weight: 400;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
 `;
 
@@ -206,7 +217,7 @@ const ButtonWrapper = styled.div `
 
 const PrimaryButtonWrapper = styled.div `
     width: 100%;
-    height: 60px;
+    height: 52px;
 `;
 
 const Form = styled.div `
@@ -215,13 +226,13 @@ const Form = styled.div `
     width: 100%;
     align-items: center;
 
-    row-gap: 45px;
+    row-gap: 40px;
 `;
 
 const FormWrapper = styled.div `
     width: 88%;
     height: fit-content;
-    margin-bottom: 70px;
+    margin-bottom: 50px;
 
     display: flex;
     align-items: flex-end;
@@ -230,13 +241,13 @@ const FormWrapper = styled.div `
 
 const HeadingWrapper = styled.div `
     height: fit-content;
-    width: fit-content;
+    width: 100%;
 
-    margin-bottom: calc(90px - 40px);
+    margin-bottom: calc(80px - 40px);
 `;
 
 const InnerWrapper = styled.div `
-    width: 440px;
+    width: 385px;
     height: fit-content;
     background-color: var(--secondary-background);
 
@@ -250,11 +261,9 @@ const InnerWrapper = styled.div `
 
 const Wrapper = styled.div `
     width: 100%;
-    height: calc(100vh - 60px);
     background-color: var(--primary-background);
 
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 30px;
 `;

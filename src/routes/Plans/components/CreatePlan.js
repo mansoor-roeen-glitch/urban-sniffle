@@ -1,3 +1,4 @@
+import { Redirect } from 'react-router-dom';
 import React from 'react'
 import styled from 'styled-components';
 import SubHeader from '../../../components/Header/SubHeader';
@@ -7,7 +8,7 @@ import axios from 'axios';
 import SuccessMessage from '../../../components/messages/SuccessMessage';
 import ErrorMessage from '../../../components/messages/ErrorMessage';
 
-export default function CreatePlan({config}) {
+export default function CreatePlan({config, userDataLoading, userData}) {
     
     const [loading, setLoading] = React.useState(false)
     const [success, setSuccess] = React.useState(false)
@@ -510,6 +511,21 @@ export default function CreatePlan({config}) {
             })
 
     }
+
+    if (userDataLoading) {
+        return (
+            <Wrapper>
+                <SubHeader path={true} loading={userDataLoading} pathName="Create plan" />
+            </Wrapper>
+        )
+    }
+
+    if (!userDataLoading && userData.is_staff === false) {
+        return (
+            <Redirect to="/" push={true} />
+        )
+    }
+
 
     return (
         <Wrapper>

@@ -15,11 +15,21 @@ export default function SecondaryButton({text, onClick}) {
 const Wrapper = styled.div `
     width: 100%;
     height: 100%;
-    background: #929FB2;
+    background: var(--primary-purple);
 
     display: flex;
     align-items: center;
     justify-content: center;
+
+    border: solid 1px var(--primary-purple);
+    transition: .3s ease;
+
+    &:hover {
+        background: transparent;
+        span {
+            color: var(--primary-purple);
+        }
+    }
 `;
 
 const Button = styled.button `
@@ -32,6 +42,7 @@ const Button = styled.button `
     height: 100%;
     background: transparent;
     cursor: pointer;
+
 `;
 
 const ButtonText = styled.span `
