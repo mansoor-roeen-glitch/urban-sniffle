@@ -89,6 +89,7 @@ export default function Templates({config, handleTemplateClick, userDataLoading,
             </Header>
 
             <ServiceItemPlaceholder data={["name", "type", "id", "file"]} />
+            {console.log(templates)}
             <ServiceList handleTemplateClick={handleTemplateClick} data={templates} type="templates" />
 
         </Wrapper>

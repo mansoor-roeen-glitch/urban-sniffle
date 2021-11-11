@@ -29,7 +29,7 @@ export default function Console({data, serviceConsole}) {
 
         term.loadAddon(fitAddon);
         term.open(XTerm.current);
-        term.write('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
+        term.write('Console - \x1B[1;3;31mxterm.js\x1B[0m $ ')
 
         fitAddon.fit();
         

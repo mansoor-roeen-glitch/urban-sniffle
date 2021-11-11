@@ -4,13 +4,13 @@ import styled from 'styled-components'
 import ServiceItem from './ServiceItem'
 
 export default function ServiceList({data, handleClickChange, type, handlePlanClick, handleTemplateClick}) {
-
-    return (
+console.log(type, data)
+    return (    
         <StyledWrapper>
             <List>
                 {data.length > 0 ? data.map((item, index) => {
                     
-                    if (!item.service_plan) 
+                    if (type === "services" && !item.service_plan) 
                         return (null) 
                     else {
                         switch (type) {
