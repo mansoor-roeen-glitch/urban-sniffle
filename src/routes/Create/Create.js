@@ -193,7 +193,7 @@ export default function Create({config}) {
 
                 handleMessage("success", 5, "Service created successfully")
                 setTimeout(() => {
-                    successRedirect()
+                    handlePayment()
                 }, 3000)
             }
         })
