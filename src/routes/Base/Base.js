@@ -7,6 +7,9 @@ import ServiceList from './components/ServiceList';
 import SubHeader from '../../components/Header/SubHeader';
 import axios from 'axios';
 import ErrorMessage from '../../components/messages/ErrorMessage';
+import CheckoutForm from '../../components/forms/CheckoutForm';
+import { Elements } from '@stripe/react-stripe-js';
+import {loadStripe} from "@stripe/stripe-js/pure";
 
 export default function BaseRoute({config, handleClickChange}) {
 
@@ -15,6 +18,8 @@ export default function BaseRoute({config, handleClickChange}) {
     const [services, setServices] = React.useState([]);
     const [search, setSearch] = React.useState("")
     const [error, setError] = React.useState()
+
+    const stripePromise = loadStripe('pk_test_51IAeMABTTOfES3wkzf4lVJYhFPOrCF58g6eCA7T7yJDpy1xqvpYptQQHzirTWN2lTvzm6oy0A8haXMzbug6Fmo2v007xkgRUw0');
 
     const handleValueChange = (value) => {
             const keyword = value;
@@ -47,8 +52,8 @@ export default function BaseRoute({config, handleClickChange}) {
                 'content-type': "application/json"
             }
         })
-            .then((res) => {setLoading(false); setServices(res.data.results); return res})
-            .catch((err) => {setError(true); setLoading(false); return err});
+            .then((res) => {setLoading(false); setServices(res.data.results); console.log(response); return res})
+            .catch((err) => {setError(true); setLoading(false); console.log("Catch error ", err); return err});
     }
 
     React.useEffect(() => {
@@ -85,7 +90,9 @@ export default function BaseRoute({config, handleClickChange}) {
 
             <ServiceItemPlaceholder data={["hostname", "plan", "status", "ram"]} />
             <ServiceList handleClickChange={handleClickChange} data={foundMatch ? foundMatch : services} type="services" />
-
+            <Elements stripe={stripePromise}>
+                <CheckoutForm />
+            </Elements>
         </Wrapper>
     )
 }

@@ -9,29 +9,36 @@ export default function ServiceList({data, handleClickChange, type, handlePlanCl
         <StyledWrapper>
             <List>
                 {data.length > 0 ? data.map((item, index) => {
-                    switch (type) {
+                    
+                    if (!item.service_plan) 
+                        return (null) 
+                    else {
+                        switch (type) {
 
-                        case "services": 
-                            return (
-                                <ServiceItem type="service" handleClickChange={handleClickChange} item={[
-                                    item.id, item.hostname, item.plan, item.status, item.service_plan.ram
-                                ]} redirectTo={`/services/${item.id}/${item.hostname}`} key={index} />
-                            );
-
-                        case "plans":
-                            return (
-                                <ServiceItem type="plan" handlePlanClick={handlePlanClick} details={item} item={[
-                                    item.id, item.name, item.size, item.period, item.bandwidth
-                                ]} redirectTo={`/plans/${item.id}`} key={index} />
-                            );
-
-                        case "templates":
-                            return (
-                                <ServiceItem handleTemplateClick={handleTemplateClick} details={item} type="template" item={[
-                                    item.id, item.name, item.type, item.id, item.file
-                                ]} redirectTo={`/templates/${item.id}`} key={index} />
-                            );
+                            case "services": 
+                                return (
+                                    <ServiceItem type="service" handleClickChange={handleClickChange} item={[
+                                        item.id, item.hostname, item.plan, item.status, item.service_plan.ram
+                                    ]} redirectTo={`/services/${item.id}/${item.hostname}`} key={index} />
+                                );
+    
+                            case "plans":
+                                return (
+                                    <ServiceItem type="plan" handlePlanClick={handlePlanClick} details={item} item={[
+                                        item.id, item.name, item.size, item.period, item.bandwidth
+                                    ]} redirectTo={`/plans/${item.id}`} key={index} />
+                                );
+    
+                            case "templates":
+                                return (
+                                    <ServiceItem handleTemplateClick={handleTemplateClick} details={item} type="template" item={[
+                                        item.id, item.name, item.type, item.id, item.file
+                                    ]} redirectTo={`/templates/${item.id}`} key={index} />
+                                );
+                        }
                     }
+
+
                 }) : (
                     <MessageWrapper>
                         <MessageInnerWrapper>

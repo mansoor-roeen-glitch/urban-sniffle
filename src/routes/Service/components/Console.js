@@ -4,30 +4,20 @@ import Activity from './Activity';
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
 import { AttachAddon } from 'xterm-addon-attach';
+import '../../../../node_modules/xterm/css/xterm.css';
 const proxmox = require('proxmox-client');
 
 export default function Console({data, serviceConsole}) {
 
-    console.log(serviceConsole)
-
     const XTerm = useRef(null);
 
     useEffect(() => {
-        console.log("myContainer..", XTerm.current);
 
         // list nodes
         let term;
         const fitAddon = new FitAddon();
 
-        term = new Terminal({
-
-            convertEol: true,
-            fontFamily: `'Fira Mono', monospace`,
-            fontSize: 15,
-            fontWeight: 900,
-            rendererType: "dom" // default is canvas
-        
-        });
+        term = new Terminal();
 
         //Styling
         term.setOption("theme", {
@@ -39,6 +29,8 @@ export default function Console({data, serviceConsole}) {
 
         term.loadAddon(fitAddon);
         term.open(XTerm.current);
+        term.write('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
+
         fitAddon.fit();
         
         proxmox.auth('localhost:3000', serviceConsole.username, serviceConsole.password).then(() => {
@@ -93,17 +85,26 @@ export default function Console({data, serviceConsole}) {
     return (
         <Wrapper>
             <InnerWrapper>
-                <ConsoleWrapper ref={XTerm}>
-                
+                <ConsoleWrapper>
+                    <ConsoleElem ref={XTerm}>
+                    
+                    </ConsoleElem>
                 </ConsoleWrapper>
             </InnerWrapper>
         </Wrapper>
     )
 }
 
+const ConsoleElem = styled.div `
+    width: fit-content;
+    height: fit-content;
+`;
+
 const ConsoleWrapper = styled.div `
     height: fit-content;
     width: fit-content;
+    padding: 15px;
+    background: black;
 `
 
 const InnerWrapper = styled.div `

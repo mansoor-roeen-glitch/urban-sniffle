@@ -219,7 +219,7 @@ export default function Create({config}) {
         })
             .then((res) => {return {data: res.data, status: 200}})
             .catch((err) => {
-            
+                console.error(err)
                 handleMessage("error", 5, "Something went wrong, try again later")
                 return {error: err, status: false}
             
