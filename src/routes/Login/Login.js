@@ -96,17 +96,19 @@ export default function Login(props) {
             <InnerWrapper>
                 <HeadingWrapper>
                     <SecondaryHeading text="Login" />
-                    <MessageWrapper>
-
-                        {error && (
-                            <ErrorMessage>{error}</ErrorMessage>
-                        )} 
-
-                        {loading && (
+                    
+                    {loading && (
+                        <MessageWrapper>
                             <LoadingMessage>Please wait, loading ... </LoadingMessage>
-                        )}
+                        </MessageWrapper>
+                    )}
 
-                    </MessageWrapper>
+                    {error && (
+                        <MessageWrapper>
+                            <ErrorMessage>{error}</ErrorMessage>
+                        </MessageWrapper>                        
+                    )} 
+
                 </HeadingWrapper>
                 <FormWrapper>
                     <Form>
@@ -158,7 +160,7 @@ const MessageWrapper = styled.div `
     width: 100%;
     height: 20px;
 
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 400;
 
     display: flex;
@@ -170,16 +172,17 @@ const MessageWrapper = styled.div `
 const ResetText = styled.span `
     color: #929FB2;
     font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
+    font-weight: 300;
+    font-size: 16px;
     letter-spacing: 0.02em;
+    cursor: pointer;
 `;
 
 const ResetWrapper = styled.div `
     width: fit-content;
     height: fit-content;
 
-    margin-top: 50px;
+    margin-top: 25px;
     &:hover {
         opacity: .8;
     }
@@ -189,7 +192,7 @@ const SecondaryButtonContent = styled.button `
     color: #929FB2;
     font-style: normal;
     font-weight: 400;
-    font-size: 20px;
+    font-size: 16px;
     letter-spacing: 0.02em;
 
     width: 100%;
@@ -217,7 +220,7 @@ const ButtonWrapper = styled.div `
 
 const PrimaryButtonWrapper = styled.div `
     width: 100%;
-    height: 52px;
+    height: 40px;
 `;
 
 const Form = styled.div `
@@ -226,16 +229,16 @@ const Form = styled.div `
     width: 100%;
     align-items: center;
 
-    row-gap: 40px;
+    row-gap: 10px;
 `;
 
 const FormWrapper = styled.div `
     width: 88%;
     height: fit-content;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
 
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     flex-direction: column;
 `;
 
@@ -247,7 +250,7 @@ const HeadingWrapper = styled.div `
 `;
 
 const InnerWrapper = styled.div `
-    width: 385px;
+    width: 300px;
     height: fit-content;
     background-color: var(--secondary-background);
 
@@ -255,8 +258,8 @@ const InnerWrapper = styled.div `
     align-items: center;
     flex-direction: column;
 
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding-top: 30px;
+    padding-bottom: 25px;
 `;
 
 const Wrapper = styled.div `

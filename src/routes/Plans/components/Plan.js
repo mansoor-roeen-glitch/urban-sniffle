@@ -592,7 +592,7 @@ export default function Plan(props) {
             <SubHeader path={true} pathName={details.name} />
             <InnerWrapper>
                 <Content>
-                    <Section data={data} heading="Update Plan" rows={5} rows2={7} rows3={14} rowHeight={115} />
+                    <Section data={data} heading="Update Plan" rows={5} rows2={7} rows3={14} rowHeight={105} />
                 </Content>
 
                 <ButtonWrapper>

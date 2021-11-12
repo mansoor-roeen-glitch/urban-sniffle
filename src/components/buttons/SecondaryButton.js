@@ -49,6 +49,6 @@ const ButtonText = styled.span `
     color: var(--primary-background);
     font-style: normal;
     font-weight: 500;
-    font-size: 24px;
+    font-size: 18px;
     letter-spacing: 0.02em;
 `;

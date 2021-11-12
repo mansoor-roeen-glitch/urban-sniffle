@@ -72,7 +72,7 @@ const MessageText = styled.span `
     color: #A42929;
     font-style: normal;
     font-weight: normal;
-    font-size: 14px;
+    font-size: 12px;
 
     display: flex;
     align-items: center;
@@ -100,15 +100,15 @@ const MessageWrapper = styled.div `
 `;
 
 const StyledHeading = styled.span `
-    font-size: 1rem;
     font-weight: 400;
     color: var(--primary-purple);
     opacity: .9;
     text-transform: uppercase;
+    font-size: 0.9rem;
 `;
 
 const ContentInput = styled.input `
-    font-size: 1.15rem;
+    font-size: 1rem;
     font-weight: 300;
     font-style: normal;
     color: var(--white);
@@ -124,6 +124,7 @@ const ContentInput = styled.input `
         color: var(--white);
         opacity: .6;
     }
+
 `;
 
 const ContentLabel = styled.label `
@@ -131,7 +132,6 @@ const ContentLabel = styled.label `
 `;
 
 const ContentWrapper = styled.div `
-    height: 44px;
     width: 100%;
 
     border-width: 1px;
@@ -143,6 +143,8 @@ const ContentWrapper = styled.div `
     align-items: center;
     justify-content: flex-start;
     padding: 0px 15px;
+
+    height: 42px;
 `;
 
 const HeadingWrapper = styled.div `
@@ -158,5 +160,6 @@ const Wrapper = styled.div `
     width: 100%;
     display: flex;
     flex-direction: column;
-    row-gap: 16px;
+    row-gap: 14px;
+    
 `; 

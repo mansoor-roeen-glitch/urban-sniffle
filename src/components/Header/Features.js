@@ -13,22 +13,22 @@ export default function Features({active, userDataLoading, userData, userDataSuc
             name: "Services",
             to: "/",
             svg: "services.svg",
-            width: "22.5px",
-            height: "22.5px"
+            width: "19px",
+            height: "19px"
         },
         {
             name: "Support",
             to: "/support",
             svg: "support.svg",
-            width: "22.5px",
-            height: "22.5px"
+            width: "19px",
+            height: "19px"
         },
         {
             name: "Logout",
             to: "/auth/logout",
             svg: "logout.svg",
-            width: "22.5px",
-            height: "22.5px"
+            width: "19px",
+            height: "19px"
         }
     ]
 
@@ -37,36 +37,36 @@ export default function Features({active, userDataLoading, userData, userDataSuc
             name: "Services",
             to: "/",
             svg: "services.svg",
-            width: "22.5px",
-            height: "22.5px"
+            width: "19px",
+            height: "19px"
         },
         {
             name: "Plans",
             to: "/plans",
             svg: "plans.svg",
-            width: "22.5px",
-            height: "22.5px"
+            width: "18px",
+            height: "18px"
         },
         {
             name: "Templates",
             to: "/templates",
             svg: "templates.svg",
-            width: "22.5px",
-            height: "22.5px"
+            width: "19px",
+            height: "19px"
         },
         {
             name: "Support",
             to: "/support",
             svg: "support.svg",
-            width: "22.5px",
-            height: "22.5px"
+            width: "19px",
+            height: "19px"
         },
         {
             name: "Logout",
             to: "/auth/logout",
             svg: "logout.svg",
-            width: "22.5px",
-            height: "22.5px"
+            width: "19px",
+            height: "19px"
         }
     ]
 
@@ -80,7 +80,7 @@ export default function Features({active, userDataLoading, userData, userDataSuc
                     return (
                     
                         <ListItem key={index}>
-                            <Link ref={(elem) => {if (elem) {elem.style.setProperty("outline", "none", "important")}}} style={{textDecoration: "none", display: "flex", alignItems: "center", padding: "0px 22.5px", columnGap: "8px", width: "100%"}} to={feature.to}>
+                            <Link ref={(elem) => {if (elem) {elem.style.setProperty("outline", "none", "important")}}} style={{textDecoration: "none", display: "flex", alignItems: "center", padding: "0px 19px", columnGap: "8px", width: "100%"}} to={feature.to}>
                                 <SvgIcon path={`/images/${feature.svg}`} alt={feature.name} width={feature.width} color="#FFFFFF" height={feature.height} />
                                 <ItemText>{feature.name}</ItemText>
                             </Link>
@@ -104,9 +104,9 @@ const StyledSeperator = styled.div `
 `;
 
 const ItemText = styled.span `
-    font-size: 18px;
+    font-size: 16px;
     text-decoration: none;
-    font-weight: normal;
+    font-weight: 300;
     font-style: normal;
     color: var(--white);
     padding: 0px 10px;
@@ -133,7 +133,7 @@ const List = styled.ul `
 const ListItem = styled.li `
     height: fit-content;
     width: 100%;
-    height: 54px;
+    height: 52px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -148,7 +148,7 @@ const ListItem = styled.li `
 
 const Wrapper = styled.div `
     height: fit-content;
-    width: 240px;
+    width: 180px;
 
     top: calc(65px + 10px);
     background: white;

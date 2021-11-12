@@ -246,8 +246,8 @@ const ItemButton = styled.button `
 `;
 
 const ItemText = styled.span `
-    font-size: 1.22rem;
-    font-weight: 300;
+    font-size: 1.1rem;
+    font-weight: 400;
     font-style: normal;
     line-height: normal;
     color: var(--white);
@@ -277,9 +277,8 @@ const List = styled.ul `
 
 const HeaderWrapper = styled.div `
     width: 100%;
-    height: 60px;
+    height: 50px;
     background: transparent;
-    padding-top: 10px;
 
     display: flex;
     align-items: center;

@@ -25,23 +25,23 @@ export default function Header({userDataLoading, userData, userDataSuccess}) {
             src: "features.svg",
             name: "features button", 
             action: setFeaturesBtn,
-            width: "26px",
-            height: "25px"
+            width: "24px",
+            height: "23px"
         },
         {
             src: "bell.svg",
             name: "Notifications button", 
             action: setNotificationBtn,
-            width: "30px",
-            height: "30px"
+            width: "28px",
+            height: "28px"
 
         },
         {
             src: "profile.svg",
             name: "Profile button", 
             action: setProfileBtn,
-            width: "30px",
-            height: "30px"
+            width: "28px",
+            height: "28px"
 
         }
     ]
@@ -55,7 +55,7 @@ export default function Header({userDataLoading, userData, userDataSuccess}) {
                         <StyledLogo src="/images/favicon.ico"></StyledLogo>
                     </div>
                     <div>
-                        <StyledTitle>Dashboard</StyledTitle>
+                        <StyledTitle>Hostnet.io</StyledTitle>
                     </div>
                 </LeftWrapper>
 

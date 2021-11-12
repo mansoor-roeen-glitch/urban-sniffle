@@ -33,7 +33,7 @@ export default function ServiceItem({item, handleClickChange, redirectTo, type, 
 
                     <ServiceDetail>
                         <ServiceDetailText>
-                            {item[3]}
+                            {item[3] === undefined ? 'inactive' : item[3]}
                         </ServiceDetailText>
                     </ServiceDetail>
 
@@ -53,7 +53,7 @@ const ServiceDetailText = styled.span `
     font-family: "Josefin Sans";
     font-style: normal;
     font-weight: 300;
-    font-size: 1.22rem;
+    font-size: 1.15rem;
     line-height: 124%;
     color: var(--white);
     text-transform: capitalize;
@@ -76,7 +76,7 @@ const ServiceHostname = styled.div `
 const ServiceHostnameText = styled.span `
     font-style: normal;
     font-weight: 300;
-    font-size: 1.296rem;
+    font-size: 1.15rem;
     line-height: 124%;
     color: var(--white);
     opacity: .9;
@@ -104,7 +104,7 @@ const StyledGrid = styled.div `
 
 const StyledWrapper = styled.li `
     width: 100%;
-    height: 75px;
+    height: 70px;
 
     display: flex;
     align-items: center;

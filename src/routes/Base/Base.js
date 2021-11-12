@@ -103,7 +103,7 @@ const Header = styled.div `
     align-items: center;
     justify-content: space-between;
 
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 `;
 
 const Wrapper = styled.div `

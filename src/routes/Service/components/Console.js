@@ -17,7 +17,9 @@ export default function Console({data, serviceConsole}) {
         let term;
         const fitAddon = new FitAddon();
 
-        term = new Terminal();
+        term = new Terminal({
+            
+        });
 
         //Styling
         term.setOption("theme", {
@@ -29,7 +31,7 @@ export default function Console({data, serviceConsole}) {
 
         term.loadAddon(fitAddon);
         term.open(XTerm.current);
-        term.write('Console - \x1B[1;3;31mxterm.js\x1B[0m $ ')
+        term.write(' Please wait \x1B[1;3;31mConnecting...\x1B[0m $ ')
 
         fitAddon.fit();
         
@@ -41,6 +43,8 @@ export default function Console({data, serviceConsole}) {
                 
                     console.log("statusCode is not 200");
                 
+                } else if (res.status === 200) {
+                    term.write(' Service was connected successfully $ ')
                 }
 
                 res = JSON.parse(res.text).data;
@@ -110,25 +114,6 @@ const ConsoleWrapper = styled.div `
 const InnerWrapper = styled.div `
     width: 93%;
     max-width: 1400px;
-    height: 500px;
-
-    display: grid;
-    grid-template-columns: 2.6fr auto;
-    grid-template-rows: auto;
-    column-gap: 30px;
-
-    @media screen and (max-width: 1400px) {
-        column-gap: 35px;
-    }
-
-    @media screen and (max-width: 1000px) {
-        grid-template-columns: auto;
-        grid-template-rows: 450px 400px;
-        column-gap: 0px;
-        row-gap: 30px;
-        height: fit-content;
-        padding-bottom: 50px;
-    }
 `;
 
 

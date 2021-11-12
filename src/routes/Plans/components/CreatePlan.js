@@ -552,7 +552,7 @@ export default function CreatePlan({config, userDataLoading, userData}) {
             <SubHeader loading={loading} path={true} pathName="Create plan" />
             <InnerWrapper>
 
-                <Section data={data} heading="Create new plan" rows={5} rows2={7} rows3={14} rowHeight={115}  />
+                <Section data={data} heading="Create new plan" rows={5} rows2={7} rows3={14} rowHeight={105}  />
                 
                 <ButtonWrapper>
                     <Button onClick={hanldeClick} text="Create Plan" width="125px" height="45px" />

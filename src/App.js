@@ -57,13 +57,6 @@ function App() {
   const handleTemplateClick = (details) => {
       setSelectedTemplate(details)
   }
-  const authswtich = () => {
-    if (redirectTo === "/login") {
-      redirectTo("/register")
-    } else if (redirectTo === "/register") {
-      redirectTo("/login")
-    }
-  }
 
   const checkToken = async (token) => {
     const response = await axios({

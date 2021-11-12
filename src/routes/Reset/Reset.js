@@ -84,17 +84,23 @@ export default function Login(props) {
                 <HeadingWrapper>
                     <SecondaryHeading text="Reset Password" />
                     <Paragraph>
-                        Please enter the email associated with your account
+                        <ParagraphText>
+                            Please enter the email associated with your account
+                        </ParagraphText>
                     </Paragraph>
                     <MessageWrapper>
 
-                        {error && (
-                            <ErrorMessage>{error}</ErrorMessage>
-                        )} 
-
                         {loading && (
-                            <LoadingMessage>Please wait, loading ... </LoadingMessage>
+                            <MessageWrapper>
+                                <LoadingMessage>Please wait, loading ... </LoadingMessage>
+                            </MessageWrapper>
                         )}
+
+                        {error && (
+                            <MessageWrapper>
+                                <ErrorMessage>{error}</ErrorMessage>
+                            </MessageWrapper>                        
+                        )} 
 
                     </MessageWrapper>
                 </HeadingWrapper>
@@ -120,13 +126,23 @@ export default function Login(props) {
     )
 }
 
-const Paragraph = styled.p `
+const ParagraphText = styled.p `
     font-size: 16px;
     font-weight: 300;
-    color: var(--white);
-    width: 300px;
+    color: #a2a9b3;
+    width: 100%;
     text-align: center;
     opacity: .9;
+    width: 80%;
+`;
+
+const Paragraph = styled.p `
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     margin-top: 15px;
     
 `;
@@ -151,7 +167,7 @@ const MessageWrapper = styled.div `
     width: 100%;
     height: 20px;
 
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 400;
 
     width: 100%;
@@ -162,29 +178,11 @@ const MessageWrapper = styled.div `
 
 `;
 
-const ResetText = styled.span `
-    color: #929FB2;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    letter-spacing: 0.02em;
-`;
-
-const ResetWrapper = styled.div `
-    width: fit-content;
-    height: fit-content;
-
-    margin-top: 50px;
-    &:hover {
-        opacity: .8;
-    }
-`;
-
 const SecondaryButtonContent = styled.button `
     color: #929FB2;
     font-style: normal;
     font-weight: 400;
-    font-size: 20px;
+    font-size: 16px;
     letter-spacing: 0.02em;
 
     width: 100%;
@@ -212,7 +210,7 @@ const ButtonWrapper = styled.div `
 
 const PrimaryButtonWrapper = styled.div `
     width: 100%;
-    height: 52px;
+    height: 40px;
 `;
 
 const Form = styled.div `
@@ -227,7 +225,7 @@ const Form = styled.div `
 const FormWrapper = styled.div `
     width: 88%;
     height: fit-content;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
 
     display: flex;
     align-items: flex-end;
@@ -242,7 +240,7 @@ const HeadingWrapper = styled.div `
 `;
 
 const InnerWrapper = styled.div `
-    width: 385px;
+    width: 300px;
     height: fit-content;
     background-color: var(--secondary-background);
 
@@ -250,8 +248,8 @@ const InnerWrapper = styled.div `
     align-items: center;
     flex-direction: column;
 
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding-top: 30px;
+    padding-bottom: 25px;
 `;
 
 const Wrapper = styled.div `

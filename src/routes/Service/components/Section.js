@@ -51,7 +51,11 @@ const ContentWrapper = styled.div `
     grid-template-rows: repeat(${props => props.rows}, ${props => props.rowHeight}px);
     grid-column-gap: 60px;
 
-    @media screen and (max-width: 980px) {
+    @media screen and (max-width: 1100px) {
+        grid-column-gap: 25px;
+    }
+
+    @media screen and (max-width: 800px) {
         grid-template-columns: 1fr 1fr;
         grid-template-rows: repeat(${props => props.rows2}, ${props => props.rowHeight}px);
         grid-column-gap: 45px;

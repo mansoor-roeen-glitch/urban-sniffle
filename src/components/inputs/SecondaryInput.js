@@ -9,17 +9,17 @@ export default function SecondaryInput({placeholder, icon, htmlfor, type, value,
             <InputWrapper>
                 <Input type={type} autoComplete="off" placeholder={placeholder} name={htmlfor} value={value} minLength={minChar} onChange={event => setValue(event.target.value)}  />
                 <IconWrapper>
-                    <SvgIcon width="20px" height="20px" path={icon} />
+                    <SvgIcon width="19px" height="19px" path={icon} />
                 </IconWrapper>
-                <div className="Input_Line" style={{width: "100%", height: "1.5px", position: "absolute", bottom: "-5px", background: "#9FA9B9"}}></div>
-                <div className="Input_Line_Overlay" style={{left: "0px", width: "0%", height: "1.5px", position: "absolute", bottom: "-5px", background: "#ba97e4"}}></div>
+                <div className="Input_Line" style={{width: "100%", height: "1px", position: "absolute", bottom: "-5px", background: "#9FA9B9"}}></div>
+                <div className="Input_Line_Overlay" style={{left: "0px", width: "0%", height: "1px", position: "absolute", bottom: "-5px", background: "#ba97e4"}}></div>
             </InputWrapper>
         </Wrapper>
     )
 }
 
 const InputWrapper = styled.div `
-    height: 40px;
+    height: 35px;
     display: flex;
     flex-direction: row-reverse;
     
@@ -48,7 +48,7 @@ const Input = styled.input `
 
     font-style: normal;
     font-weight: normal;
-    font-size: 18px;
+    font-size: 15px;
     display: flex;
     align-items: center;
     letter-spacing: 0.02em;
@@ -77,8 +77,8 @@ const Input = styled.input `
 
 const Label = styled.label `
     font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
+    font-weight: 300;
+    font-size: 11px;
     display: flex;
     align-items: center;
     letter-spacing: 0.02em;

@@ -273,7 +273,7 @@ export default function Plan(props) {
             <SubHeader path={true} loading={loading || props.userDataLoading ? true : false} pathName={details.name} />
             <InnerWrapper>
                 <Content>
-                    <Section data={data} heading="Update Template" rows={1} rows2={2} rows3={3} rowHeight={115} />
+                    <Section data={data} heading="Update Template" rows={1} rows2={2} rows3={3} rowHeight={105} />
                 </Content>
                 
                 <ButtonWrapper>

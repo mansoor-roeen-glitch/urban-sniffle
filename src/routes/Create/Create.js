@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import Button from '../../components/buttons/ActionButton';
 import SubHeader from '../../components/Header/SubHeader';
-import PrimaryInput from '../../components/inputs/PrimaryInput'
 import ErrorMessage from '../../components/messages/ErrorMessage';
 import SuccessMessage from '../../components/messages/SuccessMessage';
 import Section from '../Service/components/Section';
@@ -193,7 +192,7 @@ export default function Create({config}) {
 
                 handleMessage("success", 5, "Service created successfully")
                 setTimeout(() => {
-                    handlePayment()
+                    successRedirect()
                 }, 3000)
             }
         })

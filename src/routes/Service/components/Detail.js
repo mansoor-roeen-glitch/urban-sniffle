@@ -21,7 +21,7 @@ export default function Detail({heading, value}) {
 }
 
 const StyledHeading = styled.span `
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 400;
     color: var(--primary-purple);
     opacity: .9;
@@ -29,7 +29,7 @@ const StyledHeading = styled.span `
 `;
 
 const ContentText = styled.span `
-    font-size: 1.15rem;
+    font-size: 1rem;
     font-weight: 300;
     font-style: normal;
     color: var(--white);
@@ -42,7 +42,7 @@ const ContentTextWrapper = styled.div `
 `;
 
 const ContentWrapper = styled.div `
-    height: 44px;
+    height: 42px;
     width: 100%;
 
     border-width: 1px;
@@ -69,5 +69,5 @@ const Wrapper = styled.div `
     width: 100%;
     display: flex;
     flex-direction: column;
-    row-gap: 16px;
+    row-gap: 14px;
 `; 
