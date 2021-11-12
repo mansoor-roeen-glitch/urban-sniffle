@@ -51,7 +51,7 @@ const StyledLogo = styled.img `
 `;
 
 const StyledTitle = styled.span `
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     line-height: normal;
     text-decoration: none;
     font-family: "Josefin Sans", "Roboto", sans-serif;

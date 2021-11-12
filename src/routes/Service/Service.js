@@ -7,6 +7,8 @@ import Details from './components/Details'
 import Console from './components/Console';
 import Billing from './components/Billing';
 import Actions from './components/Actions'
+import { Link } from 'react-router-dom';
+import handleCheckout from '../../functions/handleCheckout';
 
 export default function Service (props) {
 
@@ -141,6 +143,14 @@ export default function Service (props) {
         setSelected(index)
     }
 
+    const serviceNotActivated = () => {
+        if (details.status === undefined) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     if (loading) {
 
         return (
@@ -166,7 +176,32 @@ export default function Service (props) {
 
     return (
         <Wrapper>
-            <SubHeader path={true} loading={actionLoading} pathName={hostname} />
+            <SubHeader path={true} serviceNotActivated={serviceNotActivated()} loading={actionLoading} pathName={hostname} />
+            {serviceNotActivated() && (
+                <ServiceNotActivatedWrapper>
+                    <ServiceNotActivated>
+                        <NoticeSvg>
+
+                            <svg width="18" height="18" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_650_3)">
+                                <path d="M9 1.73288C13.1355 1.73288 16.5 5.09738 16.5 9.23288C16.5 13.3684 13.1355 16.7329 9 16.7329C4.8645 16.7329 1.5 13.3684 1.5 9.23288C1.5 5.09738 4.8645 1.73288 9 1.73288ZM9 0.23288C4.02975 0.23288 0 4.26263 0 9.23288C0 14.2031 4.02975 18.2329 9 18.2329C13.9702 18.2329 18 14.2031 18 9.23288C18 4.26263 13.9702 0.23288 9 0.23288ZM8.0175 5.87738C7.94325 5.27213 8.4135 4.73288 9.0285 4.73288C9.60675 4.73288 10.0612 5.23988 9.9885 5.82113L9.42075 10.3609C9.3945 10.5731 9.21375 10.7329 9 10.7329C8.78625 10.7329 8.6055 10.5731 8.5785 10.3609L8.0175 5.87738V5.87738ZM9 13.9204C8.4825 13.9204 8.0625 13.5004 8.0625 12.9829C8.0625 12.4654 8.4825 12.0454 9 12.0454C9.5175 12.0454 9.9375 12.4654 9.9375 12.9829C9.9375 13.5004 9.5175 13.9204 9 13.9204Z" fill="#943134"/>
+                                </g>
+                                <defs>
+                                <clipPath id="clip0_650_3">
+                                <rect width="18" height="18" fill="white" transform="translate(0 0.23288)"/>
+                                </clipPath>
+                                </defs>
+                            </svg>
+
+                        </NoticeSvg>
+                        <ServiceNotActivatedMessage>
+                            This service is inactive, to activate
+                            &nbsp;
+                            <CheckoutButton onClick={() => {handleCheckout(details.id, props.config)}} >click here</CheckoutButton>
+                        </ServiceNotActivatedMessage>
+                    </ServiceNotActivated>
+                </ServiceNotActivatedWrapper>
+            )}
             <HeaderWrapper>
                 <InnerWrapper>
                     <List>
@@ -190,6 +225,8 @@ export default function Service (props) {
                     </List>
                 </InnerWrapper>
             </HeaderWrapper>
+
+            
 
             <ContentWrapper>
                 
@@ -217,6 +254,56 @@ export default function Service (props) {
         </Wrapper>
     )
 }
+
+
+const CheckoutButton = styled.button `
+    width: fit-content;
+    height: fit-content;
+    background: transparent;
+    outline: none;
+    color: #943134;
+    text-decoration: underline;
+    font-size: 16px;
+    cursor: pointer;
+`;
+
+const ServiceNotActivatedWrapper = styled.div`
+    width: 100%;
+    height: fit-content;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background: #1D1212;
+    margin-bottom: 20px;
+`;
+
+const NoticeSvg = styled.div `
+    width: fit-content;
+    height: fit-content;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`; 
+
+const ServiceNotActivatedMessage = styled.span `
+    font-style: normal;
+    font-weight: normal;
+    font-size:16px;
+    display: flex;
+    align-items: center;
+    text-align: right;
+
+    color: #943134;
+`;
+
+const ServiceNotActivated = styled.div `
+    display: flex;
+    height: 50px;
+    width: 92%;
+    max-width: 1400px;
+    align-items: center;
+`
 
 const ContentWrapper = styled.div `
 

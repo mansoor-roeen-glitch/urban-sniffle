@@ -1,41 +1,15 @@
-import {CardElement, useElements, useStripe} from "@stripe/react-stripe-js";
-import React, {useState} from "react";
-import './checkoutform.css'
+import React from 'react'
+import StripeCheckout from 'react-stripe-checkout'
 
-const CheckoutForm = () => {
-  const [error, setError] = useState(null);
-  const [email, setEmail] = useState('');
-  const stripe = useStripe();
-  const elements = useElements();
-// Handle real-time validation errors from the CardElement.
-const handleChange = (event) => {
-  if (event.error) {
-    setError(event.error.message);
-  } else {
-    setError(null);
+export default Checkout = () => {
+  const onToken = () => {
+    console.log("clicked")
   }
-}
-// Handle form submission.
-const handleSubmit = async (event) => {
-  event.preventDefault();
-};
-return (
-  <form onSubmit={handleSubmit} className="stripe-form">
-    <div className="form-row">
-      <label htmlFor="email">Email Address</label>
-      <input className="form-input" id="email" name="name"    type="email" placeholder="jenny.rosen@example.com" required 
-        value={email} onChange={(event) => { setEmail(event.target.value)}} />
-    </div>
-    <div className="form-row">
-      <label for="card-element">Credit or debit card</label> 
-      <CardElement id="card-element" onChange={handleChange}/>
-      <div className="card-errors" role="alert">{error}</div>
-    </div>
-    <button type="submit" className="submit-btn">
-      Submit Payment
-    </button>
-  </form>
- );
-};
 
-export default CheckoutForm;
+  return (
+    <StripeCheckout 
+      stripeKey="pk_test_51IAeMABTTOfES3wkzf4lVJYhFPOrCF58g6eCA7T7yJDpy1xqvpYptQQHzirTWN2lTvzm6oy0A8haXMzbug6Fmo2v007xkgRUw0"
+      token={onToken}
+    />
+  )
+}

@@ -5,6 +5,7 @@ import Button from '../../components/buttons/ActionButton';
 import SubHeader from '../../components/Header/SubHeader';
 import ErrorMessage from '../../components/messages/ErrorMessage';
 import SuccessMessage from '../../components/messages/SuccessMessage';
+import handleCheckout from '../../functions/handleCheckout';
 import Section from '../Service/components/Section';
 
 export default function Create({config}) {
@@ -13,6 +14,7 @@ export default function Create({config}) {
     const [planType, setPlanType] = useState(0)
     const [template, setTemplate] = useState(0)
     const [billingMethod, setBillingMethod] = useState(0)
+    const [responseLoading, setResponseLoading] = useState(false)
 
     const [hostname, setHostname] = useState({
         
@@ -161,6 +163,7 @@ export default function Create({config}) {
             return null;
         }
 
+        setResponseLoading(true)
 
         const response = await axios({
             
@@ -189,16 +192,15 @@ export default function Create({config}) {
             if (res.status === 201) {
                 setSuccess(true)
                 setError(false)
-
-                handleMessage("success", 5, "Service created successfully")
-                setTimeout(() => {
-                    successRedirect()
-                }, 3000)
+                setLoading(true)
+                handleCheckout(res.data.id, config)
+                setResponseLoading(false)
             }
         })
         
         .catch((err) => {
             
+            setResponseLoading(false)
             handleMessage("error", 5, "Something went wrong, try again later")
             return {error: err, status: false}
 
@@ -369,7 +371,7 @@ export default function Create({config}) {
                 )
             }
 
-            <SubHeader path={true} pathName="Create service" />
+            <SubHeader path={true} pathName="Create service" laoding={responseLoading} />
             <InnerWrapper>
                 <Section data={staticdata} heading="Create new service" rows={2} rows2={3} rows3={6} rowHeight={115} />
                 <ButtonWrapper>

@@ -10,5 +10,5 @@ export default function Logout() {
 
     })
 
-    return ( <h1>Logging out ... </h1> )
+    return ( null )
 }

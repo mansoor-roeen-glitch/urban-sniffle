@@ -1,9 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export default function Header({path, pathName, loading}) {
+export default function Header({
+    
+    path,
+    pathName,
+    loading, 
+    serviceNotActivated
+
+    }) {
+
     return (
-        <Wrapper loading={loading}>
+        <Wrapper shouldHaveMarginBottom={!serviceNotActivated} loading={loading}>
             <InnerWrapper>
                 <ContentWrapper>
                     <ProfileWrapper>
@@ -126,12 +134,12 @@ const StyledImage = styled.div `
 
 const Wrapper = styled.div `
     width: 100%;
-    height: 60px;
+    height: 57px;
     background: var(--secondary-background);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: ${props => props.shouldHaveMarginBottom ? '20px' : '0px'};
 
     &::after {
         content: "";

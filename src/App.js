@@ -42,7 +42,7 @@ function App() {
   const [selectedTemplate, setSelectedTemplate] = React.useState()
 
 
-  const history = createBrowserHistory();
+  const history = createBrowserHistory(); 
 
   const handleClickChange = (id, hostname) => {
 
@@ -52,7 +52,7 @@ function App() {
 
   const handlePlanClick = (details) => {
       setSelectedPlan(details)
-  }
+  } 
 
   const handleTemplateClick = (details) => {
       setSelectedTemplate(details)
