@@ -35,6 +35,12 @@ export default function Login(props) {
         setTimeout(() => { setError(false) }, duration)
     }
 
+    function handleKeyEnter (event) {
+        if (event.key === 'Enter') {
+            handleSubmit(); 
+        }
+    }
+
     const handleSubmit =  async () => {
 
         if (!email) {
@@ -106,7 +112,7 @@ export default function Login(props) {
                 </HeadingWrapper>
                 <FormWrapper>
                     <Form>
-                        <SecondaryInput value={email} setValue={setEmail} type="text" htmlfor="" placeholder="Enter your email " icon="/images/email.svg" />
+                        <SecondaryInput value={email} onKeyEnter={handleKeyEnter} setValue={setEmail} type="text" htmlfor="" placeholder="Enter your email " icon="/images/email.svg" />
                     </Form>
                 </FormWrapper>
                 <ButtonWrapper>
@@ -114,17 +120,21 @@ export default function Login(props) {
                         <SecondaryButton text="Reset Password" onClick={() => {console.log("clicked")}} />
                     </PrimaryButtonWrapper>
                     <SecondaryButtonWrapper>
-                        <span onClick={() => {window.location.pathname = "/register"}} style={{textDecoration: "none"}}>
+                        <LinkButton onClick={() => {window.location.pathname = "/register"}} style={{textDecoration: "none"}}>
                             <SecondaryButtonContent>
                                 don't have an account? sign up now
                             </SecondaryButtonContent>
-                        </span>
+                        </LinkButton>
                     </SecondaryButtonWrapper>
                 </ButtonWrapper>
             </InnerWrapper>
         </Wrapper>
     )
 }
+
+const LinkButton = styled.button `
+    background: transparent;
+`;
 
 const ParagraphText = styled.p `
     font-size: 16px;

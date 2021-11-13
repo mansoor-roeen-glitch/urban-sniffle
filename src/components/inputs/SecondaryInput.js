@@ -2,12 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import SvgIcon from '../icons/SvgIcon';
 
-export default function SecondaryInput({placeholder, icon, htmlfor, type, value, setValue, minChar}) {
+export default function SecondaryInput({placeholder, icon, htmlfor, type, value, setValue, minChar, onKeyEnter}) {
+    
     return (
         <Wrapper>
             <Label htmlFor={htmlfor}>{htmlfor}</Label>
             <InputWrapper>
-                <Input type={type} autoComplete="off" placeholder={placeholder} name={htmlfor} value={value} minLength={minChar} onChange={event => setValue(event.target.value)}  />
+                <Input onKeyDown={onKeyEnter} type={type} autoComplete="off" placeholder={placeholder} name={htmlfor} value={value} minLength={minChar} onChange={event => setValue(event.target.value)}  />
                 <IconWrapper>
                     <SvgIcon width="19px" height="19px" path={icon} />
                 </IconWrapper>

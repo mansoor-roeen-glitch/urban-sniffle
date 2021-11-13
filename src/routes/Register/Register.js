@@ -69,6 +69,12 @@ export default function Register() {
         setTimeout(() => { setError(false) }, duration)
     }
 
+    function handleKeyEnter (event) {
+        if (event.key === 'Enter') {
+            handleSubmit(); 
+        }
+    }
+
     const handleSubmit =  async () => {
 
         if (!email || !username || !password ) {
@@ -149,9 +155,9 @@ export default function Register() {
                 </HeadingWrapper>
                 <FormWrapper>
                     <Form>
-                        <SecondaryInput value={username} setValue={setUsername} type="text" minChar="2" htmlfor="Username" placeholder="Enter your username" icon="/images/person.svg" />
-                        <SecondaryInput value={email} setValue={setEmail} type="email" minChar="6" htmlfor="Email address" placeholder="Enter your email address" icon="/images/email.svg" />
-                        <SecondaryInput value={password} setValue={setPassword} type="password" minChar="8" htmlfor="Password" placeholder="Enter your password" icon="/images/lock.svg" />
+                        <SecondaryInput value={username} onKeyEnter={handleKeyEnter} setValue={setUsername} type="text" minChar="2" htmlfor="Username" placeholder="Enter your username" icon="/images/person.svg" />
+                        <SecondaryInput value={email} onKeyEnter={handleKeyEnter} setValue={setEmail} type="email" minChar="6" htmlfor="Email address" placeholder="Enter your email address" icon="/images/email.svg" />
+                        <SecondaryInput value={password} onKeyEnter={handleKeyEnter} setValue={setPassword} type="password" minChar="8" htmlfor="Password" placeholder="Enter your password" icon="/images/lock.svg" />
                     </Form>
                 </FormWrapper>
                 <ButtonWrapper>
@@ -159,17 +165,21 @@ export default function Register() {
                         <SecondaryButton text="Register" onClick={handleSubmit} />
                     </PrimaryButtonWrapper>
                     <SecondaryButtonWrapper>
-                        <span onClick={() => {window.location.pathname = "/login"}}>
+                        <LinkButton onClick={() => {window.location.pathname = "/login"}}>
                             <SecondaryButtonContent>
                                 already have an account? login
                             </SecondaryButtonContent>
-                        </span>
+                        </LinkButton>
                     </SecondaryButtonWrapper>
                 </ButtonWrapper>
             </InnerWrapper>
         </Wrapper>
     )
 }
+
+const LinkButton = styled.button `
+    background: transparent;
+`;
 
 const LoadingMessage = styled.span `
     color: #929FB2;
