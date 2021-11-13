@@ -18,6 +18,12 @@ export default function PrimaryDropdown({heading, options, selected, onChange}) 
         onChange(index)
     }
 
+    window.onclick = (event) => {
+        if (!event.target.classList.contains('primary-dropdown')) {
+            setIsActive(false)
+        }
+    }
+
     return (
         <Wrapper>
             <HeadingWrapper>
@@ -25,7 +31,7 @@ export default function PrimaryDropdown({heading, options, selected, onChange}) 
                     {heading}
                 </StyledHeading>    
             </HeadingWrapper>        
-            <ContentWrapper onClick={handleClick}>
+            <ContentWrapper onClick={handleClick} className="primary-dropdown">
                 <ContentTextWrapper>
                     <ContentText>
                         { options[selectedOption].name }

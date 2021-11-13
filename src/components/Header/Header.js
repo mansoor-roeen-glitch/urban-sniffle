@@ -70,7 +70,7 @@ export default function Header({userDataLoading, userData, userDataSuccess}) {
                             )
                         })}
 
-                        <Features active={featuresBtn} userDataLoading={userDataLoading} userData={userData} userDataSuccess={userDataSuccess} />
+                        <Features active={featuresBtn} setActive={setFeaturesBtn} userDataLoading={userDataLoading} userData={userData} userDataSuccess={userDataSuccess} />
 
                     </StyledList>
                 </RightWrapper>

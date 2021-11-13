@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import ServiceItem from './ServiceItem'
 
 export default function ServiceList({data, handleClickChange, type, handlePlanClick, handleTemplateClick}) {
-console.log(type, data)
     return (    
         <StyledWrapper>
             <List>

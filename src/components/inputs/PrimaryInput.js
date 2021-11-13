@@ -40,7 +40,7 @@ export default function PrimaryInput({heading, value, htmltype, onChange, inputV
     return (
         <Wrapper>
             <HeadingWrapper>
-                <StyledHeading>
+                <StyledHeading error={error}>
                     {heading}
                 </StyledHeading>    
             </HeadingWrapper>        
@@ -101,7 +101,7 @@ const MessageWrapper = styled.div `
 
 const StyledHeading = styled.span `
     font-weight: 400;
-    color: var(--primary-purple);
+    color: ${props => props.error ? '#A42929': 'var(--primary-purple)'};
     opacity: .9;
     text-transform: uppercase;
     font-size: 0.9rem;

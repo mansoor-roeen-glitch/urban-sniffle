@@ -13,6 +13,29 @@ export default function Plans({config, handlePlanClick, userDataLoading, userDat
     const [error, setError] = React.useState();
     const [plans, setPlans] = React.useState();
     const [loading, setLoading] = React.useState(true);
+    const [search, setSearch] = React.useState("")
+    const [foundMatch, setFoundMatch] = React.useState(false);
+
+    const handleValueChange = (value) => {
+        const keyword = value;
+    
+        if (keyword !== '') {
+          
+            const searchRes = plans.filter((plan) => {
+            
+                return plan.name.toLowerCase().startsWith(keyword.toLowerCase());
+                // Use the toLowerCase() method to make it case-insensitive
+            
+            });
+
+            setFoundMatch(searchRes);
+
+        } else {
+          
+            setFoundMatch(false);
+        
+        }
+    }
 
     const getPlans = async () => {
         let response = await axios({
@@ -82,15 +105,15 @@ export default function Plans({config, handlePlanClick, userDataLoading, userDat
             <Header>
         
                 <SearchWrapper>
-                    <PrimarySearchBar name="SearchBar" className="Primary-Search-Bar" id="Primary-Search-Bar" />
+                    <PrimarySearchBar valueHasChanged={handleValueChange} onChange={setSearch} name="SearchBar" className="Primary-Search-Bar" id="Primary-Search-Bar" />
                 </SearchWrapper>
                 
-                <PrimaryButton to="/plans/create" text="New" width="80px" height="40px" />
+                <PrimaryButton to="/create/plan" text="New" width="80px" height="40px" />
 
             </Header>
 
             <ServiceItemPlaceholder data={["name", "size", "period", "bandwidth"]} />
-            <ServiceList handlePlanClick={handlePlanClick} data={plans} type="plans" />
+            <ServiceList handlePlanClick={handlePlanClick} data={foundMatch ? foundMatch : plans} type="plans" />
 
         </Wrapper>
     )

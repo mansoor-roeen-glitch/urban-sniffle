@@ -108,8 +108,6 @@ export default function Service (props) {
         
         }
 
-        console.log(serviceDetails)
-
     }
 
     React.useEffect(() => {

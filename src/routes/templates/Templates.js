@@ -13,6 +13,29 @@ export default function Templates({config, handleTemplateClick, userDataLoading,
     const [error, setError] = React.useState();
     const [templates, setTemplates] = React.useState();
     const [loading, setLoading] = React.useState(true);
+    const [search, setSearch] = React.useState("")
+    const [foundMatch, setFoundMatch] = React.useState(false);
+    
+    const handleValueChange = (value) => {
+        const keyword = value;
+    
+        if (keyword !== '') {
+          
+            const searchRes = templates.filter((template) => {
+            
+                return template.name.toLowerCase().startsWith(keyword.toLowerCase());
+                // Use the toLowerCase() method to make it case-insensitive
+            
+            });
+
+            setFoundMatch(searchRes);
+
+        } else {
+          
+            setFoundMatch(false);
+        
+        }
+    }
 
     const getTemplates = async () => {
         let response = await axios({
@@ -81,16 +104,15 @@ export default function Templates({config, handleTemplateClick, userDataLoading,
             
             <Header>
                 <SearchWrapper>
-                    <PrimarySearchBar name="SearchBar" className="Primary-Search-Bar" id="Primary-Search-Bar" />
+                    <PrimarySearchBar valueHasChanged={handleValueChange} onChange={setSearch} name="SearchBar" className="Primary-Search-Bar" id="Primary-Search-Bar" />
                 </SearchWrapper>
                     
-                <PrimaryButton to="/templates/create" text="New" width="80px" height="40px" />
+                <PrimaryButton to="/create/template" text="New" width="80px" height="40px" />
 
             </Header>
 
             <ServiceItemPlaceholder data={["name", "type", "id", "file"]} />
-            {console.log(templates)}
-            <ServiceList handleTemplateClick={handleTemplateClick} data={templates} type="templates" />
+            <ServiceList handleTemplateClick={handleTemplateClick} data={foundMatch ? foundMatch : templates} type="templates" />
 
         </Wrapper>
     )

@@ -57,7 +57,6 @@ export default function Console({data, serviceConsole, serviceNotActivated}) {
                 }
                 
                 res = JSON.parse(res.text).data;
-                console.log(res);
 
                 let protocol = (window.location.protocol === 'https:') ? 'wss://' : 'ws://';
                 let ticket = encodeURIComponent(res.ticket);
@@ -75,7 +74,6 @@ export default function Console({data, serviceConsole, serviceNotActivated}) {
                 const attachAddon = new AttachAddon(socket);
                 term.loadAddon(attachAddon);
                 term.onData(function(data) {
-                    console.log(state, states)
                     if (state === states.connected) {
                         socket.send("0:" + unescape(encodeURIComponent(data)).length.toString() + ":" + data);
                     }

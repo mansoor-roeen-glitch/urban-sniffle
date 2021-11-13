@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import SvgIcon from '../icons/SvgIcon'
 
-export default function Features({active, userDataLoading, userData, userDataSuccess}) {
+export default function Features({active, userDataLoading, userData, setActive}) {
     
     // Using static data for now
     // Features will be depending on the backend
@@ -80,7 +80,7 @@ export default function Features({active, userDataLoading, userData, userDataSuc
                     return (
                     
                         <ListItem key={index}>
-                            <Link ref={(elem) => {if (elem) {elem.style.setProperty("outline", "none", "important")}}} style={{textDecoration: "none", display: "flex", alignItems: "center", padding: "0px 19px", columnGap: "8px", width: "100%"}} to={feature.to}>
+                            <Link onClick={() => {setActive(false)}} ref={(elem) => {if (elem) {elem.style.setProperty("outline", "none", "important")}}} style={{textDecoration: "none", display: "flex", alignItems: "center", padding: "0px 19px", columnGap: "8px", width: "100%"}} to={feature.to}>
                                 <SvgIcon path={`/images/${feature.svg}`} alt={feature.name} width={feature.width} color="#FFFFFF" height={feature.height} />
                                 <ItemText>{feature.name}</ItemText>
                             </Link>
