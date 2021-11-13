@@ -7,7 +7,7 @@ import axios from 'axios';
 import ErrorMessage from '../../../components/messages/ErrorMessage';
 import SuccessMessage from '../../../components/messages/SuccessMessage';
 
-export default function Actions({data, config, setLoadingAnim}) {
+export default function Actions({data, config, setLoadingAnim, serviceNotActivated}) {
 
     const [loading, setLoading] = React.useState(false);
     const [success, setSuccess] = React.useState(false); 
@@ -128,42 +128,64 @@ export default function Actions({data, config, setLoadingAnim}) {
             }
 
             <InnerWrapper>
-                
-                <VMCWrapper>
 
-                    <PrimaryHeading text="Virtual Machine Controls" />
-                    
-                    <Paragraph>
-                        control your virtual machine through action buttons below, each button will have their own assigned function
-                    </Paragraph>
+                {serviceNotActivated ? (
+                    <MessageWrapper>
+                        <Message> You cannot use Console if service status is inactive or pending, please make sure this service is activated to use console</Message>
+                    </MessageWrapper>
+                ) : (
+                    <div>
 
-                    <ButtonWrapper>
-                        <Button text="Reboot machine" onClick={() => {handleExtraActions("reboot")}} width="160px" height="42px" />
-                        <Button text="Reset machine" onClick={() => {handleExtraActions("reset")}} width="160px" height="42px" />
-                        <Button text="Shut down" onClick={() => {handleExtraActions("shutdown")}} width="160px" height="42px" />
-                    </ButtonWrapper>
+                        <VMCWrapper>
 
-                </VMCWrapper>
+                        <PrimaryHeading text="Virtual Machine Controls" />
 
-                <SCWrapper>
+                        <Paragraph>
+                            control your virtual machine through action buttons below, each button will have their own assigned function
+                        </Paragraph>
 
-                    <PrimaryHeading text="Service Controls" />
+                        <ButtonWrapper>
+                            <Button text="Reboot machine" onClick={() => {handleExtraActions("reboot")}} width="160px" height="42px" />
+                            <Button text="Reset machine" onClick={() => {handleExtraActions("reset")}} width="160px" height="42px" />
+                            <Button text="Shut down" onClick={() => {handleExtraActions("shutdown")}} width="160px" height="42px" />
+                        </ButtonWrapper>
 
-                    <Paragraph>
-                        services can be stopped and started throught the action buttons provided below, deleting a service CANNOT be undone
-                    </Paragraph>
-                    
-                    <ButtonWrapper>
-                        <Button text="Start / Stop " onClick={() => {handleExtraActions("start")}} width="160px" height="42px" />
-                        <DangerButton text="Delete Service" onClick={handleServiceDelete} width="160px" height="42px" />
-                    </ButtonWrapper>
+                        </VMCWrapper>
 
-                </SCWrapper>
+                        <SCWrapper>
+
+                        <PrimaryHeading text="Service Controls" />
+
+                        <Paragraph>
+                            services can be stopped and started throught the action buttons provided below, deleting a service CANNOT be undone
+                        </Paragraph>
+
+                        <ButtonWrapper>
+                            <Button text="Start / Stop " onClick={() => {handleExtraActions("start")}} width="160px" height="42px" />
+                            <DangerButton text="Delete Service" onClick={handleServiceDelete} width="160px" height="42px" />
+                        </ButtonWrapper>
+
+                        </SCWrapper>
+
+                    </div>
+                )}
                 
             </InnerWrapper>
         </Wrapper>
     )
 }
+
+const Message = styled.div `
+    color: #CED2D8;
+    font-size: 18px;
+
+`;
+
+const MessageWrapper = styled.div `
+    width: 100%;
+    height: fit-content;
+    max-width: 800px;
+`;
 
 const SCWrapper = styled.div `
     padding-top: 15px;

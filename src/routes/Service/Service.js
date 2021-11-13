@@ -238,13 +238,13 @@ export default function Service (props) {
                             return <Details data={details} serviceStatus={serviceStatus} />;
 
                         case 1:
-                            return <Console data={details} serviceConsole={serviceConsoleData} />;
+                            return <Console data={details} serviceConsole={serviceConsoleData} serviceNotActivated={serviceNotActivated()} />;
                         
                         case 2:
                             return <Billing data={details} />;
                             
                         case 3:
-                            return <Actions data={details} setLoadingAnim={setActionLoading} config={props.config} />;
+                            return <Actions data={details} setLoadingAnim={setActionLoading} serviceNotActivated={serviceNotActivated()} config={props.config} />;
                             
                     }
                 })()}

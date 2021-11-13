@@ -18,12 +18,7 @@ export default async function handleCheckout (serviceId, authToken) {
         return stripe.redirectToCheckout({ sessionId: session.data.sessionid });
     })
 
-    .then(function(result) {
-        // If `redirectToCheckout` fails due to a browser or network
-        // error, you should display the localized error message to your
-        // customer using `error.message`.
-        if (result.error) {
-            alert(result.error.message);
-        }
-    });
+    .catch((error) => {
+        return {success: false, error: "something went wrong, try again later"}    
+    })
 }

@@ -7,11 +7,14 @@ import { AttachAddon } from 'xterm-addon-attach';
 import '../../../../node_modules/xterm/css/xterm.css';
 const proxmox = require('proxmox-client');
 
-export default function Console({data, serviceConsole}) {
-
+export default function Console({data, serviceConsole, serviceNotActivated}) {
     const XTerm = useRef(null);
 
     useEffect(() => {
+
+        if (serviceNotActivated) {
+           return null; 
+        }
 
         // list nodes
         let term;
@@ -89,15 +92,34 @@ export default function Console({data, serviceConsole}) {
     return (
         <Wrapper>
             <InnerWrapper>
-                <ConsoleWrapper>
-                    <ConsoleElem ref={XTerm}>
-                    
-                    </ConsoleElem>
-                </ConsoleWrapper>
+                {serviceNotActivated ? (
+                    <MessageWrapper>
+                        <Message> You cannot use Console if service status is inactive or pending, please make sure this service is activated to use console</Message>
+                    </MessageWrapper>
+                ) : (
+                    <ConsoleWrapper>
+                        <ConsoleElem ref={XTerm}>
+                        
+                        </ConsoleElem>
+                    </ConsoleWrapper>
+                )}
             </InnerWrapper>
         </Wrapper>
     )
 }
+
+const Message = styled.div `
+    color: #CED2D8;
+    font-size: 18px;
+
+`;
+
+const MessageWrapper = styled.div `
+    width: 100%;
+    height: fit-content;
+    max-width: 800px;
+    padding-top: 10px;
+`;
 
 const ConsoleElem = styled.div `
     width: fit-content;
