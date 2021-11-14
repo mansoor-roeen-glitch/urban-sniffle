@@ -14,7 +14,7 @@ import {
 
 } from './StyledHeader';
 
-export default function Header() {
+export default function Header({userDataLoading, userData, userDataSuccess}) {
 
     let [featuresBtn, setFeaturesBtn] = React.useState(false);
     let [profileBtn, setProfileBtn] = React.useState(false);
@@ -25,23 +25,23 @@ export default function Header() {
             src: "features.svg",
             name: "features button", 
             action: setFeaturesBtn,
-            width: "26px",
-            height: "25px"
+            width: "24px",
+            height: "23px"
         },
         {
             src: "bell.svg",
             name: "Notifications button", 
             action: setNotificationBtn,
-            width: "30px",
-            height: "30px"
+            width: "28px",
+            height: "28px"
 
         },
         {
             src: "profile.svg",
             name: "Profile button", 
             action: setProfileBtn,
-            width: "30px",
-            height: "30px"
+            width: "28px",
+            height: "28px"
 
         }
     ]
@@ -55,7 +55,7 @@ export default function Header() {
                         <StyledLogo src="/images/favicon.ico"></StyledLogo>
                     </div>
                     <div>
-                        <StyledTitle>Dashboard</StyledTitle>
+                        <StyledTitle>Hostnet.io</StyledTitle>
                     </div>
                 </LeftWrapper>
 
@@ -64,13 +64,13 @@ export default function Header() {
                         
                         {navbarItems.map((item, index) => {
                             return (
-                                <StyledItem key={index} onClick={() => {item.action(args => !args)}} >
+                                <StyledItem key={index} onClick={() => {item.action(args => !args);}} >
                                     <SvgIcon width={item.width} height={item.height} path={`/images/${item.src}`} alt={item.name} />
                                 </StyledItem>
                             )
                         })}
 
-                        <Features active={featuresBtn} />
+                        <Features active={featuresBtn} setActive={setFeaturesBtn} userDataLoading={userDataLoading} userData={userData} userDataSuccess={userDataSuccess} />
 
                     </StyledList>
                 </RightWrapper>

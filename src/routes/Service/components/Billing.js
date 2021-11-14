@@ -44,13 +44,19 @@ export default function Billing({data}) {
     return (
         <Wrapper>
             <InnerWrapper>
-                <Section data={bd} heading="Billing Details" rows={2} rowHeight={170 / 2} />
-                <Section data={pb} heading="Plan Benifits" rows={2} rowHeight={170 / 2} />
+                <Section data={bd} heading="Billing Details" rows={1} rows2={2} rows3={3} rowHeight={105} />
+                <RowGap />
+                <Section data={pb} heading="Plan Benifits" rows={1} rows2={2} rows3={3} rowHeight={105} />
             </InnerWrapper>
         </Wrapper>
 
     )
 }
+
+const RowGap = styled.div `
+    width: 100%;
+    height: 45px;
+`;
 
 const InnerWrapper = styled.div `
     max-width: 1400px;

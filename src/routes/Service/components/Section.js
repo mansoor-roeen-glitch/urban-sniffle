@@ -5,13 +5,13 @@ import PrimaryDropdown from '../../../components/dropdowns/PrimaryDropdown';
 import PrimaryHeading from "../../../components/texts/PrimaryHeading";
 import PrimaryInput from '../../../components/inputs/PrimaryInput';
 
-export default function Section({data, heading, rows, rowHeight}) {
+export default function Section({data, heading, rows, rows2, rows3, rowHeight}) {
     return (
         <GeneralSec>
             <HeadingWrapper>
                 <PrimaryHeading text={heading} />
             </HeadingWrapper>
-            <ContentWrapper count={data.length} rows={rows} rowHeight={rowHeight}>
+            <ContentWrapper count={data.length} rows={rows} rows2={rows2} rows3={rows3} rowHeight={rowHeight}>
                 {data.map((item) => {
                     return (
                         <DetailWrapper>
@@ -26,7 +26,7 @@ export default function Section({data, heading, rows, rowHeight}) {
                                         return <PrimaryDropdown onChange={item.onChange} heading={item.heading} value={item.value} options={item.options} selected={0} />;
                                     
                                     case "input":
-                                        return <PrimaryInput onChange={item.onChange} inputValue={item.inputValue} heading={item.heading} value={item.value} htmltype={item.htmltype} />
+                                        return <PrimaryInput onChange={item.onChange} inputValue={item.inputValue} heading={item.heading} value={item.value} htmltype={item.htmltype} errorMes={item.errorMes} messageDur={item.messageDur} hasErrorMessage={item.hasErrorMessage} />
                                 }
                             })()}
 
@@ -48,26 +48,30 @@ const ContentWrapper = styled.div `
     height: fit-content;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: ${props => props.rowHeight}px;
+    grid-template-rows: repeat(${props => props.rows}, ${props => props.rowHeight}px);
     grid-column-gap: 60px;
 
-    @media screen and (max-width: 980px) {
+    @media screen and (max-width: 1100px) {
+        grid-column-gap: 25px;
+    }
+
+    @media screen and (max-width: 800px) {
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: repeat(${props => props.rows}, 120px);
+        grid-template-rows: repeat(${props => props.rows2}, ${props => props.rowHeight}px);
         grid-column-gap: 45px;
 
     }
 
     @media screen and (max-width: 625px) {
         grid-template-columns: 1fr;
-        grid-template-rows: repeat(${props => props.count}, 120px);
+        grid-template-rows: repeat(${props => props.rows3}, ${props => props.rowHeight}px);
     }
 
 `;
 
 const HeadingWrapper = styled.div `
 
-    margin-bottom: 35px;
+    margin-bottom: 45px;
     width: 100%;
 
     display: flex;
@@ -83,14 +87,5 @@ const GeneralSec = styled.div `
     background: var(--primary-background);
     display: flex;
     flex-direction: column;
-    margin-bottom: 80px;
-
-    @media screen and (max-width: 1000px) {
-        margin-bottom: 60px;
-    }
-
-    @media screen and (max-width: 800px) {
-        margin-bottom: 30px;
-    }
 
 `;

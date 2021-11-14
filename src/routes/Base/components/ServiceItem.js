@@ -2,33 +2,44 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom';
 
-export default function ServiceItem({service, handleClickChange}) {
+export default function ServiceItem({item, handleClickChange, redirectTo, type, handlePlanClick, handleTemplateClick, details}) {
     return (
-        <Link onClick={() => {handleClickChange(service.id, service.hostname)}} style={{textDecoration: "none", outline: "none"}} to={`/service/${service.id}/${service.hostname}`}>
-            <StyledWrapper id={service.id} >
+        
+        <Link onClick={() => {
+
+            if (type === "service") {
+                handleClickChange(item[0], item[1])
+            } else if (type === "plan") {
+                handlePlanClick(details)
+            } else if (type === "template") {
+                handleTemplateClick(details)
+            }
+
+        }} style={{textDecoration: "none", outline: "none"}} to={redirectTo}>
+            <StyledWrapper id={item[0]} >
                 <StyledGrid>
 
                     <ServiceHostname>
                         <ServiceHostnameText>
-                            {service.hostname}
+                            {item[1]}
                         </ServiceHostnameText>
                     </ServiceHostname>
 
                     <ServiceDetail>
                         <ServiceDetailText>
-                            {service.plan}
+                            {item[2]}
                         </ServiceDetailText>
                     </ServiceDetail>
 
                     <ServiceDetail>
                         <ServiceDetailText>
-                            {service.status}
+                            {item[3] === undefined ? 'inactive' : item[3]}
                         </ServiceDetailText>
                     </ServiceDetail>
 
                     <ServiceDetail>
                         <ServiceDetailText>
-                            {service.service_plan.ram}
+                            {item[4]}
                         </ServiceDetailText>
                     </ServiceDetail>
 
@@ -42,10 +53,14 @@ const ServiceDetailText = styled.span `
     font-family: "Josefin Sans";
     font-style: normal;
     font-weight: 300;
-    font-size: 1.22rem;
+    font-size: 1.15rem;
     line-height: 124%;
     color: var(--white);
     text-transform: capitalize;
+
+    @media screen and (max-width: 600px) {
+        font-size: 1.1rem;
+    }
 `;
 
 const ServiceDetail = styled.div ` 
@@ -61,10 +76,14 @@ const ServiceHostname = styled.div `
 const ServiceHostnameText = styled.span `
     font-style: normal;
     font-weight: 300;
-    font-size: 1.296rem;
+    font-size: 1.15rem;
     line-height: 124%;
     color: var(--white);
     opacity: .9;
+
+    @media screen and (max-width: 600px) {
+        font-size: 1rem;
+    }
 `;
 
 const StyledGrid = styled.div `
@@ -80,11 +99,12 @@ const StyledGrid = styled.div `
     &:hover {
         opacity: .8;
     }
+    
 `;
 
 const StyledWrapper = styled.li `
     width: 100%;
-    height: 75px;
+    height: 70px;
 
     display: flex;
     align-items: center;

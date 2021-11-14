@@ -16,7 +16,11 @@ export default function Register() {
     const [success, setSuccess] = React.useState(false)
     const [error, setError] = React.useState(false)
     const [loading, setLoading] = React.useState(false)
-    
+
+    function redirectToApp () {
+        window.location.pathname = '/';
+    }
+
     function checkPassword(s) {
     
         if(s) {
@@ -65,20 +69,26 @@ export default function Register() {
         setTimeout(() => { setError(false) }, duration)
     }
 
+    function handleKeyEnter (event) {
+        if (event.key === 'Enter') {
+            handleSubmit(); 
+        }
+    }
+
     const handleSubmit =  async () => {
 
-        if (!email || !username || !password || !repeatPassword) {
+        if (!email || !username || !password ) {
             displayError("Please fill the form properly", 4000)
             return;
         }
 
-        if (password !== repeatPassword) {
-            displayError("Password does not match", 3000);
-            setRepeatPassword("")
-            setPassword("")
+        // if (password !== repeatPassword) {
+        //     displayError("Password does not match", 3000);
+        //     setRepeatPassword("")
+        //     setPassword("")
 
-            return;
-        }
+        //     return;
+        // }
 
         if (!isValidUsername(username)) {
             displayError("Username cannot contian special characters", 4000)
@@ -117,9 +127,9 @@ export default function Register() {
                 localStorage.removeItem("x-token")
             }
 
-            localStorage.setItem('x-token', JSON.stringify(response.data.key))
-            window.location.pathname = '/'
-        
+            localStorage.setItem('x-token', response.data.key)
+            redirectToApp()
+
         } 
 
     };
@@ -130,25 +140,24 @@ export default function Register() {
                 <HeadingWrapper>
                     <SecondaryHeading text="Register now" />
 
-                    <MessageWrapper>
-
-                        {error && (
-                            <ErrorMessage>{error}</ErrorMessage>
-                        )} 
-
-                        {loading && (
+                    {loading && (
+                        <MessageWrapper>
                             <LoadingMessage>Please wait, loading ... </LoadingMessage>
-                        )}
+                        </MessageWrapper>
+                    )}
 
-                    </MessageWrapper>
+                    {error && (
+                        <MessageWrapper>
+                            <ErrorMessage>{error}</ErrorMessage>
+                        </MessageWrapper>                        
+                    )} 
 
                 </HeadingWrapper>
                 <FormWrapper>
                     <Form>
-                        <SecondaryInput value={username} setValue={setUsername} type="text" minChar="2" htmlfor="Username" placeholder="Enter your username" icon="/images/person.svg" />
-                        <SecondaryInput value={email} setValue={setEmail} type="email" minChar="6" htmlfor="Email address" placeholder="Enter your email address" icon="/images/email.svg" />
-                        <SecondaryInput value={password} setValue={setPassword} type="password" minChar="8" htmlfor="Password" placeholder="Enter your password" icon="/images/lock.svg" />
-                        <SecondaryInput value={repeatPassword} setValue={setRepeatPassword} minChar="8" type="password" htmlfor="Repeat password" placeholder="Repeat your password" icon="/images/lock.svg" />
+                        <SecondaryInput value={username} onKeyEnter={handleKeyEnter} setValue={setUsername} type="text" minChar="2" htmlfor="Username" placeholder="Enter your username" icon="/images/person.svg" />
+                        <SecondaryInput value={email} onKeyEnter={handleKeyEnter} setValue={setEmail} type="email" minChar="6" htmlfor="Email address" placeholder="Enter your email address" icon="/images/email.svg" />
+                        <SecondaryInput value={password} onKeyEnter={handleKeyEnter} setValue={setPassword} type="password" minChar="8" htmlfor="Password" placeholder="Enter your password" icon="/images/lock.svg" />
                     </Form>
                 </FormWrapper>
                 <ButtonWrapper>
@@ -156,17 +165,21 @@ export default function Register() {
                         <SecondaryButton text="Register" onClick={handleSubmit} />
                     </PrimaryButtonWrapper>
                     <SecondaryButtonWrapper>
-                        <span onClick={() => {window.location.pathname = "/login"}}>
+                        <LinkButton onClick={() => {window.location.pathname = "/login"}}>
                             <SecondaryButtonContent>
-                                already have an account? login here
+                                already have an account? login
                             </SecondaryButtonContent>
-                        </span>
+                        </LinkButton>
                     </SecondaryButtonWrapper>
                 </ButtonWrapper>
             </InnerWrapper>
         </Wrapper>
     )
 }
+
+const LinkButton = styled.button `
+    background: transparent;
+`;
 
 const LoadingMessage = styled.span `
     color: #929FB2;
@@ -178,14 +191,17 @@ const ErrorMessage = styled.span `
     color: var(--secondary-red);
     font-size: inherit;
     font-weight: inherit;
+    text-align: center;
+
+    width: 90%;
 `;
 
 const MessageWrapper = styled.div `
-    margin-top: 20px;
+    margin-top: 15px;
     width: 100%;
     height: 20px;
 
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 400;
 
     display: flex;
@@ -198,7 +214,7 @@ const SecondaryButtonContent = styled.button `
     color: #929FB2;
     font-style: normal;
     font-weight: 400;
-    font-size: 20px;
+    font-size: 16px;
     letter-spacing: 0.02em;
 
     width: 100%;
@@ -226,31 +242,32 @@ const ButtonWrapper = styled.div `
 
 const PrimaryButtonWrapper = styled.div `
     width: 100%;
-    height: 60px;
+    height: 40px;
 `;
 
 const Form = styled.div `
     display: flex;
     flex-direction: column;
 
-    row-gap: 45px;
+    row-gap: 10px;
 `;
 
 const FormWrapper = styled.div `
     width: 88%;
     height: fit-content;
-    margin-bottom: 100px;
+    margin-bottom: 20px;
 `;
 
 const HeadingWrapper = styled.div `
     height: fit-content;
-    width: fit-content;
+    width: 100%;
 
-    margin-bottom: calc(90px - 50px);
+    margin-bottom: calc(80px - 40px);
+
 `;
 
 const InnerWrapper = styled.div `
-    width: 440px;
+    width: 300px;
     height: fit-content;
     background-color: var(--secondary-background);
 
@@ -258,14 +275,12 @@ const InnerWrapper = styled.div `
     align-items: center;
     flex-direction: column;
 
-    padding-top: 50px;
-    padding-bottom: 50px;
-    margin-top: 60px;
+    padding-top: 30px;
+    padding-bottom: 25px;
 `;
 
 const Wrapper = styled.div `
     width: 100%;
-    height: calc(100vh - 60px);
     background-color: var(--primary-background);
 
     display: flex;

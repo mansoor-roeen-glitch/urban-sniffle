@@ -2,24 +2,25 @@ import React from 'react';
 import styled from 'styled-components';
 import SvgIcon from '../icons/SvgIcon';
 
-export default function SecondaryInput({placeholder, icon, htmlfor, type, value, setValue, minChar}) {
+export default function SecondaryInput({placeholder, icon, htmlfor, type, value, setValue, minChar, onKeyEnter}) {
+    
     return (
         <Wrapper>
             <Label htmlFor={htmlfor}>{htmlfor}</Label>
             <InputWrapper>
-                <Input type={type} autoComplete="off" placeholder={placeholder} name={htmlfor} value={value} minLength={minChar} onChange={event => setValue(event.target.value)}  />
+                <Input onKeyDown={onKeyEnter} type={type} autoComplete="off" placeholder={placeholder} name={htmlfor} value={value} minLength={minChar} onChange={event => setValue(event.target.value)}  />
                 <IconWrapper>
-                    <SvgIcon width="24px" height="24px" path={icon} />
+                    <SvgIcon width="19px" height="19px" path={icon} />
                 </IconWrapper>
-                <div className="Input_Line" style={{width: "100%", height: "1.5px", position: "absolute", bottom: "-5px", background: "#9FA9B9"}}></div>
-                <div className="Input_Line_Overlay" style={{left: "0px", width: "0%", height: "1.5px", position: "absolute", bottom: "-5px", background: "#ba97e4"}}></div>
+                <div className="Input_Line" style={{width: "100%", height: "1px", position: "absolute", bottom: "-5px", background: "#9FA9B9"}}></div>
+                <div className="Input_Line_Overlay" style={{left: "0px", width: "0%", height: "1px", position: "absolute", bottom: "-5px", background: "#ba97e4"}}></div>
             </InputWrapper>
         </Wrapper>
     )
 }
 
 const InputWrapper = styled.div `
-    height: 50px;
+    height: 35px;
     display: flex;
     flex-direction: row-reverse;
     
@@ -48,7 +49,7 @@ const Input = styled.input `
 
     font-style: normal;
     font-weight: normal;
-    font-size: 20px;
+    font-size: 15px;
     display: flex;
     align-items: center;
     letter-spacing: 0.02em;
@@ -78,14 +79,14 @@ const Input = styled.input `
 const Label = styled.label `
     font-style: normal;
     font-weight: 300;
-    font-size: 16px;
-    line-height: 19px;
+    font-size: 11px;
     display: flex;
     align-items: center;
     letter-spacing: 0.02em;
+    text-transform: uppercase;
 
     color: #9FA9B9;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 `;
 
 const Wrapper = styled.div `

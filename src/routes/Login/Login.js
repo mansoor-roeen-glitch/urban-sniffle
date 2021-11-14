@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import SecondaryInput from '../../components/inputs/SecondaryInput';
 import SecondaryHeading from '../../components/texts/SecondaryHeading';
 import SecondaryButton from '../../components/buttons/SecondaryButton';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 export default function Login(props) {
@@ -12,18 +11,18 @@ export default function Login(props) {
     const [password, setPassword] = React.useState("");
 
     const [success, setSuccess] = React.useState(false)
-    const [error, setError] = React.useState(false)
+    const [error, setError] = React.useState(false) 
     const [loading, setLoading] = React.useState(false)
+
+
+    function redirectToApp () {
+        window.location.pathname = '/';
+    }
 
     function resetValues () {
         setUsername("")
         setPassword("")
     }
-
-    function isValidEmailAddress(emailAddress) {
-        var pattern = new RegExp(/^(("[\w-+\s]+")|([\w-+]+(?:\.[\w-+]+)*)|("[\w-+\s]+")([\w-+]+(?:\.[\w-+]+)*))(@((?:[\w-+]+\.)*\w[\w-+]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][\d]\.|1[\d]{2}\.|[\d]{1,2}\.))((25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\.){2}(25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\]?$)/i);
-        return pattern.test(emailAddress);
-    };
 
     function isValidUsername(username) {
         /* 
@@ -41,6 +40,12 @@ export default function Login(props) {
     function displayError (error, duration) {
         setError(error)
         setTimeout(() => { setError(false) }, duration)
+    }
+
+    function handleKeyEnter (event) {
+        if (event.key === 'Enter') {
+            handleSubmit(); 
+        }
     }
 
     const handleSubmit =  async () => {
@@ -78,7 +83,7 @@ export default function Login(props) {
             }
 
             localStorage.setItem('x-token', response.data.key)
-            window.location.pathname = '/'
+            redirectToApp()
             
         }
 
@@ -91,29 +96,31 @@ export default function Login(props) {
             <InnerWrapper>
                 <HeadingWrapper>
                     <SecondaryHeading text="Login" />
-                    <MessageWrapper>
-
-                        {error && (
-                            <ErrorMessage>{error}</ErrorMessage>
-                        )} 
-
-                        {loading && (
+                    
+                    {loading && (
+                        <MessageWrapper>
                             <LoadingMessage>Please wait, loading ... </LoadingMessage>
-                        )}
+                        </MessageWrapper>
+                    )}
 
-                    </MessageWrapper>
+                    {error && (
+                        <MessageWrapper>
+                            <ErrorMessage>{error}</ErrorMessage>
+                        </MessageWrapper>                        
+                    )} 
+
                 </HeadingWrapper>
                 <FormWrapper>
                     <Form>
-                        <SecondaryInput value={username} setValue={setUsername} type="text" htmlfor="Username" placeholder="Enter your username" icon="/images/person.svg" />
-                        <SecondaryInput value={password} setValue={setPassword} type="password" htmlfor="Password" placeholder="Enter your password" icon="/images/lock.svg" />
+                        <SecondaryInput value={username} onKeyEnter={handleKeyEnter} setValue={setUsername} type="text" htmlfor="Username" placeholder="Enter your username" icon="/images/person.svg" />
+                        <SecondaryInput value={password} onKeyEnter={handleKeyEnter} setValue={setPassword} type="password" htmlfor="Password" placeholder="Enter your password" icon="/images/lock.svg" />
                     </Form>
                     <ResetWrapper>
-                        <span onClick={() => {window.location.pathname = "/reset"}} style={{textDecoration: "none"}}>
+                        <LinkButton to="/reset" onClick={() => {window.location.pathname = "/reset"}} style={{textDecoration: "none"}}>
                             <ResetText>
                                 forgot password ?
                             </ResetText>
-                        </span>
+                        </LinkButton>
                     </ResetWrapper>
                 </FormWrapper>
                 <ButtonWrapper>
@@ -121,17 +128,21 @@ export default function Login(props) {
                         <SecondaryButton text="Login" onClick={handleSubmit} />
                     </PrimaryButtonWrapper>
                     <SecondaryButtonWrapper>
-                        <span onClick={() => {window.location.pathname = "/register"}} style={{textDecoration: "none"}}>
+                        <LinkButton to="/register" onClick={() => {window.location.pathname = "/register"}} style={{textDecoration: "none"}}>
                             <SecondaryButtonContent>
                                 don't have an account? sign up now
                             </SecondaryButtonContent>
-                        </span>
+                        </LinkButton>
                     </SecondaryButtonWrapper>
                 </ButtonWrapper>
             </InnerWrapper>
         </Wrapper>
     )
 }
+
+const LinkButton = styled.button `
+    background: transparent;
+`;
 
 const LoadingMessage = styled.span `
     color: #929FB2;
@@ -143,31 +154,39 @@ const ErrorMessage = styled.span `
     color: var(--secondary-red);
     font-size: inherit;
     font-weight: inherit;
+    text-align: center;
+
+    width: 90%;
 `;
 
 const MessageWrapper = styled.div `
-    margin-top: 20px;
+    margin-top: 15px;
     width: 100%;
     height: 20px;
 
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 400;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
 `;
 
 const ResetText = styled.span `
     color: #929FB2;
     font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
+    font-weight: 300;
+    font-size: 16px;
     letter-spacing: 0.02em;
+    cursor: pointer;
 `;
 
 const ResetWrapper = styled.div `
     width: fit-content;
     height: fit-content;
 
-    margin-top: 50px;
+    margin-top: 25px;
     &:hover {
         opacity: .8;
     }
@@ -177,7 +196,7 @@ const SecondaryButtonContent = styled.button `
     color: #929FB2;
     font-style: normal;
     font-weight: 400;
-    font-size: 20px;
+    font-size: 16px;
     letter-spacing: 0.02em;
 
     width: 100%;
@@ -205,7 +224,7 @@ const ButtonWrapper = styled.div `
 
 const PrimaryButtonWrapper = styled.div `
     width: 100%;
-    height: 60px;
+    height: 40px;
 `;
 
 const Form = styled.div `
@@ -214,28 +233,28 @@ const Form = styled.div `
     width: 100%;
     align-items: center;
 
-    row-gap: 45px;
+    row-gap: 10px;
 `;
 
 const FormWrapper = styled.div `
     width: 88%;
     height: fit-content;
-    margin-bottom: 70px;
+    margin-bottom: 20px;
 
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     flex-direction: column;
 `;
 
 const HeadingWrapper = styled.div `
     height: fit-content;
-    width: fit-content;
+    width: 100%;
 
-    margin-bottom: calc(90px - 40px);
+    margin-bottom: calc(80px - 40px);
 `;
 
 const InnerWrapper = styled.div `
-    width: 440px;
+    width: 300px;
     height: fit-content;
     background-color: var(--secondary-background);
 
@@ -243,17 +262,15 @@ const InnerWrapper = styled.div `
     align-items: center;
     flex-direction: column;
 
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding-top: 30px;
+    padding-bottom: 25px;
 `;
 
 const Wrapper = styled.div `
     width: 100%;
-    height: calc(100vh - 60px);
     background-color: var(--primary-background);
 
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 30px;
 `;

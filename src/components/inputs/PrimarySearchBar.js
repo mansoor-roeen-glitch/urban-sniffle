@@ -6,7 +6,7 @@ export default function PrimarySearchBar(props) {
     return (
         <Wrapper>
             
-            <StyledInput name={props.name} placeholder="Filter by records" className={props.className} id={props.id} />
+            <StyledInput value={props.value} onChange={(e) => {props.onChange(e.target.value); props.valueHasChanged(e.target.value)}} name={props.name} placeholder="Filter by records" className={props.className} id={props.id} />
             
             <StyledLabel htmlFor={props.name} >
                 <SvgIcon path="/images/search.svg" alt="Search Svg" width="22px" height="22px" />
@@ -26,10 +26,20 @@ const Wrapper = styled.div `
     opacity: .6;
     border-style: solid;
     overflow: hidden;
+
+    @media screen and (max-width: 800px) {
+        max-width: 240px;
+        height: 40px;
+        border-radius: 4px;
+    }
+    
+    @media screen and (max-width: 420px) {
+        max-width: 200px;
+    }
 `;
 
 const StyledInput = styled.input ` 
-    width: 220px;
+    width: 100%;
     height: 100%;
     background: transparent;
 

@@ -46,6 +46,10 @@ const LinkText = styled.span `
     color: var(--primary-white);
     font-style: normal;
     font-weight: 300;
+
+    @media screen and (max-width: 600px) {
+        font-size: 12px;
+    }
 `;
 
 const Item = styled.li `
@@ -67,6 +71,11 @@ const List = styled.ul `
     justify-content: flex-end;
     list-style: none;
     column-gap: 35px;
+
+    @media screen and (max-width: 600px) {
+        column-gap: 25px;
+    }
+ 
 `;  
 
 const StyledWrapper = styled.div `
@@ -84,5 +93,9 @@ const StyledWrapper = styled.div `
     border-top-color: var(--footer-line);
     border-top-width: 0.5px;
     border-top-style: solid;
+
+    @media screen and (max-width: 600px) {
+        height: 55px;
+    }
 
 `;

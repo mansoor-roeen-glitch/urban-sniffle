@@ -18,6 +18,12 @@ export default function PrimaryDropdown({heading, options, selected, onChange}) 
         onChange(index)
     }
 
+    window.onclick = (event) => {
+        if (!event.target.classList.contains('primary-dropdown')) {
+            setIsActive(false)
+        }
+    }
+
     return (
         <Wrapper>
             <HeadingWrapper>
@@ -25,7 +31,7 @@ export default function PrimaryDropdown({heading, options, selected, onChange}) 
                     {heading}
                 </StyledHeading>    
             </HeadingWrapper>        
-            <ContentWrapper onClick={handleClick}>
+            <ContentWrapper onClick={handleClick} className="primary-dropdown">
                 <ContentTextWrapper>
                     <ContentText>
                         { options[selectedOption].name }
@@ -78,7 +84,7 @@ const DropdownMenuWrapper = styled.div `
     border-radius: 4px;
     z-index: 2;
 
-    top: 98px;
+    top: 80px;
 `;
 
 const ContentSvgWrapper = styled.div `
@@ -92,7 +98,7 @@ const ContentSvg = styled.div `
 `
 
 const StyledHeading = styled.span `
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 400;
     color: var(--primary-purple);
     opacity: .9;
@@ -100,7 +106,7 @@ const StyledHeading = styled.span `
 `;
 
 const ContentText = styled.span `
-    font-size: 1.15rem;
+    font-size: 1rem;
     font-weight: 300;
     font-style: normal;
     color: var(--white);
@@ -113,11 +119,12 @@ const ContentTextWrapper = styled.div `
 `;
 
 const ContentWrapper = styled.div `
-    height: 47px;
+    height: 42px;
+
     width: 100%;
 
-    border-width: 0.5px;
-    border-color: var(--secondary-purple);
+    border-width: 1px;
+    border-color: var(--border-purple);
     border-style: solid;
     border-radius: 3px;
 
@@ -141,5 +148,5 @@ const Wrapper = styled.div `
     width: 100%;
     display: flex;
     flex-direction: column;
-    row-gap: 20px;
+    row-gap: 14px;
 `; 

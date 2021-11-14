@@ -1,9 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
-import PrimaryButton from '../../components/buttons/PrimaryButton';
+import Button from '../../components/buttons/ActionButton';
 import SubHeader from '../../components/Header/SubHeader';
-import PrimaryInput from '../../components/inputs/PrimaryInput'
+import ErrorMessage from '../../components/messages/ErrorMessage';
+import SuccessMessage from '../../components/messages/SuccessMessage';
+import handleCheckout from '../../functions/handleCheckout';
 import Section from '../Service/components/Section';
 
 export default function Create({config}) {
@@ -12,57 +14,197 @@ export default function Create({config}) {
     const [planType, setPlanType] = useState(0)
     const [template, setTemplate] = useState(0)
     const [billingMethod, setBillingMethod] = useState(0)
+    const [responseLoading, setResponseLoading] = useState(false)
 
-    const [hostname, setHostname] = useState("")
-    const [password, setPassword] = useState("")
+    const [hostname, setHostname] = useState({
+        
+        value: "",
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    })
+
+    const [password, setPassword] = useState({
+
+        value: "",
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    })
+
+    const [ownerLoading, setOwnerLoading] = useState(true);
+    const [ownerDetails, setOwnerDetails] = useState()
+    const [ownerSuccess, setOwnerSuccess] = useState();
 
     const [details, setDetails] = useState()
     const [loading, setLoading] = useState(true)
     const [success, setSuccess] = useState()
     const [error, setError] = useState()
 
+    const [showMessage, setShowMessage] = React.useState(false);
+
+    const successRedirect = () => {
+        window.location.pathname = '/';
+    }
+
+    const handleMessage = (messageType, duration, message) => {
+
+        setShowMessage({messageType, duration, message});
+        
+        setTimeout(() => {
+            
+            setShowMessage(false);
+
+        }, duration * 1000)
+
+    }
+
+    const isValidPassword = (input) => {
+        if (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(input)) {
+            return true
+        } else {
+            return false
+        }
+    }
+ 
+    const isValidHostname = (input) => {
+        if (/^[a-zA-Z0-9-_]+$/.test(input)) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    const validateForm = ({hostnameField, passwordField}) => {
+        
+        let isHostnameValid = false;
+        let isPasswordValid = false;
+
+        if (!hostnameField || !isValidHostname(hostnameField)) {
+            
+            setHostname((prevState) => ({
+                
+                ...prevState,
+                
+                hasErrorMessage: true,
+                errorMes: "only alphabets, numbers, dash, and underscore",
+
+            }))
+
+            isHostnameValid = false 
+        
+        } else {
+
+            isHostnameValid = true;
+
+        }
+
+        if (!passwordField) {
+            
+            setPassword((prevState) => ({
+
+                ...prevState,
+                
+                hasErrorMessage: true,
+                errorMes: "please fill in the input properly"
+
+            }))
+            
+            isPasswordValid = false
+        } 
+
+        if (passwordField) {
+            if (passwordField.length < 8 ) {
+
+                setPassword((prevState) => ({
+                    ...prevState,
+                    
+                    hasErrorMessage: true,
+                    errorMes: "must be more than 6 characters long"
+                }))
+            
+            } else {
+
+                if (!isValidPassword(passwordField)) {
+                    setPassword((prevState) => ({
+                        
+                        ...prevState,
+                        
+                        hasErrorMessage: true,
+                        errorMes: "must have one numeric digit, one uppercase, lowercase letter"
+                    
+                    }))
+                
+                } else {
+
+                    isPasswordValid = true    
+
+                }
+            
+            }
+        }
+
+        return {isHostnameValid, isPasswordValid};
+
+    }
+
     const createService = async () => {
 
+        const checkForm = validateForm({
+            
+            hostnameField: hostname.value,
+            passwordField: password.value
+            
+        })
+
+        if (!checkForm.isHostnameValid || !checkForm.isPasswordValid) {
+            return null;
+        }
+
+        setResponseLoading(true)
+
         const response = await axios({
+            
             method: "post",
             url: "https://hosnet.io/api/services/",
+            
             data: {
                 
-                "id": 88,
-            "owner": "sss",
-            "billing_id": null,
-            "machine_id": 1000018,
-            "hostname": "sodlksadfafjslakj",
-            "plan": "Basic",
-            "node": "magus",
-            "status": "error",
-            "service_plan": {
-                "template": "Winn",
-                "storage": "local-zfs",
-                "size": 128,
-                "ram": 1024,
-                "swap": 0,
-                "cores": 4,
-                "bandwidth": 1024,
-                "cpu_units": 1024,
-                "cpu_limit": "0.00",
-                "ipv6_ips": 1,
-                "ipv4_ips": 0,
-                "internal_ips": 1,
-                "type": "lxc",
-                "ip_pools": [
-                    1
-                ]
+                "owner": ownerDetails.username,
+                "hostname": hostname.value,
+                "password": password.value,
+                "plan": staticdata[3].options[planType].name,
+                "node": staticdata[2].options[node].name,
+                "template": staticdata[4].options[template].name,
+                "billing_type": 2
             },
-            "billing_type": null
-            },
+            
             headers: {
                 'Authorization': `Token ${config}`,
                 'content-type': "application/json"
             }
-        })
 
-        console.log(response)
+        })
+        
+        .then((res) => {
+            if (res.status === 201) {
+                setSuccess(true)
+                setError(false)
+                setLoading(true)
+                handleCheckout(res.data.id, config)
+                setResponseLoading(false)
+            }
+        })
+        
+        .catch((err) => {
+            
+            setResponseLoading(false)
+            handleMessage("error", 5, "Something went wrong, try again later")
+            return {error: err, status: false}
+
+        });
 
     }
 
@@ -70,14 +212,19 @@ export default function Create({config}) {
 
         const response = await axios({
             method: "get",
-            url: `https://hosnet.io/api/${endpoint}/`,
+            url: `https://hosnet.io/${endpoint}/`,
             headers: {
                 'Authorization': `Token ${config}`,
                 'content-type': "application/json"
             }
         })
             .then((res) => {return {data: res.data, status: 200}})
-            .catch((err) => {return {error: err, status: false}});
+            .catch((err) => {
+                console.error(err)
+                handleMessage("error", 5, "Something went wrong, try again later")
+                return {error: err, status: false}
+            
+            });
 
         return response
 
@@ -89,7 +236,10 @@ export default function Create({config}) {
             value: "example-hostname",
             type: "input",
             htmltype: "text",
-            inputValue: hostname,
+            inputValue: hostname.value,
+            errorMes: hostname.errorMes,
+            messageDur: hostname.messageDur,
+            hasErrorMessage: hostname.hasErrorMessage,
             onChange: setHostname
         },
         {
@@ -97,7 +247,10 @@ export default function Create({config}) {
             value: "your-password",
             type: "input",
             htmltype: "password",
-            inputValue: password,
+            inputValue: password.value,
+            errorMes: password.errorMes,
+            messageDur: password.messageDur,
+            hasErrorMessage: password.hasErrorMessage,
             onChange: setPassword
         },
         {
@@ -118,7 +271,13 @@ export default function Create({config}) {
         {
             heading: "billing method",
             value: "stripe",
-            type: "detail",
+            type: "dropdown",
+            options: [
+                {
+                    name: "stripe",
+                    type: "option"
+                }
+            ],
             selected: billingMethod,
             onChange: setBillingMethod  
         }
@@ -127,10 +286,13 @@ export default function Create({config}) {
 
     useEffect( async () => {
 
-        const plans = await fetchDetail("plans");
-        const templates = await fetchDetail("templates");
+        const owner = await fetchDetail("auth/user");
+        const plans = await fetchDetail("api/plans");
+        const templates = await fetchDetail("api/templates");
 
-        if (plans.status === 200 && templates.status === 200) {
+        if (plans.status === 200 && templates.status === 200 && owner.status === 200) {
+
+            setOwnerDetails(owner.data)
 
             setDetails({
                 plans: {
@@ -152,8 +314,10 @@ export default function Create({config}) {
                     onChange: setTemplate  
                 }})
 
+
+            setOwnerLoading(false)
+            setOwnerSuccess(true)
             setLoading(false)
-            setSuccess(true)
             
 
         } else {
@@ -167,9 +331,8 @@ export default function Create({config}) {
 
         return (
             <Wrapper>
-                <SubHeader path={true} pathName="Create service" />
+                <SubHeader path={true} loading={true} pathName="Create service" />
                 {/* Loading will be included below this */}
-                <h1>Please wait, loading</h1>
             </Wrapper>
         )
 
@@ -189,11 +352,30 @@ export default function Create({config}) {
 
     return (
         <Wrapper>
-            <SubHeader path={true} pathName="Create service" />
+
+            {showMessage && 
+
+                showMessage.messageType === "success" && (
+
+                        <SuccessMessage message={showMessage.message} duration={showMessage.duration} isVisible={true} />
+
+                    )
+                }
+
+            {showMessage && 
+
+                showMessage.messageType === "error" && (
+
+                    <ErrorMessage message={showMessage.message} duration={showMessage.duration} isVisible={true} />
+
+                )
+            }
+
+            <SubHeader path={true} pathName="Create service" laoding={responseLoading} />
             <InnerWrapper>
-                <Section data={staticdata} heading="Create new service" rows={2} rowHeight={130}  />
+                <Section data={staticdata} heading="Create new service" rows={2} rows2={3} rows3={6} rowHeight={115} />
                 <ButtonWrapper>
-                    <PrimaryButton onClick={createService} text="Proceed to checkout" to="/create" width="200px" height="45px" />
+                    <Button onClick={createService} text="Proceed to checkout" width="200px" height="50px" />
                 </ButtonWrapper>
             </InnerWrapper>
         </Wrapper>
@@ -203,6 +385,9 @@ export default function Create({config}) {
 const ButtonWrapper = styled.div `
     width: fit-content;
     height: fit-content;
+    margin-top: 15px;
+
+    
 `;
 
 const Wrapper = styled.div `

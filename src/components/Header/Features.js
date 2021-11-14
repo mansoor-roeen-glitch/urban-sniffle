@@ -3,57 +3,84 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import SvgIcon from '../icons/SvgIcon'
 
-export default function Features({active}) {
+export default function Features({active, userDataLoading, userData, setActive}) {
     
     // Using static data for now
     // Features will be depending on the backend
     
-    let features = [
+    let userFeatures = [
         {
             name: "Services",
             to: "/",
             svg: "services.svg",
-            width: "25px",
-            height: "25px"
-        },
-        {
-            name: "Plans",
-            to: "/plans",
-            svg: "services.svg",
-            width: "25px",
-            height: "25px"
-        },
-        {
-            name: "Templates",
-            to: "/templates",
-            svg: "services.svg",
-            width: "25px",
-            height: "25px"
-        },
-        {
-            name: "Pools",
-            to: "/pools",
-            svg: "services.svg",
-            width: "25px",
-            height: "25px"
+            width: "19px",
+            height: "19px"
         },
         {
             name: "Support",
             to: "/support",
-            svg: "services.svg",
-            width: "25px",
-            height: "25px"
+            svg: "support.svg",
+            width: "19px",
+            height: "19px"
+        },
+        {
+            name: "Logout",
+            to: "/auth/logout",
+            svg: "logout.svg",
+            width: "19px",
+            height: "19px"
         }
     ]
-    
+
+    let adminFeatures = [
+        {
+            name: "Services",
+            to: "/",
+            svg: "services.svg",
+            width: "19px",
+            height: "19px"
+        },
+        {
+            name: "Plans",
+            to: "/plans",
+            svg: "plans.svg",
+            width: "18px",
+            height: "18px"
+        },
+        {
+            name: "Templates",
+            to: "/templates",
+            svg: "templates.svg",
+            width: "19px",
+            height: "19px"
+        },
+        {
+            name: "Support",
+            to: "/support",
+            svg: "support.svg",
+            width: "19px",
+            height: "19px"
+        },
+        {
+            name: "Logout",
+            to: "/auth/logout",
+            svg: "logout.svg",
+            width: "19px",
+            height: "19px"
+        }
+    ]
+
+    const isAdmin = !userDataLoading && userData.is_staff ;
+    const features = userDataLoading ? userFeatures : isAdmin ? adminFeatures : userFeatures;
+
     return (
         <Wrapper style={{display: active ? "flex" : "none"}}>
             <List>
                 {features.map((feature, index) => {
                     return (
                     
-                        <ListItem>
-                            <Link ref={(elem) => {if (elem) {elem.style.setProperty("outline", "none", "important")}}} style={{textDecoration: "none", display: "flex", alignItems: "center", padding: "0px 25px", columnGap: "3px", width: "100%"}} to={feature.to}>
+                        <ListItem key={index}>
+                            <Link onClick={() => {setActive(false)}} ref={(elem) => {if (elem) {elem.style.setProperty("outline", "none", "important")}}} style={{textDecoration: "none", display: "flex", alignItems: "center", padding: "0px 19px", columnGap: "8px", width: "100%"}} to={feature.to}>
                                 <SvgIcon path={`/images/${feature.svg}`} alt={feature.name} width={feature.width} color="#FFFFFF" height={feature.height} />
                                 <ItemText>{feature.name}</ItemText>
                             </Link>
@@ -77,9 +104,9 @@ const StyledSeperator = styled.div `
 `;
 
 const ItemText = styled.span `
-    font-size: 19px;
+    font-size: 16px;
     text-decoration: none;
-    font-weight: normal;
+    font-weight: 300;
     font-style: normal;
     color: var(--white);
     padding: 0px 10px;
@@ -106,7 +133,7 @@ const List = styled.ul `
 const ListItem = styled.li `
     height: fit-content;
     width: 100%;
-    height: 58px;
+    height: 52px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -121,16 +148,15 @@ const ListItem = styled.li `
 
 const Wrapper = styled.div `
     height: fit-content;
-    width: 290px;
+    width: 180px;
 
     top: calc(65px + 10px);
     background: white;
     position: absolute;
-    right: calc(5% + 110px);
+    right: 5%;
     background: var(--secondary-background);
     border: none;
 
     box-shadow: 0 3px 20px rgb(255 255 255 / 5%), 0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(255 255 255 / 10%);
-    border-radius: 4px;
-    z-index: 2;
+    z-index: 10;
 `;

@@ -6,20 +6,21 @@ import axios from 'axios';
 import Details from './components/Details'
 import Console from './components/Console';
 import Billing from './components/Billing';
+import Actions from './components/Actions'
+import { Link } from 'react-router-dom';
+import handleCheckout from '../../functions/handleCheckout';
 
 export default function Service (props) {
 
     const {id, hostname} = props.details
     const [selected, setSelected] = React.useState(0)
-
     const [serviceStatus, setServiceStatus] = React.useState();
     const [loading, setLoading] = React.useState(true);
     const [success, setSuccess] = React.useState()
     const [details, setDetails] = React.useState()
     const [error, setError] = React.useState()
-    const [serviceConsole, setServiceConsole] = React.useState()
-
-
+    const [serviceConsoleData, setServiceConsoleData] = React.useState()
+    const [actionLoading, setActionLoading] = React.useState(false)
 
     const createConsoleSession = async () => {
         let response = await axios({
@@ -30,8 +31,8 @@ export default function Service (props) {
                 "Authorization": `Token ${props.config}`
             }
         })
-            .then((res) => {return {status: res.status, data: res.data}})
-            .catch((error ) => {return {status: 400, data: error};})
+            .then((res) => {return {status: 200, data: res.data}})
+            .catch((error ) => {return {status: false, data: error};})
 
         return response;
     }
@@ -45,8 +46,8 @@ export default function Service (props) {
                 "Authorization": `Token ${props.config}`
             }
         })
-            .then((res) => {return {status: res.status, data: res.data}})
-            .catch((error ) => {return {status: 400, data: error};})
+            .then((res) => {return {status: 200, data: res.data}})
+            .catch((error ) => {return {status: false, data: error};})
         
         return response;
     }
@@ -72,17 +73,27 @@ export default function Service (props) {
         const serviceDetails = await getServiceDetails()
         const serviceConsole = await createConsoleSession()
 
-        if (serviceDetails.status === 200 && serviceStatus.status === 200 && serviceConsole.status == 200) {
+        if (serviceDetails.status === 200 && serviceStatus.status === 200 && serviceConsole.status === 200) {
 
-            setDetails(serviceDetails.data)
+            setServiceConsoleData(serviceConsole.data)
             setServiceStatus(serviceStatus.data)
-            setServiceConsole(serviceConsole.data)
+            setDetails(serviceDetails.data)
             setLoading(false)
             setSuccess(true)
             setError(false)
 
-        } else if (serviceDetails.status === 200 && !serviceStatus.status) {
+        } else if (serviceDetails.status === 200 && serviceConsole.status === 200 && !serviceStatus.status) {
 
+            setServiceConsoleData(serviceConsole.data)
+            setDetails(serviceDetails.data)
+            setServiceStatus(false)
+            setLoading(false)
+            setSuccess(true)
+            setError(false)
+
+        } else if (serviceDetails.status === 200 && !serviceConsole.status && !serviceStatus.status) {
+
+            setServiceConsoleData(false)
             setDetails(serviceDetails.data)
             setServiceStatus(false)
             setLoading(false)
@@ -94,7 +105,7 @@ export default function Service (props) {
             setError(true)
             setLoading(false)
             setSuccess(false)
-
+        
         }
 
     }
@@ -119,19 +130,31 @@ export default function Service (props) {
             text: "Billing",
             index: 2
         }
+        ,
+        {
+            text: "Actions",
+            index: 3
+        }
     ]
 
     const handleOptionClick = (index) => {
         setSelected(index)
     }
 
+    const serviceNotActivated = () => {
+        if (details.status === undefined) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     if (loading) {
 
         return (
             <Wrapper>
-                <SubHeader path={true} pathName={hostname} />
+                <SubHeader path={true} loading={true} pathName={hostname} />
                 {/* Loading will be included below this */}
-                <h1>something went wrong</h1>
             </Wrapper>
         )
 
@@ -151,16 +174,41 @@ export default function Service (props) {
 
     return (
         <Wrapper>
-            <SubHeader path={true} pathName={hostname} />
+            <SubHeader path={true} serviceNotActivated={serviceNotActivated()} loading={actionLoading} pathName={hostname} />
+            {serviceNotActivated() && (
+                <ServiceNotActivatedWrapper>
+                    <ServiceNotActivated>
+                        <NoticeSvg>
+
+                            <svg width="18" height="18" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_650_3)">
+                                <path d="M9 1.73288C13.1355 1.73288 16.5 5.09738 16.5 9.23288C16.5 13.3684 13.1355 16.7329 9 16.7329C4.8645 16.7329 1.5 13.3684 1.5 9.23288C1.5 5.09738 4.8645 1.73288 9 1.73288ZM9 0.23288C4.02975 0.23288 0 4.26263 0 9.23288C0 14.2031 4.02975 18.2329 9 18.2329C13.9702 18.2329 18 14.2031 18 9.23288C18 4.26263 13.9702 0.23288 9 0.23288ZM8.0175 5.87738C7.94325 5.27213 8.4135 4.73288 9.0285 4.73288C9.60675 4.73288 10.0612 5.23988 9.9885 5.82113L9.42075 10.3609C9.3945 10.5731 9.21375 10.7329 9 10.7329C8.78625 10.7329 8.6055 10.5731 8.5785 10.3609L8.0175 5.87738V5.87738ZM9 13.9204C8.4825 13.9204 8.0625 13.5004 8.0625 12.9829C8.0625 12.4654 8.4825 12.0454 9 12.0454C9.5175 12.0454 9.9375 12.4654 9.9375 12.9829C9.9375 13.5004 9.5175 13.9204 9 13.9204Z" fill="#943134"/>
+                                </g>
+                                <defs>
+                                <clipPath id="clip0_650_3">
+                                <rect width="18" height="18" fill="white" transform="translate(0 0.23288)"/>
+                                </clipPath>
+                                </defs>
+                            </svg>
+
+                        </NoticeSvg>
+                        <ServiceNotActivatedMessage>
+                            This service is inactive, to activate
+                            &nbsp;
+                            <CheckoutButton onClick={() => {handleCheckout(details.id, props.config)}} >click here</CheckoutButton>
+                        </ServiceNotActivatedMessage>
+                    </ServiceNotActivated>
+                </ServiceNotActivatedWrapper>
+            )}
             <HeaderWrapper>
                 <InnerWrapper>
                     <List>
 
                         {/* We will map through all the service options */}
 
-                        {selectOptions.map((option) => {
+                        {selectOptions.map((option, index) => {
                             return (
-                                <Item className={selected === option.index ? "Option-Selected" : ""} style={{opacity: selected === option.index ? "1" : ".5"}}>
+                                <Item key={index} className={selected === option.index ? "Option-Selected" : ""} style={{opacity: selected === option.index ? "1" : ".5"}}>
                                     <ItemButton onClick={() => {handleOptionClick(option.index)}}>
                                         <ItemText>{option.text}</ItemText>
                                     </ItemButton>
@@ -176,6 +224,8 @@ export default function Service (props) {
                 </InnerWrapper>
             </HeaderWrapper>
 
+            
+
             <ContentWrapper>
                 
                 {/* Showing content based on user selection */}
@@ -186,11 +236,14 @@ export default function Service (props) {
                             return <Details data={details} serviceStatus={serviceStatus} />;
 
                         case 1:
-                            return <Console data={details} serviceConsole={serviceConsole}/>;
+                            return <Console data={details} serviceConsole={serviceConsoleData} serviceNotActivated={serviceNotActivated()} />;
                         
                         case 2:
                             return <Billing data={details} />;
-                        
+                            
+                        case 3:
+                            return <Actions data={details} setLoadingAnim={setActionLoading} serviceNotActivated={serviceNotActivated()} config={props.config} />;
+                            
                     }
                 })()}
 
@@ -199,6 +252,56 @@ export default function Service (props) {
         </Wrapper>
     )
 }
+
+
+const CheckoutButton = styled.button `
+    width: fit-content;
+    height: fit-content;
+    background: transparent;
+    outline: none;
+    color: #943134;
+    text-decoration: underline;
+    font-size: 16px;
+    cursor: pointer;
+`;
+
+const ServiceNotActivatedWrapper = styled.div`
+    width: 100%;
+    height: fit-content;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background: #1D1212;
+    margin-bottom: 20px;
+`;
+
+const NoticeSvg = styled.div `
+    width: fit-content;
+    height: fit-content;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`; 
+
+const ServiceNotActivatedMessage = styled.span `
+    font-style: normal;
+    font-weight: normal;
+    font-size:16px;
+    display: flex;
+    align-items: center;
+    text-align: right;
+
+    color: #943134;
+`;
+
+const ServiceNotActivated = styled.div `
+    display: flex;
+    height: 50px;
+    width: 92%;
+    max-width: 1400px;
+    align-items: center;
+`
 
 const ContentWrapper = styled.div `
 
@@ -228,8 +331,8 @@ const ItemButton = styled.button `
 `;
 
 const ItemText = styled.span `
-    font-size: 1.22rem;
-    font-weight: 300;
+    font-size: 1.1rem;
+    font-weight: 400;
     font-style: normal;
     line-height: normal;
     color: var(--white);
@@ -259,9 +362,8 @@ const List = styled.ul `
 
 const HeaderWrapper = styled.div `
     width: 100%;
-    height: 60px;
+    height: 50px;
     background: transparent;
-    padding-top: 10px;
 
     display: flex;
     align-items: center;

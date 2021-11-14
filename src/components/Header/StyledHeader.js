@@ -17,14 +17,14 @@ const OuterWrapper = styled.header `
         position: absolute;
         bottom: -12px;
         width: 100%;
-        height: 4px;
+        height: 2px;
         background: linear-gradient(to right, rgb(159,125,195), #8ECBE9);
     }
 `;
 
 const InnerWrapper = styled.nav `
     width: 93%;
-    height: 65px;
+    height: 55px;
 
     display: flex;
     align-items: center;
@@ -51,7 +51,7 @@ const StyledLogo = styled.img `
 `;
 
 const StyledTitle = styled.span `
-    font-size: 1.49rem;
+    font-size: 1.3rem;
     line-height: normal;
     text-decoration: none;
     font-family: "Josefin Sans", "Roboto", sans-serif;

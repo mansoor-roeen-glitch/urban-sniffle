@@ -13,7 +13,7 @@ const StyledHeader = styled.h2 `
     font-style: normal;
     letter-spacing: 2%;
     font-weight: 500;
-    font-size: 2.05rem;
+    font-size: 1.6rem;
     color: var(--white);
     opacity: .85;
 
