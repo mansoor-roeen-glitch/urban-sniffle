@@ -49,7 +49,7 @@ export default function Console({data, serviceConsole, serviceNotActivated}) {
 
         fitAddon.fit();
         
-        proxmox.auth(window.location.host, serviceConsole.username, serviceConsole.password).then(() => {
+        proxmox.auth(window.location.protocol+window.location.host, serviceConsole.username, serviceConsole.password).then(() => {
             proxmox.post('/nodes/'+serviceConsole.node+'/'+serviceConsole.type+'/'+serviceConsole.machine+'/termproxy', undefined).then((res) => {
                
                 if(res.status !== 200) {
