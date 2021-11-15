@@ -1,6 +1,8 @@
 import React from 'react'
 import SvgIcon from "../icons/SvgIcon"
 import Features from './Features';
+import Profile from './Profile';
+
 import {
     
     OuterWrapper,
@@ -71,6 +73,7 @@ export default function Header({userDataLoading, userData, userDataSuccess}) {
                         })}
 
                         <Features active={featuresBtn} setActive={setFeaturesBtn} userDataLoading={userDataLoading} userData={userData} userDataSuccess={userDataSuccess} />
+                        <Profile active={profileBtn} setActive={setProfileBtn} userDataLoading={userDataLoading} userData={userData} />
 
                     </StyledList>
                 </RightWrapper>

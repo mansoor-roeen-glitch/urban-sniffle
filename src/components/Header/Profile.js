@@ -3,76 +3,40 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import SvgIcon from '../icons/SvgIcon'
 
-export default function Features({active, userDataLoading, userData, setActive}) {
+export default function Profile({active, userDataLoading, userData, setActive}) {
     
     // Using static data for now
-    // Features will be depending on the backend
+    // options will be depending on the backend
     
-    let userFeatures = [
+    let options = [
         {
-            name: "Services",
+            name: "Account",
             to: "/",
-            svg: "services.svg",
+            svg: "profile.svg",
             width: "19px",
             height: "19px"
         },
         {
-            name: "Support",
-            to: "/support",
-            svg: "support.svg",
+            name: "Logout",
+            to: "/logout",
+            svg: "logout.svg",
             width: "19px",
             height: "19px"
         }
     ]
-
-    let adminFeatures = [
-        {
-            name: "Services",
-            to: "/",
-            svg: "services.svg",
-            width: "19px",
-            height: "19px"
-        },
-        {
-            name: "Plans",
-            to: "/plans",
-            svg: "plans.svg",
-            width: "18px",
-            height: "18px"
-        },
-        {
-            name: "Templates",
-            to: "/templates",
-            svg: "templates.svg",
-            width: "19px",
-            height: "19px"
-        },
-        {
-            name: "Support",
-            to: "/support",
-            svg: "support.svg",
-            width: "19px",
-            height: "19px"
-        }
-    ]
-
-    const isAdmin = !userDataLoading && userData.is_staff ;
-    const features = userDataLoading ? userFeatures : isAdmin ? adminFeatures : userFeatures;
 
     return (
         <Wrapper style={{display: active ? "flex" : "none"}}>
             <List>
-                {features.map((feature, index) => {
+                {options.map((option, index) => {
                     return (
-                    
                         <ListItem key={index}>
-                            <Link onClick={() => {setActive(false)}} ref={(elem) => {if (elem) {elem.style.setProperty("outline", "none", "important")}}} style={{textDecoration: "none", display: "flex", alignItems: "center", padding: "0px 19px", columnGap: "8px", width: "100%"}} to={feature.to}>
-                                <SvgIcon path={`/images/${feature.svg}`} alt={feature.name} width={feature.width} color="#FFFFFF" height={feature.height} />
-                                <ItemText>{feature.name}</ItemText>
+                            <Link onClick={() => {setActive(false)}} ref={(elem) => {if (elem) {elem.style.setProperty("outline", "none", "important")}}} style={{textDecoration: "none", display: "flex", alignItems: "center", padding: "0px 19px", columnGap: "8px", width: "100%"}} to={option.to}>
+                                <SvgIcon path={`/images/${option.svg}`} alt={option.name} width={option.width} color="#FFFFFF" height={option.height} />
+                                <ItemText>{option.name}</ItemText>
                             </Link>
-                            {index !== features.length && <StyledSeperator></StyledSeperator>}
+                            {index !== options.length && <StyledSeperator></StyledSeperator>}
                         </ListItem>
-                    
                     )
                 })}
             </List>

@@ -7,7 +7,7 @@ import axios from 'axios';
 import ErrorMessage from '../../../components/messages/ErrorMessage';
 import SuccessMessage from '../../../components/messages/SuccessMessage';
 
-export default function Actions({data, config, setLoadingAnim, serviceNotActivated}) {
+export default function Actions({data, config, setLoadingAnim}) {
 
     const [loading, setLoading] = React.useState(false);
     const [success, setSuccess] = React.useState(false); 
@@ -129,11 +129,7 @@ export default function Actions({data, config, setLoadingAnim, serviceNotActivat
 
             <InnerWrapper>
 
-                {serviceNotActivated ? (
-                    <MessageWrapper>
-                        <Message> You cannot use Console if service status is inactive or pending, please make sure this service is activated to use console</Message>
-                    </MessageWrapper>
-                ) : (
+                
                     <div>
 
                         <VMCWrapper>
@@ -168,7 +164,7 @@ export default function Actions({data, config, setLoadingAnim, serviceNotActivat
                         </SCWrapper>
 
                     </div>
-                )}
+                
                 
             </InnerWrapper>
         </Wrapper>

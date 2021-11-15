@@ -159,8 +159,8 @@ function App() {
 
             <Route path="/login" exact render={() => <Login />}  />
             <Route path="/register" exact render={() => <Register />}  />
-            <Route path="/reset" exact component={Reset} />
-            <Route path="/auth/logout" exact render={() => <Logout />} />
+            <Route path="/reset" exact render={() => <Reset />} />
+            <Route path="/logout" exact render={() => <Logout />} />
 
 
             <Wrapper>

@@ -48,7 +48,6 @@ export default function Console({data, serviceConsole, serviceNotActivated}) {
         term.write(' Please wait \x1B[1;3;31mConnecting...\x1B[0m $ ')
 
         fitAddon.fit();
-        
         proxmox.auth(window.location.protocol+'//'+window.location.host, serviceConsole.username, serviceConsole.password).then(() => {
             proxmox.post('/nodes/'+serviceConsole.node+'/'+serviceConsole.type+'/'+serviceConsole.machine+'/termproxy', undefined).then((res) => {
                
