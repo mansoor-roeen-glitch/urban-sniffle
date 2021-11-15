@@ -3,10 +3,14 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import SvgIcon from '../icons/SvgIcon'
 
-export default function Features({active, userDataLoading, userData, setActive}) {
+export default function Features({active, userDataLoading, userData, setActive, setProfileBtn}) {
     
     // Using static data for now
     // Features will be depending on the backend
+    
+    if (active) {
+        setProfileBtn(false)
+    }
     
     let userFeatures = [
         {

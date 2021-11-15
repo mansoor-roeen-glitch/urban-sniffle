@@ -84,23 +84,23 @@ export default function Details({data, serviceStatus}) {
         {
             heading: "Bandwith Usage",
             text: parseInt(serviceStatus.bandwidth_used / serviceStatus.bandwidth_used * 100) + "%",
-            total: parseInt(serviceStatus.bandwidth_max / 1000),
-            usage: parseInt(serviceStatus.bandwidth_used / 1000),
-            unit: " MB"
+            total: parseInt(serviceStatus.bandwidth_max / 1000000),
+            usage: parseInt(serviceStatus.bandwidth_used / 1000000),
+            unit: " GB"
         },
         {
             heading: "Disk Usage",
             text: parseInt(serviceStatus.disk_used / serviceStatus.disk_used * 100) + "%",
-            total: parseInt(serviceStatus.disk_max / 1000),
-            usage: parseInt(serviceStatus.disk_used / 1000),
-            unit: " MB"
+            total: parseInt(serviceStatus.disk_max / 1000000),
+            usage: parseInt(serviceStatus.disk_used / 1000000),
+            unit: " GB"
         },
         {
             heading: "Memory Usage",
             text: parseInt(serviceStatus.mem_used / serviceStatus.mem_used * 100) + "%",
-            total: parseInt(serviceStatus.mem_max / 1000),
-            usage: parseInt(serviceStatus.mem_used / 1000),
-            unit: " MB"
+            total: parseInt(serviceStatus.mem_max / 1000000),
+            usage: parseInt(serviceStatus.mem_used / 1000000),
+            unit: " GB"
         }
     ]
 

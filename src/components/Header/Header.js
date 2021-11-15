@@ -72,8 +72,8 @@ export default function Header({userDataLoading, userData, userDataSuccess}) {
                             )
                         })}
 
-                        <Features active={featuresBtn} setActive={setFeaturesBtn} userDataLoading={userDataLoading} userData={userData} userDataSuccess={userDataSuccess} />
-                        <Profile active={profileBtn} setActive={setProfileBtn} userDataLoading={userDataLoading} userData={userData} />
+                        <Features setProfileBtn={setProfileBtn} active={featuresBtn} setActive={setFeaturesBtn} userDataLoading={userDataLoading} userData={userData} userDataSuccess={userDataSuccess} />
+                        <Profile setFeaturesBtn={setFeaturesBtn} active={profileBtn} setActive={setProfileBtn} userDataLoading={userDataLoading} userData={userData} />
 
                     </StyledList>
                 </RightWrapper>
