@@ -3,11 +3,14 @@ import styled from 'styled-components'
 import Chart from './Chart';
 import Section from './Section';
 
-export default function Details({data, serviceStatus}) {
+export default function Details({data, serviceStatus, userData}) {
 
     const [plan, setPlan] = React.useState(0)
     const [node, setNode] = React.useState(0)
     const [template, setTemplate] = React.useState(0)
+
+    let virtualMachine = [];
+    let generalDetails = [];
 
     const [hostname, setHostname] = React.useState({
 
@@ -27,15 +30,6 @@ export default function Details({data, serviceStatus}) {
 
     });
 
-    const [status, setStatus] = React.useState({
-
-        value: data.status,
-        errorMes: "",
-        messageDur: 5000,
-        hasErrorMessage: false
-
-    });
-    
     const [size, setSize] = React.useState({
 
         value: data.service_plan.size,
@@ -54,8 +48,34 @@ export default function Details({data, serviceStatus}) {
 
     });
 
+    const [bandwidth, setBandwidth] = React.useState({
 
-    const adminGeneral = [
+        value: data.service_plan.bandwidth,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const [ipv6, setIpv6] = React.useState({
+
+        value: data.service_plan.ipv6_ips,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const [ipv4, setIpv4] = React.useState({
+
+        value: data.service_plan.ipv4_ips,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const adminGeneralAccess = [
         {
             heading: "Owner",
             value: data.owner,
@@ -96,7 +116,7 @@ export default function Details({data, serviceStatus}) {
 
         {
             heading: "status",
-            value: data.status,
+            value: data.status === undefined ? 'inactive' : data.status,
             type: "detail",
         },
 
@@ -119,7 +139,7 @@ export default function Details({data, serviceStatus}) {
         }
     ]
 
-    const general = [
+    const clientGeneralAccess = [
         {
             heading: "Owner",
             value: data.owner,
@@ -137,7 +157,7 @@ export default function Details({data, serviceStatus}) {
         },
         {
             heading: "Status",
-            value: data.status,
+            value: data.status === undefined ? 'inactive' : data.status,
             type: "detail"
         },
         {
@@ -158,7 +178,7 @@ export default function Details({data, serviceStatus}) {
         }
     ]
 
-    const adminVm = [
+    const adminVmAccess = [
         {
             heading: "Template",
             value: data.service_plan.template,
@@ -196,9 +216,34 @@ export default function Details({data, serviceStatus}) {
             inputValue: ram.value,
             onChange: setRam
         },
+        {
+            heading: "bandwidth",
+            value: bandwidth.value,
+            type: "input",
+            htmltype: "text",
+            inputValue: bandwidth.value,
+            onChange: setBandwidth
+        },
+        {
+            heading: "Ipv6 ips",
+            value: ipv6.value,
+            type: "input",
+            htmltype: "text",
+            inputValue: ipv6.value,
+            onChange: setIpv6
+        },
+        {
+            heading: "Ipv4 ips",
+            value: ipv4.value,
+            type: "input",
+            htmltype: "text",
+            inputValue: ipv4.value,
+            onChange: setIpv4
+        },
+
     ]
 
-    const vm = [
+    const clientVmAccess = [
         {
             heading: "Template",
             value: data.service_plan.template,
@@ -252,6 +297,7 @@ export default function Details({data, serviceStatus}) {
         }
     ]
 
+
     return (
         <Wrapper>
             <InnerWrapper>
@@ -267,9 +313,9 @@ export default function Details({data, serviceStatus}) {
                 )}
             
                 <Content marginTop={serviceStatus ? "50px" : "0px"}>
-                    <Section data={adminGeneral} heading="General Detials" rows={2} rows2={3} rows3={6} rowHeight={115} />
+                    <Section data={generalDetails} heading="General Detials" rows={2} rows2={3} rows3={6} rowHeight={115} />
                     <RowGap />
-                    <Section data={adminVm} heading="VM details" rows={2} rows2={3} rows3={6} rowHeight={115} />
+                    <Section data={virtualMachine} heading="VM details" rows={2} rows2={3} rows3={6} rowHeight={115} />
                 </Content>
             
             </InnerWrapper>

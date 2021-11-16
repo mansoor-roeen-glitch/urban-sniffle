@@ -167,14 +167,14 @@ function App() {
               <Header config={config} userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} />
 
               <Route path="/" exact render={() => <Base config={token} handleClickChange={handleClickChange} />} />
-              <Route path="/services/:id/:hostname" exact render={() => <Service config={token} details={selected} />} /> 
-              <Route path="/create" exact render={() => <Create config={token}  />} />
               <Route path="/plans" exact render={() => <Plans userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handlePlanClick={handlePlanClick} />} />
-              <Route path="/create/plan" exact render={() => <CreatePlan userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} />} />
+              <Route path="/create" exact render={() => <Create config={token}  />} />
               <Route path="/plans/:id" exact render={() => <Plan userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} details={selectedPlan} />} /> 
               <Route path="/templates" exact render={() => < Templates userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handleTemplateClick={handleTemplateClick} />} />
-              <Route path="/create/template" exact render={() => <CreateTemplate userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} />} />
+              <Route path="/create/plan" exact render={() => <CreatePlan userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} />} />
               <Route path="/templates/:id" exact render={() => <Template userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} details={selectedTemplate} />} /> 
+              <Route path="/create/template" exact render={() => <CreateTemplate userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} />} />
+              <Route path="/services/:id/:hostname" exact render={() => <Service config={token} details={selected} />} /> 
               
               <Footer />
               

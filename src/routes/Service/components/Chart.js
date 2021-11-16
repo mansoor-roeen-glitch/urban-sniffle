@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { VictoryPie, VictoryTheme } from 'victory'
+import { VictoryPie } from 'victory'
 
-export default function Chart({text, heading, usage, total, unit}) {
-    console.log((total - usage) / 1048576)
+export default function Chart({heading, usage, total, unit}) {
+
     return (
         <StyledOuterWrapper>
             
