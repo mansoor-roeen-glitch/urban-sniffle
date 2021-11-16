@@ -5,8 +5,119 @@ import Section from './Section';
 
 export default function Details({data, serviceStatus}) {
 
-    const [hostname, setHostname] = React.useState(data.hostname);
-    const [password, setPassword] = React.useState("your password");
+    const [plan, setPlan] = React.useState(0)
+    const [node, setNode] = React.useState(0)
+    const [template, setTemplate] = React.useState(0)
+
+    const [hostname, setHostname] = React.useState({
+
+        value: data.hostname,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const [password, setPassword] = React.useState({
+
+        value: "",
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const [status, setStatus] = React.useState({
+
+        value: data.status,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+    
+    const [size, setSize] = React.useState({
+
+        value: data.service_plan.size,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const [ram, setRam] = React.useState({
+
+        value: data.service_plan.ram,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+
+    const adminGeneral = [
+        {
+            heading: "Owner",
+            value: data.owner,
+            type: "detail"
+        },
+        
+        {
+            heading: "Plan",
+            value: data.plan,
+            type: "dropdown",
+            onChange: setPlan,
+            selected: 0,
+            options: [
+                {
+                    type: "option",
+                    name: "Basic"
+                },
+                {
+                    type: "option",
+                    name: "test-plan-3"
+                }
+            ]
+        },
+
+        {
+            heading: "node",
+            value: data.node,
+            type: "dropdown",
+            options: [
+                {
+                    name: "magus",
+                    type: "option"
+                }
+            ],
+            selected: node,
+            onChange: setNode
+        },
+
+        {
+            heading: "status",
+            value: data.status,
+            type: "detail",
+        },
+
+        {
+            heading: "Hostname",
+            value: data.hostname,
+            type: "input",
+            htmltype: "text",
+            inputValue: hostname.value,
+            onChange: setHostname
+        },
+
+        {
+            heading: "Password",
+            value: "your password",
+            type: "input",
+            htmltype: "password",
+            inputValue: password.value,
+            onChange: setPassword
+        }
+    ]
 
     const general = [
         {
@@ -34,7 +145,7 @@ export default function Details({data, serviceStatus}) {
             value: data.hostname,
             type: "input",
             htmltype: "text",
-            inputValue: hostname,
+            inputValue: hostname.value,
             onChange: setHostname
         },
         {
@@ -42,9 +153,49 @@ export default function Details({data, serviceStatus}) {
             value: "your password",
             type: "input",
             htmltype: "password",
-            inputValue: password,
+            inputValue: password.value,
             onChange: setPassword
         }
+    ]
+
+    const adminVm = [
+        {
+            heading: "Template",
+            value: data.service_plan.template,
+            type: "dropdown",
+            options: [
+                {
+                    name: "Ubuntu Focal",
+                    type: "option"
+                },
+                {
+                    name: "CentOS 8",
+                    type: "option"
+                }, 
+                {
+                    name: "Ubuntu Bionic",
+                    type: "option"
+                },
+            ],
+            selected: 0,
+            onChange: setTemplate
+        },
+        {
+            heading: "Size",
+            value: size.value,
+            type: "input",
+            htmltype: "text",
+            inputValue: size.value,
+            onChange: setSize
+        },
+        {
+            heading: "ram",
+            value: ram.value,
+            type: "input",
+            htmltype: "text",
+            inputValue: ram.value,
+            onChange: setRam
+        },
     ]
 
     const vm = [
@@ -83,23 +234,20 @@ export default function Details({data, serviceStatus}) {
     const charts = [
         {
             heading: "Bandwith Usage",
-            text: parseInt(serviceStatus.bandwidth_used / serviceStatus.bandwidth_used * 100) + "%",
-            total: parseInt(serviceStatus.bandwidth_max / 1000000),
-            usage: parseInt(serviceStatus.bandwidth_used / 1000000),
+            total: parseInt(serviceStatus.bandwidth_max),
+            usage: parseInt(serviceStatus.bandwidth_used),
             unit: " GB"
         },
         {
             heading: "Disk Usage",
-            text: parseInt(serviceStatus.disk_used / serviceStatus.disk_used * 100) + "%",
-            total: parseInt(serviceStatus.disk_max / 1000000),
-            usage: parseInt(serviceStatus.disk_used / 1000000),
+            total: parseInt(serviceStatus.disk_max),
+            usage: parseInt(serviceStatus.disk_used),
             unit: " GB"
         },
         {
             heading: "Memory Usage",
-            text: parseInt(serviceStatus.mem_used / serviceStatus.mem_used * 100) + "%",
-            total: parseInt(serviceStatus.mem_max / 1000000),
-            usage: parseInt(serviceStatus.mem_used / 1000000),
+            total: parseInt(serviceStatus.mem_max),
+            usage: parseInt(serviceStatus.mem_used),
             unit: " GB"
         }
     ]
@@ -112,16 +260,16 @@ export default function Details({data, serviceStatus}) {
                     <Charts>
                         { charts.map((chart, index) => {
                             return (
-                                <Chart key={index} usage={chart.usage} heading={chart.heading} total={chart.total} text={chart.text} unit={chart.unit} />
+                                <Chart key={index} usage={chart.usage} heading={chart.heading} total={chart.total} unit={chart.unit} />
                             )
                         })}
                     </Charts>
                 )}
             
                 <Content marginTop={serviceStatus ? "50px" : "0px"}>
-                    <Section data={general} heading="General Detials" rows={2} rows2={3} rows3={6} rowHeight={115} />
+                    <Section data={adminGeneral} heading="General Detials" rows={2} rows2={3} rows3={6} rowHeight={115} />
                     <RowGap />
-                    <Section data={vm} heading="VM details" rows={2} rows2={3} rows3={6} rowHeight={115} />
+                    <Section data={adminVm} heading="VM details" rows={2} rows2={3} rows3={6} rowHeight={115} />
                 </Content>
             
             </InnerWrapper>

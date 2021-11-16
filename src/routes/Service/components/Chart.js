@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { VictoryPie, VictoryTheme } from 'victory'
 
 export default function Chart({text, heading, usage, total, unit}) {
+    console.log((total - usage) / 1048576)
     return (
         <StyledOuterWrapper>
             
@@ -11,14 +12,14 @@ export default function Chart({text, heading, usage, total, unit}) {
                     {heading}
                 </HeadingText>
                 <SubHeadingText>
-                    {usage}{unit} out of {total}{unit} used 
+                    {(usage / 1048576).toFixed(2)}{unit} out of {(total / 1048576).toFixed(2)}{unit} used 
                 </SubHeadingText>
             </HeadingContainer> 
             
             <ChartWrapper>
                 <TextWrapper>
                     <StyledText>
-                        {parseInt(usage / total * 100)}%
+                        {parseInt((usage / total) * 100)}%
                     </StyledText>
                 </TextWrapper>
                 <VictoryPie
