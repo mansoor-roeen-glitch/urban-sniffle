@@ -7,8 +7,8 @@ import Details from './components/Details'
 import Console from './components/Console';
 import Billing from './components/Billing';
 import Actions from './components/Actions'
-import { Link } from 'react-router-dom';
 import handleCheckout from '../../functions/handleCheckout';
+import getUser from '../../functions/getUserDetails';
 
 export default function Service (props) {
 
@@ -21,6 +21,7 @@ export default function Service (props) {
     const [error, setError] = React.useState()
     const [serviceConsoleData, setServiceConsoleData] = React.useState()
     const [actionLoading, setActionLoading] = React.useState(false)
+    const [userDetails, setUserDetails] = React.useState()
 
     const createConsoleSession = async () => {
         let response = await axios({
@@ -72,9 +73,18 @@ export default function Service (props) {
         const serviceStatus = await getServiceStatus()
         const serviceDetails = await getServiceDetails()
         const serviceConsole = await createConsoleSession()
+        const fetchedUserDetails = await getUser(props.config)
 
-        if (serviceDetails.status === 200 && serviceStatus.status === 200 && serviceConsole.status === 200) {
+        if (
+            
+            serviceDetails.status === 200 && 
+            serviceStatus.status === 200 && 
+            serviceConsole.status === 200 &&
+            fetchedUserDetails.status === 200
+            
+        ) {
 
+            setUserDetails(fetchedUserDetails.data)
             setServiceConsoleData(serviceConsole.data)
             setServiceStatus(serviceStatus.data)
             setDetails(serviceDetails.data)
@@ -82,8 +92,16 @@ export default function Service (props) {
             setSuccess(true)
             setError(false)
 
-        } else if (serviceDetails.status === 200 && serviceConsole.status === 200 && !serviceStatus.status) {
+        } else if (
+            
+            fetchedUserDetails.status === 200 &&
+            serviceDetails.status === 200 && 
+            serviceConsole.status === 200 && 
+            !serviceStatus.status 
+            
+        ) {
 
+            setUserDetails(fetchedUserDetails.data)
             setServiceConsoleData(serviceConsole.data)
             setDetails(serviceDetails.data)
             setServiceStatus(false)
@@ -91,8 +109,16 @@ export default function Service (props) {
             setSuccess(true)
             setError(false)
 
-        } else if (serviceDetails.status === 200 && !serviceConsole.status && !serviceStatus.status) {
+        } else if (
+            
+            fetchedUserDetails.status === 200 &&
+            serviceDetails.status === 200 && 
+            !serviceConsole.status && 
+            !serviceStatus.status
+            
+        ) {
 
+            setUserDetails(fetchedUserDetails.data)
             setServiceConsoleData(false)
             setDetails(serviceDetails.data)
             setServiceStatus(false)
@@ -233,16 +259,16 @@ export default function Service (props) {
                     switch(selected) {
                         
                         case 0:
-                            return <Details data={details} serviceStatus={serviceStatus} />;
+                            return <Details data={details} config={props.config} userDetails={userDetails} serviceStatus={serviceStatus} />;
 
                         case 1:
                             return <Console data={details} serviceConsole={serviceConsoleData} serviceNotActivated={serviceNotActivated()} />;
                         
                         case 2:
-                            return <Billing data={details} />;
+                            return <Billing data={details} userDetails={userDetails} />;
                             
                         case 3:
-                            return <Actions data={details} setLoadingAnim={setActionLoading} serviceNotActivated={serviceNotActivated()} config={props.config} />;
+                            return <Actions data={details} userDetails={userDetails} setLoadingAnim={setActionLoading} serviceNotActivated={serviceNotActivated()} config={props.config} />;
                             
                     }
                 })()}

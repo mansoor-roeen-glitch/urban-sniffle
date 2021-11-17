@@ -1,16 +1,57 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
+import Button from '../../../components/buttons/ActionButton';
 import Chart from './Chart';
 import Section from './Section';
 
-export default function Details({data, serviceStatus, userData}) {
+export default function Details({data, serviceStatus, userDetails, config}) {
 
     const [plan, setPlan] = React.useState(0)
     const [node, setNode] = React.useState(0)
     const [template, setTemplate] = React.useState(0)
+    const [showMessage, setShowMessage] = React.useState(false);
+    const [responseLoading, setResponseLoading] = React.useState()
+
+    const [dropdownDetailsLoading, setDropdownDetailsLoading] = React.useState(true);
+    const [dropdownDetailsSuccess, setDropdownDetailsSuccess] = React.useState();
+    const [dropdownDetailsError, setDropdownDetailsError] = React.useState();
+    const [dropdownDetails, setDropdownDetails] = React.useState();
+
+    const [success, setSuccess] = React.useState();
+    const [error, setError] = React.useState();
+    const [loading, setLoading] = React.useState();
 
     let virtualMachine = [];
     let generalDetails = [];
+
+    const isValidPassword = (input) => {
+        if (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(input)) {
+            return true
+        } else {
+            return false
+        }
+    }
+ 
+    const isValidHostname = (input) => {
+        if (/^[a-zA-Z0-9-_]+$/.test(input)) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    const handleMessage = (messageType, duration, message) => {
+
+        setShowMessage({messageType, duration, message});
+        
+        setTimeout(() => {
+            
+            setShowMessage(false);
+
+        }, duration * 1000)
+
+    }
 
     const [hostname, setHostname] = React.useState({
 
@@ -83,22 +124,23 @@ export default function Details({data, serviceStatus, userData}) {
         },
         
         {
-            heading: "Plan",
-            value: data.plan,
+            heading: "template",
+            value: data.service_plan.template,
             type: "dropdown",
-            onChange: setPlan,
-            selected: 0,
-            options: [
-                {
-                    type: "option",
-                    name: "Basic"
-                },
-                {
-                    type: "option",
-                    name: "test-plan-3"
-                }
-            ]
+            options: dropdownDetailsLoading ?
+
+                [
+                    {
+                        name: data.service_plan.template,
+                        type: "option"
+                    }
+
+                ] : dropdownDetails.templates.options,
+
+            selected: template,
+            onChange: setTemplate
         },
+
 
         {
             heading: "node",
@@ -179,66 +221,53 @@ export default function Details({data, serviceStatus, userData}) {
     ]
 
     const adminVmAccess = [
+        
         {
-            heading: "Template",
-            value: data.service_plan.template,
+            heading: "plan type",
+            value: data.plan,
             type: "dropdown",
-            options: [
-                {
-                    name: "Ubuntu Focal",
-                    type: "option"
-                },
-                {
-                    name: "CentOS 8",
-                    type: "option"
-                }, 
-                {
-                    name: "Ubuntu Bionic",
-                    type: "option"
-                },
-            ],
-            selected: 0,
-            onChange: setTemplate
+            options: dropdownDetailsLoading ?
+
+                [
+                    {
+                        name: data.plan,
+                        type: "option"
+                    }
+
+                ] : dropdownDetails.plans.options,
+
+            selected: plan,
+            onChange: setPlan
         },
+
         {
             heading: "Size",
             value: size.value,
-            type: "input",
-            htmltype: "text",
-            inputValue: size.value,
-            onChange: setSize
+            type: "detail",
         },
+
         {
             heading: "ram",
             value: ram.value,
-            type: "input",
-            htmltype: "text",
-            inputValue: ram.value,
-            onChange: setRam
+            type: "detail",
         },
+
         {
             heading: "bandwidth",
             value: bandwidth.value,
-            type: "input",
-            htmltype: "text",
-            inputValue: bandwidth.value,
-            onChange: setBandwidth
+            type: "detail",
         },
+
         {
             heading: "Ipv6 ips",
             value: ipv6.value,
-            type: "input",
-            htmltype: "text",
-            inputValue: ipv6.value,
-            onChange: setIpv6
+            type: "detail",
         },
+        
         {
             heading: "Ipv4 ips",
             value: ipv4.value,
-            type: "input",
-            htmltype: "text",
-            inputValue: ipv4.value,
-            onChange: setIpv4
+            type: "detail",
         },
 
     ]
@@ -297,6 +326,147 @@ export default function Details({data, serviceStatus, userData}) {
         }
     ]
 
+    if (userDetails.is_staff) {
+
+        virtualMachine = adminVmAccess;
+        generalDetails = adminGeneralAccess;
+
+    } else {
+
+        virtualMachine = clientVmAccess;
+        generalDetails = clientGeneralAccess;
+
+    }
+
+    // const validateForm = ({hostnameField, passwordField}) => {
+        
+    //     let isHostnameValid = false;
+    //     let isPasswordValid = false;
+
+
+    //     if (!hostnameField.value || hostnameField.value.length < 2 || hostnameField.value.length > 28) {
+    //         setHostname(prevState => ({
+    //             ...prevState,
+    //             hasErrorMessage: true,
+    //             errorMes: "must be between 4 to 28 characters long"
+    //         }))
+        
+    //     } else {
+    //         isHostnameValid = true
+    //     } 
+
+
+    //     if (passwordField.length < 8)
+
+
+    //     return {isHostnameValid, isPasswordValid};
+
+    // }
+
+
+    const handleSubmit = async () => {
+
+        setLoading(true)
+
+        const reqData = {
+                
+            "owner": userDetails.username,
+            "hostname": hostname.value,
+            "password": password.value,
+            "plan": adminVmAccess[0].options[plan].name,
+            "node": adminGeneralAccess[2].options[node].name,
+            "template": adminGeneralAccess[1].options[template].name,
+            "billing_type": 2
+        }
+
+        console.log(reqData)
+
+        const reqHeaders = {
+            headers: {
+                'Authorization': `Token ${config}`,
+                'content-type': "application/json"
+            }
+        }
+
+        axios.put(`https://hosnet.io/api/services/${data.id}`, reqData, reqHeaders)
+        
+        .then((res) => {
+            if (res.status === 200) {
+                setSuccess(true)
+                setLoading(true)
+                console.log(res)
+            }
+        })
+        
+        .catch((err) => {
+            console.log(err)
+            handleMessage("error", 5, "Something went wrong, try again later")
+            return {error: err, status: false}
+
+        });
+
+    }
+
+    const fetchDetail = async (endpoint) => {
+
+        const response = await axios({
+            method: "get",
+            url: `https://hosnet.io/api/${endpoint}/`,
+            headers: {
+                'Authorization': `Token ${config}`,
+                'content-type': "application/json"
+            }
+        })
+            .then((res) => {return {data: res.data, status: 200}})
+            .catch((err) => {
+                handleMessage("error", 5, "Something went wrong, try again later")
+                return {error: err, status: false}
+            
+            });
+
+        return response
+
+    }
+
+    useEffect( async () => {
+
+        const plans = await fetchDetail("plans");
+        const templates = await fetchDetail("templates");
+
+        if (plans.status === 200 && templates.status === 200 ) {
+
+            setDropdownDetails({
+
+                plans: {
+                    heading: "Plan Type",
+                    value: plans.data.results[0].name,
+                    type: "dropdown",
+                    options: plans.data.results,
+                    selected: plan,
+                    onChange:  setPlan
+                
+                }, 
+                
+                templates: {
+                    heading: "template",
+                    value: templates.data.results[0].name,
+                    type: "dropdown",
+                    options: templates.data.results,
+                    selected: template,
+                    onChange: setTemplate  
+                }})
+
+
+            setDropdownDetailsSuccess(true)
+            setDropdownDetailsLoading(false)
+            
+
+        } else {
+            setDropdownDetailsLoading(false)
+            setDropdownDetailsError(true)
+        }
+
+    }, [])
 
     return (
         <Wrapper>
@@ -315,13 +485,23 @@ export default function Details({data, serviceStatus, userData}) {
                 <Content marginTop={serviceStatus ? "50px" : "0px"}>
                     <Section data={generalDetails} heading="General Detials" rows={2} rows2={3} rows3={6} rowHeight={115} />
                     <RowGap />
-                    <Section data={virtualMachine} heading="VM details" rows={2} rows2={3} rows3={6} rowHeight={115} />
+                    <Section data={virtualMachine} heading="Virtual Machine" rows={2} rows2={3} rows3={6} rowHeight={115} />
                 </Content>
+
+                <ButtonWrapper>
+                    <Button onClick={handleSubmit} text="Submit" width="130px" height="45px"  />
+                </ButtonWrapper>
             
             </InnerWrapper>
         </Wrapper>
     )
 }
+
+const ButtonWrapper = styled.div `
+    width: fit-content;
+    height: fit-content;
+    padding-top: 30px;
+`;
 
 const RowGap = styled.div `
     width: 100%;
