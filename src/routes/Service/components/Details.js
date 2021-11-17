@@ -10,36 +10,23 @@ export default function Details({data, serviceStatus, userDetails, config}) {
     const [plan, setPlan] = React.useState(0)
     const [node, setNode] = React.useState(0)
     const [template, setTemplate] = React.useState(0)
-    const [showMessage, setShowMessage] = React.useState(false);
-    const [responseLoading, setResponseLoading] = React.useState()
-
+    const [planType, setPlanType] = React.useState(0)
+    
     const [dropdownDetailsLoading, setDropdownDetailsLoading] = React.useState(true);
     const [dropdownDetailsSuccess, setDropdownDetailsSuccess] = React.useState();
     const [dropdownDetailsError, setDropdownDetailsError] = React.useState();
     const [dropdownDetails, setDropdownDetails] = React.useState();
-
+    
     const [success, setSuccess] = React.useState();
     const [error, setError] = React.useState();
     const [loading, setLoading] = React.useState();
+    const [showMessage, setShowMessage] = React.useState(false);
 
+    
     let virtualMachine = [];
     let generalDetails = [];
+    let extraSettings = [];
 
-    const isValidPassword = (input) => {
-        if (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(input)) {
-            return true
-        } else {
-            return false
-        }
-    }
- 
-    const isValidHostname = (input) => {
-        if (/^[a-zA-Z0-9-_]+$/.test(input)) {
-            return true
-        } else {
-            return false
-        }
-    }
 
     const handleMessage = (messageType, duration, message) => {
 
@@ -116,6 +103,60 @@ export default function Details({data, serviceStatus, userDetails, config}) {
 
     });
 
+    const [storage, setStorage] = React.useState({
+
+        value: data.service_plan.storage,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const [internalIps, setInternalIps] = React.useState({
+
+        value: data.service_plan.internal_ips,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const [swap, setSwap] = React.useState({
+
+        value: data.service_plan.swap,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const [cores, setCores] = React.useState({
+
+        value: data.service_plan.cores,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const [cpuu, setCpuu] = React.useState({
+
+        value: JSON.stringify(data.cpu_units),
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
+    const [cpul, setCpul] = React.useState({
+
+        value: data.cpu_limit,
+        errorMes: "",
+        messageDur: 5000,
+        hasErrorMessage: false
+
+    });
+
     const adminGeneralAccess = [
         {
             heading: "Owner",
@@ -168,7 +209,10 @@ export default function Details({data, serviceStatus, userDetails, config}) {
             type: "input",
             htmltype: "text",
             inputValue: hostname.value,
-            onChange: setHostname
+            onChange: setHostname,
+            errorMes: hostname.errorMes,
+            messageDur: hostname.messageDur,
+            hasErrorMessage: hostname.hasErrorMessage,
         },
 
         {
@@ -177,9 +221,169 @@ export default function Details({data, serviceStatus, userDetails, config}) {
             type: "input",
             htmltype: "password",
             inputValue: password.value,
-            onChange: setPassword
+            onChange: setPassword,
+            errorMes: password.errorMes,
+            messageDur: password.messageDur,
+            hasErrorMessage: password.hasErrorMessage,
         }
     ]
+
+    const adminVmAccess = [
+        
+        {
+            heading: "plan type",
+            value: data.plan,
+            type: "dropdown",
+            options: dropdownDetailsLoading ?
+
+                [
+                    {
+                        name: data.plan,
+                        type: "option"
+                    }
+
+                ] : dropdownDetails.plans.options,
+
+            selected: plan,
+            onChange: setPlan
+        },
+
+        {
+            heading: "Size",
+            value: size.value,
+            type: "input",
+            inputValue: size.value,
+            onChange: setSize,
+            htmltype: "number",
+            errorMes: size.errorMes,
+            messageDur: size.messageDur,
+            hasErrorMessage: size.hasErrorMessage,
+        },
+
+        {
+            heading: "ram",
+            value: ram.value,
+            type: "input",
+            inputValue: ram.value,
+            onChange: setRam,
+            htmltype: "number",
+            errorMes: ram.errorMes,
+            messageDur: ram.messageDur,
+            hasErrorMessage: ram.hasErrorMessage,
+        },
+
+        {
+            heading: "bandwidth",
+            value: bandwidth.value,
+            type: "input",
+            inputValue: bandwidth.value,
+            onChange: setBandwidth,
+            htmltype: "number",
+            errorMes: bandwidth.errorMes,
+            messageDur: bandwidth.messageDur,
+            hasErrorMessage: bandwidth.hasErrorMessage,
+        },
+
+        {
+            heading: "Ipv6 ips",
+            value: ipv6.value,
+            type: "input",
+            inputValue: ipv6.value,
+            onChange: setIpv6,
+            htmltype: "number",
+            errorMes: ipv6.errorMes,
+            messageDur: ipv6.messageDur,
+            hasErrorMessage: ipv6.hasErrorMessage,
+        },
+        
+        {
+            heading: "Ipv4 ips",
+            value: ipv4.value,
+            type: "input",
+            inputValue: ipv4.value,
+            onChange: setIpv4,
+            htmltype: "number",
+            errorMes: ipv4.errorMes,
+            messageDur: ipv4.messageDur,
+            hasErrorMessage: ipv4.hasErrorMessage,
+        },
+
+    ]
+
+    const adminExtraFields = [
+        {
+            heading: "cores",
+            value: cores.value,
+            type: "input",
+            inputValue: cores.value,
+            onChange: setCores,
+            htmltype: "number",
+            errorMes: cores.errorMes,
+            messageDur: cores.messageDur,
+            hasErrorMessage: cores.hasErrorMessage,
+        },
+        {
+            heading: "swap",
+            value: swap.value,
+            type: "input",
+            inputValue: swap.value,
+            onChange: setSwap,
+            htmltype: "number",
+            errorMes: swap.errorMes,
+            messageDur: swap.messageDur,
+            hasErrorMessage: swap.hasErrorMessage,
+        },
+        {
+            heading: "cpu units",
+            value: cpuu.value,
+            type: "input",
+            inputValue: cpuu.value,
+            onChange: setCpuu,
+            htmltype: "number",
+            errorMes: cpuu.errorMes,
+            messageDur: cpuu.messageDur,
+            hasErrorMessage: cpuu.hasErrorMessage,
+        },
+        {
+            heading: "cpu limit",
+            value: cpul.value,
+            type: "input",
+            inputValue: cpul.value,
+            onChange: setCpul,
+            htmltype: "number",
+            errorMes: cpul.errorMes,
+            messageDur: cpul.messageDur,
+            hasErrorMessage: cpul.hasErrorMessage,
+        },
+        {
+            heading: "internal ips",
+            value: internalIps.value,
+            type: "input",
+            inputValue: internalIps.value,
+            onChange: setInternalIps,
+            htmltype: "number",
+            errorMes: internalIps.errorMes,
+            messageDur: internalIps.messageDur,
+            hasErrorMessage: internalIps.hasErrorMessage,
+        },
+        {
+            heading: "type",
+            value: 'something',
+            type: "dropdown",
+            options: [
+                {
+                    type: 'option',
+                    name: "kvm"
+                }
+            ],
+            selected: planType,
+            onChange: setPlanType
+        }
+    ]
+
+
+    // Below is the data shown if user is a client
+    // Client is only allowed to change hostname and password
 
     const clientGeneralAccess = [
         {
@@ -218,58 +422,6 @@ export default function Details({data, serviceStatus, userDetails, config}) {
             inputValue: password.value,
             onChange: setPassword
         }
-    ]
-
-    const adminVmAccess = [
-        
-        {
-            heading: "plan type",
-            value: data.plan,
-            type: "dropdown",
-            options: dropdownDetailsLoading ?
-
-                [
-                    {
-                        name: data.plan,
-                        type: "option"
-                    }
-
-                ] : dropdownDetails.plans.options,
-
-            selected: plan,
-            onChange: setPlan
-        },
-
-        {
-            heading: "Size",
-            value: size.value,
-            type: "detail",
-        },
-
-        {
-            heading: "ram",
-            value: ram.value,
-            type: "detail",
-        },
-
-        {
-            heading: "bandwidth",
-            value: bandwidth.value,
-            type: "detail",
-        },
-
-        {
-            heading: "Ipv6 ips",
-            value: ipv6.value,
-            type: "detail",
-        },
-        
-        {
-            heading: "Ipv4 ips",
-            value: ipv4.value,
-            type: "detail",
-        },
-
     ]
 
     const clientVmAccess = [
@@ -326,40 +478,142 @@ export default function Details({data, serviceStatus, userDetails, config}) {
         }
     ]
 
-    if (userDetails.is_staff) {
+    
+    // const validateForm = () => {
 
-        virtualMachine = adminVmAccess;
-        generalDetails = adminGeneralAccess;
+    //     let isFormValid = true;
 
-    } else {
-
-        virtualMachine = clientVmAccess;
-        generalDetails = clientGeneralAccess;
-
-    }
-
-    // const validateForm = ({hostnameField, passwordField}) => {
-        
-    //     let isHostnameValid = false;
-    //     let isPasswordValid = false;
-
-
-    //     if (!hostnameField.value || hostnameField.value.length < 2 || hostnameField.value.length > 28) {
-    //         setHostname(prevState => ({
+    //     if (!name.value || name.value.length < 2 || name.value.length > 20) {
+    //         setName(prevState => ({
     //             ...prevState,
     //             hasErrorMessage: true,
-    //             errorMes: "must be between 4 to 28 characters long"
+    //             errorMes: "must be between 1-20 char long"
     //         }))
-        
-    //     } else {
-    //         isHostnameValid = true
-    //     } 
 
+    //         isFormValid = false
+    //     }
 
-    //     if (passwordField.length < 8)
+    //     if (!/^\d+(?:[.,]\d+)*$/.test(price.value) || !price.value) {
+    //         setPrice(prevState => ({
+    //             ...prevState,
+    //             hasErrorMessage: true,
+    //             errorMes: "must only be int or float"
+    //         }))
 
+    //         isFormValid = false
+    //     }
 
-    //     return {isHostnameValid, isPasswordValid};
+    //     if (!size.value || !/^\d+$/.test(size.value)) {
+    //         setSize(prevState => ({
+    //             ...prevState,
+    //             hasErrorMessage: true,
+    //             errorMes: "must only be int only"
+    //         }))
+
+    //         isFormValid = false
+    //     }
+
+    //     if (!cores.value || !/^\d+$/.test(cores.value)) {
+    //         setCores(prevState => ({
+    //             ...prevState,
+    //             hasErrorMessage: true,
+    //             errorMes: "must be int only"
+    //         }))
+
+    //         isFormValid = false
+    //     }
+
+    //     if (!ram.value || !/^\d+$/.test(ram.value)) {
+    //         setRam(prevState => ({
+    //             ...prevState,
+    //             hasErrorMessage: true,
+    //             errorMes: "must be int only"
+    //         }))
+
+    //         isFormValid = false
+    //     }
+
+    //     if (!bandwidth.value || !/^\d+$/.test(bandwidth.value)) {
+    //         setBandwidth(prevState => ({
+    //             ...prevState,
+    //             hasErrorMessage: true,
+    //             errorMes: "must be int only"
+    //         }))
+
+    //         isFormValid = false
+    //     }
+
+    //     if (!cpul.value || !/^\d+(?:[.,]\d+)*$/.test(cpul.value)) {
+    //         setCpul(prevState => ({
+    //             ...prevState,
+    //             hasErrorMessage: true,
+    //             errorMes: "must be int only"
+    //         }))
+
+    //         isFormValid = false
+    //     }
+
+    //     if (!swap.value || !/^\d+$/.test(swap.value)) {
+    //         setSwap(prevState => ({
+    //             ...prevState,
+    //             hasErrorMessage: true,
+    //             errorMes: "must be int only"
+    //         }))
+
+    //         isFormValid = false
+    //     }
+
+    //     if (!cpuu.value || !/^\d+(?:[.,]\d+)*$/.test(cpuu.value)) {
+    //         setCpuu(prevState => ({
+    //             ...prevState,
+    //             hasErrorMessage: true,
+    //             errorMes: "must be int or float only"
+    //         }))
+
+    //         isFormValid = false
+    //     }
+
+    //     if (!ipv4.value || !/^\d+$/.test(ipv4.value)) {
+    //         setIpv4(prevState => ({
+    //             ...prevState,
+    //             hasErrorMessage: true,
+    //             errorMes: "must be int only"
+    //         }))
+
+    //         isFormValid = false
+    //     }
+
+    //     if (!ipv6.value || !/^\d+$/.test(ipv6.value)) {
+    //         setIpv6(prevState => ({
+    //             ...prevState,
+    //             hasErrorMessage: true,
+    //             errorMes: "must be int only"
+    //         }))
+
+    //         isFormValid = false
+    //     }
+
+    //     if (!size.value || !/^\d+$/.test(size.value)) {
+    //         setsize(prevState => ({
+    //             ...prevState,
+    //             hasErrorMessage: true,
+    //             errorMes: "must be int only"
+    //         }))
+
+    //         isFormValid = false
+    //     }
+
+    //     if (!term.value || !/^\d+$/.test(term.value)) {
+    //         setTerm(prevState => ({
+    //             ...prevState,
+    //             hasErrorMessage: true,
+    //             errorMes: "must be int only"
+    //         }))
+
+    //         isFormValid = false
+    //     }
+
+    //     return isFormValid;
 
     // }
 
@@ -443,8 +697,7 @@ export default function Details({data, serviceStatus, userDetails, config}) {
                     type: "dropdown",
                     options: plans.data.results,
                     selected: plan,
-                    onChange:  setPlan
-                
+                    onChange:  setPlan                
                 }, 
                 
                 templates: {
@@ -468,6 +721,21 @@ export default function Details({data, serviceStatus, userDetails, config}) {
 
     }, [])
 
+
+    if (userDetails.is_staff) {
+
+        virtualMachine = adminVmAccess;
+        generalDetails = adminGeneralAccess;
+        extraSettings = adminExtraFields;
+
+    } else {
+
+        virtualMachine = clientVmAccess;
+        generalDetails = clientGeneralAccess;
+
+    }
+
+
     return (
         <Wrapper>
             <InnerWrapper>
@@ -486,6 +754,15 @@ export default function Details({data, serviceStatus, userDetails, config}) {
                     <Section data={generalDetails} heading="General Detials" rows={2} rows2={3} rows3={6} rowHeight={115} />
                     <RowGap />
                     <Section data={virtualMachine} heading="Virtual Machine" rows={2} rows2={3} rows3={6} rowHeight={115} />
+                        
+                    {extraSettings && (
+                        <RowGap />
+                    )}
+
+                    {extraSettings && (
+                        <Section data={adminExtraFields} heading="Extra Settings" rows={2} rows2={3} rows3={6} rowHeight={115} />
+                    )}
+
                 </Content>
 
                 <ButtonWrapper>
