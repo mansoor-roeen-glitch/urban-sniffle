@@ -8,7 +8,7 @@ import PrimarySearchBar from '../../components/inputs/PrimarySearchBar';
 import ServiceItemPlaceholder from '../Base/components/ServiceItemPlaceholder';
 import ServiceList from '../Base/components/ServiceList';
 
-export default function Nodes({config, handlePlanClick, userDataLoading, userData}) {
+export default function Nodes({config, handleNodeClick, userDataLoading, userData}) {
 
     const [error, setError] = React.useState();
     const [nodes, setNodes] = React.useState();
@@ -113,7 +113,7 @@ export default function Nodes({config, handlePlanClick, userDataLoading, userDat
             </Header>
 
             <ServiceItemPlaceholder data={["name", "size", "period", "bandwidth"]} />
-            <ServiceList handlePlanClick={handlePlanClick} data={foundMatch ? foundMatch : nodes} type="nodes" />
+            <ServiceList handleNodeClick={handleNodeClick} data={foundMatch ? foundMatch : nodes} type="nodes" />
 
         </Wrapper>
     )

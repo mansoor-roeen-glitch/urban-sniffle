@@ -1,25 +1,27 @@
-import { Redirect } from 'react-router-dom';
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components';
-import SubHeader from '../../../components/Header/SubHeader';
 import Section from '../../Service/components/Section';
-import Button from '../../../components/buttons/ActionButton'
+import SubHeader from '../../../components/Header/SubHeader'
+import Button from '../../../components/buttons/ActionButton';
+import DeleteBtn from '../../../components/buttons/DangerActionButton';
 import axios from 'axios';
-import SuccessMessage from '../../../components/messages/SuccessMessage';
 import ErrorMessage from '../../../components/messages/ErrorMessage';
+import SuccessMessage from '../../../components/messages/SuccessMessage';
+import {Redirect} from 'react-router-dom'
 
-export default function CreatePlan({config, userDataLoading, userData}) {
-    
-    const [loading, setLoading] = React.useState(false)
-    const [success, setSuccess] = React.useState(false)
-    const [error, setError] = React.useState(false)
-    const [showMessage, setShowMessage] = React.useState(false);
+export default function Plan(props) {
+
+    const [details, setDetails] = useState(props.details);
+
+    const [success, setSuccess] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(false)
 
     const [type, setType] = React.useState(0)
 
     const [bandwidth, setBandwidth] = React.useState({
 
-        value: "",
+        value: details.bandwidth,
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -28,7 +30,7 @@ export default function CreatePlan({config, userDataLoading, userData}) {
     
     const [size, setSize] = React.useState({
 
-        value: "",
+        value: details.size ,
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -37,7 +39,7 @@ export default function CreatePlan({config, userDataLoading, userData}) {
 
     const [swap, setSwap] = React.useState({
 
-        value: "",
+        value: details.swap ,
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -46,7 +48,7 @@ export default function CreatePlan({config, userDataLoading, userData}) {
 
     const [ram, setRam] = React.useState({
 
-        value: "",
+        value: details.ram,
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -55,7 +57,7 @@ export default function CreatePlan({config, userDataLoading, userData}) {
 
     const [name, setName] = React.useState({
 
-        value: "",
+        value: details.name,
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -64,7 +66,7 @@ export default function CreatePlan({config, userDataLoading, userData}) {
     
     const [cores, setCores] = React.useState({
 
-        value: "",
+        value: details.cores,
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -73,7 +75,7 @@ export default function CreatePlan({config, userDataLoading, userData}) {
 
     const [key, setKey] = React.useState({
 
-        value: "",
+        value: details.key,
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -82,7 +84,7 @@ export default function CreatePlan({config, userDataLoading, userData}) {
 
     const [host, setHost] = React.useState({
 
-        value: "",
+        value: details.host,
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -91,15 +93,17 @@ export default function CreatePlan({config, userDataLoading, userData}) {
 
     const [user, setUser] = React.useState({
 
-        value: "",
+        value: details.user,
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
 
     });
 
+    const [showMessage, setShowMessage] = useState(false);
+
     const successRedirect = () => {
-        window.location.pathname = '/plans/';
+        window.location.pathname = '/nodes/';
     }
 
     const handleMessage = (messageType, duration, message) => {
@@ -117,7 +121,7 @@ export default function CreatePlan({config, userDataLoading, userData}) {
     const data = [
         {
             heading: "name",
-            value: "Type the value",
+            value: name.value,
             type: "input",
             htmltype: "text",
             inputValue: name.value,
@@ -128,7 +132,7 @@ export default function CreatePlan({config, userDataLoading, userData}) {
         },
         {
             heading: "host",
-            value: "Type the value",
+            value: host.value,
             type: "input",
             htmltype: "text",
             inputValue: host.value,
@@ -139,7 +143,7 @@ export default function CreatePlan({config, userDataLoading, userData}) {
         },
         {
             heading: "Key",
-            value: "Type the value",
+            value: key.value,
             type: "input",
             htmltype: "text",
             inputValue: key.value,
@@ -150,7 +154,7 @@ export default function CreatePlan({config, userDataLoading, userData}) {
         },
         {
             heading: "size",
-            value: "Type the value",
+            value: size.value,
             type: "input",
             htmltype: "number",
             inputValue: size.value,
@@ -161,7 +165,7 @@ export default function CreatePlan({config, userDataLoading, userData}) {
         },
         {
             heading: "user",
-            value: "Type the value",
+            value: user.value,
             type: "input",
             htmltype: "text",
             inputValue: user.value,
@@ -173,7 +177,7 @@ export default function CreatePlan({config, userDataLoading, userData}) {
         {
 
             heading: "cores",
-            value: "Type the value",
+            value: cores.value,
             type: "input",
             htmltype: "number",
             inputValue: cores.value,
@@ -185,7 +189,7 @@ export default function CreatePlan({config, userDataLoading, userData}) {
         },
         {
             heading: "ram",
-            value: "Type the value",
+            value: ram.value,
             type: "input",
             htmltype: "number",
             inputValue: ram.value,
@@ -196,7 +200,7 @@ export default function CreatePlan({config, userDataLoading, userData}) {
         },
         {
             heading: "bandwidth",
-            value: "Type the value",
+            value: bandwidth.value,
             type: "input",
             htmltype: "number",
             inputValue: bandwidth.value,
@@ -207,7 +211,7 @@ export default function CreatePlan({config, userDataLoading, userData}) {
         },
         {
             heading: "swap",
-            value: "Type the value",
+            value: swap.value,
             type: "input",
             htmltype: "number",
             inputValue: swap.value,
@@ -229,9 +233,10 @@ export default function CreatePlan({config, userDataLoading, userData}) {
             selected: type,
             onChange: setType
         }
+
     ]
 
-    const validateForm = () => {
+    const checkForm = () => {
 
         let isFormValid = true;
 
@@ -326,29 +331,23 @@ export default function CreatePlan({config, userDataLoading, userData}) {
         }
 
         return isFormValid;
-
     }
 
-    const hanldeClick = () => {
+    const handleClick = () => {
         
-        let isFormValid = validateForm()
+        setLoading(true);
+        setError(false);
+
+        let isFormValid = checkForm();
 
         if (!isFormValid) {
+            setError(true)
             setLoading(false)
+
             return;
         }
 
-        setLoading(true)
-
-        let conf = {
-            headers: {
-                'Authorization': `Token ${config}`,
-                'content-type': 'application/json'
-            }
-        }
-
-        let reqData = { 
-            
+        const reqData = {
             "name": name.value,
             "type": data[9].options[type].name,
             "host": host.value,
@@ -359,24 +358,27 @@ export default function CreatePlan({config, userDataLoading, userData}) {
             "ram": parseInt(ram.value),
             "swap": parseInt(swap.value),
             "bandwidth": parseInt(bandwidth.value)
-
-
         }
 
-        axios.post("https://hosnet.io/api/nodes/", reqData, conf)
-            
+        const conf = {
+            headers: {
+                'Authorization': `Token ${props.config}`,
+                'content-type': 'application/json'
+            }
+        }
+
+        axios.put(`https://hosnet.io/api/nodes/${details.id}/`, reqData, conf)
+
             .then((res) => {
 
-                if (res.status === 201) {
-                    setSuccess(true)
-                    setError(false)
-                    setLoading(false)
-                    handleMessage("success", 5, "Plan created successfully!")
+                setSuccess(true)
+                setError(false)
+                setLoading(false)
+                handleMessage("success", 5, "Template was updated successfully!")
 
-                    setTimeout(() => {
-                        successRedirect();
-                    }, 2000)
-                }
+                setTimeout(() => {
+                    successRedirect();
+                }, 2000)
 
             })
 
@@ -390,25 +392,61 @@ export default function CreatePlan({config, userDataLoading, userData}) {
             })
 
     }
+    
+    const handleDelete = () => {
 
-    if (userDataLoading) {
+        setLoading(true)
+        setError(false)
+
+        const conf = {
+            headers: {
+                'Authorization': `Token ${props.config}`,
+                'content-type': 'application/json'
+            }
+        }
+
+        axios.delete(`https://hosnet.io/api/nodes/${details.id}/`, conf)
+
+        .then((res) => {
+
+            setSuccess(true)
+            setError(false)
+            setLoading(false)
+            handleMessage("success", 5, "Node was deleted successfully!")
+
+            setTimeout(() => {
+                successRedirect();
+            }, 2000)
+
+        })
+
+        .catch((err) => {
+
+            setError(err)
+            setSuccess(false)
+            setLoading(false)
+            handleMessage("error", 5, "Something went wrong, try again later")
+        
+        })
+    }
+
+    if (props.userDataLoading) {
         return (
             <Wrapper>
-                <SubHeader path={true} loading={userDataLoading} pathName="Create node" />
+                <SubHeader path={true} loading={props.userDataLoading} pathName="Create plan" />
             </Wrapper>
         )
     }
 
-    if (!userDataLoading && userData.is_staff === false) {
+    if (!props.userDataLoading && props.userData.is_staff === false) {
         return (
             <Redirect to="/" push={true} />
         )
     }
 
-
     return (
         <Wrapper>
-            
+
             {showMessage && 
 
                 showMessage.messageType === "success" && (
@@ -423,18 +461,19 @@ export default function CreatePlan({config, userDataLoading, userData}) {
                 showMessage.messageType === "error" && (
 
                     <ErrorMessage message={showMessage.message} duration={showMessage.duration} isVisible={true} />
-    
+
                 )
             }
 
-
-            <SubHeader loading={loading} path={true} pathName="Create node" />
+            <SubHeader path={true} loading={loading || props.userDataLoading ? true : false} pathName={details.name} />
             <InnerWrapper>
-
-                <Section data={data} heading="Create new plan" rows={4} rows2={5} rows3={10} rowHeight={105}  />
+                <Content>
+                    <Section data={data} heading="Update Node" rows={4} rows2={5} rows3={10} rowHeight={105} />
+                </Content>
                 
                 <ButtonWrapper>
-                    <Button onClick={hanldeClick} text="Create node" width="125px" height="45px" />
+                    <Button height="45px" width="150px" text="Update Node" onClick={handleClick} />
+                    <DeleteBtn height="45px" width="150px" text="Delete Node" onClick={handleDelete} />
                 </ButtonWrapper>
 
             </InnerWrapper>
@@ -446,20 +485,27 @@ const ButtonWrapper = styled.div `
     height: fit-content;
     width: fit-content;
     margin-top: 15px;
+
+    display: flex;
+    column-gap: 30px;
 `;
 
-const Wrapper = styled.div `
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+const Content = styled.div `
 `;
 
 const InnerWrapper = styled.div `
     width: 93%;
     height: fit-content;
-    max-width: 1400px;
-    padding-top: 25px;
+    padding-top: 15px;
 
-    margin-bottom: 15px;
+    max-width: 1400px;
+`;
+
+const Wrapper = styled.div `
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 `;

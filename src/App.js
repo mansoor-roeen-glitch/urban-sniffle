@@ -23,6 +23,7 @@ import styled from 'styled-components';
 import getUserDetails from "./functions/getUserDetails";
 import Nodes from "./routes/Nodes/Nodes";
 import CreateNode from "./routes/Nodes/components/CreateNode";
+import Node from './routes/Nodes/components/Node';
 
 function App() {
 
@@ -173,7 +174,7 @@ function App() {
               <Header config={config} userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} />
 
               <Route path="/" exact render={() => <Base config={token} handleClickChange={handleClickChange} />} />
-              <Route path="/nodes" exact render={() => <Nodes userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handlePlanClick={handleNodeClick} />} />
+              <Route path="/nodes" exact render={() => <Nodes userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handleNodeClick={handleNodeClick} />} />
               <Route path="/plans" exact render={() => <Plans userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handlePlanClick={handlePlanClick} />} />
               <Route path="/create" exact render={() => <Create config={token}  />} />
               <Route path="/plans/:id" exact render={() => <Plan userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} details={selectedPlan} />} /> 
@@ -183,7 +184,8 @@ function App() {
               <Route path="/create/template" exact render={() => <CreateTemplate userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} />} />
               <Route path="/services/:id/:hostname" exact render={() => <Service config={token} details={selected} />} /> 
               <Route path="/create/node" exact render={() => <CreateNode userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} />} />
-              
+              <Route path="/nodes/:id" exact render={() => <Node userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} details={selectedNode} />} /> 
+
               <Footer />
               
             </Wrapper>

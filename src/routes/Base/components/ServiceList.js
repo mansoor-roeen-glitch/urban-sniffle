@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import ServiceItem from './ServiceItem'
 
-export default function ServiceList({data, handleClickChange, type, handlePlanClick, handleTemplateClick}) {
+export default function ServiceList({data, handleClickChange, type, handlePlanClick, handleTemplateClick, handleNodeClick}) {
     return (    
         <StyledWrapper>
             <List>
@@ -40,7 +40,7 @@ export default function ServiceList({data, handleClickChange, type, handlePlanCl
 
                             case "nodes":
                                 return (
-                                    <ServiceItem handleTemplateClick={handleTemplateClick} details={item} type="node" item={[
+                                    <ServiceItem handleNodeClick={handleNodeClick} details={item} type="node" item={[
                                         item.id, item.name, item.size, item.ram, item.bandwidth
                                     ]} redirectTo={`/nodes/${item.id}`} key={index} />
                                 );
