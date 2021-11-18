@@ -14,7 +14,7 @@ export default function PrimaryOption({option}) {
 }
 
 const StyledOptionWrapper = styled.div `
-    height: 60px;
+    height: 54px;
     margin: 0px;
     width: 100%;
 
@@ -38,7 +38,7 @@ const StyledOption = styled.div `
 `;
 
 const StyledOptionText = styled.h1 `
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 300;
     font-style: normal;
     color: var(--white);

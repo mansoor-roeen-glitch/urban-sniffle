@@ -31,7 +31,7 @@ export default function Details({data, serviceStatus, userDetails, config}) {
     let extraSettings = [];
 
     const successRedirect = () => {
-        window.location.pathname = '/plans/';
+        window.location.pathname = '/';
     }
 
     const handleMessage = (messageType, duration, message) => {
@@ -193,12 +193,16 @@ export default function Details({data, serviceStatus, userDetails, config}) {
             heading: "node",
             value: data.node,
             type: "dropdown",
-            options: [
-                {
-                    name: "magus",
-                    type: "option"
-                }
-            ],
+            options: dropdownDetailsLoading ?
+
+                [
+                    {
+                        name: data.node,
+                        type: "option"
+                    }
+
+                ] : dropdownDetails.nodes.options,
+
             selected: node,
             onChange: setNode
         },
@@ -402,12 +406,16 @@ export default function Details({data, serviceStatus, userDetails, config}) {
         },
         {
             heading: "type",
-            value: 'something',
+            value: data.service_plan.type,
             type: "dropdown",
             options: [
                 {
                     type: 'option',
                     name: "kvm"
+                },
+                {
+                    type: 'option',
+                    name: "lxc"
                 }
             ],
             selected: planType,
@@ -519,6 +527,16 @@ export default function Details({data, serviceStatus, userDetails, config}) {
 
         if (!hostname.value || hostname.value.length < 2 || hostname.value.length > 24) {
             setHostname(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be between 1-24 characters long"
+            }))
+
+            isFormValid = false
+        }
+
+        if (!password.value || password.value.length < 2 || password.value.length > 24) {
+            setPassword(prevState => ({
                 ...prevState,
                 hasErrorMessage: true,
                 errorMes: "must be between 1-24 characters long"
@@ -661,7 +679,7 @@ export default function Details({data, serviceStatus, userDetails, config}) {
                 
                 "service_plan": {
 
-                    "storage": "local-zfs",
+                    "storage": "test_node-disk-1",
                     "size": size.value,
                     "ram": ram.value,
                     "swap": swap.value,
@@ -686,9 +704,8 @@ export default function Details({data, serviceStatus, userDetails, config}) {
             if (res.status === 200) {
                 setSuccess(true)
                 setLoading(true)
-                console.log(res)
 
-                handleMessage("success", 5, "Plan was updated successfully!")
+                handleMessage("success", 5, "Service was updated successfully!")
 
                 setTimeout(() => {
                     successRedirect();
@@ -697,7 +714,6 @@ export default function Details({data, serviceStatus, userDetails, config}) {
         })
         
         .catch((err) => {
-            console.log(err)
             handleMessage("error", 5, "Something went wrong, try again later")
             return {error: err, status: false}
 
@@ -730,8 +746,9 @@ export default function Details({data, serviceStatus, userDetails, config}) {
 
         const plans = await fetchDetail("plans");
         const templates = await fetchDetail("templates");
+        const nodes = await fetchDetail("nodes");
 
-        if (plans.status === 200 && templates.status === 200 ) {
+        if (plans.status === 200 && templates.status === 200 && nodes.status === 200) {
 
             setDropdownDetails({
 
@@ -751,7 +768,18 @@ export default function Details({data, serviceStatus, userDetails, config}) {
                     options: templates.data.results,
                     selected: template,
                     onChange: setTemplate  
-                }})
+                },
+                
+                nodes: {
+                    heading: "Node",
+                    value: nodes.data.results[0].name,
+                    type: "dropdown",
+                    options: nodes.data.results,
+                    selected: node,
+                    onChange: setNode  
+                }
+            
+            })
 
 
             setDropdownDetailsSuccess(true)

@@ -253,19 +253,7 @@ export default function Create({config}) {
             hasErrorMessage: password.hasErrorMessage,
             onChange: setPassword
         },
-        {
-            heading: "node",
-            value: "magus",
-            type: "dropdown",
-            options: [
-                {
-                    name: "magus",
-                    type: "option"
-                }
-            ],
-            selected: node,
-            onChange: setNode
-        },
+        !loading && details.nodes,
         !loading && details.plans,
         !loading && details.templates,
         {
@@ -289,8 +277,9 @@ export default function Create({config}) {
         const owner = await fetchDetail("auth/user");
         const plans = await fetchDetail("api/plans");
         const templates = await fetchDetail("api/templates");
+        const nodes = await fetchDetail("api/nodes");
 
-        if (plans.status === 200 && templates.status === 200 && owner.status === 200) {
+        if (plans.status === 200 && templates.status === 200 && owner.status === 200, nodes.status === 200) {
 
             setOwnerDetails(owner.data)
 
@@ -312,7 +301,18 @@ export default function Create({config}) {
                     options: templates.data.results,
                     selected: template,
                     onChange: setTemplate  
-                }})
+                },
+
+                nodes: {
+                    heading: "node",
+                    value: nodes.data.results[0].name,
+                    type: "dropdown",
+                    options: nodes.data.results,
+                    selected: node,
+                    onChange: setNode  
+                },
+            
+            })
 
 
             setOwnerLoading(false)

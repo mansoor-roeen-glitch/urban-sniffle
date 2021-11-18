@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom';
 
-export default function ServiceItem({item, handleClickChange, redirectTo, type, handlePlanClick, handleTemplateClick, details, handleNodeClick}) {
+export default function ServiceItem({item, handleClickChange, redirectTo, type, handlePlanClick, handleTemplateClick, details, handleNodeClick, handlePoolClick}) {
     return (
         
         <Link onClick={() => {
@@ -15,6 +15,8 @@ export default function ServiceItem({item, handleClickChange, redirectTo, type, 
                 handleTemplateClick(details)
             } else if (type === "node") {
                 handleNodeClick(details)
+            } else if (type === "pool") {
+                handlePoolClick(details)
             }
 
         }} style={{textDecoration: "none", outline: "none"}} to={redirectTo}>

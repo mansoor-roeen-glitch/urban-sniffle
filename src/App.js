@@ -24,6 +24,8 @@ import getUserDetails from "./functions/getUserDetails";
 import Nodes from "./routes/Nodes/Nodes";
 import CreateNode from "./routes/Nodes/components/CreateNode";
 import Node from './routes/Nodes/components/Node';
+import Pools from './routes/Pools/Pools';
+import CreatePool from './routes/Pools/components/CreatePool';
 
 function App() {
 
@@ -43,6 +45,7 @@ function App() {
   const [selected, setSelected] = React.useState(false)
   const [selectedPlan, setSelectedPlan] = React.useState()
   const [selectedTemplate, setSelectedTemplate] = React.useState()
+  const [selectedPool, setSelectedPool] = React.useState()
   const [selectedNode, setSelectedNode] = React.useState()
 
 
@@ -64,7 +67,11 @@ function App() {
 
   const handleNodeClick = (details) => {
     setSelectedNode(details)
-}
+  }
+
+  const handlePoolClick = (details) => {
+    setSelectedPool(details)
+  }
 
   const checkToken = async (token) => {
     const response = await axios({
@@ -170,11 +177,12 @@ function App() {
             <Route path="/reset" exact render={() => <Reset />} />
             <Route path="/logout" exact render={() => <Logout />} />
 
-            <Wrapper>
+            <Wrapper> 
               <Header config={config} userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} />
 
               <Route path="/" exact render={() => <Base config={token} handleClickChange={handleClickChange} />} />
               <Route path="/nodes" exact render={() => <Nodes userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handleNodeClick={handleNodeClick} />} />
+              <Route path="/pools" exact render={() => <Pools userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handlePoolClick={handlePoolClick} />} />
               <Route path="/plans" exact render={() => <Plans userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handlePlanClick={handlePlanClick} />} />
               <Route path="/create" exact render={() => <Create config={token}  />} />
               <Route path="/plans/:id" exact render={() => <Plan userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} details={selectedPlan} />} /> 
@@ -185,6 +193,7 @@ function App() {
               <Route path="/services/:id/:hostname" exact render={() => <Service config={token} details={selected} />} /> 
               <Route path="/create/node" exact render={() => <CreateNode userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} />} />
               <Route path="/nodes/:id" exact render={() => <Node userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} details={selectedNode} />} /> 
+              <Route path="/create/pool" exact render={() => <CreatePool userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} />} />
 
               <Footer />
               
