@@ -45,6 +45,13 @@ export default function Features({active, userDataLoading, userData, setActive, 
             height: "18px"
         },
         {
+            name: "Nodes",
+            to: "/nodes",
+            svg: "plans.svg",
+            width: "18px",
+            height: "18px"
+        },
+        {
             name: "Templates",
             to: "/templates",
             svg: "templates.svg",

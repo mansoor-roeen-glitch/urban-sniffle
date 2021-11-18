@@ -21,6 +21,8 @@ import CreateTemplate from './routes/templates/components/CreateTemplate';
 import Logout from './routes/Logout/Logout';
 import styled from 'styled-components';
 import getUserDetails from "./functions/getUserDetails";
+import Nodes from "./routes/Nodes/Nodes";
+import CreateNode from "./routes/Nodes/components/CreateNode";
 
 function App() {
 
@@ -40,6 +42,7 @@ function App() {
   const [selected, setSelected] = React.useState(false)
   const [selectedPlan, setSelectedPlan] = React.useState()
   const [selectedTemplate, setSelectedTemplate] = React.useState()
+  const [selectedNode, setSelectedNode] = React.useState()
 
 
   const history = createBrowserHistory(); 
@@ -57,6 +60,10 @@ function App() {
   const handleTemplateClick = (details) => {
       setSelectedTemplate(details)
   }
+
+  const handleNodeClick = (details) => {
+    setSelectedNode(details)
+}
 
   const checkToken = async (token) => {
     const response = await axios({
@@ -162,11 +169,11 @@ function App() {
             <Route path="/reset" exact render={() => <Reset />} />
             <Route path="/logout" exact render={() => <Logout />} />
 
-
             <Wrapper>
               <Header config={config} userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} />
 
               <Route path="/" exact render={() => <Base config={token} handleClickChange={handleClickChange} />} />
+              <Route path="/nodes" exact render={() => <Nodes userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handlePlanClick={handleNodeClick} />} />
               <Route path="/plans" exact render={() => <Plans userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handlePlanClick={handlePlanClick} />} />
               <Route path="/create" exact render={() => <Create config={token}  />} />
               <Route path="/plans/:id" exact render={() => <Plan userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} details={selectedPlan} />} /> 
@@ -175,6 +182,7 @@ function App() {
               <Route path="/templates/:id" exact render={() => <Template userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} details={selectedTemplate} />} /> 
               <Route path="/create/template" exact render={() => <CreateTemplate userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} />} />
               <Route path="/services/:id/:hostname" exact render={() => <Service config={token} details={selected} />} /> 
+              <Route path="/create/node" exact render={() => <CreateNode userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} />} />
               
               <Footer />
               

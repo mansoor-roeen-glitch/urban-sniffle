@@ -10,8 +10,11 @@ export default function ServiceList({data, handleClickChange, type, handlePlanCl
                 {data.length > 0 ? data.map((item, index) => {
                     
                     if (type === "services" && !item.service_plan) 
+
                         return (null) 
+                        
                     else {
+
                         switch (type) {
 
                             case "services": 
@@ -33,6 +36,13 @@ export default function ServiceList({data, handleClickChange, type, handlePlanCl
                                     <ServiceItem handleTemplateClick={handleTemplateClick} details={item} type="template" item={[
                                         item.id, item.name, item.type, item.id, item.file
                                     ]} redirectTo={`/templates/${item.id}`} key={index} />
+                                );
+
+                            case "nodes":
+                                return (
+                                    <ServiceItem handleTemplateClick={handleTemplateClick} details={item} type="node" item={[
+                                        item.id, item.name, item.size, item.ram, item.bandwidth
+                                    ]} redirectTo={`/nodes/${item.id}`} key={index} />
                                 );
                         }
                     }
