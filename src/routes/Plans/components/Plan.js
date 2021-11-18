@@ -498,9 +498,7 @@ export default function Plan(props) {
                     setLoading(false)
                     handleMessage("success", 5, "Plan was updated successfully!")
 
-                    setTimeout(() => {
-                        successRedirect();
-                    }, 2000)
+                   
                 }
 
             })

@@ -2,12 +2,15 @@ import axios from 'axios';
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Button from '../../../components/buttons/ActionButton';
+import ErrorMessage from '../../../components/messages/ErrorMessage';
+import SuccessMessage from '../../../components/messages/SuccessMessage';
 import Chart from './Chart';
 import Section from './Section';
 
 export default function Details({data, serviceStatus, userDetails, config}) {
 
     const [plan, setPlan] = React.useState(0)
+    const [status, setStatus] = React.useState(0)
     const [node, setNode] = React.useState(0)
     const [template, setTemplate] = React.useState(0)
     const [planType, setPlanType] = React.useState(0)
@@ -27,6 +30,9 @@ export default function Details({data, serviceStatus, userDetails, config}) {
     let generalDetails = [];
     let extraSettings = [];
 
+    const successRedirect = () => {
+        window.location.pathname = '/plans/';
+    }
 
     const handleMessage = (messageType, duration, message) => {
 
@@ -60,7 +66,7 @@ export default function Details({data, serviceStatus, userDetails, config}) {
 
     const [size, setSize] = React.useState({
 
-        value: data.service_plan.size,
+        value: JSON.stringify(data.service_plan.size),
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -69,7 +75,7 @@ export default function Details({data, serviceStatus, userDetails, config}) {
 
     const [ram, setRam] = React.useState({
 
-        value: data.service_plan.ram,
+        value: JSON.stringify(data.service_plan.ram),
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -78,7 +84,7 @@ export default function Details({data, serviceStatus, userDetails, config}) {
 
     const [bandwidth, setBandwidth] = React.useState({
 
-        value: data.service_plan.bandwidth,
+        value: JSON.stringify(data.service_plan.bandwidth),
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -87,7 +93,7 @@ export default function Details({data, serviceStatus, userDetails, config}) {
 
     const [ipv6, setIpv6] = React.useState({
 
-        value: data.service_plan.ipv6_ips,
+        value: JSON.stringify(data.service_plan.ipv6_ips),
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -96,7 +102,7 @@ export default function Details({data, serviceStatus, userDetails, config}) {
 
     const [ipv4, setIpv4] = React.useState({
 
-        value: data.service_plan.ipv4_ips,
+        value: JSON.stringify(data.service_plan.ipv4_ips),
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -105,7 +111,7 @@ export default function Details({data, serviceStatus, userDetails, config}) {
 
     const [storage, setStorage] = React.useState({
 
-        value: data.service_plan.storage,
+        value: JSON.stringify(data.service_plan.storage),
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -114,7 +120,7 @@ export default function Details({data, serviceStatus, userDetails, config}) {
 
     const [internalIps, setInternalIps] = React.useState({
 
-        value: data.service_plan.internal_ips,
+        value: JSON.stringify(data.service_plan.internal_ips),
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -123,7 +129,7 @@ export default function Details({data, serviceStatus, userDetails, config}) {
 
     const [swap, setSwap] = React.useState({
 
-        value: data.service_plan.swap,
+        value: JSON.stringify(data.service_plan.swap),
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -132,7 +138,7 @@ export default function Details({data, serviceStatus, userDetails, config}) {
 
     const [cores, setCores] = React.useState({
 
-        value: data.service_plan.cores,
+        value: JSON.stringify(data.service_plan.cores),
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -150,7 +156,7 @@ export default function Details({data, serviceStatus, userDetails, config}) {
 
     const [cpul, setCpul] = React.useState({
 
-        value: data.cpu_limit,
+        value: JSON.stringify(data.cpu_limit),
         errorMes: "",
         messageDur: 5000,
         hasErrorMessage: false
@@ -200,7 +206,35 @@ export default function Details({data, serviceStatus, userDetails, config}) {
         {
             heading: "status",
             value: data.status === undefined ? 'inactive' : data.status,
-            type: "detail",
+            type: "dropdown",
+            options: [
+                {
+                    name: "pending",
+                    type: "option"
+                },
+                {
+                    name: "active",
+                    type: "option"
+                }, 
+                {
+                    name: "destroyed",
+                    type: "option"
+                },
+                {
+                    name: "suspended",
+                    type: "option"
+                },
+                {
+                    name: "error",
+                    type: "option"
+                },
+                {
+                    name: "past due",
+                    type: "option"
+                }
+            ],
+            selected: status,
+            onChange: setStatus 
         },
 
         {
@@ -460,180 +494,153 @@ export default function Details({data, serviceStatus, userDetails, config}) {
     const charts = [
         {
             heading: "Bandwith Usage",
-            total: parseInt(serviceStatus.bandwidth_max),
-            usage: parseInt(serviceStatus.bandwidth_used),
+            total: serviceStatus.bandwidth_max,
+            usage: serviceStatus.bandwidth_used,
             unit: " GB"
         },
         {
             heading: "Disk Usage",
-            total: parseInt(serviceStatus.disk_max),
-            usage: parseInt(serviceStatus.disk_used),
+            total: serviceStatus.disk_max,
+            usage: serviceStatus.disk_used,
             unit: " GB"
         },
         {
             heading: "Memory Usage",
-            total: parseInt(serviceStatus.mem_max),
-            usage: parseInt(serviceStatus.mem_used),
+            total: serviceStatus.mem_max,
+            usage: serviceStatus.mem_used,
             unit: " GB"
         }
     ]
 
     
-    // const validateForm = () => {
+    const validateForm = () => {
 
-    //     let isFormValid = true;
+        let isFormValid = true;
 
-    //     if (!name.value || name.value.length < 2 || name.value.length > 20) {
-    //         setName(prevState => ({
-    //             ...prevState,
-    //             hasErrorMessage: true,
-    //             errorMes: "must be between 1-20 char long"
-    //         }))
+        if (!hostname.value || hostname.value.length < 2 || hostname.value.length > 24) {
+            setHostname(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be between 1-24 characters long"
+            }))
 
-    //         isFormValid = false
-    //     }
+            isFormValid = false
+        }
 
-    //     if (!/^\d+(?:[.,]\d+)*$/.test(price.value) || !price.value) {
-    //         setPrice(prevState => ({
-    //             ...prevState,
-    //             hasErrorMessage: true,
-    //             errorMes: "must only be int or float"
-    //         }))
+        if (!size.value || !/^\d+$/.test(size.value)) {
+            setSize(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must only be int only"
+            }))
 
-    //         isFormValid = false
-    //     }
+            isFormValid = false
+        }
 
-    //     if (!size.value || !/^\d+$/.test(size.value)) {
-    //         setSize(prevState => ({
-    //             ...prevState,
-    //             hasErrorMessage: true,
-    //             errorMes: "must only be int only"
-    //         }))
+        if (!cores.value || !/^\d+$/.test(cores.value)) {
+            setCores(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int only"
+            }))
 
-    //         isFormValid = false
-    //     }
+            isFormValid = false
+        }
 
-    //     if (!cores.value || !/^\d+$/.test(cores.value)) {
-    //         setCores(prevState => ({
-    //             ...prevState,
-    //             hasErrorMessage: true,
-    //             errorMes: "must be int only"
-    //         }))
+        if (!ram.value || !/^\d+$/.test(ram.value)) {
+            setRam(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int only"
+            }))
 
-    //         isFormValid = false
-    //     }
+            isFormValid = false
+        }
 
-    //     if (!ram.value || !/^\d+$/.test(ram.value)) {
-    //         setRam(prevState => ({
-    //             ...prevState,
-    //             hasErrorMessage: true,
-    //             errorMes: "must be int only"
-    //         }))
+        if (!bandwidth.value || !/^\d+$/.test(bandwidth.value)) {
+            setBandwidth(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int only"
+            }))
 
-    //         isFormValid = false
-    //     }
+            isFormValid = false
+        }
 
-    //     if (!bandwidth.value || !/^\d+$/.test(bandwidth.value)) {
-    //         setBandwidth(prevState => ({
-    //             ...prevState,
-    //             hasErrorMessage: true,
-    //             errorMes: "must be int only"
-    //         }))
+        if (!cpul.value || !/^\d+(?:[.,]\d+)*$/.test(cpul.value)) {
+            setCpul(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int only"
+            }))
 
-    //         isFormValid = false
-    //     }
+            isFormValid = false
+        }
 
-    //     if (!cpul.value || !/^\d+(?:[.,]\d+)*$/.test(cpul.value)) {
-    //         setCpul(prevState => ({
-    //             ...prevState,
-    //             hasErrorMessage: true,
-    //             errorMes: "must be int only"
-    //         }))
+        if (!swap.value || !/^\d+$/.test(swap.value)) {
+            setSwap(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int only"
+            }))
 
-    //         isFormValid = false
-    //     }
+            isFormValid = false
+        }
 
-    //     if (!swap.value || !/^\d+$/.test(swap.value)) {
-    //         setSwap(prevState => ({
-    //             ...prevState,
-    //             hasErrorMessage: true,
-    //             errorMes: "must be int only"
-    //         }))
+        if (!cpuu.value || !/^\d+(?:[.,]\d+)*$/.test(cpuu.value)) {
+            setCpuu(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int or float only"
+            }))
 
-    //         isFormValid = false
-    //     }
+            isFormValid = false
+        }
 
-    //     if (!cpuu.value || !/^\d+(?:[.,]\d+)*$/.test(cpuu.value)) {
-    //         setCpuu(prevState => ({
-    //             ...prevState,
-    //             hasErrorMessage: true,
-    //             errorMes: "must be int or float only"
-    //         }))
+        if (!ipv4.value || !/^\d+$/.test(ipv4.value)) {
+            setIpv4(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int only"
+            }))
 
-    //         isFormValid = false
-    //     }
+            isFormValid = false
+        }
 
-    //     if (!ipv4.value || !/^\d+$/.test(ipv4.value)) {
-    //         setIpv4(prevState => ({
-    //             ...prevState,
-    //             hasErrorMessage: true,
-    //             errorMes: "must be int only"
-    //         }))
+        if (!ipv6.value || !/^\d+$/.test(ipv6.value)) {
+            setIpv6(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int only"
+            }))
 
-    //         isFormValid = false
-    //     }
+            isFormValid = false
+        }
 
-    //     if (!ipv6.value || !/^\d+$/.test(ipv6.value)) {
-    //         setIpv6(prevState => ({
-    //             ...prevState,
-    //             hasErrorMessage: true,
-    //             errorMes: "must be int only"
-    //         }))
+        if (!internalIps.value || !/^\d+$/.test(internalIps.value)) {
+            setInternalIps(prevState => ({
+                ...prevState,
+                hasErrorMessage: true,
+                errorMes: "must be int only"
+            }))
 
-    //         isFormValid = false
-    //     }
+            isFormValid = false
+        }
 
-    //     if (!size.value || !/^\d+$/.test(size.value)) {
-    //         setsize(prevState => ({
-    //             ...prevState,
-    //             hasErrorMessage: true,
-    //             errorMes: "must be int only"
-    //         }))
+        return isFormValid;
 
-    //         isFormValid = false
-    //     }
-
-    //     if (!term.value || !/^\d+$/.test(term.value)) {
-    //         setTerm(prevState => ({
-    //             ...prevState,
-    //             hasErrorMessage: true,
-    //             errorMes: "must be int only"
-    //         }))
-
-    //         isFormValid = false
-    //     }
-
-    //     return isFormValid;
-
-    // }
+    }
 
 
     const handleSubmit = async () => {
 
-        setLoading(true)
+        const isFormValid = validateForm()
 
-        const reqData = {
-                
-            "owner": userDetails.username,
-            "hostname": hostname.value,
-            "password": password.value,
-            "plan": adminVmAccess[0].options[plan].name,
-            "node": adminGeneralAccess[2].options[node].name,
-            "template": adminGeneralAccess[1].options[template].name,
-            "billing_type": 2
+        if (!isFormValid) {
+            return null;
         }
 
-        console.log(reqData)
+        setLoading(true)
 
         const reqHeaders = {
             headers: {
@@ -642,13 +649,50 @@ export default function Details({data, serviceStatus, userDetails, config}) {
             }
         }
 
-        axios.put(`https://hosnet.io/api/services/${data.id}`, reqData, reqHeaders)
+        axios.put(`https://hosnet.io/api/services/${data.id}/`, 
+            {
+                    
+                "owner": userDetails.username,
+                "hostname": hostname.value,
+                "password": password.value,
+                "plan": adminVmAccess[0].options[plan].name,
+                "node": adminGeneralAccess[2].options[node].name,
+                "status": adminGeneralAccess[3].options[status].name,
+                
+                "service_plan": {
+
+                    "storage": "local-zfs",
+                    "size": size.value,
+                    "ram": ram.value,
+                    "swap": swap.value,
+                    "cores": cores.value,
+                    "bandwidth": bandwidth.value,
+                    "cpu_units": cpuu.value,
+                    "cpu_limit": cpul.value,
+                    "ipv6_ips": ipv6.value,
+                    "ipv4_ips": ipv4.value,
+                    "internal_ips": internalIps.value,
+
+                    "type": adminExtraFields[5].options[planType].name,
+                    "template": adminGeneralAccess[1].options[template].name,
+                    "ip_pools": [1]
+                }, 
+
+                "billing_type": 2
+            }
+            , reqHeaders)
         
         .then((res) => {
             if (res.status === 200) {
                 setSuccess(true)
                 setLoading(true)
                 console.log(res)
+
+                handleMessage("success", 5, "Plan was updated successfully!")
+
+                setTimeout(() => {
+                    successRedirect();
+                }, 2000)
             }
         })
         
@@ -738,6 +782,25 @@ export default function Details({data, serviceStatus, userDetails, config}) {
 
     return (
         <Wrapper>
+
+            {showMessage && 
+
+                showMessage.messageType === "success" && (
+
+                    <SuccessMessage message={showMessage.message} duration={showMessage.duration} isVisible={true} />
+
+                )
+            }
+
+            {showMessage && 
+
+                showMessage.messageType === "error" && (
+
+                    <ErrorMessage message={showMessage.message} duration={showMessage.duration} isVisible={true} />
+
+                )
+            }
+
             <InnerWrapper>
                 
                 {serviceStatus && (
@@ -755,11 +818,11 @@ export default function Details({data, serviceStatus, userDetails, config}) {
                     <RowGap />
                     <Section data={virtualMachine} heading="Virtual Machine" rows={2} rows2={3} rows3={6} rowHeight={115} />
                         
-                    {extraSettings && (
+                    {extraSettings.length > 0 && (
                         <RowGap />
                     )}
 
-                    {extraSettings && (
+                    {extraSettings.length > 0 && (
                         <Section data={adminExtraFields} heading="Extra Settings" rows={2} rows2={3} rows3={6} rowHeight={115} />
                     )}
 
@@ -768,7 +831,7 @@ export default function Details({data, serviceStatus, userDetails, config}) {
                 <ButtonWrapper>
                     <Button onClick={handleSubmit} text="Submit" width="130px" height="45px"  />
                 </ButtonWrapper>
-            
+
             </InnerWrapper>
         </Wrapper>
     )

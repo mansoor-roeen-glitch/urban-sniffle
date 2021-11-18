@@ -76,7 +76,7 @@ const Wrapper = styled.div `
     justify-content: center;
     column-gap: 15px;
 
-    position: absolute;
+    position: fixed;
     top: 45%;
     left: auto;
     right: auto;
