@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Router, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import {createBrowserHistory} from 'history'
 import Register from "./routes/Register/Register";
 import Login from './routes/Login/Login'
@@ -26,6 +26,7 @@ import CreateNode from "./routes/Nodes/components/CreateNode";
 import Node from './routes/Nodes/components/Node';
 import Pools from './routes/Pools/Pools';
 import CreatePool from './routes/Pools/components/CreatePool';
+import LandingPage from "./routes/LandingPage/LandingPage";
 
 function App() {
 
@@ -111,15 +112,19 @@ function App() {
         return "/register";
       } else if (window.location.pathname === "/reset") {
         return "/reset";
+      } else if (window.location.pathname === "/login") {
+        return '/login'
       } else {
-        return "/login"
+        return "/"
       }
     }
+
+    console.log("This function was run")
+    console.log(reLocation())
 
     
     setRedirectTo(reLocation());
     setPathname(path ? path : reLocation())
-    history.push(path ? path : reLocation())
 
   }
 
@@ -141,8 +146,7 @@ function App() {
         
         })
 
-        setRedirectTo("/")
-        history.push("/")
+        setRedirectTo("/dashboard")
         setLoading(false)
         
       } else {
@@ -169,9 +173,15 @@ function App() {
   return (
     <div className="App_Wrapper" style={{display: "flex", flexDirection: "column", minHeight: "100vh", height: "fit-content", overflowX: "hidden", justifyContent: "center"}}>
       <BrowserRouter history={history}>
+
+        {redirectTo && (
+          <Redirect to={redirectTo} />
+        )}
+
         {!loading ? (
           <Switch>
 
+            <Route path="/" exact render={() => <LandingPage />}  />
             <Route path="/login" exact render={() => <Login />}  />
             <Route path="/register" exact render={() => <Register />}  />
             <Route path="/reset" exact render={() => <Reset />} />
@@ -180,7 +190,7 @@ function App() {
             <Wrapper> 
               <Header config={config} userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} />
 
-              <Route path="/" exact render={() => <Base config={token} handleClickChange={handleClickChange} />} />
+              <Route path="/dashboard" exact render={() => <Base config={token} handleClickChange={handleClickChange} />} />
               <Route path="/nodes" exact render={() => <Nodes userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handleNodeClick={handleNodeClick} />} />
               <Route path="/pools" exact render={() => <Pools userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handlePoolClick={handlePoolClick} />} />
               <Route path="/plans" exact render={() => <Plans userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handlePlanClick={handlePlanClick} />} />

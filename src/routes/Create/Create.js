@@ -46,7 +46,7 @@ export default function Create({config}) {
     const [showMessage, setShowMessage] = React.useState(false);
 
     const successRedirect = () => {
-        window.location.pathname = '/';
+        window.location.pathname = '/dashboard';
     }
 
     const handleMessage = (messageType, duration, message) => {
@@ -193,8 +193,14 @@ export default function Create({config}) {
                 setSuccess(true)
                 setError(false)
                 setLoading(true)
-                handleCheckout(res.data.id, config)
-                setResponseLoading(false)
+                
+                if (!ownerDetails.is_staff) {
+                    handleCheckout(res.data.id, config)
+                    setResponseLoading(false)
+                } else {
+                    successRedirect();
+                }
+
             }
         })
         
