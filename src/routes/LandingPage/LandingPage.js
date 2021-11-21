@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Header from './components/Header';
 
 export default function LandingPage() {
+
     return (
         <Wrapper>
             <Header />
@@ -116,9 +117,9 @@ export default function LandingPage() {
 
                             </PlanFeaturesList>
 
-                            <PlanButton>
-                                <PlanButtonText>900$ /month</PlanButtonText>
-                            </PlanButton>
+                            <PrimaryPlanButton>
+                                <PrimaryPlanButtonText>900$ /month</PrimaryPlanButtonText>
+                            </PrimaryPlanButton>
 
                         </PlanWrapper>
 
@@ -182,6 +183,44 @@ export default function LandingPage() {
     )
 }
 
+const PrimaryPlanButtonText = styled.span `
+    font-family: "Open Sans";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: black;
+`;
+
+const PrimaryPlanButton = styled.div `
+    width: 100%;
+    height: 45px;
+    background: transparent;
+    border: solid 1px #c4c4c4;
+    background: #C4C4C4;
+
+    margin-top: auto;
+    align-self: baseline;
+
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+
+    transition: .3s ease background, .3s ease color;
+
+    :hover {
+        background: transparent;
+        span {
+            color: #C4C4C4;
+        }
+    }
+`;
+
 const PlanButtonText = styled.span `
 
     font-family: "Open Sans";
@@ -209,6 +248,13 @@ const PlanButton = styled.div `
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+
+    transition: .3s ease opacity;
+
+    :hover {
+        opacity: .7;
+    }
 `;
 
 const FeatureText = styled.span `

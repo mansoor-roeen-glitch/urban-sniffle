@@ -14,6 +14,7 @@ export default function Details({data, serviceStatus, userDetails, config}) {
     const [node, setNode] = React.useState(0)
     const [template, setTemplate] = React.useState(0)
     const [planType, setPlanType] = React.useState(0)
+    const [pool, setPool] = React.useState(0)
     
     const [dropdownDetailsLoading, setDropdownDetailsLoading] = React.useState(true);
     const [dropdownDetailsSuccess, setDropdownDetailsSuccess] = React.useState();
@@ -174,11 +175,11 @@ export default function Details({data, serviceStatus, userDetails, config}) {
             heading: "template",
             value: data.service_plan.template,
             type: "dropdown",
-            options: dropdownDetailsLoading ?
+            options: dropdownDetailsLoading || dropdownDetails.templates.options.length === 0 || dropdownDetailsError ?
 
                 [
                     {
-                        name: data.service_plan.template,
+                        name: data.service_plan.template ? data.service_plan.template : "undefined",
                         type: "option"
                     }
 
@@ -193,11 +194,11 @@ export default function Details({data, serviceStatus, userDetails, config}) {
             heading: "node",
             value: data.node,
             type: "dropdown",
-            options: dropdownDetailsLoading ?
+            options: dropdownDetailsLoading || dropdownDetails.nodes.options.length === 0 || dropdownDetailsError ?
 
                 [
                     {
-                        name: data.node,
+                        name: data.node ? data.node : "undefined",
                         type: "option"
                     }
 
@@ -272,11 +273,11 @@ export default function Details({data, serviceStatus, userDetails, config}) {
             heading: "plan type",
             value: data.plan,
             type: "dropdown",
-            options: dropdownDetailsLoading ?
+            options: dropdownDetailsLoading || dropdownDetails.plans.options.length === 0 || dropdownDetailsError ?
 
                 [
                     {
-                        name: data.plan,
+                        name: data.plan ? data.plan : "undefined",
                         type: "option"
                     }
 
@@ -420,7 +421,43 @@ export default function Details({data, serviceStatus, userDetails, config}) {
             ],
             selected: planType,
             onChange: setPlanType
-        }
+        },
+
+        {
+            heading: "storage",
+            value: data.service_plan.storage,
+            type: "dropdown",
+            options: dropdownDetailsLoading || dropdownDetails.storages.options.length === 0 || dropdownDetailsError ?
+
+                [
+                    {
+                        name: data.service_plan.storage ? data.service_plan.storage : "undefined",
+                        type: "option"
+                    }
+
+                ] : dropdownDetails.storages.options,
+
+            selected: storage,
+            onChange: setStorage
+        },
+
+        {
+            heading: "Ip pools",
+            value: "Select an IP pool",
+            type: "dropdown",
+            options: dropdownDetailsLoading || dropdownDetails.pools.options.length === 0 || dropdownDetailsError ?
+
+                [
+                    {
+                        name: "undefined",
+                        type: "option"
+                    }
+
+                ] : dropdownDetails.pools.options,
+
+            selected: pool,
+            onChange: setPool
+        },
     ]
 
 
@@ -679,7 +716,6 @@ export default function Details({data, serviceStatus, userDetails, config}) {
                 
                 "service_plan": {
 
-                    "storage": "test_node-disk-1",
                     "size": size.value,
                     "ram": ram.value,
                     "swap": swap.value,
@@ -690,10 +726,11 @@ export default function Details({data, serviceStatus, userDetails, config}) {
                     "ipv6_ips": ipv6.value,
                     "ipv4_ips": ipv4.value,
                     "internal_ips": internalIps.value,
-
+                    
                     "type": adminExtraFields[5].options[planType].name,
                     "template": adminGeneralAccess[1].options[template].name,
-                    "ip_pools": [1]
+                    "storage": adminExtraFields[6].options[storage].name,
+                    "ip_pools": [dropdownDetails.pools.options[pool].id]
                 }, 
 
                 "billing_type": 2
@@ -747,36 +784,31 @@ export default function Details({data, serviceStatus, userDetails, config}) {
         const plans = await fetchDetail("plans");
         const templates = await fetchDetail("templates");
         const nodes = await fetchDetail("nodes");
+        const storages = await fetchDetail("node-disks");
+        const pools = await fetchDetail("pools");
 
-        if (plans.status === 200 && templates.status === 200 && nodes.status === 200) {
+        if (plans.status === 200 && templates.status === 200 && nodes.status === 200 && storages.status === 200 && pools.status === 200) {
 
             setDropdownDetails({
 
                 plans: {
-                    heading: "Plan Type",
-                    value: plans.data.results[0].name,
-                    type: "dropdown",
                     options: plans.data.results,
-                    selected: plan,
-                    onChange:  setPlan                
                 }, 
                 
                 templates: {
-                    heading: "template",
-                    value: templates.data.results[0].name,
-                    type: "dropdown",
                     options: templates.data.results,
-                    selected: template,
-                    onChange: setTemplate  
                 },
                 
                 nodes: {
-                    heading: "Node",
-                    value: nodes.data.results[0].name,
-                    type: "dropdown",
                     options: nodes.data.results,
-                    selected: node,
-                    onChange: setNode  
+                },
+
+                storages: {
+                    options: storages.data.results,
+                },
+
+                pools: {
+                    options: pools.data.results,
                 }
             
             })
@@ -851,7 +883,7 @@ export default function Details({data, serviceStatus, userDetails, config}) {
                     )}
 
                     {extraSettings.length > 0 && (
-                        <Section data={adminExtraFields} heading="Extra Settings" rows={2} rows2={3} rows3={6} rowHeight={115} />
+                        <Section data={adminExtraFields} heading="Extra Settings" rows={3} rows2={4} rows3={7} rowHeight={115} />
                     )}
 
                 </Content>
