@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Button from '../../../components/buttons/ActionButton';
+import ExtraActionsButton from '../../../components/buttons/ExtraActionsButton';
 import ErrorMessage from '../../../components/messages/ErrorMessage';
 import SuccessMessage from '../../../components/messages/SuccessMessage';
 import Chart from './Chart';
@@ -30,6 +31,26 @@ export default function Details({data, serviceStatus, userDetails, config}) {
     let virtualMachine = [];
     let generalDetails = [];
     let extraSettings = [];
+
+    let ips = [
+        {
+            type: "ipv6",
+            ip: " 2600:1700:33b0:13c1:c3f8:92c9:a191:eccd"
+        },
+        {
+            type: "ipv6",
+            ip: " 2600:1700:33b0:13c1:c3f8:92c9:a191:eccd"
+        },
+        {
+            type: "ipv6",
+            ip: " 2600:1700:33b0:13c1:c3f8:92c9:a191:eccd"
+        },
+        {
+            type: "ipv4",
+            ip: "2600:1700:33b0:13c1"
+        }
+
+    ];
 
     const successRedirect = () => {
         window.location.pathname = '/';
@@ -541,19 +562,19 @@ export default function Details({data, serviceStatus, userDetails, config}) {
             heading: "Bandwith Usage",
             total: serviceStatus.bandwidth_max,
             usage: serviceStatus.bandwidth_used,
-            unit: " GB"
+            unit: "GB"
         },
         {
-            heading: "Disk Usage",
+            heading: "Storage Usage",
             total: serviceStatus.disk_max,
             usage: serviceStatus.disk_used,
-            unit: " GB"
-        },
+            unit: "GB"
+        }, 
         {
-            heading: "Memory Usage",
+            heading: "Memeory Usage",
             total: serviceStatus.mem_max,
             usage: serviceStatus.mem_used,
-            unit: " GB"
+            unit: "GB"
         }
     ]
 
@@ -863,33 +884,66 @@ export default function Details({data, serviceStatus, userDetails, config}) {
 
             <InnerWrapper>
                 
-                {serviceStatus && (
-                    <Charts>
-                        { charts.map((chart, index) => {
-                            return (
-                                <Chart key={index} usage={chart.usage} heading={chart.heading} total={chart.total} unit={chart.unit} />
-                            )
-                        })}
-                    </Charts>
-                )}
+                <ChartWrapper>
+
+                    {serviceStatus && (
+                        <Charts>
+                            { charts.map((chart, index) => {
+                                return (
+                                    <Chart key={index} usage={chart.usage} heading={chart.heading} total={chart.total} unit={chart.unit} />
+                                )
+                            })}
+                        </Charts>
+                    )}
+
+                    <IpDetailWrapper>
+                        <IpDetails>
+                            
+                            {ips ? ips.map((ip, index) => {
+                                
+                                return (
+                                    <IpDetail>
+
+                                        <IpDetailNumber>
+                                            {index + 1}.
+                                        </IpDetailNumber>
+
+                                        <IpDetailType>
+                                            {ip.type}
+                                        </IpDetailType>
+
+                                        <IpDetailText>
+                                            {ip.ip}
+                                        </IpDetailText>
+
+                                    </IpDetail>
+                                )
+
+                            }) : null}
+
+                        </IpDetails>        
+                    </IpDetailWrapper>
+
+                </ChartWrapper>
             
-                <Content marginTop={serviceStatus ? "50px" : "0px"}>
-                    <Section data={generalDetails} heading="General Detials" rows={2} rows2={3} rows3={6} rowHeight={115} />
+                <Content marginTop={serviceStatus ? "60px" : "0px"}>
+                    <Section data={generalDetails} heading="General Detials" rows={2} rows1={2} rows2={3} rows3={6} rowHeight={115} />
                     <RowGap />
-                    <Section data={virtualMachine} heading="Virtual Machine" rows={2} rows2={3} rows3={6} rowHeight={115} />
+                    <Section data={virtualMachine} heading="Virtual Machine" rows={2} rows1={2} rows2={3} rows3={6} rowHeight={115} />
                         
                     {extraSettings.length > 0 && (
                         <RowGap />
                     )}
 
                     {extraSettings.length > 0 && (
-                        <Section data={adminExtraFields} heading="Extra Settings" rows={3} rows2={4} rows3={7} rowHeight={115} />
+                        <Section data={adminExtraFields} heading="Extra Settings" rows={2} rows1={3} rows2={4} rows3={7} rowHeight={115} />
                     )}
 
                 </Content>
 
                 <ButtonWrapper>
-                    <Button onClick={handleSubmit} text="Submit" width="130px" height="45px"  />
+                    <Button onClick={handleSubmit} text="Update Service" width="165px" height="45px"  />
+                    <ExtraActionsButton />
                 </ButtonWrapper>
 
             </InnerWrapper>
@@ -897,10 +951,99 @@ export default function Details({data, serviceStatus, userDetails, config}) {
     )
 }
 
+const IpDetailText = styled.span `
+    
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 19px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+
+    color: #C7C8CA;
+
+`;
+
+const IpDetailType = styled.span `
+
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 19px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+
+    color: #A183C7;
+    text-transform: uppercase;
+
+`;
+
+const IpDetailNumber = styled.span `
+    
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 300;
+    font-size: 19px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+
+    color: #7B7B7B;
+    margin: 0px 10px;
+
+`;
+
+const IpDetail = styled.div `
+    width: 100%;
+    height: 45px;
+
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+
+    border-bottom: 1px solid #304157;
+`;
+
+const IpDetails = styled.div `
+    width: 100%;
+    height: fit-content;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 5px;
+`;
+
+const IpDetailWrapper = styled.div `
+    width: 100%;
+    padding: 15px 25px;
+    height: 274.5px;
+    background: #131921;
+    filter: drop-shadow(0px 0px 1px #3F4041);
+
+`;
+
+const ChartWrapper = styled.div `
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 110px;
+
+    @media screen and (max-width: 1425px) {
+        column-gap: 40px;
+    }
+`;
+
 const ButtonWrapper = styled.div `
     width: fit-content;
     height: fit-content;
     padding-top: 30px;
+    display: flex;
+    column-gap: 30px;
 `;
 
 const RowGap = styled.div `
@@ -914,31 +1057,22 @@ const Content = styled.div `
 
 const Charts = styled.div `
     display: flex;
-    flex-direction: row;
+    column-gap: 35px;
 
-    column-gap: 6%;
-    padding-top: 15px;
+    height: fit-content;
 
-    @media screen and (max-width: 980px) {
-        justify-content: center;
+    @media screen and (max-width: 1425px) {
+        column-gap: 20px;
     }
-
-    @media screen and (max-width: 755px) {
-        display: grid;
-        grid-template-columns: 200px 200px;
-        grid-template-rows: repeat(auto, 2);
-        justify-content: flex-start;
-        row-gap: 10px;
-    }
-
 `;
 
 const InnerWrapper = styled.div `
-    width: 90%;
+    overflow: none;
+    width: 93%;
     height: fit-content;
-    padding-top: 50px;
+    padding-top: 35px;
 
-    max-width: 1400px;
+    max-width: 1600px;
 `;
 
 const Wrapper = styled.div `

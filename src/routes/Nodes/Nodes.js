@@ -8,7 +8,17 @@ import PrimarySearchBar from '../../components/inputs/PrimarySearchBar';
 import ServiceItemPlaceholder from '../Base/components/ServiceItemPlaceholder';
 import ServiceList from '../Base/components/ServiceList';
 
-export default function Nodes({config, handleNodeClick, userDataLoading, userData}) {
+export default function Nodes(
+    
+    {
+        
+        config, 
+        handleNodeClick, 
+        userDataLoading, 
+        userData,
+        handleSubHeader
+    
+    }) {
 
     const [error, setError] = React.useState();
     const [nodes, setNodes] = React.useState();
@@ -67,10 +77,14 @@ export default function Nodes({config, handleNodeClick, userDataLoading, userDat
 
     }, [])
 
+    // Updating Sub-Header based on route
+    useEffect(() => {
+        handleSubHeader(["nodes"], loading)
+    }, [loading])
+
     if (loading) {
         return (
             <Wrapper>
-                <SubHeader path={true} loading={true || userDataLoading} pathName="nodes" />
             </Wrapper>
         )
     }
@@ -78,7 +92,6 @@ export default function Nodes({config, handleNodeClick, userDataLoading, userDat
     if (!loading && error) {
         return (
             <Wrapper>
-                <SubHeader path={true} pathName="nodes" />
                 <h1>Error occured</h1>
             </Wrapper>
         )
@@ -87,7 +100,6 @@ export default function Nodes({config, handleNodeClick, userDataLoading, userDat
     if (!loading && userDataLoading) {
         return (
             <Wrapper>
-                <SubHeader path={true} loading={userDataLoading} pathName="nodes" />
             </Wrapper>
         )
     }
@@ -100,8 +112,6 @@ export default function Nodes({config, handleNodeClick, userDataLoading, userDat
 
     return (
         <Wrapper>
-            <SubHeader path={true} pathName="nodes" />
-            
             <Header>
         
                 <SearchWrapper>
@@ -125,7 +135,7 @@ const SearchWrapper = styled.div `
 
 const Header = styled.div `
     width: 93%;
-    max-width: 1400px;
+    max-width: 1600px;
     background: transparent;
 
     display: flex;

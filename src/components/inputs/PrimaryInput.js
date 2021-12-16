@@ -100,7 +100,7 @@ const MessageWrapper = styled.div `
 `;
 
 const StyledHeading = styled.span `
-    font-weight: 400;
+    font-weight: 500;
     color: ${props => props.error ? '#A42929': 'var(--primary-purple)'};
     opacity: .9;
     text-transform: uppercase;
@@ -135,7 +135,7 @@ const ContentWrapper = styled.div `
     width: 100%;
 
     border-width: 1px;
-    border-color: ${props => !props.error ? `var(--border-purple)` : `var(--border-red)`};
+    border-color: ${props => !props.error ? `#3e364f` : `var(--border-red)`};
     border-style: solid;
     border-radius: 3px;
 

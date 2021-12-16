@@ -44,6 +44,7 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
 body, html {
     background: var(--primary-background);
     font-size: 15.5px;
+    overflow: hidden;
 }
 
 .features_list_item:nth-last-child() {
@@ -65,3 +66,4 @@ background: #888;
 ::-webkit-scrollbar-thumb:hover {
 background: #555;
 }
+

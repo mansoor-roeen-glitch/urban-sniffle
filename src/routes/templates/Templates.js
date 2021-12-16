@@ -8,7 +8,16 @@ import PrimarySearchBar from '../../components/inputs/PrimarySearchBar';
 import ServiceItemPlaceholder from '../Base/components/ServiceItemPlaceholder';
 import ServiceList from '../Base/components/ServiceList';
 
-export default function Templates({config, handleTemplateClick, userDataLoading, userData}) {
+export default function Templates(
+    
+    {
+        config, 
+        handleTemplateClick, 
+        userDataLoading, 
+        userData,
+        handleSubHeader
+    
+    }) {
 
     const [error, setError] = React.useState();
     const [templates, setTemplates] = React.useState();
@@ -67,10 +76,14 @@ export default function Templates({config, handleTemplateClick, userDataLoading,
 
     }, [])
 
+    // Updating Sub-Header based on route
+    useEffect(() => {
+        handleSubHeader(["templates"], loading)
+    }, [loading])
+
     if (loading) {
         return (
             <Wrapper>
-                <SubHeader path={true} loading={true} pathName="Templates" />
             </Wrapper>
         )
     }
@@ -78,7 +91,6 @@ export default function Templates({config, handleTemplateClick, userDataLoading,
     if (!loading && error) {
         return (
             <Wrapper>
-                <SubHeader path={true} pathName="Templates" />
                 <h1>Error occured</h1>
             </Wrapper>
         )
@@ -87,7 +99,6 @@ export default function Templates({config, handleTemplateClick, userDataLoading,
     if (!loading && userDataLoading) {
         return (
             <Wrapper>
-                <SubHeader path={true} loading={userDataLoading} pathName="Plans" />
             </Wrapper>
         )
     }
@@ -100,8 +111,6 @@ export default function Templates({config, handleTemplateClick, userDataLoading,
 
     return (
         <Wrapper>
-            <SubHeader path={true} pathName="Templates" />
-            
             <Header>
                 <SearchWrapper>
                     <PrimarySearchBar valueHasChanged={handleValueChange} onChange={setSearch} name="SearchBar" className="Primary-Search-Bar" id="Primary-Search-Bar" />
@@ -124,7 +133,7 @@ const SearchWrapper = styled.div `
 
 const Header = styled.div `
     width: 93%;
-    max-width: 1400px;
+    max-width: 1600px;
     background: transparent;
 
     display: flex;

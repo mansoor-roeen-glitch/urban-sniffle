@@ -1,5 +1,4 @@
-import React from 'react';
-import SubHeader from '../../components/Header/SubHeader';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -10,7 +9,7 @@ import Actions from './components/Actions'
 import handleCheckout from '../../functions/handleCheckout';
 import getUser from '../../functions/getUserDetails';
 
-export default function Service (props) {
+export default function Service ({ config, handleSubHeader, ...props}) {
 
     const {id, hostname} = props.details
     const [selected, setSelected] = React.useState(0)
@@ -22,6 +21,8 @@ export default function Service (props) {
     const [serviceConsoleData, setServiceConsoleData] = React.useState()
     const [actionLoading, setActionLoading] = React.useState(false)
     const [userDetails, setUserDetails] = React.useState()
+    const [screenHeight, setScreenHeight] = React.useState(document.body.scrollHeight);
+    console.log(screenHeight)
 
     const createConsoleSession = async () => {
         let response = await axios({
@@ -29,7 +30,7 @@ export default function Service (props) {
             url: `https://hosnet.io/api/services/${id}/console_login/`,
             headers: {
                 "content-type": "application/json",
-                "Authorization": `Token ${props.config}`
+                "Authorization": `Token ${config}`
             }
         })
             .then((res) => {return {status: 200, data: res.data}})
@@ -44,7 +45,7 @@ export default function Service (props) {
             url: `https://hosnet.io/api/services/${id}`,
             headers: {
                 "content-type": "application/json",
-                "Authorization": `Token ${props.config}`
+                "Authorization": `Token ${config}`
             }
         })
             .then((res) => {return {status: 200, data: res.data}})
@@ -59,7 +60,7 @@ export default function Service (props) {
             url: `https://hosnet.io/api/services/${id}/status/`,
             headers: {
                 "content-type": "application/json",
-                "Authorization": `Token ${props.config}`
+                "Authorization": `Token ${config}`
             }
         })
             .then((res) => {return {status: 200, data: res.data}})
@@ -73,7 +74,7 @@ export default function Service (props) {
         const serviceStatus = await getServiceStatus()
         const serviceDetails = await getServiceDetails()
         const serviceConsole = await createConsoleSession()
-        const fetchedUserDetails = await getUser(props.config)
+        const fetchedUserDetails = await getUser(config)
 
         if (
             
@@ -136,13 +137,6 @@ export default function Service (props) {
 
     }
 
-    React.useEffect(() => {
-
-        setLoading(true)
-        getDetails()
-
-    }, [])
-
     const selectOptions = [
         {
             text: "Details",
@@ -175,11 +169,25 @@ export default function Service (props) {
         }
     }
 
+    useEffect(() => {
+
+        window.addEventListener("resize", () => {setScreenHeight(document.body.scrollHeight)})
+        getDetails()
+
+    }, [])
+
+
+    // Updating Sub-Header based on route
+    useEffect(() => {
+        handleSubHeader(["services"], loading)
+    }, [loading])
+
+
     if (loading) {
 
         return (
             <Wrapper>
-                <SubHeader path={true} loading={true} pathName={hostname} />
+                
                 {/* Loading will be included below this */}
             </Wrapper>
         )
@@ -190,8 +198,7 @@ export default function Service (props) {
 
         return (
             <Wrapper>
-                <SubHeader path={true} pathName={hostname} />
-                {/* Error will be included below this */}
+                
                 <h1>something went wrong</h1>
             </Wrapper>
         )
@@ -200,7 +207,6 @@ export default function Service (props) {
 
     return (
         <Wrapper>
-            <SubHeader path={true} serviceNotActivated={serviceNotActivated()} loading={actionLoading} pathName={hostname} />
             {serviceNotActivated() && (
                 <ServiceNotActivatedWrapper>
                     <ServiceNotActivated>
@@ -221,7 +227,7 @@ export default function Service (props) {
                         <ServiceNotActivatedMessage>
                             This service is inactive, to activate
                             &nbsp;
-                            <CheckoutButton onClick={() => {handleCheckout(details.id, props.config)}} >click here</CheckoutButton>
+                            <CheckoutButton onClick={() => {handleCheckout(details.id, config)}} >click here</CheckoutButton>
                         </ServiceNotActivatedMessage>
                     </ServiceNotActivated>
                 </ServiceNotActivatedWrapper>
@@ -252,14 +258,14 @@ export default function Service (props) {
 
             
 
-            <ContentWrapper>
+            <ContentWrapper screenHeight={screenHeight}>
                 
                 {/* Showing content based on user selection */}
                 { (() => {
                     switch(selected) {
                         
                         case 0:
-                            return <Details data={details} config={props.config} userDetails={userDetails} serviceStatus={serviceStatus} />;
+                            return <Details data={details} config={config} userDetails={userDetails} serviceStatus={serviceStatus} />;
 
                         case 1:
                             return <Console data={details} serviceConsole={serviceConsoleData} serviceNotActivated={serviceNotActivated()} />;
@@ -268,7 +274,7 @@ export default function Service (props) {
                             return <Billing data={details} userDetails={userDetails} />;
                             
                         case 3:
-                            return <Actions data={details} userDetails={userDetails} setLoadingAnim={setActionLoading} serviceNotActivated={serviceNotActivated()} config={props.config} />;
+                            return <Actions data={details} userDetails={userDetails} setLoadingAnim={setActionLoading} serviceNotActivated={serviceNotActivated()} config={config} />;
                             
                     }
                 })()}
@@ -324,13 +330,15 @@ const ServiceNotActivatedMessage = styled.span `
 const ServiceNotActivated = styled.div `
     display: flex;
     height: 50px;
-    width: 92%;
-    max-width: 1400px;
+    width: 93%;
+    max-width: 1600px;
     align-items: center;
 `
 
 const ContentWrapper = styled.div `
-
+    overflow-y: scroll;
+    height: ${props => props.screenHeight - 207}px;
+    padding-bottom: 110px;
 `;
 
 const StyledLine = styled.div `
@@ -365,7 +373,8 @@ const ItemText = styled.span `
 `;
 
 const Wrapper = styled.div `
-
+    display: flex;
+    flex-direction: column;
 `;
 
 
@@ -394,7 +403,7 @@ const HeaderWrapper = styled.div `
     display: flex;
     align-items: center;
     justify-content: center;
-    
+    margin: -15px 0 15px 0;
 
     &::after {
         content: "";
@@ -408,8 +417,8 @@ const HeaderWrapper = styled.div `
 `;
 
 const InnerWrapper = styled.div `
-    width: 95%;
-    max-width: 1400px;
+    width: 93%;
+    max-width: 1600px;
     height: 100%;
 
 `;

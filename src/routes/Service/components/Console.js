@@ -133,7 +133,7 @@ const ConsoleWrapper = styled.div `
 
 const InnerWrapper = styled.div `
     width: 93%;
-    max-width: 1400px;
+    max-width: 1600px;
 `;
 
 

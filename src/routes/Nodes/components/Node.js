@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components';
 import Section from '../../Service/components/Section';
 import SubHeader from '../../../components/Header/SubHeader'
@@ -9,9 +9,19 @@ import ErrorMessage from '../../../components/messages/ErrorMessage';
 import SuccessMessage from '../../../components/messages/SuccessMessage';
 import {Redirect} from 'react-router-dom'
 
-export default function Plan(props) {
+export default function Node (
+    
+    {
 
-    const [details, setDetails] = useState(props.details);
+        userData,
+        userDataLoading,
+        handleSubHeader,
+        nodeDetails,
+        config
+
+    }) {
+
+    const [details, setDetails] = useState(nodeDetails);
 
     const [success, setSuccess] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -362,7 +372,7 @@ export default function Plan(props) {
 
         const conf = {
             headers: {
-                'Authorization': `Token ${props.config}`,
+                'Authorization': `Token ${config}`,
                 'content-type': 'application/json'
             }
         }
@@ -400,7 +410,7 @@ export default function Plan(props) {
 
         const conf = {
             headers: {
-                'Authorization': `Token ${props.config}`,
+                'Authorization': `Token ${config}`,
                 'content-type': 'application/json'
             }
         }
@@ -430,15 +440,19 @@ export default function Plan(props) {
         })
     }
 
-    if (props.userDataLoading) {
+    // Updating Sub-Header based on route
+    useEffect(() => {
+        handleSubHeader([nodeDetails.name], loading)
+    }, [loading])
+
+    if (userDataLoading) {
         return (
             <Wrapper>
-                <SubHeader path={true} loading={props.userDataLoading} pathName="Create plan" />
             </Wrapper>
         )
     }
 
-    if (!props.userDataLoading && props.userData.is_staff === false) {
+    if (!userDataLoading && userData.is_staff === false) {
         return (
             <Redirect to="/" push={true} />
         )
@@ -465,10 +479,9 @@ export default function Plan(props) {
                 )
             }
 
-            <SubHeader path={true} loading={loading || props.userDataLoading ? true : false} pathName={details.name} />
             <InnerWrapper>
                 <Content>
-                    <Section data={data} heading="Update Node" rows={4} rows2={5} rows3={10} rowHeight={105} />
+                    <Section data={data} heading="Update Node" rows={3} rows1={4} rows2={5} rows3={10} rowHeight={105} />
                 </Content>
                 
                 <ButtonWrapper>
@@ -498,7 +511,7 @@ const InnerWrapper = styled.div `
     height: fit-content;
     padding-top: 15px;
 
-    max-width: 1400px;
+    max-width: 1600px;
 `;
 
 const Wrapper = styled.div `

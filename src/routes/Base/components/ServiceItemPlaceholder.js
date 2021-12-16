@@ -60,7 +60,7 @@ const HeaderList = styled.ul `
 
 const ContentHeader = styled.div `
     width: 93%;
-    max-width: 1400px;
+    max-width: 1600px;
     height: fit-content;
 `;
 

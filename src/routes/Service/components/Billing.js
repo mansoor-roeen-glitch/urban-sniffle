@@ -59,15 +59,14 @@ const RowGap = styled.div `
 `;
 
 const InnerWrapper = styled.div `
-    max-width: 1400px;
-    width: 92%;
-    padding-top: 60px;
+    max-width: 1600px;
+    width: 93%;
 `;
 
 const Wrapper = styled.div `
     width: 100%;
     height: fit-content;
-    
+    margin-top: 30px;
     display: flex;
     align-items: center;
     justify-content: center;

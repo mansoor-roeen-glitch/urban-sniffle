@@ -223,14 +223,14 @@ const ButtonWrapper = styled.div `
 `;
 
 const InnerWrapper = styled.div `
-    width: 90%;
+    width: 93%;
     height: fit-content;
-    padding-top: 50px;
 
-    max-width: 1400px;
+    max-width: 1600px;
 `;
 
 const Wrapper = styled.div `
+    margin-top: 30px;
     width: 100%;
     height: fit-content;
     display: flex;

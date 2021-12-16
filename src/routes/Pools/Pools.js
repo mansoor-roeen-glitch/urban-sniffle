@@ -8,7 +8,16 @@ import PrimarySearchBar from '../../components/inputs/PrimarySearchBar';
 import ServiceItemPlaceholder from '../Base/components/ServiceItemPlaceholder';
 import ServiceList from '../Base/components/ServiceList';
 
-export default function Pools({config, handlePoolClick, userDataLoading, userData}) {
+export default function Pools(
+    
+    {
+        config, 
+        handlePoolClick, 
+        userDataLoading, 
+        userData,
+        handleSubHeader
+    
+    }) {
 
     const [error, setError] = React.useState();
     const [pools, setPools] = React.useState();
@@ -67,10 +76,14 @@ export default function Pools({config, handlePoolClick, userDataLoading, userDat
 
     }, [])
 
+    // Updating Sub-Header based on route
+    useEffect(() => {
+        handleSubHeader(["pools"], loading)
+    }, [loading])
+
     if (loading) {
         return (
             <Wrapper>
-                <SubHeader path={true} loading={true || userDataLoading} pathName="pools" />
             </Wrapper>
         )
     }
@@ -78,7 +91,6 @@ export default function Pools({config, handlePoolClick, userDataLoading, userDat
     if (!loading && error) {
         return (
             <Wrapper>
-                <SubHeader path={true} pathName="pools" />
                 <h1>Error occured</h1>
             </Wrapper>
         )
@@ -87,7 +99,6 @@ export default function Pools({config, handlePoolClick, userDataLoading, userDat
     if (!loading && userDataLoading) {
         return (
             <Wrapper>
-                <SubHeader path={true} loading={userDataLoading} pathName="pools" />
             </Wrapper>
         )
     }
@@ -100,8 +111,6 @@ export default function Pools({config, handlePoolClick, userDataLoading, userDat
 
     return (
         <Wrapper>
-            <SubHeader path={true} pathName="pools" />
-            
             <Header>
         
                 <SearchWrapper>
@@ -125,7 +134,7 @@ const SearchWrapper = styled.div `
 
 const Header = styled.div `
     width: 93%;
-    max-width: 1400px;
+    max-width: 1600px;
     background: transparent;
 
     display: flex;

@@ -19,35 +19,35 @@ export default function ServiceList({data, handleClickChange, type, handlePlanCl
 
                             case "services": 
                                 return (
-                                    <ServiceItem type="service" handleClickChange={handleClickChange} item={[
+                                    <ServiceItem type="service" index={index} handleClickChange={handleClickChange} item={[
                                         item.id, item.hostname, item.plan, item.status, item.service_plan.ram
                                     ]} redirectTo={`/services/${item.id}/${item.hostname}`} key={index} />
                                 );
     
                             case "plans":
                                 return (
-                                    <ServiceItem type="plan" handlePlanClick={handlePlanClick} details={item} item={[
+                                    <ServiceItem type="plan" index={index} handlePlanClick={handlePlanClick} details={item} item={[
                                         item.id, item.name, item.size, item.period, item.bandwidth
                                     ]} redirectTo={`/plans/${item.id}`} key={index} />
                                 );
     
                             case "templates":
                                 return (
-                                    <ServiceItem handleTemplateClick={handleTemplateClick} details={item} type="template" item={[
+                                    <ServiceItem index={index} handleTemplateClick={handleTemplateClick} details={item} type="template" item={[
                                         item.id, item.name, item.type, item.id, item.file
                                     ]} redirectTo={`/templates/${item.id}`} key={index} />
                                 );
 
                             case "nodes":
                                 return (
-                                    <ServiceItem handleNodeClick={handleNodeClick} details={item} type="node" item={[
+                                    <ServiceItem index={index} handleNodeClick={handleNodeClick} details={item} type="node" item={[
                                         item.id, item.name, item.size, item.ram, item.bandwidth
                                     ]} redirectTo={`/nodes/${item.id}`} key={index} />
                                 );
 
                             case "pools":
                                 return (
-                                    <ServiceItem handlePoolClick={handlePoolClick} details={item} type="pool" item={[
+                                    <ServiceItem index={index} handlePoolClick={handlePoolClick} details={item} type="pool" item={[
                                         item.id, item.name, item.type, item.interface, item.mask
                                     ]} redirectTo={`/pools/${item.id}`} key={index} />
                                 );

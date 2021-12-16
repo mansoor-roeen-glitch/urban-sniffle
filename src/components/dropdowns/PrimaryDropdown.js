@@ -80,11 +80,11 @@ const DropdownMenuWrapper = styled.div `
     position: absolute;
     
     background: var(--primary-background);
-    box-shadow: 0 3px 20px rgb(255 255 255 / 5%), 0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(255 255 255 / 10%);
-    border-radius: 4px;
+    box-shadow: 0 3px 20px rgb(255 255 255 / 3%), 0 1px 2px rgb(0 0 0 / 3%), 0 0 0 1px rgb(255 255 255 / 10%);
+    border-radius: 2px;
     z-index: 2;
 
-    top: 80px;
+    top: 85px;
 `;
 
 const ContentSvgWrapper = styled.div `
@@ -99,7 +99,7 @@ const ContentSvg = styled.div `
 
 const StyledHeading = styled.span `
     font-size: 0.9rem;
-    font-weight: 400;
+    font-weight: 500;
     color: var(--primary-purple);
     opacity: .9;
     text-transform: uppercase;
@@ -124,7 +124,7 @@ const ContentWrapper = styled.div `
     width: 100%;
 
     border-width: 1px;
-    border-color: var(--border-purple);
+    border-color: #292531;
     border-style: solid;
     border-radius: 3px;
 
@@ -133,6 +133,7 @@ const ContentWrapper = styled.div `
     justify-content: space-between;
     padding: 0px 20px;
     cursor: pointer;
+    background-color: #0f141c;
 `;
 
 const HeadingWrapper = styled.div `

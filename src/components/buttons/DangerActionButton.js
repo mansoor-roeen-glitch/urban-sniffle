@@ -58,7 +58,7 @@ const StyledButton = styled.button `
 const StyledButtonText = styled.span `
     background: transparent;
     color: #bb4040;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
 
     @media screen and (max-width: 600px) {

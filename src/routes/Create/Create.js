@@ -8,7 +8,14 @@ import SuccessMessage from '../../components/messages/SuccessMessage';
 import handleCheckout from '../../functions/handleCheckout';
 import Section from '../Service/components/Section';
 
-export default function Create({config}) {
+export default function Create(
+    
+    {
+
+        config,
+        handleSubHeader
+
+    }) {
     
     const [node, setNode] = useState(0)
     const [planType, setPlanType] = useState(0)
@@ -333,11 +340,15 @@ export default function Create({config}) {
 
     }, [])    
 
+    // Updating Sub-Header based on route
+    useEffect(() => {
+        handleSubHeader(["create service"], loading)
+    }, [loading])
+
     if (loading) {
 
         return (
             <Wrapper>
-                <SubHeader path={true} loading={true} pathName="Create service" />
                 {/* Loading will be included below this */}
             </Wrapper>
         )
@@ -348,7 +359,6 @@ export default function Create({config}) {
         
         return (
             <Wrapper>
-                <SubHeader path={true} pathName="Create service" />
                 {/* Error will be included below this */}
                 <h1>Something went wrong, try again later</h1>
             </Wrapper>
@@ -377,11 +387,10 @@ export default function Create({config}) {
                 )
             }
 
-            <SubHeader path={true} pathName="Create service" laoding={responseLoading} />
             <InnerWrapper>
                 <Section data={staticdata} heading="Create new service" rows={2} rows2={3} rows3={6} rowHeight={115} />
                 <ButtonWrapper>
-                    <Button onClick={createService} text="Proceed to checkout" width="200px" height="50px" />
+                    <Button onClick={createService} text="Proceed to checkout" width="180px" height="50px" />
                 </ButtonWrapper>
             </InnerWrapper>
         </Wrapper>
@@ -406,7 +415,7 @@ const Wrapper = styled.div `
 const InnerWrapper = styled.div `
     width: 93%;
     height: fit-content;
-    max-width: 1400px;
+    max-width: 1600px;
     padding-top: 25px;
 
     margin-bottom: 60px;

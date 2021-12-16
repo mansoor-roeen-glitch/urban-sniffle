@@ -139,21 +139,21 @@ const Wrapper = styled.div `
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: ${props => props.shouldHaveMarginBottom ? '20px' : '0px'};
+    margin-bottom: 0px;
 
     &::after {
         content: "";
         position: absolute;
-        bottom: 3px;
+        bottom: 0px;
         width: 100%;
         height: 1px;
-        background: ${props => props.loading ? '#46484F' : "transparent"};
+        background: ${props => props.loading ? '#46484F' : "#212c3a"};
     }
 
     &::before {
         content: "";
         position: absolute;
-        bottom: 3px;
+        bottom: 0px;
         width: 40%;
         height: 1px;
         background: ${props => props.loading ? '#787E91' : "transparent"};

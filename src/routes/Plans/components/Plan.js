@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styled from 'styled-components';
 import Section from '../../Service/components/Section';
 import SubHeader from '../../../components/Header/SubHeader'
@@ -9,9 +9,20 @@ import SuccessMessage from '../../../components/messages/SuccessMessage';
 import ErrorMessage from '../../../components/messages/ErrorMessage';
 import { Redirect } from 'react-router-dom';
 
-export default function Plan(props) {
+export default function Plan(
+
+
+    {
+
+        planDetails,
+        userData,
+        userDataLoading,
+        handleSubHeader,
+        config
+
+    }) {
     
-    const [details, setDetails] = React.useState(props.details);
+    const [details, setDetails] = React.useState(planDetails);
 
     const [loading, setLoading] = React.useState(false)
     const [success, setSuccess] = React.useState(false)
@@ -466,7 +477,7 @@ export default function Plan(props) {
 
         let conf = {
             headers: {
-                'Authorization': `Token ${props.config}`,
+                'Authorization': `Token ${config}`,
                 'content-type': 'application/json'
             }
         }
@@ -522,7 +533,7 @@ export default function Plan(props) {
 
         const conf = {
             headers: {
-                'Authorization': `Token ${props.config}`,
+                'Authorization': `Token ${config}`,
                 'content-type': 'application/json'
             }
         }
@@ -552,15 +563,20 @@ export default function Plan(props) {
         })
     }
 
-    if (props.userDataLoading) {
+    // Updating Sub-Header based on route
+    useEffect(() => {
+        handleSubHeader([details.name], loading)
+    }, [loading])
+
+    if (userDataLoading) {
         return (
             <Wrapper>
-                <SubHeader path={true} loading={props.userDataLoading} pathName="Create plan" />
+                
             </Wrapper>
         )
     }
 
-    if (!props.userDataLoading && props.userData.is_staff === false) {
+    if (!userDataLoading && userData.is_staff === false) {
         return (
             <Redirect to="/" push={true} />
         )
@@ -587,10 +603,10 @@ export default function Plan(props) {
                 )
             }
 
-            <SubHeader path={true} pathName={details.name} />
+            
             <InnerWrapper>
                 <Content>
-                    <Section data={data} heading="Update Plan" rows={5} rows2={7} rows3={14} rowHeight={105} />
+                    <Section data={data} heading="Update Plan" rows={4} rows1={5} rows2={7} rows3={14} rowHeight={105} />
                 </Content>
 
                 <ButtonWrapper>
@@ -607,7 +623,6 @@ const ButtonWrapper = styled.div `
     height: fit-content;
     width: fit-content;
     margin-top: 15px;
-
     display: flex;
     column-gap: 30px;
 `;
@@ -618,9 +633,9 @@ const Content = styled.div `
 const InnerWrapper = styled.div `
     width: 93%;
     height: fit-content;
-    padding-top: 25px;
+    padding-top: 10px;
 
-    max-width: 1400px;
+    max-width: 1600px;
     margin-bottom: 15px;
 `;
 

@@ -2,7 +2,22 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom';
 
-export default function ServiceItem({item, handleClickChange, redirectTo, type, handlePlanClick, handleTemplateClick, details, handleNodeClick, handlePoolClick}) {
+export default function ServiceItem({
+    
+    handleTemplateClick, 
+    handlePlanClick, 
+    handleNodeClick, 
+    handleClickChange, 
+    handlePoolClick, 
+
+    index,
+    details, 
+    redirectTo, 
+    item, 
+    type
+
+    }) {
+
     return (
         
         <Link onClick={() => {
@@ -20,7 +35,7 @@ export default function ServiceItem({item, handleClickChange, redirectTo, type, 
             }
 
         }} style={{textDecoration: "none", outline: "none"}} to={redirectTo}>
-            <StyledWrapper id={item[0]} >
+            <StyledWrapper id={item[0]} isOdd={index % 2 === 0 ? false : true} >
                 <StyledGrid>
 
                     <ServiceHostname>
@@ -94,7 +109,7 @@ const StyledGrid = styled.div `
     width: 93%;
     height: auto;
 
-    max-width: 1400px;
+    max-width: 1600px;
     display: grid;
     justify-content: space-between;
     grid-template-columns: 1fr 70px 70px 70px;
@@ -108,17 +123,17 @@ const StyledGrid = styled.div `
 
 const StyledWrapper = styled.li `
     width: 100%;
-    height: 70px;
+    height: 67px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    background: transparent;
+    background: ${props => props.isOdd ? "#0f141c" : "transparent"};
     border: none;
     list-style: none;
     border-bottom-width: 0.3px;
-    border-bottom-color: rgba(216, 211, 230, 0.12);
+    border-bottom-color: rgb(21 28 39);
     border-bottom-style: solid;
 
 `;

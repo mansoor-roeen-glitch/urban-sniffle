@@ -23,8 +23,8 @@ const OuterWrapper = styled.header `
 `;
 
 const InnerWrapper = styled.nav `
-    width: 93%;
-    height: 55px;
+    width: 97%;
+    height: 50px;
 
     display: flex;
     align-items: center;

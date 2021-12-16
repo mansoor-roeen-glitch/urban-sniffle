@@ -22,7 +22,7 @@ export default function Detail({heading, value}) {
 
 const StyledHeading = styled.span `
     font-size: 0.9rem;
-    font-weight: 400;
+    font-weight: 500;
     color: var(--primary-purple);
     opacity: .9;
     text-transform: uppercase;
@@ -46,7 +46,7 @@ const ContentWrapper = styled.div `
     width: 100%;
 
     border-width: 1px;
-    border-color: var(--border-purple);
+    border-color: #3e364f;
     border-style: solid;
     border-radius: 3px;
 

@@ -1,5 +1,5 @@
 import { Redirect } from 'react-router-dom';
-import React from 'react'
+import React, {useEffect} from 'react'
 import styled from 'styled-components';
 import SubHeader from '../../../components/Header/SubHeader';
 import Section from '../../Service/components/Section';
@@ -8,7 +8,15 @@ import axios from 'axios';
 import SuccessMessage from '../../../components/messages/SuccessMessage';
 import ErrorMessage from '../../../components/messages/ErrorMessage';
 
-export default function CreatePlan({config, userDataLoading, userData}) {
+export default function CreatePlan(
+    
+    {
+        config, 
+        userDataLoading, 
+        userData,
+        handleSubHeader
+    
+    }) {
     
     const [loading, setLoading] = React.useState(false)
     const [success, setSuccess] = React.useState(false)
@@ -512,10 +520,14 @@ export default function CreatePlan({config, userDataLoading, userData}) {
 
     }
 
+    // Updating Sub-Header based on route
+    useEffect(() => {
+        handleSubHeader(["create plan"], loading)
+    }, [loading])
+
     if (userDataLoading) {
         return (
             <Wrapper>
-                <SubHeader path={true} loading={userDataLoading} pathName="Create plan" />
             </Wrapper>
         )
     }
@@ -549,10 +561,9 @@ export default function CreatePlan({config, userDataLoading, userData}) {
             }
 
 
-            <SubHeader loading={loading} path={true} pathName="Create plan" />
             <InnerWrapper>
 
-                <Section data={data} heading="Create new plan" rows={5} rows2={7} rows3={14} rowHeight={105}  />
+                <Section data={data} heading="Create new plan" rows={4} rows1={5} rows2={7} rows3={14} rowHeight={105}  />
                 
                 <ButtonWrapper>
                     <Button onClick={hanldeClick} text="Create Plan" width="125px" height="45px" />
@@ -579,7 +590,7 @@ const Wrapper = styled.div `
 const InnerWrapper = styled.div `
     width: 93%;
     height: fit-content;
-    max-width: 1400px;
+    max-width: 1600px;
     padding-top: 25px;
 
     margin-bottom: 15px;

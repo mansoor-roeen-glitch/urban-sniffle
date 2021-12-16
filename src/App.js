@@ -27,35 +27,45 @@ import Node from './routes/Nodes/components/Node';
 import Pools from './routes/Pools/Pools';
 import CreatePool from './routes/Pools/components/CreatePool';
 import LandingPage from "./routes/LandingPage/LandingPage";
+import SubHeader from './components/Header/SubHeader';
+import Navbar from "./components/navbar/Navbar";
 
 function App() {
-
+  
+  
+  
   const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState(false)
-
+  
   const [userData, setUserData] = React.useState()
   const [userDataLoading, setUserDataLoading] = React.useState(true)
   const [userDataSuccess, setUserDataSuccess] = React.useState(false)
   const [userDataError, setUserDataError] = React.useState(false)
-
+  
   const [pathname, setPathname] = React.useState(window.location.pathname)
   const [redirectTo, setRedirectTo] = React.useState("")
   const [config, setConfig] = React.useState({})
   const [token, setToken] = React.useState("")
-
+  
+  
   const [selected, setSelected] = React.useState(false)
   const [selectedPlan, setSelectedPlan] = React.useState()
   const [selectedTemplate, setSelectedTemplate] = React.useState()
   const [selectedPool, setSelectedPool] = React.useState()
   const [selectedNode, setSelectedNode] = React.useState()
+  
+  const [subHeader, setSubHeader] = React.useState({
 
+    path: "Hostler",
+    subPaths: ["dashboard"],
+    isLoading: loading
+
+  })
 
   const history = createBrowserHistory(); 
 
   const handleClickChange = (id, hostname) => {
-
       setSelected({hostname, id})
-
   }
 
   const handlePlanClick = (details) => {
@@ -119,10 +129,6 @@ function App() {
       }
     }
 
-    console.log("This function was run")
-    console.log(reLocation())
-
-    
     setRedirectTo(reLocation());
     setPathname(path ? path : reLocation())
 
@@ -164,6 +170,25 @@ function App() {
     }
   }
 
+  const handleSubHeader = (subPaths, isLoading, ) => {
+    
+    if (!subPaths) {
+      // Handle error
+      return "sorry something went wrong";
+    }
+
+    setSubHeader((prevState) => ({
+      
+      ...prevState, 
+      subPaths: subPaths,
+      isLoading: isLoading
+    
+    }))
+
+    return null;
+
+  }
+
   React.useEffect(() => {
 
     authenticator()
@@ -171,7 +196,7 @@ function App() {
   }, [])
 
   return (
-    <div className="App_Wrapper" style={{display: "flex", flexDirection: "column", minHeight: "100vh", height: "fit-content", overflowX: "hidden", justifyContent: "center"}}>
+    <div className="App_Wrapper" style={{display: "flex", overflow: "hidden", flexDirection: "column", minHeight: "100vh", height: "fit-content", justifyContent: "center"}}>
       <BrowserRouter history={history}>
 
         {redirectTo && (
@@ -187,27 +212,39 @@ function App() {
             <Route path="/reset" exact render={() => <Reset />} />
             <Route path="/logout" exact render={() => <Logout />} />
 
-            <Wrapper> 
-              <Header config={config} userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} />
-
-              <Route path="/dashboard" exact render={() => <Base config={token} handleClickChange={handleClickChange} />} />
-              <Route path="/nodes" exact render={() => <Nodes userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handleNodeClick={handleNodeClick} />} />
-              <Route path="/pools" exact render={() => <Pools userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handlePoolClick={handlePoolClick} />} />
-              <Route path="/plans" exact render={() => <Plans userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handlePlanClick={handlePlanClick} />} />
-              <Route path="/create" exact render={() => <Create config={token}  />} />
-              <Route path="/plans/:id" exact render={() => <Plan userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} details={selectedPlan} />} /> 
-              <Route path="/templates" exact render={() => < Templates userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handleTemplateClick={handleTemplateClick} />} />
-              <Route path="/create/plan" exact render={() => <CreatePlan userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} />} />
-              <Route path="/templates/:id" exact render={() => <Template userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} details={selectedTemplate} />} /> 
-              <Route path="/create/template" exact render={() => <CreateTemplate userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} />} />
-              <Route path="/services/:id/:hostname" exact render={() => <Service config={token} details={selected} />} /> 
-              <Route path="/create/node" exact render={() => <CreateNode userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} />} />
-              <Route path="/nodes/:id" exact render={() => <Node userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} details={selectedNode} />} /> 
-              <Route path="/create/pool" exact render={() => <CreatePool userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} />} />
-
-              <Footer />
+            <OuterWrapper>
               
-            </Wrapper>
+              <Header config={config} userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} />
+              <SubHeader loading={subHeader.isLoading} path={true} pathName={subHeader.subPaths[0]} />
+
+
+              <Wrapper> 
+                
+                
+                <NavBarWrapper>
+                  <Navbar userDataLoading={userDataLoading} userData={userData} />
+                </NavBarWrapper>
+
+                <InnerWrapper>
+
+                  <Route path="/dashboard" exact render={() => <Base handleSubHeader={handleSubHeader} config={token} handleClickChange={handleClickChange} />} />
+                  <Route path="/nodes" exact render={() => <Nodes handleSubHeader={handleSubHeader} userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handleNodeClick={handleNodeClick} />} />
+                  <Route path="/pools" exact render={() => <Pools handleSubHeader={handleSubHeader} userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handlePoolClick={handlePoolClick} />} />
+                  <Route path="/plans" exact render={() => <Plans userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} handlePlanClick={handlePlanClick} />} />
+                  <Route path="/create" exact render={() => <Create handleSubHeader={handleSubHeader} config={token}  />} />
+                  <Route path="/plans/:id" exact render={() => <Plan userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} planDetails={selectedPlan} />} /> 
+                  <Route path="/templates" exact render={() => < Templates userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} handleTemplateClick={handleTemplateClick} />} />
+                  <Route path="/create/plan" exact render={() => <CreatePlan userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} />} />
+                  <Route path="/templates/:id" exact render={() => <Template userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} templateDetails={selectedTemplate} />} /> 
+                  <Route path="/create/template" exact render={() => <CreateTemplate userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} />} />
+                  <Route path="/services/:id/:hostname" exact render={() => <Service handleSubHeader={handleSubHeader} config={token} details={selected} />} /> 
+                  <Route path="/create/node" exact render={() => <CreateNode userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} />} />
+                  <Route path="/nodes/:id" exact render={() => <Node userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} nodeDetails={selectedNode} />} /> 
+                  <Route path="/create/pool" exact render={() => <CreatePool userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} />} />
+
+                </InnerWrapper>
+              </Wrapper>
+            </OuterWrapper>
 
           </Switch>
         ) : (
@@ -218,10 +255,32 @@ function App() {
   );
 }
 
+const OuterWrapper = styled.div `
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+`;
+
 const Wrapper = styled.div `
-  min-height: 100vh;
   height: fit-content;
-  padding-bottom: 130px;
+  overflow: hidden;
+  display: flex;
+`;
+
+const InnerWrapper = styled.div `
+  width: 100%;
+  max-height: calc(100vh - 82px);
+  padding-bottom: 80px;
+  padding-top: 35px;
+`;
+
+const NavBarWrapper = styled.div `
+  position: sticky;
+  height: calc(100vh - 82px);
+  width: 210px;
+  background: #12171F;
+  padding-top: 10px;
 `;
 
 export default App;

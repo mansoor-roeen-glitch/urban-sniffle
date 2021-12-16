@@ -7,7 +7,7 @@ import ServiceList from './components/ServiceList';
 import SubHeader from '../../components/Header/SubHeader';
 import axios from 'axios';
 
-export default function BaseRoute({config, handleClickChange}) {
+export default function BaseRoute({config, handleClickChange, handleSubHeader}) {
 
     const [foundMatch, setFoundMatch] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
@@ -52,21 +52,20 @@ export default function BaseRoute({config, handleClickChange}) {
 
     React.useEffect(() => {
         
+        handleSubHeader(["dashboard"], loading)
         getServices()
 
-    }, [])
+    }, [loading])
 
     if (loading) {
         return (
             <Wrapper>
-                <SubHeader path={true} loading={loading} pathName="Dashboard" />
             </Wrapper>
         )
     }
 
     if (!loading && error) {
         <Wrapper>
-            <SubHeader path={true} loading={loading} pathName="Dashboard" />
             <h1>Something went wrong</h1>
         </Wrapper>
     }
@@ -74,7 +73,6 @@ export default function BaseRoute({config, handleClickChange}) {
     return (
         <Wrapper>
 
-            <SubHeader path={true} pathName="Dashboard" />
             <Header>
                 <SearchWrapper>
                     <PrimarySearchBar valueHasChanged={handleValueChange} value={search} onChange={setSearch} name="SearchBar" className="Primary-Search-Bar" id="Primary-Search-Bar" />
@@ -96,14 +94,14 @@ const SearchWrapper = styled.div `
 
 const Header = styled.div `
     width: 93%;
-    max-width: 1400px;
+    max-width: 1600px;
     background: transparent;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    margin-bottom: 30px;
+    margin-bottom: 35px;
 `;
 
 const Wrapper = styled.div `
