@@ -927,16 +927,16 @@ export default function Details({data, serviceStatus, userDetails, config}) {
                 </ChartWrapper>
             
                 <Content marginTop={serviceStatus ? "60px" : "0px"}>
-                    <Section data={generalDetails} heading="General Detials" rows={2} rows1={2} rows2={3} rows3={6} rowHeight={115} />
+                    <Section data={generalDetails} heading="General Detials" rows={2} rows1={2} rows2={3} rows3={6} rowHeight={102} />
                     <RowGap />
-                    <Section data={virtualMachine} heading="Virtual Machine" rows={2} rows1={2} rows2={3} rows3={6} rowHeight={115} />
+                    <Section data={virtualMachine} heading="Virtual Machine" rows={2} rows1={2} rows2={3} rows3={6} rowHeight={102} />
                         
                     {extraSettings.length > 0 && (
                         <RowGap />
                     )}
 
                     {extraSettings.length > 0 && (
-                        <Section data={adminExtraFields} heading="Extra Settings" rows={2} rows1={3} rows2={4} rows3={7} rowHeight={115} />
+                        <Section data={adminExtraFields} heading="Extra Settings" rows={2} rows1={3} rows2={4} rows3={7} rowHeight={102} />
                     )}
 
                 </Content>
@@ -1041,7 +1041,7 @@ const ChartWrapper = styled.div `
 const ButtonWrapper = styled.div `
     width: fit-content;
     height: fit-content;
-    padding-top: 30px;
+    margin-top: 45px;
     display: flex;
     column-gap: 30px;
 `;

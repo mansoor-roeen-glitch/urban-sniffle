@@ -1,6 +1,5 @@
 import { Redirect } from 'react-router-dom';
-import React, {useState} from 'react'
-import SubHeader from '../../../components/Header/SubHeader';
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components';
 import Section from '../../Service/components/Section';
 import Button from '../../../components/buttons/ActionButton';
@@ -8,7 +7,15 @@ import axios from 'axios';
 import ErrorMessage from '../../../components/messages/ErrorMessage';
 import SuccessMessage from '../../../components/messages/SuccessMessage';
 
-export default function CreateTemplate({config, userDataLoading, userData}) {
+export default function CreateTemplate(
+    
+    {
+        config, 
+        userDataLoading, 
+        handleSubHeader,
+        userData
+    
+    }) {
 
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false)
@@ -182,10 +189,15 @@ export default function CreateTemplate({config, userDataLoading, userData}) {
 
     }
 
+    // Updating Sub-Header based on route
+    useEffect(() => {
+        handleSubHeader(["create template"], loading)
+    }, [loading])
+    
+
     if (userDataLoading) {
         return (
             <Wrapper>
-                <SubHeader path={true} loading={userDataLoading} pathName="Create plan" />
             </Wrapper>
         )
     }
@@ -217,13 +229,12 @@ export default function CreateTemplate({config, userDataLoading, userData}) {
                 )
             }
 
-            <SubHeader path={true} pathName="Create template" />
             <InnerWrapper>
 
                 <Section data={data} heading="Create new template" rows={1} rows2={2} rows3={3} rowHeight={105}  />
                 
                 <ButtonWrapper>
-                    <Button onClick={hanldeClick} text="Create Template" width="180px" height="45px" />
+                    <Button onClick={hanldeClick} text="Create Template" width="145px" height="45px" />
                 </ButtonWrapper>
 
             </InnerWrapper>
@@ -247,8 +258,6 @@ const Wrapper = styled.div `
 const InnerWrapper = styled.div `
     width: 93%;
     height: fit-content;
-    max-width: 1400px;
-    padding-top: 25px;
-
-    margin-bottom: 60px;
+    max-width: 1600px;
+    padding-top: 15px;
 `;

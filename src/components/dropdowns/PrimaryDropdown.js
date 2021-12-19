@@ -49,7 +49,7 @@ export default function PrimaryDropdown({heading, options, selected, onChange}) 
                         { options && options.map((option, index) => {
                             return (
                                 <DropdownButton onClick={() => {handleOptionClick(option, index)}}>
-                                    <PrimaryOption option={option} />
+                                    <PrimaryOption option={option} isOptionInLastPosition={index +1 === options.length} />
                                 </DropdownButton>
                             )
 
@@ -79,12 +79,11 @@ const DropdownMenuWrapper = styled.div `
     height: fit-content;
     position: absolute;
     
-    background: var(--primary-background);
-    box-shadow: 0 3px 20px rgb(255 255 255 / 3%), 0 1px 2px rgb(0 0 0 / 3%), 0 0 0 1px rgb(255 255 255 / 10%);
+    background: #141923;
     border-radius: 2px;
     z-index: 2;
 
-    top: 85px;
+    top: 83px;
 `;
 
 const ContentSvgWrapper = styled.div `
@@ -122,10 +121,6 @@ const ContentWrapper = styled.div `
     height: 42px;
 
     width: 100%;
-
-    border-width: 1px;
-    border-color: #292531;
-    border-style: solid;
     border-radius: 3px;
 
     display: flex;
@@ -133,7 +128,7 @@ const ContentWrapper = styled.div `
     justify-content: space-between;
     padding: 0px 20px;
     cursor: pointer;
-    background-color: #0f141c;
+    background-color: #141923;
 `;
 
 const HeadingWrapper = styled.div `

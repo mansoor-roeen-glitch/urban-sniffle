@@ -132,9 +132,6 @@ const StyledWrapper = styled.li `
     background: ${props => props.isOdd ? "#0f141c" : "transparent"};
     border: none;
     list-style: none;
-    border-bottom-width: 0.3px;
-    border-bottom-color: rgb(21 28 39);
-    border-bottom-style: solid;
 
 `;
 

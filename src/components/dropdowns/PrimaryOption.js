@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export default function PrimaryOption({option}) {
+export default function PrimaryOption({option, isOptionInLastPosition}) {
     return (
-        <StyledOptionWrapper>
+        <StyledOptionWrapper isOptionInLastPosition={isOptionInLastPosition}>
             <StyledOption>
                 <StyledOptionText>
                     {option.name}
@@ -22,9 +22,9 @@ const StyledOptionWrapper = styled.div `
     align-items: center;
     justify-content: flex-start;
     padding: 0px 20px;
-    border-bottom-width: 0.5px;
-    border-bottom-style: solid;
-    border-bottom-color: #d8d3e51f;
+    
+    border-bottom: ${props => props.isOptionInLastPosition ? "none" : "solid 1px #d8d3e51f"};
+
 
     &:hover {
         opacity: .8;

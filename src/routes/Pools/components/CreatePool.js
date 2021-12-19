@@ -8,7 +8,15 @@ import axios from 'axios';
 import SuccessMessage from '../../../components/messages/SuccessMessage';
 import ErrorMessage from '../../../components/messages/ErrorMessage';
 
-export default function CreatePlan({config, userDataLoading, userData}) {
+export default function CreatePlan(
+    
+    {
+        config, 
+        userDataLoading, 
+        handleSubHeader,
+        userData
+    
+    }) {
     
     const [loading, setLoading] = React.useState(false)
     const [success, setSuccess] = React.useState(false)
@@ -424,14 +432,14 @@ export default function CreatePlan({config, userDataLoading, userData}) {
 
     }
 
+    // Updating Sub-Header based on route
     useEffect(() => {
-
-    }, [])
+        handleSubHeader(["pools"], loading)
+    }, [loading])
 
     if (userDataLoading) {
         return (
             <Wrapper>
-                <SubHeader path={true} loading={userDataLoading} pathName="Create plan" />
             </Wrapper>
         )
     }
@@ -464,10 +472,9 @@ export default function CreatePlan({config, userDataLoading, userData}) {
             }
 
 
-            <SubHeader loading={loading} path={true} pathName="Create Pool" />
             <InnerWrapper>
 
-                <Section data={data} heading="Create new pool" rows={4} rows2={6} rows3={12} rowHeight={115}  />
+                <Section data={data} heading="Create new pool" rows={3} rows1={4} rows2={6} rows3={12} rowHeight={105}  />
                 
                 <ButtonWrapper>
                     <Button onClick={hanldeClick} text="Create Pool" width="125px" height="45px" />
@@ -494,8 +501,6 @@ const Wrapper = styled.div `
 const InnerWrapper = styled.div `
     width: 93%;
     height: fit-content;
-    max-width: 1400px;
-    padding-top: 25px;
-
-    margin-bottom: 15px;
+    max-width: 1600px;
+    padding-top: 15px;
 `;

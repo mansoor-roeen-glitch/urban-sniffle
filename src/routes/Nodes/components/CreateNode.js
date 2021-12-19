@@ -1,14 +1,21 @@
 import { Redirect } from 'react-router-dom';
-import React from 'react'
+import React, {useEffect} from 'react'
 import styled from 'styled-components';
-import SubHeader from '../../../components/Header/SubHeader';
 import Section from '../../Service/components/Section';
 import Button from '../../../components/buttons/ActionButton'
 import axios from 'axios';
 import SuccessMessage from '../../../components/messages/SuccessMessage';
 import ErrorMessage from '../../../components/messages/ErrorMessage';
 
-export default function CreatePlan({config, userDataLoading, userData}) {
+export default function CreatePlan(
+    
+    {
+        config, 
+        userDataLoading, 
+        handleSubHeader,
+        userData
+    
+    }) {
     
     const [loading, setLoading] = React.useState(false)
     const [success, setSuccess] = React.useState(false)
@@ -239,7 +246,7 @@ export default function CreatePlan({config, userDataLoading, userData}) {
             setUser(prevState => ({
                 ...prevState,
                 hasErrorMessage: true,
-                errorMes: "must be between 1-20 char long"
+                errorMes: "Name cannot be empty"
             }))
 
             isFormValid = false
@@ -249,13 +256,13 @@ export default function CreatePlan({config, userDataLoading, userData}) {
             setKey(prevState => ({
                 ...prevState,
                 hasErrorMessage: true,
-                errorMes: "must be between 1-20 char long"
+                errorMes: "Key cannot be empty"
             }))
 
             isFormValid = false
         }
 
-        if (!host.value) {
+        if (!host.value || !/\\d+(\\.\\d+)*/.test(host.value)) {
             setHost(prevState => ({
                 ...prevState,
                 hasErrorMessage: true,
@@ -347,23 +354,24 @@ export default function CreatePlan({config, userDataLoading, userData}) {
             }
         }
 
-        let reqData = { 
+        axios.post("https://hosnet.io/api/plans/", { 
             
-            "name": name.value,
-            "type": data[9].options[type].name,
-            "host": host.value,
-            "user": user.value,
-            "key": key.value,
-            "cores": parseInt(cores.value),
-            "size": parseInt(size.value),
-            "ram": parseInt(ram.value),
-            "swap": parseInt(swap.value),
-            "bandwidth": parseInt(bandwidth.value)
+            // size: size.value,
+            // ram: ram.value,
+            // swap: swap.value,
+            // cores: cores.value,
+            // bandwidth: bandwidth.value, 
+            // cpu_units: cpuu.value,
+            // cpu_limit: cpul.value, 
+            // name: name.value,
+            // price: price.value, 
+            // ipv4_ips: ipv4.value,
+            // ipv6_ips: ipv6.value,
+            // internal_ips: internalIps.value,
+            // term: term.value,
+            // ip_pools: [data[13].options[ipPool].name]
 
-
-        }
-
-        axios.post("https://hosnet.io/api/nodes/", reqData, conf)
+        }, conf)
             
             .then((res) => {
 
@@ -391,10 +399,14 @@ export default function CreatePlan({config, userDataLoading, userData}) {
 
     }
 
+    // Updating Sub-Header based on route
+    useEffect(() => {
+        handleSubHeader(["create service"], loading)
+    }, [loading])
+
     if (userDataLoading) {
         return (
             <Wrapper>
-                <SubHeader path={true} loading={userDataLoading} pathName="Create node" />
             </Wrapper>
         )
     }
@@ -428,10 +440,9 @@ export default function CreatePlan({config, userDataLoading, userData}) {
             }
 
 
-            <SubHeader loading={loading} path={true} pathName="Create node" />
             <InnerWrapper>
 
-                <Section data={data} heading="Create new plan" rows={4} rows2={5} rows3={10} rowHeight={105}  />
+                <Section data={data} heading="Create new plan" rows={3} rows1={4} rows2={5} rows3={10} rowHeight={105}  />
                 
                 <ButtonWrapper>
                     <Button onClick={hanldeClick} text="Create node" width="125px" height="45px" />
@@ -458,8 +469,8 @@ const Wrapper = styled.div `
 const InnerWrapper = styled.div `
     width: 93%;
     height: fit-content;
-    max-width: 1400px;
-    padding-top: 25px;
+    max-width: 1600px;
 
-    margin-bottom: 15px;
+    padding-top: 15px;
 `;
+

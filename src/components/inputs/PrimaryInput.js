@@ -135,7 +135,7 @@ const ContentWrapper = styled.div `
     width: 100%;
 
     border-width: 1px;
-    border-color: ${props => !props.error ? `#3e364f` : `var(--border-red)`};
+    border-color: ${props => !props.error ? `transparent` : `var(--border-red)`};
     border-style: solid;
     border-radius: 3px;
 
@@ -145,6 +145,7 @@ const ContentWrapper = styled.div `
     padding: 0px 15px;
 
     height: 42px;
+    background-color: #141923;
 `;
 
 const HeadingWrapper = styled.div `

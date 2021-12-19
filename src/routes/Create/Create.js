@@ -390,7 +390,7 @@ export default function Create(
             <InnerWrapper>
                 <Section data={staticdata} heading="Create new service" rows={2} rows2={3} rows3={6} rowHeight={115} />
                 <ButtonWrapper>
-                    <Button onClick={createService} text="Proceed to checkout" width="180px" height="50px" />
+                    <Button onClick={createService} text="Proceed to checkout" width="180px" height="45px" />
                 </ButtonWrapper>
             </InnerWrapper>
         </Wrapper>

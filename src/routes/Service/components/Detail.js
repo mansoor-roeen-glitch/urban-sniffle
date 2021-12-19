@@ -45,15 +45,13 @@ const ContentWrapper = styled.div `
     height: 42px;
     width: 100%;
 
-    border-width: 1px;
-    border-color: #3e364f;
-    border-style: solid;
     border-radius: 3px;
 
     display: flex;
     align-items: center;
     justify-content: flex-start;
     padding-left: 15px;
+    background-color: #141923;
 `;
 
 const HeadingWrapper = styled.div `

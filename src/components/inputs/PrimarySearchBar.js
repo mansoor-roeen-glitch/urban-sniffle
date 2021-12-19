@@ -19,10 +19,10 @@ export default function PrimarySearchBar(props) {
 const Wrapper = styled.div `
     width: 300px;
     height: 42px;
-    border-radius: 8px;
+    border-radius: 3px;
     background: transparent;
     border-width: 0.5px;
-    border-color: var(--primary-purple);
+    border-color: #433d49;
     opacity: .6;
     border-style: solid;
     overflow: hidden;
