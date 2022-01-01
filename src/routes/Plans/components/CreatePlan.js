@@ -310,7 +310,7 @@ export default function CreatePlan(
             type: "dropdown",
             options: [
                 {
-                    name: 1,
+                    name: 3,
                     type: "option"
                 }
             ],

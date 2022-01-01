@@ -272,7 +272,7 @@ const InnerWrapper = styled.div `
   width: 100%;
   max-height: calc(100vh - 82px);
   padding-bottom: 80px;
-  padding-top: 35px;
+  overflow-y: scroll;
 `;
 
 const NavBarWrapper = styled.div `

@@ -12,6 +12,5 @@ const StyledHeader = styled.h2 `
     font-style: normal;
     font-weight: 500;
     font-size: 150%;
-    color: var(--white);
-    opacity: .85;
+    color: #c9ced6;
 `;

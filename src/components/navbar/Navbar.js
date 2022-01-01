@@ -93,7 +93,7 @@ const ListItemWrapper = styled.li `
         bottom: 0px;
         height: 1px;
         width: 105%;
-        background: linear-gradient(90deg, rgba(44, 46, 49, 0) -0.88%, #2C2E31 15.93%, #2C2E31 49.36%, #2C2E31 82.14%, rgba(44, 46, 49, 0) 100%);
+        background: linear-gradient(90deg,rgba(44,46,49,0) -0.88%,#2a2d31 15.93%,#252c37 49.36%,#212224 82.14%,rgb(22 23 26 / 0%) 100%);
 
 
     }

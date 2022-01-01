@@ -79,7 +79,7 @@ const DropdownMenuWrapper = styled.div `
     height: fit-content;
     position: absolute;
     
-    background: #141923;
+    background: #11161f;
     border-radius: 2px;
     z-index: 2;
 
@@ -99,7 +99,7 @@ const ContentSvg = styled.div `
 const StyledHeading = styled.span `
     font-size: 0.9rem;
     font-weight: 500;
-    color: var(--primary-purple);
+    color: #7b8187;
     opacity: .9;
     text-transform: uppercase;
 `;
@@ -128,7 +128,7 @@ const ContentWrapper = styled.div `
     justify-content: space-between;
     padding: 0px 20px;
     cursor: pointer;
-    background-color: #141923;
+    background-color: #11161f;
 `;
 
 const HeadingWrapper = styled.div `

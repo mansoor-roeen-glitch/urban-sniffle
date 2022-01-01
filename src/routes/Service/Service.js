@@ -5,24 +5,26 @@ import axios from 'axios';
 import Details from './components/Details'
 import Console from './components/Console';
 import Billing from './components/Billing';
-import Actions from './components/Actions'
-import handleCheckout from '../../functions/handleCheckout';
+import Actions from './components/Actions';
 import getUser from '../../functions/getUserDetails';
+import VPSDetails from './components/VPSDetails';
+import Charts from './components/Charts';
 
 export default function Service ({ config, handleSubHeader, ...props}) {
 
     const {id, hostname} = props.details
-    const [selected, setSelected] = React.useState(0)
     const [serviceStatus, setServiceStatus] = React.useState();
+    
     const [loading, setLoading] = React.useState(true);
     const [success, setSuccess] = React.useState()
-    const [details, setDetails] = React.useState()
     const [error, setError] = React.useState()
+
+    const [details, setDetails] = React.useState()
     const [serviceConsoleData, setServiceConsoleData] = React.useState()
+    const [selected, setSelected] = React.useState(0)
     const [actionLoading, setActionLoading] = React.useState(false)
     const [userDetails, setUserDetails] = React.useState()
     const [screenHeight, setScreenHeight] = React.useState(document.body.scrollHeight);
-    console.log(screenHeight)
 
     const createConsoleSession = async () => {
         let response = await axios({
@@ -179,7 +181,9 @@ export default function Service ({ config, handleSubHeader, ...props}) {
 
     // Updating Sub-Header based on route
     useEffect(() => {
+
         handleSubHeader(["services"], loading)
+
     }, [loading])
 
 
@@ -205,76 +209,101 @@ export default function Service ({ config, handleSubHeader, ...props}) {
 
     }
 
+    const charts = [
+        {
+            heading: "Bandwith Usage",
+            total: 10000,
+            usage: 6500,
+            unit: "GB"
+        },
+        {
+            heading: "Storage Usage",
+            total: 100000,
+            usage: 5000,
+            unit: "GB"
+        }, 
+        {
+            heading: "Memeory Usage",
+            total: 500000,
+            usage: 50000,
+            unit: "GB"
+        }
+    ]
+
     return (
-        <Wrapper>
-            {serviceNotActivated() && (
-                <ServiceNotActivatedWrapper>
-                    <ServiceNotActivated>
-                        <NoticeSvg>
 
-                            <svg width="18" height="18" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g clip-path="url(#clip0_650_3)">
-                                <path d="M9 1.73288C13.1355 1.73288 16.5 5.09738 16.5 9.23288C16.5 13.3684 13.1355 16.7329 9 16.7329C4.8645 16.7329 1.5 13.3684 1.5 9.23288C1.5 5.09738 4.8645 1.73288 9 1.73288ZM9 0.23288C4.02975 0.23288 0 4.26263 0 9.23288C0 14.2031 4.02975 18.2329 9 18.2329C13.9702 18.2329 18 14.2031 18 9.23288C18 4.26263 13.9702 0.23288 9 0.23288ZM8.0175 5.87738C7.94325 5.27213 8.4135 4.73288 9.0285 4.73288C9.60675 4.73288 10.0612 5.23988 9.9885 5.82113L9.42075 10.3609C9.3945 10.5731 9.21375 10.7329 9 10.7329C8.78625 10.7329 8.6055 10.5731 8.5785 10.3609L8.0175 5.87738V5.87738ZM9 13.9204C8.4825 13.9204 8.0625 13.5004 8.0625 12.9829C8.0625 12.4654 8.4825 12.0454 9 12.0454C9.5175 12.0454 9.9375 12.4654 9.9375 12.9829C9.9375 13.5004 9.5175 13.9204 9 13.9204Z" fill="#943134"/>
-                                </g>
-                                <defs>
-                                <clipPath id="clip0_650_3">
-                                <rect width="18" height="18" fill="white" transform="translate(0 0.23288)"/>
-                                </clipPath>
-                                </defs>
-                            </svg>
-
-                        </NoticeSvg>
-                        <ServiceNotActivatedMessage>
-                            This service is inactive, to activate
-                            &nbsp;
-                            <CheckoutButton onClick={() => {handleCheckout(details.id, config)}} >click here</CheckoutButton>
-                        </ServiceNotActivatedMessage>
-                    </ServiceNotActivated>
-                </ServiceNotActivatedWrapper>
-            )}
-            <HeaderWrapper>
-                <InnerWrapper>
-                    <List>
-
-                        {/* We will map through all the service options */}
-
-                        {selectOptions.map((option, index) => {
-                            return (
-                                <Item key={index} className={selected === option.index ? "Option-Selected" : ""} style={{opacity: selected === option.index ? "1" : ".5"}}>
-                                    <ItemButton onClick={() => {handleOptionClick(option.index)}}>
-                                        <ItemText>{option.text}</ItemText>
-                                    </ItemButton>
-                                    {selected === option.index ? (
-                                        
-                                        <StyledLine></StyledLine>
-                                    ) : null}
-                                </Item>
-                            )
-                        })}
-                        
-                    </List>
-                </InnerWrapper>
-            </HeaderWrapper>
-
+        <Wrapper>   
             
+            <VPSInformationWrapper>
+            
+                <VPSDetails />
+                <Charts charts={charts} />
+            
+            </VPSInformationWrapper>
 
             <ContentWrapper screenHeight={screenHeight}>
                 
-                {/* Showing content based on user selection */}
                 { (() => {
+
                     switch(selected) {
                         
                         case 0:
-                            return <Details data={details} config={config} userDetails={userDetails} serviceStatus={serviceStatus} />;
+                            
+                            return (
+                            
+                                <Details 
+                                
+                                    data={details} 
+                                    config={config}
+                                    userDetails={userDetails} 
+                                    serviceStatus={serviceStatus} 
+                                    
+                                />
+                                
+                            )
 
                         case 1:
-                            return <Console data={details} serviceConsole={serviceConsoleData} serviceNotActivated={serviceNotActivated()} />;
+                            
+                            return (
+                            
+                                <Console 
+                                    
+                                    data={details} 
+                                    serviceConsole={serviceConsoleData} 
+                                    serviceNotActivated={serviceNotActivated()} 
+                                    
+                                />
+                                
+                            )
                         
                         case 2:
-                            return <Billing data={details} userDetails={userDetails} />;
+                            
+                            return (
+                            
+                                <Billing 
+                                    
+                                    data={details} 
+                                    userDetails={userDetails} 
+                                    
+                                />
+                                
+                                )
                             
                         case 3:
-                            return <Actions data={details} userDetails={userDetails} setLoadingAnim={setActionLoading} serviceNotActivated={serviceNotActivated()} config={config} />;
+                            
+                            return (
+                                    
+                                    <Actions 
+                                    
+                                        data={details} 
+                                        userDetails={userDetails} 
+                                        setLoadingAnim={setActionLoading} 
+                                        serviceNotActivated={serviceNotActivated()} 
+                                        config={config} 
+                                    
+                                    />
+                                        
+                            )
                             
                     }
                 })()}
@@ -285,6 +314,16 @@ export default function Service ({ config, handleSubHeader, ...props}) {
     )
 }
 
+const VPSInformationWrapper = styled.div `
+    
+    width: 93%;
+    max-width: 1600px;
+    padding-top: 35px;
+    
+    display: flex;
+    height: fit-content;
+    flex-direction: column;
+`;
 
 const CheckoutButton = styled.button `
     width: fit-content;
@@ -319,7 +358,7 @@ const NoticeSvg = styled.div `
 const ServiceNotActivatedMessage = styled.span `
     font-style: normal;
     font-weight: normal;
-    font-size:16px;
+    font-size: 16px;
     display: flex;
     align-items: center;
     text-align: right;
@@ -336,9 +375,6 @@ const ServiceNotActivated = styled.div `
 `
 
 const ContentWrapper = styled.div `
-    overflow-y: scroll;
-    height: ${props => props.screenHeight - 207}px;
-    padding-bottom: 110px;
 `;
 
 const StyledLine = styled.div `
@@ -369,12 +405,13 @@ const ItemText = styled.span `
     font-weight: 400;
     font-style: normal;
     line-height: normal;
-    color: var(--white);
+    color: ${props => !props.selected ? "#767f8b" : "#d1d5db"};
 `;
 
 const Wrapper = styled.div `
     display: flex;
     flex-direction: column;
+    align-items: center;
 `;
 
 
@@ -384,6 +421,18 @@ const Item = styled.li `
     display: flex;
     align-items: center;
     justify-content: center;
+
+    &::after {
+        bottom: 0px;
+        position: absolute;
+        z-index: 2;
+        content: "";
+        width: 100%;
+        height: 1px;
+        background: #aebbce;
+
+        display: ${props => !props.selected ? "none" : "initial"};
+    }
 `;
 
 const List = styled.ul `
@@ -397,22 +446,21 @@ const List = styled.ul `
 
 const HeaderWrapper = styled.div `
     width: 100%;
-    height: 50px;
+    height: 62px;
+    margin-top: 15px;
     background: transparent;
 
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: -15px 0 15px 0;
 
     &::after {
         content: "";
         position: absolute;
         bottom: 0px;
-        width: 100%;
+        width: 93%;
         height: 1px;
-        background: var(--white);
-        opacity: .4;
+        background: #2c3038;
     }
 `;
 

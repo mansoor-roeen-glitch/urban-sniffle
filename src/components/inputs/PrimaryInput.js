@@ -96,12 +96,12 @@ const MessageWrapper = styled.div `
     background: transparent;
 
     position: absolute;
-    bottom: -25px;
+    bottom: -20px;
 `;
 
 const StyledHeading = styled.span `
     font-weight: 500;
-    color: ${props => props.error ? '#A42929': 'var(--primary-purple)'};
+    color: ${props => props.error ? '#7b8187': '#acb4c0'};
     opacity: .9;
     text-transform: uppercase;
     font-size: 0.9rem;
@@ -145,7 +145,7 @@ const ContentWrapper = styled.div `
     padding: 0px 15px;
 
     height: 42px;
-    background-color: #141923;
+    background-color: #121821;
 `;
 
 const HeadingWrapper = styled.div `

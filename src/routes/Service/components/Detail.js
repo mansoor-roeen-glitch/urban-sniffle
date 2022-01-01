@@ -23,7 +23,7 @@ export default function Detail({heading, value}) {
 const StyledHeading = styled.span `
     font-size: 0.9rem;
     font-weight: 500;
-    color: var(--primary-purple);
+    color: #7b8187;
     opacity: .9;
     text-transform: uppercase;
 `;

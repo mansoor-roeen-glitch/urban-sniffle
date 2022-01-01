@@ -133,13 +133,16 @@ const StyledImage = styled.div `
 `;
 
 const Wrapper = styled.div `
+    z-index: 2;
     width: 100%;
-    height: 57px;
+    height: 60px;
     background: var(--secondary-background);
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 0px;
+    filter: drop-shadow(0px 7px 4px #0D1117);
+
 
     &::after {
         content: "";
@@ -147,7 +150,7 @@ const Wrapper = styled.div `
         bottom: 0px;
         width: 100%;
         height: 1px;
-        background: ${props => props.loading ? '#46484F' : "#212c3a"};
+        background: ${props => props.loading ? '#46484F' : "transparent"};
     }
 
     &::before {

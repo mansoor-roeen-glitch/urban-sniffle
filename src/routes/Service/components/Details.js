@@ -1,12 +1,8 @@
 import axios from 'axios';
-import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import Button from '../../../components/buttons/ActionButton';
-import ExtraActionsButton from '../../../components/buttons/ExtraActionsButton';
-import ErrorMessage from '../../../components/messages/ErrorMessage';
-import SuccessMessage from '../../../components/messages/SuccessMessage';
-import Chart from './Chart';
-import Section from './Section';
+import React, { useEffect } from 'react'
+import Svg from '../../../components/icons/SvgIcon'
+import VPSDetailsSection from './VPSDetailsSection';
 
 export default function Details({data, serviceStatus, userDetails, config}) {
 
@@ -860,190 +856,48 @@ export default function Details({data, serviceStatus, userDetails, config}) {
 
     }
 
+    let detialList = [
+        {
+            svg: "/images/profile2.svg",
+            heading: "Owner",
+            value: "Joe Doe"
+        },
+        {
+            svg: "/images/template.svg",
+            heading: "Template",
+            value: "CentOs 8"
+        },
+        {
+            svg: "/images/node.svg",
+            heading: "Node",
+            value: "Magus"
+        },
+        {
+            svg: "/images/status.svg",
+            heading: "Status",
+            value: "Inactive"
+        }
+    ]
 
     return (
+
         <Wrapper>
-
-            {showMessage && 
-
-                showMessage.messageType === "success" && (
-
-                    <SuccessMessage message={showMessage.message} duration={showMessage.duration} isVisible={true} />
-
-                )
-            }
-
-            {showMessage && 
-
-                showMessage.messageType === "error" && (
-
-                    <ErrorMessage message={showMessage.message} duration={showMessage.duration} isVisible={true} />
-
-                )
-            }
-
             <InnerWrapper>
-                
-                <ChartWrapper>
-
-                    {serviceStatus && (
-                        <Charts>
-                            { charts.map((chart, index) => {
-                                return (
-                                    <Chart key={index} usage={chart.usage} heading={chart.heading} total={chart.total} unit={chart.unit} />
-                                )
-                            })}
-                        </Charts>
-                    )}
-
-                    <IpDetailWrapper>
-                        <IpDetails>
-                            
-                            {ips ? ips.map((ip, index) => {
-                                
-                                return (
-                                    <IpDetail>
-
-                                        <IpDetailNumber>
-                                            {index + 1}.
-                                        </IpDetailNumber>
-
-                                        <IpDetailType>
-                                            {ip.type}
-                                        </IpDetailType>
-
-                                        <IpDetailText>
-                                            {ip.ip}
-                                        </IpDetailText>
-
-                                    </IpDetail>
-                                )
-
-                            }) : null}
-
-                        </IpDetails>        
-                    </IpDetailWrapper>
-
-                </ChartWrapper>
-            
-                <Content marginTop={serviceStatus ? "60px" : "0px"}>
-                    <Section data={generalDetails} heading="General Detials" rows={2} rows1={2} rows2={3} rows3={6} rowHeight={102} />
-                    <RowGap />
-                    <Section data={virtualMachine} heading="Virtual Machine" rows={2} rows1={2} rows2={3} rows3={6} rowHeight={102} />
-                        
-                    {extraSettings.length > 0 && (
-                        <RowGap />
-                    )}
-
-                    {extraSettings.length > 0 && (
-                        <Section data={adminExtraFields} heading="Extra Settings" rows={2} rows1={3} rows2={4} rows3={7} rowHeight={102} />
-                    )}
-
-                </Content>
-
-                <ButtonWrapper>
-                    <Button onClick={handleSubmit} text="Update Service" width="165px" height="45px"  />
-                    <ExtraActionsButton />
-                </ButtonWrapper>
+                    
+                    <VPSDetailsSection list={detialList} />
 
             </InnerWrapper>
         </Wrapper>
+
     )
 }
-
-const IpDetailText = styled.span `
-    
-    font-family: "Roboto";
-    font-style: normal;
-    font-weight: 500;
-    font-size: 19px;
-    line-height: 19px;
-    display: flex;
-    align-items: center;
-
-    color: #C7C8CA;
-
-`;
-
-const IpDetailType = styled.span `
-
-    font-family: "Roboto";
-    font-style: normal;
-    font-weight: 500;
-    font-size: 19px;
-    line-height: 19px;
-    display: flex;
-    align-items: center;
-
-    color: #A183C7;
-    text-transform: uppercase;
-
-`;
-
-const IpDetailNumber = styled.span `
-    
-    font-family: "Roboto";
-    font-style: normal;
-    font-weight: 300;
-    font-size: 19px;
-    line-height: 19px;
-    display: flex;
-    align-items: center;
-
-    color: #7B7B7B;
-    margin: 0px 10px;
-
-`;
-
-const IpDetail = styled.div `
-    width: 100%;
-    height: 45px;
-
-    display: flex;
-    align-items: center;
-    column-gap: 10px;
-
-    border-bottom: 1px solid #304157;
-`;
-
-const IpDetails = styled.div `
-    width: 100%;
-    height: fit-content;
-
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    row-gap: 5px;
-`;
-
-const IpDetailWrapper = styled.div `
-    width: 100%;
-    padding: 15px 25px;
-    height: 274.5px;
-    background: #131921;
-    filter: drop-shadow(0px 0px 1px #3F4041);
-
-`;
-
-const ChartWrapper = styled.div `
-    width: 100%;
-    height: fit-content;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    column-gap: 110px;
-
-    @media screen and (max-width: 1425px) {
-        column-gap: 40px;
-    }
-`;
 
 const ButtonWrapper = styled.div `
     width: fit-content;
     height: fit-content;
     margin-top: 45px;
     display: flex;
-    column-gap: 30px;
+    column-gap: 26px;
 `;
 
 const RowGap = styled.div `
@@ -1053,17 +907,6 @@ const RowGap = styled.div `
 
 const Content = styled.div `
     margin-top: ${props => props.marginTop};
-`;
-
-const Charts = styled.div `
-    display: flex;
-    column-gap: 35px;
-
-    height: fit-content;
-
-    @media screen and (max-width: 1425px) {
-        column-gap: 20px;
-    }
 `;
 
 const InnerWrapper = styled.div `

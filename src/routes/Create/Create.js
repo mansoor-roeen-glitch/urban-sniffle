@@ -2,11 +2,12 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import Button from '../../components/buttons/ActionButton';
-import SubHeader from '../../components/Header/SubHeader';
 import ErrorMessage from '../../components/messages/ErrorMessage';
 import SuccessMessage from '../../components/messages/SuccessMessage';
 import handleCheckout from '../../functions/handleCheckout';
-import Section from '../Service/components/Section';
+import Plan from './components/Plan';
+import Template from './components/Template'
+import FormElement from '../../components/forms/FormElement';
 
 export default function Create(
     
@@ -52,298 +53,20 @@ export default function Create(
 
     const [showMessage, setShowMessage] = React.useState(false);
 
-    const successRedirect = () => {
-        window.location.pathname = '/dashboard';
-    }
-
-    const handleMessage = (messageType, duration, message) => {
-
-        setShowMessage({messageType, duration, message});
-        
-        setTimeout(() => {
-            
-            setShowMessage(false);
-
-        }, duration * 1000)
-
-    }
-
-    const isValidPassword = (input) => {
-        if (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(input)) {
-            return true
-        } else {
-            return false
-        }
-    }
- 
-    const isValidHostname = (input) => {
-        if (/^[a-zA-Z0-9-_]+$/.test(input)) {
-            return true
-        } else {
-            return false
-        }
-    }
-
-    const validateForm = ({hostnameField, passwordField}) => {
-        
-        let isHostnameValid = false;
-        let isPasswordValid = false;
-
-        if (!hostnameField || !isValidHostname(hostnameField)) {
-            
-            setHostname((prevState) => ({
-                
-                ...prevState,
-                
-                hasErrorMessage: true,
-                errorMes: "only alphabets, numbers, dash, and underscore",
-
-            }))
-
-            isHostnameValid = false 
-        
-        } else {
-
-            isHostnameValid = true;
-
-        }
-
-        if (!passwordField) {
-            
-            setPassword((prevState) => ({
-
-                ...prevState,
-                
-                hasErrorMessage: true,
-                errorMes: "please fill in the input properly"
-
-            }))
-            
-            isPasswordValid = false
-        } 
-
-        if (passwordField) {
-            if (passwordField.length < 8 ) {
-
-                setPassword((prevState) => ({
-                    ...prevState,
-                    
-                    hasErrorMessage: true,
-                    errorMes: "must be more than 6 characters long"
-                }))
-            
-            } else {
-
-                if (!isValidPassword(passwordField)) {
-                    setPassword((prevState) => ({
-                        
-                        ...prevState,
-                        
-                        hasErrorMessage: true,
-                        errorMes: "must have one numeric digit, one uppercase, lowercase letter"
-                    
-                    }))
-                
-                } else {
-
-                    isPasswordValid = true    
-
-                }
-            
-            }
-        }
-
-        return {isHostnameValid, isPasswordValid};
-
-    }
-
-    const createService = async () => {
-
-        const checkForm = validateForm({
-            
-            hostnameField: hostname.value,
-            passwordField: password.value
-            
-        })
-
-        if (!checkForm.isHostnameValid || !checkForm.isPasswordValid) {
-            return null;
-        }
-
-        setResponseLoading(true)
-
-        const response = await axios({
-            
-            method: "post",
-            url: "https://hosnet.io/api/services/",
-            
-            data: {
-                
-                "owner": ownerDetails.username,
-                "hostname": hostname.value,
-                "password": password.value,
-                "plan": staticdata[3].options[planType].name,
-                "node": staticdata[2].options[node].name,
-                "template": staticdata[4].options[template].name,
-                "billing_type": 2
-            },
-            
-            headers: {
-                'Authorization': `Token ${config}`,
-                'content-type': "application/json"
-            }
-
-        })
-        
-        .then((res) => {
-            if (res.status === 201) {
-                setSuccess(true)
-                setError(false)
-                setLoading(true)
-                
-                if (!ownerDetails.is_staff) {
-                    handleCheckout(res.data.id, config)
-                    setResponseLoading(false)
-                } else {
-                    successRedirect();
-                }
-
-            }
-        })
-        
-        .catch((err) => {
-            
-            setResponseLoading(false)
-            handleMessage("error", 5, "Something went wrong, try again later")
-            return {error: err, status: false}
-
-        });
-
-    }
-
-    const fetchDetail = async (endpoint) => {
-
-        const response = await axios({
-            method: "get",
-            url: `https://hosnet.io/${endpoint}/`,
-            headers: {
-                'Authorization': `Token ${config}`,
-                'content-type': "application/json"
-            }
-        })
-            .then((res) => {return {data: res.data, status: 200}})
-            .catch((err) => {
-                console.error(err)
-                handleMessage("error", 5, "Something went wrong, try again later")
-                return {error: err, status: false}
-            
-            });
-
-        return response
-
-    }
-
-    const staticdata = [
+    const templateTypes = [
         {
-            heading: "hostname",
-            value: "example-hostname",
-            type: "input",
-            htmltype: "text",
-            inputValue: hostname.value,
-            errorMes: hostname.errorMes,
-            messageDur: hostname.messageDur,
-            hasErrorMessage: hostname.hasErrorMessage,
-            onChange: setHostname
+            name: "Ubontu Focal",
+            type: "kvm"
         },
         {
-            heading: "password",
-            value: "your-password",
-            type: "input",
-            htmltype: "password",
-            inputValue: password.value,
-            errorMes: password.errorMes,
-            messageDur: password.messageDur,
-            hasErrorMessage: password.hasErrorMessage,
-            onChange: setPassword
+            name: "CentOs 8",
+            type: "kvm"
         },
-        !loading && details.nodes,
-        !loading && details.plans,
-        !loading && details.templates,
         {
-            heading: "billing method",
-            value: "stripe",
-            type: "dropdown",
-            options: [
-                {
-                    name: "stripe",
-                    type: "option"
-                }
-            ],
-            selected: billingMethod,
-            onChange: setBillingMethod  
+            name: "Ubontu Bionic",
+            type: "kvm"
         }
-
     ]
-
-    useEffect( async () => {
-
-        const owner = await fetchDetail("auth/user");
-        const plans = await fetchDetail("api/plans");
-        const templates = await fetchDetail("api/templates");
-        const nodes = await fetchDetail("api/nodes");
-
-        if (plans.status === 200 && templates.status === 200 && owner.status === 200, nodes.status === 200) {
-
-            setOwnerDetails(owner.data)
-
-            setDetails({
-                plans: {
-                    heading: "Plan Type",
-                    value: plans.data.results[0].name,
-                    type: "dropdown",
-                    options: plans.data.results,
-                    selected: planType,
-                    onChange:  setPlanType
-                
-                }, 
-                
-                templates: {
-                    heading: "template",
-                    value: templates.data.results[0].name,
-                    type: "dropdown",
-                    options: templates.data.results,
-                    selected: template,
-                    onChange: setTemplate  
-                },
-
-                nodes: {
-                    heading: "node",
-                    value: nodes.data.results[0].name,
-                    type: "dropdown",
-                    options: nodes.data.results,
-                    selected: node,
-                    onChange: setNode  
-                },
-            
-            })
-
-
-            setOwnerLoading(false)
-            setOwnerSuccess(true)
-            setLoading(false)
-            
-
-        } else {
-            setLoading(false)
-            setError(true)
-        }
-
-    }, [])    
-
-    // Updating Sub-Header based on route
-    useEffect(() => {
-        handleSubHeader(["create service"], loading)
-    }, [loading])
 
     if (loading) {
 
@@ -388,14 +111,185 @@ export default function Create(
             }
 
             <InnerWrapper>
-                <Section data={staticdata} heading="Create new service" rows={2} rows2={3} rows3={6} rowHeight={115} />
+                
+                <PlanSection>
+                    <PlanSectionHeader>
+                        <PlanSectionHeading>
+                            Select plan type
+                        </PlanSectionHeading>
+                    </PlanSectionHeader>
+                    <PlanSectionList>
+                        {/* {planTypes.map((plan) =>  <Plan plan={plan} /> )} */}
+                    </PlanSectionList>
+                </PlanSection>
+
+                <TemplateSection>
+                    <TemplateSectionHeader>
+                        <TemplateSectionHeading>
+                            Select template 
+                        </TemplateSectionHeading>
+                    </TemplateSectionHeader>
+                    <TemplateSectionList>
+                        {/* {templateTypes.map((template) => <Template template={template} /> )} */}
+                    </TemplateSectionList>
+                </TemplateSection>
+
+                <FormWrapper>
+                    <FormList>
+                        
+                        <FormElement 
+                        
+                            title="Service Hostname" 
+                            desc="This field can only consist of alphabets, numbers, dashes and underscores"
+                            placeholder="ex: ExampleHostname-101_5"
+                            type="input" 
+                            
+                        />
+
+                        <FormElement 
+                        
+                            title="Service Password" 
+                            desc="Password field must be at least 8 characters long"
+                            placeholder="ex: 4cK[BZ:6HMxGm/kV"
+                            type="input" 
+                            
+                        />
+
+                        <FormElement 
+                        
+                            title="Service Node" 
+                            desc="Select node type from the options"
+                            placeholder="Magus"
+                            type="choice" 
+                            
+                        />
+
+
+                    </FormList>
+                </FormWrapper>
+
                 <ButtonWrapper>
-                    <Button onClick={createService} text="Proceed to checkout" width="180px" height="45px" />
+                    {/* <Button onClick={createService} text="Proceed to checkout" width="180px" height="45px" /> */}
                 </ButtonWrapper>
             </InnerWrapper>
         </Wrapper>
     )
 }
+
+const FormList = styled.ul `
+    list-style: none;
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    row-gap: 40px;
+`;
+
+const FormWrapper = styled.div `
+    margin-top: 70px;
+    margin-bottom: 50px;
+    width: 100%;
+
+    max-width: 1000px;
+`;
+
+const TemplateSectionList = styled.ul `
+    display: grid;
+    height: fit-content;
+
+    width: 100%;
+    column-gap: 35px;
+    padding-top: 20px;
+
+    grid-template-columns: repeat(7, 1fr);
+`;
+
+const TemplateSectionHeading = styled.div `
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 22px;
+
+    display: flex;
+    align-items: center;
+    color: #caced5;
+`;
+
+const TemplateSectionHeader = styled.div `
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 42px;
+    width: 100%;
+
+    &::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        background-color: #2e343e;
+        bottom: 0px;
+    }
+`;
+
+const TemplateSection = styled.div `
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 45px;
+    margin-bottom: 35px;
+
+`;
+
+const PlanSectionList = styled.ul `
+    display: grid;
+    height: fit-content;
+
+    width: 100%;
+    column-gap: 35px;
+    padding-top: 20px;
+
+    grid-template-columns: repeat(5, 1fr);
+`;
+
+const PlanSectionHeading = styled.div `
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 22px;
+
+    display: flex;
+    align-items: center;
+    color: #caced5;
+`;
+
+const PlanSectionHeader = styled.div `
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 42px;
+    width: 100%;
+
+    &::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        background-color: #2e343e;
+        bottom: 0px;
+    }
+`;
+
+const PlanSection = styled.div `
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+`;
 
 const ButtonWrapper = styled.div `
     width: fit-content;
@@ -416,7 +310,8 @@ const InnerWrapper = styled.div `
     width: 93%;
     height: fit-content;
     max-width: 1600px;
-    padding-top: 25px;
+    padding-top: 50px;
 
-    margin-bottom: 60px;
+    margin-bottom: 10px;
+
 `;

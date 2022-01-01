@@ -85,7 +85,7 @@ const ContentWrapper = styled.div `
 
 const HeadingWrapper = styled.div `
 
-    margin-bottom: 45px;
+    margin-bottom: 30px;
     width: 100%;
 
     display: flex;
