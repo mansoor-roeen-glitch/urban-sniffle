@@ -47,7 +47,7 @@ export default function Chart({heading, total, usage, text}) {
 
             radius={50}
             progress={progress}
-            strokeWidth={10}
+            strokeWidth={7}
             strokeColor="#a183c7"
             strokeLinecap="square"
             trackStrokeWidth={4}
