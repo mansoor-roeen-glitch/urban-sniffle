@@ -1,8 +1,100 @@
 import React from 'react'
 import styled from 'styled-components'
 import Header from './components/Header';
+import {Link} from 'react-router-dom'
 
 export default function LandingPage() {
+
+    let plansList = [
+        {
+            id: 13,
+            price: 1.0,
+            currencty: "usd",
+            period: "monthly",
+            name: "test_plan_2",
+
+            plan_features: [
+                
+                {
+                    feature_name: "size",
+                    feature_value: "1024 GB"
+                },
+                {
+                    feature_name: "ram",
+                    feature_value: "1024 GB"
+                },
+                {
+                    feature_name: "cores",
+                    feature_value: 4
+                },
+                {
+                    feature_name: "bandwidth",
+                    feature_value: "1024 GB"
+                }
+
+            ]
+        },
+        {
+            id: 15,
+            price: 1.0,
+            currencty: "usd",
+            period: "monthly",
+            name: "test_plan_1",
+
+            plan_features: [
+                
+                {
+                    feature_name: "size",
+                    feature_value: "1024 GB"
+                },
+                {
+                    feature_name: "ram",
+                    feature_value: "1024 GB"
+                },
+                {
+                    feature_name: "cores",
+                    feature_value: 4
+                },
+                {
+                    feature_name: "bandwidth",
+                    feature_value: "1024 GB"
+                }
+
+            ]
+        },
+        {
+            id: 14,
+            price: 1.0,
+            currencty: "usd",
+            period: "monthly",
+            name: "test_plan_1",
+
+            plan_features: [
+                
+                {
+                    feature_name: "size",
+                    feature_value: "1024 GB"
+                },
+                {
+                    feature_name: "ram",
+                    feature_value: "1024 GB"
+                },
+                {
+                    feature_name: "cores",
+                    feature_value: 4
+                },
+                {
+                    feature_name: "bandwidth",
+                    feature_value: "1024 GB"
+                }
+
+            ]
+        }
+    ]
+
+    const handleClick = () => {
+        console.log("something")
+    }
 
     return (
         <Wrapper>
@@ -21,159 +113,43 @@ export default function LandingPage() {
                 <PlansWrapper>
                     <PlansList>
 
-                        <PlanWrapper>
+                        {plansList.map((plan, index) => {
+                            return (
 
-                            <PlanTitle>
-                                Fast & Affordable Managed VPS
-                            </PlanTitle>
-                            
-                            <PlanFeaturesList>
+                                <PlanWrapper>
 
-                                <PlanFeature>
-                                    <FeatureBefore />
-                                    <FeatureText>
-                                        100GB Ram
-                                    </FeatureText>
-                                </PlanFeature>
+                                    <PlanTitle>
+                                        {plan.name}
+                                    </PlanTitle>
+                                    
+                                    <PlanFeaturesList>
 
-                                <PlanFeature>
-                                    <FeatureBefore />
-                                    <FeatureText>
-                                        1024GB Bandwidth
-                                    </FeatureText>
-                                </PlanFeature>
+                                        {plan.plan_features.map((plan_feature) => {
+                                            return (
 
-                                <PlanFeature>
-                                    <FeatureBefore />
-                                    <FeatureText>
-                                        4 Cores
-                                    </FeatureText>
-                                </PlanFeature>
+                                                <PlanFeature>
+                                                    <FeatureBefore />
+                                                    <FeatureText>
+                                                        {plan_feature.feature_value} {plan_feature.feature_name}
+                                                    </FeatureText>
+                                                </PlanFeature>
+                                                
+                                            )
+                                        })}
 
-                                <PlanFeature>
-                                    <FeatureBefore />
-                                    <FeatureText>
-                                        1024GB Storage
-                                    </FeatureText>
-                                </PlanFeature>
+                                    </PlanFeaturesList>
 
-                                <PlanFeature>
-                                    <FeatureBefore />
-                                    <FeatureText>
-                                        Free Management
-                                    </FeatureText>
-                                </PlanFeature>
+                                    <Link to={`/register?redirect=create_service&plan_id=${plan.id}`}>
+                                        <PlanButton>
+                                            <PlanButtonText>900$ /month</PlanButtonText>
+                                        </PlanButton>
+                                    </Link>
 
-                            </PlanFeaturesList>
+                                </PlanWrapper>
 
-                            <PlanButton>
-                                <PlanButtonText>900$ /month</PlanButtonText>
-                            </PlanButton>
 
-                        </PlanWrapper>
-
-                        <PlanWrapper>
-
-                            <PlanTitle>
-                                Fast & Affordable Managed VPS
-                            </PlanTitle>
-                            
-                            <PlanFeaturesList>
-
-                                <PlanFeature>
-                                    <FeatureBefore />
-                                    <FeatureText>
-                                        100GB Ram
-                                    </FeatureText>
-                                </PlanFeature>
-
-                                <PlanFeature>
-                                    <FeatureBefore />
-                                    <FeatureText>
-                                        1024GB Bandwidth
-                                    </FeatureText>
-                                </PlanFeature>
-
-                                <PlanFeature>
-                                    <FeatureBefore />
-                                    <FeatureText>
-                                        4 Cores
-                                    </FeatureText>
-                                </PlanFeature>
-
-                                <PlanFeature>
-                                    <FeatureBefore />
-                                    <FeatureText>
-                                        1024GB Storage
-                                    </FeatureText>
-                                </PlanFeature>
-
-                                <PlanFeature>
-                                    <FeatureBefore />
-                                    <FeatureText>
-                                        Free Management
-                                    </FeatureText>
-                                </PlanFeature>
-
-                            </PlanFeaturesList>
-
-                            <PrimaryPlanButton>
-                                <PrimaryPlanButtonText>900$ /month</PrimaryPlanButtonText>
-                            </PrimaryPlanButton>
-
-                        </PlanWrapper>
-
-                        <PlanWrapper>
-
-                            <PlanTitle>
-                                Fast & Affordable Managed VPS
-                            </PlanTitle>
-                            
-                            <PlanFeaturesList>
-
-                                <PlanFeature>
-                                    <FeatureBefore />
-                                    <FeatureText>
-                                        100GB Ram
-                                    </FeatureText>
-                                </PlanFeature>
-
-                                <PlanFeature>
-                                    <FeatureBefore />
-                                    <FeatureText>
-                                        1024GB Bandwidth
-                                    </FeatureText>
-                                </PlanFeature>
-
-                                <PlanFeature>
-                                    <FeatureBefore />
-                                    <FeatureText>
-                                        4 Cores
-                                    </FeatureText>
-                                </PlanFeature>
-
-                                <PlanFeature>
-                                    <FeatureBefore />
-                                    <FeatureText>
-                                        1024GB Storage
-                                    </FeatureText>
-                                </PlanFeature>
-
-                                <PlanFeature>
-                                    <FeatureBefore />
-                                    <FeatureText>
-                                        Free Management
-                                    </FeatureText>
-                                </PlanFeature>
-
-                            </PlanFeaturesList>
-
-                            <PlanButton>
-                                <PlanButtonText>900$ /month</PlanButtonText>
-                            </PlanButton>
-
-                        </PlanWrapper>
-
+                            )
+                        })}
 
                     </PlansList>
                 </PlansWrapper>

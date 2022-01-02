@@ -1,13 +1,9 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
-import Button from '../../components/buttons/ActionButton';
+import Template from './components/Template'
+import React, { useEffect, useState } from 'react'
+import FormElement from '../../components/forms/FormElement';
 import ErrorMessage from '../../components/messages/ErrorMessage';
 import SuccessMessage from '../../components/messages/SuccessMessage';
-import handleCheckout from '../../functions/handleCheckout';
-import Plan from './components/Plan';
-import Template from './components/Template'
-import FormElement from '../../components/forms/FormElement';
 
 export default function Create(
     
@@ -24,11 +20,21 @@ export default function Create(
     const [billingMethod, setBillingMethod] = useState(0)
     const [responseLoading, setResponseLoading] = useState(false)
 
+    const [ownerLoading, setOwnerLoading] = useState(true);
+    const [ownerDetails, setOwnerDetails] = useState()
+    const [ownerSuccess, setOwnerSuccess] = useState();
+
+    const [details, setDetails] = useState()
+    const [loading, setLoading] = useState(false)
+    const [success, setSuccess] = useState()
+    const [error, setError] = useState()
+
+    const [showMessage, setShowMessage] = React.useState(false);
+    
     const [hostname, setHostname] = useState({
         
         value: "",
         errorMes: "",
-        messageDur: 5000,
         hasErrorMessage: false
 
     })
@@ -37,21 +43,9 @@ export default function Create(
 
         value: "",
         errorMes: "",
-        messageDur: 5000,
         hasErrorMessage: false
 
     })
-
-    const [ownerLoading, setOwnerLoading] = useState(true);
-    const [ownerDetails, setOwnerDetails] = useState()
-    const [ownerSuccess, setOwnerSuccess] = useState();
-
-    const [details, setDetails] = useState()
-    const [loading, setLoading] = useState(true)
-    const [success, setSuccess] = useState()
-    const [error, setError] = useState()
-
-    const [showMessage, setShowMessage] = React.useState(false);
 
     const templateTypes = [
         {
@@ -67,6 +61,14 @@ export default function Create(
             type: "kvm"
         }
     ]
+
+    function useApiInformation () {
+    
+        
+
+    }
+
+    useEffect( useApiInformation , [])
 
     if (loading) {
 
@@ -130,7 +132,7 @@ export default function Create(
                         </TemplateSectionHeading>
                     </TemplateSectionHeader>
                     <TemplateSectionList>
-                        {/* {templateTypes.map((template) => <Template template={template} /> )} */}
+                        {templateTypes.map((template) => <Template template={template} /> )}
                     </TemplateSectionList>
                 </TemplateSection>
 
