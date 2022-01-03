@@ -1,9 +1,11 @@
+import Plan from './components/Plan'
 import styled from 'styled-components';
 import Template from './components/Template'
 import React, { useEffect, useState } from 'react'
 import FormElement from '../../components/forms/FormElement';
 import ErrorMessage from '../../components/messages/ErrorMessage';
 import SuccessMessage from '../../components/messages/SuccessMessage';
+import fetchCreateInformation from './functions/fetchCreateInformation'
 
 export default function Create(
     
@@ -23,14 +25,16 @@ export default function Create(
     const [ownerLoading, setOwnerLoading] = useState(true);
     const [ownerDetails, setOwnerDetails] = useState()
     const [ownerSuccess, setOwnerSuccess] = useState();
-
+    
+    const [showMessage, setShowMessage] = React.useState(false);
     const [details, setDetails] = useState()
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [success, setSuccess] = useState()
     const [error, setError] = useState()
 
-    const [showMessage, setShowMessage] = React.useState(false);
-    
+    const [plansList, setPlansList] = useState([])
+    const [templateList, setTemplateList] = useState([])
+
     const [hostname, setHostname] = useState({
         
         value: "",
@@ -47,28 +51,35 @@ export default function Create(
 
     })
 
-    const templateTypes = [
-        {
-            name: "Ubontu Focal",
-            type: "kvm"
-        },
-        {
-            name: "CentOs 8",
-            type: "kvm"
-        },
-        {
-            name: "Ubontu Bionic",
-            type: "kvm"
-        }
-    ]
 
-    function useApiInformation () {
+    async function getRequiredInformation () {
     
-        
+        const response = await fetchCreateInformation(config)
+
+        if (
+            
+            response.plansList.success && 
+            response.templatesList.success && 
+            response.userInformation.success
+            
+            ){
+            
+            setPlansList(response.plansList.body.results)
+            setTemplateList(response.templatesList.body.results)
+            
+            setError(false)
+            setLoading(false)
+
+        } else {
+
+            setError(true)
+            setLoading(false)
+
+        }
 
     }
 
-    useEffect( useApiInformation , [])
+    useEffect( getRequiredInformation , [])
 
     if (loading) {
 
@@ -121,7 +132,7 @@ export default function Create(
                         </PlanSectionHeading>
                     </PlanSectionHeader>
                     <PlanSectionList>
-                        {/* {planTypes.map((plan) =>  <Plan plan={plan} /> )} */}
+                        {plansList.map((plan) =>  <Plan plan={plan} /> )}
                     </PlanSectionList>
                 </PlanSection>
 
@@ -132,7 +143,7 @@ export default function Create(
                         </TemplateSectionHeading>
                     </TemplateSectionHeader>
                     <TemplateSectionList>
-                        {templateTypes.map((template) => <Template template={template} /> )}
+                        {templateList.map((template) => <Template template={template} /> )}
                     </TemplateSectionList>
                 </TemplateSection>
 

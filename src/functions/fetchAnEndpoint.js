@@ -1,16 +1,37 @@
 import axios from "axios"
 
-function fetchEndpoint ({endpoint}) {
-    
-    const response = axios.get(endpoint)
-        .then((res) => res.json())
-        .then((data) => data)
-        .catch((error) => ({
+export default async function fetchEndpoint ({endpoint, token}) {
+
+    const response = await axios(
+
+        {
             
-            error_message: error,
+            method: 'get',
+            url: `https://hosnet.io${endpoint}`,
+            headers: {
+                'content-type': 'application/json',
+                'Authorization': `Token ${token}`
+            }
 
-        }))
+        }
+    )
 
-    console.log(response)
+    .then((data) => ({
+
+        body: data.data,
+        status_code: data.status,
+        success: true,
+
+    }))
+
+    .catch((error) => ({
+        
+        success: error.status || false,
+        error_message: error.detail,
+        status_code: error.status || 401,
+
+    }))
+
+    return await response;
 
 }

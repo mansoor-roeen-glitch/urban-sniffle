@@ -11,21 +11,21 @@ export default function Plan(
     return (
         <Wrapper>
             <Header>
-                <Heading> {plan.heading} </Heading>
+                <Heading> {plan.name} </Heading>
                 <Price> ${plan.price} / mo </Price>
             </Header>
             <InnerWrapper>
                 <FeaturesList>
                     <Feature>
-                        <FeatureValue>{plan.cpus}</FeatureValue>
+                        <FeatureValue>{plan.cpu_limit}</FeatureValue>
                         <FeatureName>CPUs</FeatureName>
                     </Feature>
                     <Feature>
-                        <FeatureValue>{plan.memory}</FeatureValue>
+                        <FeatureValue>{plan.ram}</FeatureValue>
                         <FeatureName>MB Memory</FeatureName>
                     </Feature>
                     <Feature>
-                        <FeatureValue>{plan.storage}</FeatureValue>
+                        <FeatureValue>{plan.size}</FeatureValue>
                         <FeatureName>MB Disk</FeatureName>
                     </Feature>
                     <Feature>
