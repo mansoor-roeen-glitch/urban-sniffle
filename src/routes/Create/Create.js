@@ -17,8 +17,8 @@ export default function Create(
     }) {
     
     const [node, setNode] = useState(0)
-    const [planType, setPlanType] = useState(0)
-    const [template, setTemplate] = useState(0)
+    const [selectedPlan, setSelectedPlan] = useState(0)
+    const [selectedTemplate, setSelectedTemplate] = useState(1)
     const [billingMethod, setBillingMethod] = useState(0)
     const [responseLoading, setResponseLoading] = useState(false)
 
@@ -51,6 +51,17 @@ export default function Create(
 
     })
 
+    const handlePlanClick = (planIndex) => {
+
+        setSelectedPlan(planIndex)
+
+    }
+
+    const handleTemplateClick = (templateIndex) => {
+
+        setSelectedTemplate(templateIndex)
+
+    }
 
     async function getRequiredInformation () {
     
@@ -104,25 +115,6 @@ export default function Create(
 
     return (
         <Wrapper>
-
-            {showMessage && 
-
-                showMessage.messageType === "success" && (
-
-                        <SuccessMessage message={showMessage.message} duration={showMessage.duration} isVisible={true} />
-
-                    )
-                }
-
-            {showMessage && 
-
-                showMessage.messageType === "error" && (
-
-                    <ErrorMessage message={showMessage.message} duration={showMessage.duration} isVisible={true} />
-
-                )
-            }
-
             <InnerWrapper>
                 
                 <PlanSection>
@@ -132,7 +124,19 @@ export default function Create(
                         </PlanSectionHeading>
                     </PlanSectionHeader>
                     <PlanSectionList>
-                        {plansList.map((plan) =>  <Plan plan={plan} /> )}
+                    
+                        {plansList.map((plan) =>  
+                        
+                            <Plan 
+                                
+                                plan={plan} 
+                                selectedPlan={selectedPlan}
+                                handlePlanClick={handlePlanClick} 
+                                
+                            /> 
+                        
+                        )}
+                    
                     </PlanSectionList>
                 </PlanSection>
 
@@ -143,7 +147,19 @@ export default function Create(
                         </TemplateSectionHeading>
                     </TemplateSectionHeader>
                     <TemplateSectionList>
-                        {templateList.map((template) => <Template template={template} /> )}
+                        
+                        {templateList.map((template) => 
+                            
+                            <Template 
+                            
+                                template={template} 
+                                selectedTemplate={selectedTemplate}
+                                handleTemplateClick={handleTemplateClick} 
+                            
+                            />
+                            
+                        )}
+
                     </TemplateSectionList>
                 </TemplateSection>
 

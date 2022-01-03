@@ -5,7 +5,9 @@ import SvgIcon from '../../../components/icons/SvgIcon';
 export default function Template(
     {
 
-        template
+        template,
+        handleTemplateClick,
+        selectedTemplate
 
     }) {
 
@@ -19,7 +21,7 @@ export default function Template(
     }
 
     return (
-        <Wrapper>
+        <Wrapper selected={selectedTemplate}>
            <InnerWrapper>
                <SvgWrapper>
                    <SvgIcon path={svgPath} width={50} height={50} />
@@ -85,7 +87,7 @@ const Wrapper = styled.div `
     border: solid 1px #1d2430;
     background-color: transparent;
 
-    &:nth-child(1) {
+    &:nth-child(${props => props.selected + 1}) {
         background-color: #12171F;
         border: none;
     }

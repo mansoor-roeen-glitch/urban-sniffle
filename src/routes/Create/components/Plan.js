@@ -4,12 +4,14 @@ import styled from 'styled-components';
 export default function Plan(
     {
 
-        plan
+        plan,
+        selectedPlan,
+        handlePlanClick,
 
     }) {
 
     return (
-        <Wrapper>
+        <Wrapper selected={selectedPlan}>
             <Header>
                 <Heading> {plan.name} </Heading>
                 <Price> ${plan.price} / mo </Price>
@@ -139,7 +141,7 @@ const Wrapper = styled.div `
 
     border: solid 1px #1d2430;
     
-    &:nth-child(1) {
+    &:nth-child(${props => props.selected + 1}) {
         border: none;
         background-color: #12171F;
     }
