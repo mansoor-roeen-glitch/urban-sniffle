@@ -6,6 +6,7 @@ export default function Template(
     {
 
         template,
+        templateIndex,
         handleTemplateClick,
         selectedTemplate
 
@@ -20,8 +21,12 @@ export default function Template(
         svgPath = "/images/centOsBW.svg"
     }
 
+    const handleClick = () => {
+        handleTemplateClick(templateIndex)
+    }
+
     return (
-        <Wrapper selected={selectedTemplate}>
+        <Wrapper selected={selectedTemplate} onClick={handleClick}>
            <InnerWrapper>
                <SvgWrapper>
                    <SvgIcon path={svgPath} width={50} height={50} />
@@ -76,7 +81,7 @@ const InnerWrapper = styled.div `
     flex-direction: column;
 `;
 
-const Wrapper = styled.div `
+const Wrapper = styled.button `
     width: auto;
     height: 140px;
 
@@ -86,6 +91,13 @@ const Wrapper = styled.div `
 
     border: solid 1px #1d2430;
     background-color: transparent;
+
+    cursor: pointer;
+    transition: transform .2s ease;
+
+    &:hover {
+        transform: scale(1.01);
+    }
 
     &:nth-child(${props => props.selected + 1}) {
         background-color: #12171F;

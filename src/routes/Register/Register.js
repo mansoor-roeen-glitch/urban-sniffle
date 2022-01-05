@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import SecondaryInput from '../../components/inputs/SecondaryInput';
 import SecondaryHeading from '../../components/texts/SecondaryHeading';
 import SecondaryButton from '../../components/buttons/SecondaryButton';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 export default function Register() {
@@ -18,33 +17,8 @@ export default function Register() {
     const [loading, setLoading] = React.useState(false)
 
     function redirectToApp () {
-        window.location.pathname = '/';
+        window.location.pathname = '/'
     }
-
-    function checkPassword(s) {
-    
-        if(s) {
-           var test = (x) => !isNaN(x);
-           var check = (x, y, i) => x + i === y;
-        
-           for(var i = 0; i < s.length - 2; i++) {
-             if(test(s[i])) {
-                if(test(s[i + 1]) && test(s[i + 2])) {
-                  if(check(Number(s[i]),Number(s[i + 1]), 1) &&
-                    check(Number(s[i]), Number(s[i + 2]), 2)) {
-                    return false;
-                  }
-                }
-             } else if(!test(s[i + 1]) && !test(s[i + 2])) {
-                if(check(s.charCodeAt(i), s.charCodeAt(i + 1), 1) &&
-                    check(s.charCodeAt(i), s.charCodeAt(i + 2), 2)) {
-                    return false;
-                  }
-             }
-           }
-        }
-        return true;
-    }    
 
     function isValidEmailAddress(emailAddress) {
         var pattern = new RegExp(/^(("[\w-+\s]+")|([\w-+]+(?:\.[\w-+]+)*)|("[\w-+\s]+")([\w-+]+(?:\.[\w-+]+)*))(@((?:[\w-+]+\.)*\w[\w-+]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][\d]\.|1[\d]{2}\.|[\d]{1,2}\.))((25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\.){2}(25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\]?$)/i);

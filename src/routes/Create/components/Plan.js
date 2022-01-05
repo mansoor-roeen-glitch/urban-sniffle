@@ -5,13 +5,18 @@ export default function Plan(
     {
 
         plan,
+        planIndex,
         selectedPlan,
         handlePlanClick,
 
     }) {
 
+    const handleClick = () => {
+        handlePlanClick(planIndex)
+    }
+
     return (
-        <Wrapper selected={selectedPlan}>
+        <Wrapper selected={selectedPlan} onClick={handleClick}>
             <Header>
                 <Heading> {plan.name} </Heading>
                 <Price> ${plan.price} / mo </Price>
@@ -130,7 +135,7 @@ const Header = styled.div `
     }
 `;
 
-const Wrapper = styled.div `
+const Wrapper = styled.button `
     width: auto;
     height: 200px;
 
@@ -140,6 +145,14 @@ const Wrapper = styled.div `
     border-radius: 2px;
 
     border: solid 1px #1d2430;
+    background: transparent;
+    cursor: pointer;
+
+    transition: transform .2s ease;
+
+    &:hover {
+        transform: scale(1.01);
+    }
     
     &:nth-child(${props => props.selected + 1}) {
         border: none;

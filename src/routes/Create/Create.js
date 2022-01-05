@@ -18,7 +18,7 @@ export default function Create(
     
     const [node, setNode] = useState(0)
     const [selectedPlan, setSelectedPlan] = useState(0)
-    const [selectedTemplate, setSelectedTemplate] = useState(1)
+    const [selectedTemplate, setSelectedTemplate] = useState(0)
     const [billingMethod, setBillingMethod] = useState(0)
     const [responseLoading, setResponseLoading] = useState(false)
 
@@ -92,6 +92,11 @@ export default function Create(
 
     useEffect( getRequiredInformation , [])
 
+    // Updating Sub-Header based on route
+    useEffect(() => {
+        handleSubHeader(["create service"], loading)
+    }, [loading])
+
     if (loading) {
 
         return (
@@ -125,11 +130,13 @@ export default function Create(
                     </PlanSectionHeader>
                     <PlanSectionList>
                     
-                        {plansList.map((plan) =>  
+                        {plansList.map((plan, index) =>  
                         
                             <Plan 
                                 
+                                key={index}
                                 plan={plan} 
+                                planIndex={index}
                                 selectedPlan={selectedPlan}
                                 handlePlanClick={handlePlanClick} 
                                 
@@ -148,11 +155,13 @@ export default function Create(
                     </TemplateSectionHeader>
                     <TemplateSectionList>
                         
-                        {templateList.map((template) => 
+                        {templateList.map((template, index) => 
                             
                             <Template 
                             
-                                template={template} 
+                                key={index}
+                                template={template}
+                                templateIndex={index} 
                                 selectedTemplate={selectedTemplate}
                                 handleTemplateClick={handleTemplateClick} 
                             

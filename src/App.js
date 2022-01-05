@@ -11,7 +11,6 @@ import Base from './routes/Base/Base';
 import Service from './routes/Service/Service';
 import Create from './routes/Create/Create';
 import Header from './components/Header/Header';
-import Footer from './components/Footer/Footer'
 import Plans from './routes/Plans/Plans';
 import Plan from './routes/Plans/components/Plan';
 import CreatePlan from './routes/Plans/components/CreatePlan';
@@ -30,10 +29,11 @@ import LandingPage from "./routes/LandingPage/LandingPage";
 import SubHeader from './components/Header/SubHeader';
 import Navbar from "./components/navbar/Navbar";
 
+
 function App() {
   
-  
-  
+  const params = new Map(window.location.search.slice(1).split('&').map(kv => kv.split('=')))
+
   const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState(false)
   
@@ -46,7 +46,6 @@ function App() {
   const [redirectTo, setRedirectTo] = React.useState("")
   const [config, setConfig] = React.useState({})
   const [token, setToken] = React.useState("")
-  
   
   const [selected, setSelected] = React.useState(false)
   const [selectedPlan, setSelectedPlan] = React.useState()
@@ -82,6 +81,26 @@ function App() {
 
   const handlePoolClick = (details) => {
     setSelectedPool(details)
+  }
+
+  const handleSuccessRedirect = (defaultLocation) => {
+    
+    if ( params.has('redirect') ) {
+
+      setRedirectTo( `/${params.get('redirect')}` )
+
+      if (params.has('plan_id')) {
+        
+        setRedirectTo(prev => `${prev}?plan_id=${params.get('plan_id')}`)
+
+      }
+
+    } else {
+
+      setRedirectTo(defaultLocation)
+
+    }
+
   }
 
   const checkToken = async (token) => {
@@ -152,7 +171,7 @@ function App() {
         
         })
 
-        setRedirectTo("/dashboard")
+        handleSuccessRedirect()
         setLoading(false)
         
       } else {
@@ -231,7 +250,7 @@ function App() {
                   <Route path="/nodes" exact render={() => <Nodes handleSubHeader={handleSubHeader} userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handleNodeClick={handleNodeClick} />} />
                   <Route path="/pools" exact render={() => <Pools handleSubHeader={handleSubHeader} userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handlePoolClick={handlePoolClick} />} />
                   <Route path="/plans" exact render={() => <Plans userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} handlePlanClick={handlePlanClick} />} />
-                  <Route path="/create" exact render={() => <Create handleSubHeader={handleSubHeader} config={token}  />} />
+                  <Route path="/create_service" exact render={() => <Create handleSubHeader={handleSubHeader} config={token}  />} />
                   <Route path="/plans/:id" exact render={() => <Plan userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} planDetails={selectedPlan} />} /> 
                   <Route path="/templates" exact render={() => < Templates userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} handleTemplateClick={handleTemplateClick} />} />
                   <Route path="/create/plan" exact render={() => <CreatePlan userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} />} />
