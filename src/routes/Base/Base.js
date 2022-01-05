@@ -77,7 +77,7 @@ export default function BaseRoute({config, handleClickChange, handleSubHeader}) 
                 <SearchWrapper>
                     <PrimarySearchBar valueHasChanged={handleValueChange} value={search} onChange={setSearch} name="SearchBar" className="Primary-Search-Bar" id="Primary-Search-Bar" />
                 </SearchWrapper>
-                <PrimaryButton to="/create" text="New" width="80px" height="40px" />
+                <PrimaryButton to="/create_service" text="New" width="80px" height="40px" />
             </Header> 
 
             <ServiceItemPlaceholder data={["hostname", "plan", "status", "ram"]} />

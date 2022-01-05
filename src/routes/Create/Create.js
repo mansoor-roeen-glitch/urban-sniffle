@@ -125,8 +125,11 @@ export default function Create(
                 <PlanSection>
                     <PlanSectionHeader>
                         <PlanSectionHeading>
-                            Select plan type
+                            1. Choose your plan
                         </PlanSectionHeading>
+                        <PlanSectionSubHeading>
+                            selected plan: test_plan_1
+                        </PlanSectionSubHeading>
                     </PlanSectionHeader>
                     <PlanSectionList>
                     
@@ -150,8 +153,11 @@ export default function Create(
                 <TemplateSection>
                     <TemplateSectionHeader>
                         <TemplateSectionHeading>
-                            Select template 
+                            2. Choose a template
                         </TemplateSectionHeading>
+                        <TemplateSectionSubHeading>
+                            selected template: CentOs 8
+                        </TemplateSectionSubHeading>
                     </TemplateSectionHeader>
                     <TemplateSectionList>
                         
@@ -242,11 +248,15 @@ const TemplateSectionList = styled.ul `
     grid-template-columns: repeat(7, 1fr);
 `;
 
+const TemplateSectionSubHeading = styled.span `
+    color: #a6aab1;
+    font-weight: 300;
+`;
+
 const TemplateSectionHeading = styled.div `
-    font-family: "Roboto";
     font-style: normal;
     font-weight: 500;
-    font-size: 22px;
+    font-size: 20px;
 
     display: flex;
     align-items: center;
@@ -257,17 +267,10 @@ const TemplateSectionHeader = styled.div `
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    flex-direction: column;
     height: 42px;
+    margin-bottom: 10px;
     width: 100%;
-
-    &::after {
-        content: "";
-        position: absolute;
-        width: 100%;
-        height: 1px;
-        background-color: #2e343e;
-        bottom: 0px;
-    }
 `;
 
 const TemplateSection = styled.div `
@@ -292,11 +295,15 @@ const PlanSectionList = styled.ul `
     grid-template-columns: repeat(5, 1fr);
 `;
 
+const PlanSectionSubHeading = styled.span `
+    color: #a6aab1;
+    font-weight: 300;
+`;
+
 const PlanSectionHeading = styled.div `
-    font-family: "Roboto";
     font-style: normal;
     font-weight: 500;
-    font-size: 22px;
+    font-size: 20px;
 
     display: flex;
     align-items: center;
@@ -306,18 +313,11 @@ const PlanSectionHeading = styled.div `
 const PlanSectionHeader = styled.div `
     display: flex;
     justify-content: flex-start;
+    flex-direction: column;
     align-items: flex-start;
     height: 42px;
+    margin-bottom: 10px;
     width: 100%;
-
-    &::after {
-        content: "";
-        position: absolute;
-        width: 100%;
-        height: 1px;
-        background-color: #2e343e;
-        bottom: 0px;
-    }
 `;
 
 const PlanSection = styled.div `
@@ -348,7 +348,7 @@ const InnerWrapper = styled.div `
     width: 93%;
     height: fit-content;
     max-width: 1600px;
-    padding-top: 50px;
+    padding-top: 38px;
 
     margin-bottom: 10px;
 

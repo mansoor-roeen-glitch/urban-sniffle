@@ -171,7 +171,7 @@ function App() {
         
         })
 
-        handleSuccessRedirect()
+        handleSuccessRedirect('/dashboard')
         setLoading(false)
         
       } else {
