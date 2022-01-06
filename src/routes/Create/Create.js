@@ -1,11 +1,12 @@
-import Plan from './components/Plan'
-import styled from 'styled-components';
-import Template from './components/Template'
+import styled from 'styled-components'
+import TemplateSection from './components/TemplateSection'
+import PlanSection from './components/PlanSection'
 import React, { useEffect, useState } from 'react'
-import FormElement from '../../components/forms/FormElement';
-import ErrorMessage from '../../components/messages/ErrorMessage';
-import SuccessMessage from '../../components/messages/SuccessMessage';
+import FormElement from '../../components/forms/FormElement'
 import fetchCreateInformation from './functions/fetchCreateInformation'
+import Button from '../../components/buttons/ActionButton'
+import {validateForm} from './functions/validateForm'
+import submitForm from './functions/submitForm'
 
 export default function Create(
     
@@ -16,10 +17,10 @@ export default function Create(
 
     }) {
     
-    const [node, setNode] = useState(0)
+    // React useState hooks ^^
+
     const [selectedPlan, setSelectedPlan] = useState(0)
     const [selectedTemplate, setSelectedTemplate] = useState(0)
-    const [billingMethod, setBillingMethod] = useState(0)
     const [responseLoading, setResponseLoading] = useState(false)
 
     const [ownerLoading, setOwnerLoading] = useState(true);
@@ -51,6 +52,9 @@ export default function Create(
 
     })
 
+
+    // Functions ^^
+
     const handlePlanClick = (planIndex) => {
 
         setSelectedPlan(planIndex)
@@ -60,6 +64,33 @@ export default function Create(
     const handleTemplateClick = (templateIndex) => {
 
         setSelectedTemplate(templateIndex)
+
+    }
+
+    function handleSubmission () {
+        
+        const isFormValid = validateForm( {hostname: hostname.value, password: password.value} )
+
+        if ( isFormValid.isHostnameValid && isFormValid.isPasswordValid ) {
+
+            let submitData = {
+                
+                hostname: hostname.value,
+                password: password.value,
+                plan: plansList[selectedPlan].name,
+                template: templateList[selectedTemplate].name,
+                owner: ownerDetails.username
+
+            }
+
+            submitForm({ 
+                
+                data: submitData, 
+                token: config
+            
+            })
+
+        }
 
     }
 
@@ -75,11 +106,15 @@ export default function Create(
             
             ){
             
+            setOwnerDetails(response.userInformation.body)
             setPlansList(response.plansList.body.results)
             setTemplateList(response.templatesList.body.results)
             
             setError(false)
             setLoading(false)
+
+            setOwnerSuccess(true)
+            setOwnerLoading(false)
 
         } else {
 
@@ -90,12 +125,18 @@ export default function Create(
 
     }
 
+
+    // Use effect hooks ^^
+
     useEffect( getRequiredInformation , [])
 
     // Updating Sub-Header based on route
     useEffect(() => {
         handleSubHeader(["create service"], loading)
     }, [loading])
+
+
+    // JSX for render ^^
 
     if (loading) {
 
@@ -121,104 +162,72 @@ export default function Create(
     return (
         <Wrapper>
             <InnerWrapper>
+
+                <PlanSection 
                 
-                <PlanSection>
-                    <PlanSectionHeader>
-                        <PlanSectionHeading>
-                            1. Choose your plan
-                        </PlanSectionHeading>
-                        <PlanSectionSubHeading>
-                            selected plan: test_plan_1
-                        </PlanSectionSubHeading>
-                    </PlanSectionHeader>
-                    <PlanSectionList>
+                    plansList={plansList} 
+                    selectedPlan={selectedPlan} 
+                    handlePlanClick={handlePlanClick} 
                     
-                        {plansList.map((plan, index) =>  
-                        
-                            <Plan 
-                                
-                                key={index}
-                                plan={plan} 
-                                planIndex={index}
-                                selectedPlan={selectedPlan}
-                                handlePlanClick={handlePlanClick} 
-                                
-                            /> 
-                        
-                        )}
+                />
+
+                <TemplateSection 
+                
+                    templateList={templateList} 
+                    selectedTemplate={selectedTemplate} 
+                    handleTemplateClick={handleTemplateClick} 
                     
-                    </PlanSectionList>
-                </PlanSection>
-
-                <TemplateSection>
-                    <TemplateSectionHeader>
-                        <TemplateSectionHeading>
-                            2. Choose a template
-                        </TemplateSectionHeading>
-                        <TemplateSectionSubHeading>
-                            selected template: CentOs 8
-                        </TemplateSectionSubHeading>
-                    </TemplateSectionHeader>
-                    <TemplateSectionList>
-                        
-                        {templateList.map((template, index) => 
-                            
-                            <Template 
-                            
-                                key={index}
-                                template={template}
-                                templateIndex={index} 
-                                selectedTemplate={selectedTemplate}
-                                handleTemplateClick={handleTemplateClick} 
-                            
-                            />
-                            
-                        )}
-
-                    </TemplateSectionList>
-                </TemplateSection>
+                />
 
                 <FormWrapper>
                     <FormList>
                         
                         <FormElement 
                         
-                            title="Service Hostname" 
+                            title="3. Choose a hostname" 
                             desc="This field can only consist of alphabets, numbers, dashes and underscores"
                             placeholder="ex: ExampleHostname-101_5"
                             type="input" 
                             
+                            value={hostname.value}
+                            onChange={setHostname}
+                            
                         />
 
                         <FormElement 
                         
-                            title="Service Password" 
+                            title="4. Choose a password" 
                             desc="Password field must be at least 8 characters long"
                             placeholder="ex: 4cK[BZ:6HMxGm/kV"
                             type="input" 
+
+                            value={password.value}
+                            onChange={setPassword} 
                             
                         />
-
-                        <FormElement 
-                        
-                            title="Service Node" 
-                            desc="Select node type from the options"
-                            placeholder="Magus"
-                            type="choice" 
-                            
-                        />
-
 
                     </FormList>
                 </FormWrapper>
 
                 <ButtonWrapper>
-                    {/* <Button onClick={createService} text="Proceed to checkout" width="180px" height="45px" /> */}
+                    
+                    <Button 
+                        
+                        onClick={handleSubmission} 
+                        text="Proceed to checkout" 
+                        width="200px" 
+                        height="45px" 
+                    
+                    />
+
                 </ButtonWrapper>
             </InnerWrapper>
         </Wrapper>
     )
 }
+
+
+// Page Styling ^^ 
 
 const FormList = styled.ul `
     list-style: none;
@@ -235,98 +244,6 @@ const FormWrapper = styled.div `
     width: 100%;
 
     max-width: 1000px;
-`;
-
-const TemplateSectionList = styled.ul `
-    display: grid;
-    height: fit-content;
-
-    width: 100%;
-    column-gap: 35px;
-    padding-top: 20px;
-
-    grid-template-columns: repeat(7, 1fr);
-`;
-
-const TemplateSectionSubHeading = styled.span `
-    color: #a6aab1;
-    font-weight: 300;
-`;
-
-const TemplateSectionHeading = styled.div `
-    font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
-
-    display: flex;
-    align-items: center;
-    color: #caced5;
-`;
-
-const TemplateSectionHeader = styled.div `
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex-direction: column;
-    height: 42px;
-    margin-bottom: 10px;
-    width: 100%;
-`;
-
-const TemplateSection = styled.div `
-
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    margin-top: 45px;
-    margin-bottom: 35px;
-
-`;
-
-const PlanSectionList = styled.ul `
-    display: grid;
-    height: fit-content;
-
-    width: 100%;
-    column-gap: 35px;
-    padding-top: 20px;
-
-    grid-template-columns: repeat(5, 1fr);
-`;
-
-const PlanSectionSubHeading = styled.span `
-    color: #a6aab1;
-    font-weight: 300;
-`;
-
-const PlanSectionHeading = styled.div `
-    font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
-
-    display: flex;
-    align-items: center;
-    color: #caced5;
-`;
-
-const PlanSectionHeader = styled.div `
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    align-items: flex-start;
-    height: 42px;
-    margin-bottom: 10px;
-    width: 100%;
-`;
-
-const PlanSection = styled.div `
-
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-
 `;
 
 const ButtonWrapper = styled.div `

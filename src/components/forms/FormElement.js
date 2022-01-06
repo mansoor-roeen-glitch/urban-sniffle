@@ -6,14 +6,20 @@ export default function FormElement(
 
     {
         type,
+        value,
         title,
         desc,
-        placeholder
+        placeholder,
+        onChange,
     })
     
     {
 
         let isInput = type === "input"
+
+        const handleInputChange = (event) => {
+            onChange({value: event.target.value})
+        }
 
         return (
             <Wrapper>
@@ -25,7 +31,8 @@ export default function FormElement(
 
                 <ElementWrapper>
 
-                    {isInput && (<ElementInput placeholder={placeholder} /> )}
+                    {isInput && (<ElementInput placeholder={placeholder} value={value} onChange={handleInputChange} /> )}
+
                     {!isInput && 
                         (<ElementDropdown>
 
@@ -124,10 +131,9 @@ const ElementWrapper = styled.div `
 `;
 
 const ElementDesc = styled.span `
-    font-family: "Roboto";
     font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
+    font-weight: 300;
+    line-height: 20px;
 
     display: flex;
     align-items: center;
@@ -136,10 +142,9 @@ const ElementDesc = styled.span `
 `;
 
 const ElementHeading = styled.span `
-    font-family: "Roboto";
     font-style: normal;
-    font-weight: normal;
-    font-size: 18px;
+    font-weight: 500;
+    font-size: 20px;
 
     display: flex;
     align-items: center;
@@ -151,7 +156,7 @@ const ElementHeader = styled.div `
     
     display: flex;
     flex-direction: column;
-    row-gap: 7px;
+    row-gap: 10px;
     width: auto;
     height: fit-content;
 
