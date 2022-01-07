@@ -1,3 +1,4 @@
+import handleStripeCheckout from "../../../functions/handleStripeCheckout";
 import postRequest from "../../../functions/postRequest";
 
 export default async function submitForm({data, token}) {
@@ -21,6 +22,19 @@ export default async function submitForm({data, token}) {
         endpoint: "/api/services"
     
     })
+
+    if (response.status_code === 201) {
+
+        let serviceDetails = response.body
+
+        handleStripeCheckout({
+
+            serviceId: serviceDetails.id,
+            authToken: token
+
+        })
+
+    }
 
     return response;
 

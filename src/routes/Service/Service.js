@@ -9,6 +9,7 @@ import Actions from './components/Actions';
 import getUser from '../../functions/getUserDetails';
 import VPSDetails from './components/VPSDetails';
 import Charts from './components/Charts';
+import SelectSection from './components/SelectSection';
 
 export default function Service ({ config, handleSubHeader, ...props}) {
 
@@ -237,9 +238,22 @@ export default function Service ({ config, handleSubHeader, ...props}) {
             <VPSInformationWrapper>
             
                 <VPSDetails />
-                <Charts charts={charts} />
+                
+                <Charts 
+                    
+                    charts={charts} 
+                
+                />
             
             </VPSInformationWrapper>
+
+            <SelectSection 
+            
+                options={selectOptions} 
+                selected={selected} 
+                handleOptionClick={handleOptionClick} 
+                
+            />
 
             <ContentWrapper screenHeight={screenHeight}>
                 
@@ -265,7 +279,7 @@ export default function Service ({ config, handleSubHeader, ...props}) {
                         case 1:
                             
                             return (
-                            
+                                
                                 <Console 
                                     
                                     data={details} 
@@ -375,10 +389,6 @@ const ServiceNotActivated = styled.div `
 `
 
 const ContentWrapper = styled.div `
-    
-    width: 100%;
-    height: fit-content;
-
 `;
 
 const StyledLine = styled.div `
