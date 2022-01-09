@@ -110,8 +110,7 @@ const ContentSectionGrid = styled.div `
     row-gap: 26px;
     column-gap: 26px;
 
-    grid-template-rows: repeat(2, auto);
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
 
 `;
 
@@ -152,13 +151,13 @@ const ContentSectionHeader = styled.div `
 const ContentSectionWrapper = styled.div `
 
     width: 100%;
-    row-gap: 26px;
+    row-gap: 35px;
 
     height: fit-content;
     display: flex;
     align-items: flex-start;
     flex-direction: column;
     justify-content: center;
-    margin-top: 20px;
-
+    margin-top: 10px;
+    margin-bottom: 30px;
 `;

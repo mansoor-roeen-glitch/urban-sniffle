@@ -389,6 +389,8 @@ const ServiceNotActivated = styled.div `
 `
 
 const ContentWrapper = styled.div `
+    width: 100%;
+    height: fit-content;
 `;
 
 const StyledLine = styled.div `

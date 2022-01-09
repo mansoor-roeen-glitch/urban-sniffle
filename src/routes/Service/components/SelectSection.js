@@ -20,12 +20,6 @@ export default function SelectSection({options, selected, handleOptionClick}) {
 
                             </ItemButton>
                             
-                            {selected === option.index && (
-                                
-                                <StyledLine></StyledLine>
-
-                            )}
-
                         </Item>
                     )
 
@@ -35,17 +29,6 @@ export default function SelectSection({options, selected, handleOptionClick}) {
         </Wrapper>
     )
 }
-
-const StyledLine = styled.div `
-    
-    width: 100%;
-    bottom: 0px;
-    height: 1px;
-
-    position: absolute;
-    background: var(--primary-cyan);
-
-`;
 
 const ItemText = styled.div `
     
@@ -89,7 +72,7 @@ const Item = styled.li `
         z-index: 2;
         content: "";
         width: 100%;
-        height: 1px;
+        height: 4px;
         background: #aebbce;
 
         display: ${props => !props.selected ? "none" : "initial"};
@@ -110,7 +93,8 @@ const List = styled.ul `
 
 const Wrapper = styled.div `
 
-    width: 100%;
+    width: 93%;
+    max-width: 1600px;
     height: 62px;
     margin: 35px 0px;
 
@@ -123,8 +107,8 @@ const Wrapper = styled.div `
         position: absolute;
         bottom: 0px;
         width: 100%;
-        height: 1px;
-        background: #2c3038;
+        height: 4px;
+        background: #1a1e24;
 
     }
 

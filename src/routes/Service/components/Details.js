@@ -913,7 +913,6 @@ const InnerWrapper = styled.div `
     overflow: none;
     width: 93%;
     height: fit-content;
-    padding-top: 35px;
 
     max-width: 1600px;
 `;
