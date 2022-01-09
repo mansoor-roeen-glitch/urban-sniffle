@@ -159,5 +159,5 @@ const ContentSectionWrapper = styled.div `
     flex-direction: column;
     justify-content: center;
     margin-top: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 `;

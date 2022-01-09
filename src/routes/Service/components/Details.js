@@ -876,6 +876,21 @@ export default function Details({data, serviceStatus, userDetails, config}) {
             svg: "/images/status.svg",
             heading: "Status",
             value: "Inactive"
+        },
+        {
+            svg: "/images/status.svg",
+            heading: "Hostname",
+            value: "TEST_HOSTNAME_2"
+        },
+        {
+            svg: "/images/status.svg",
+            heading: "Passowrd",
+            value: "********"
+        },
+        {
+            svg: "/images/status.svg",
+            heading: "Plan Type",
+            value: "Basic"
         }
     ]
 
