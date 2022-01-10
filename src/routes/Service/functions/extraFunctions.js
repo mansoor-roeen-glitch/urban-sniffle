@@ -1,16 +1,16 @@
-const handleOptionClick = (index) => {
+const handleOptionClick = (index, setSelectedOption) => {
     setSelectedOption(index)
 }
 
-const serviceNotActivated = () => {
-    if (details.status === undefined) {
+const serviceNotActivated = (serviceInformation) => {
+    if (serviceInformation.status === undefined) {
         return true;
     } else {
         return false;
     }
 }
 
-const updateScreenHeight = (setScreenHeight) => {
+const updateScreenHeight = (setScreenHeight, screenHeight) => {
     setScreenHeight(screenHeight)
 }
 
@@ -20,4 +20,4 @@ export {
     serviceNotActivated,
     updateScreenHeight
 
-}
+}   

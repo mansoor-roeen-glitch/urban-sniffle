@@ -1,185 +1,93 @@
+// Importing Libraries
+
 import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
-import Details from './components/Details'
-import Console from './components/Console';
-import Billing from './components/Billing';
-import Actions from './components/Actions';
-import getUser from '../../functions/getUserDetails';
+// Importing Components
+
 import VPSDetails from './components/VPSDetails';
 import Charts from './components/Charts';
 import SelectSection from './components/SelectSection';
 
+// Importing Functions
+
+import getUser from '../../functions/getUserDetails';
+import service from './functions/service';
+import {
+
+    handleOptionClick,
+    serviceNotActivated,
+    updateScreenHeight
+
+} from './functions/extraFunctions'
+
+
 export default function Service ({ config, handleSubHeader, ...props}) {
 
+    // Refactored Props
     const {id, hostname} = props.details
-    const [serviceStatus, setServiceStatus] = React.useState();
+
+
+    // Global Variables 
+    var scrollHeight = document.body.scrollHeight;
+    var scrollWidth = document.body.scrollWidth;
+
     
-    const [loading, setLoading] = React.useState(true);
+    // Connection status hooks and loading hook
+    const [loading, setLoading] = React.useState(false);
     const [success, setSuccess] = React.useState() 
-    const [error, setError] = React.useState()
+    const [error, setError] = React.useState([])
 
-    const [details, setDetails] = React.useState()
-    const [serviceConsoleData, setServiceConsoleData] = React.useState()
-    const [selected, setSelected] = React.useState(0)
-    const [actionLoading, setActionLoading] = React.useState(false)
+    // Information about service
+    const [serviceStatus, setServiceStatus] = React.useState();
+    const [serviceInformation, setServiceInformation] = React.useState()
+    const [serviceConsole, setServiceConsole] = React.useState()
+    
+    // Information about user/owner
     const [userDetails, setUserDetails] = React.useState()
-    const [screenHeight, setScreenHeight] = React.useState(document.body.scrollHeight);
+    
+    // Extra Hooks
+    const [screenHeight, setScreenHeight] = React.useState( scrollHeight );
+    const [actionLoading, setActionLoading] = React.useState(false)
+    const [selectedOption, setSelectedOption] = React.useState(0)
+    
 
-    const createConsoleSession = async () => {
-        let response = await axios({
-            method: "post",
-            url: `https://hosnet.io/api/services/${id}/console_login/`,
-            headers: {
-                "content-type": "application/json",
-                "Authorization": `Token ${config}`
-            }
-        })
-            .then((res) => {return {status: 200, data: res.data}})
-            .catch((error ) => {return {status: false, data: error};})
+    // Functions ^^
 
-        return response;
-    }
 
-    const getServiceDetails = async () => {
-        let response = await axios({
-            method: "get",
-            url: `https://hosnet.io/api/services/${id}`,
-            headers: {
-                "content-type": "application/json",
-                "Authorization": `Token ${config}`
-            }
-        })
-            .then((res) => {return {status: 200, data: res.data}})
-            .catch((error ) => {return {status: false, data: error};})
-        
-        return response;
-    }
-
-    const getServiceStatus = async () => {
-        let response = await axios({
-            method: "post",
-            url: `https://hosnet.io/api/services/${id}/status/`,
-            headers: {
-                "content-type": "application/json",
-                "Authorization": `Token ${config}`
-            }
-        })
-            .then((res) => {return {status: 200, data: res.data}})
-            .catch((error ) => {return {status: false, data: error};})
-        
-        return response;
-    }
-
-    const getDetails = async () => {
-
-        const serviceStatus = await getServiceStatus()
-        const serviceDetails = await getServiceDetails()
-        const serviceConsole = await createConsoleSession()
-        const fetchedUserDetails = await getUser(config)
-
-        if (
-            
-            serviceDetails.status === 200 && 
-            serviceStatus.status === 200 && 
-            serviceConsole.status === 200 &&
-            fetchedUserDetails.status === 200
-            
-        ) {
-
-            setUserDetails(fetchedUserDetails.data)
-            setServiceConsoleData(serviceConsole.data)
-            setServiceStatus(serviceStatus.data)
-            setDetails(serviceDetails.data)
-            setLoading(false)
-            setSuccess(true)
-            setError(false)
-
-        } else if (
-            
-            fetchedUserDetails.status === 200 &&
-            serviceDetails.status === 200 && 
-            serviceConsole.status === 200 && 
-            !serviceStatus.status 
-            
-        ) {
-
-            setUserDetails(fetchedUserDetails.data)
-            setServiceConsoleData(serviceConsole.data)
-            setDetails(serviceDetails.data)
-            setServiceStatus(false)
-            setLoading(false)
-            setSuccess(true)
-            setError(false)
-
-        } else if (
-            
-            fetchedUserDetails.status === 200 &&
-            serviceDetails.status === 200 && 
-            !serviceConsole.status && 
-            !serviceStatus.status
-            
-        ) {
-
-            setUserDetails(fetchedUserDetails.data)
-            setServiceConsoleData(false)
-            setDetails(serviceDetails.data)
-            setServiceStatus(false)
-            setLoading(false)
-            setSuccess(true)
-            setError(false)
-
-        } else {
-
-            setError(true)
-            setLoading(false)
-            setSuccess(false)
-        
-        }
-
-    }
-
-    const selectOptions = [
-        {
-            text: "Details",
-            index: 0
-        },
-        {
-            text: "Console",
-            index: 1
-        },
-        {
-            text: "Billing",
-            index: 2
-        }
-        ,
-        {
-            text: "Actions",
-            index: 3
-        }
-    ]
-
-    const handleOptionClick = (index) => {
-        setSelected(index)
-    }
-
-    const serviceNotActivated = () => {
-        if (details.status === undefined) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    // Use Effect Hooks 
 
     useEffect(() => {
 
-        window.addEventListener("resize", () => {setScreenHeight(document.body.scrollHeight)})
+        // Resize Event Listener
+        window.addEventListener( "resize", () => {
+
+            updateScreenHeight(setScreenHeight)
+
+        } ) 
+
+        // Function to get service data from server
+        service ({
+
+            error,
+            token: config,
+            serviceId: id,
+
+            setServiceConsole,
+            setServiceInformation,
+            setServiceStatus,
+
+            setLoading,
+            setSuccess,
+            setError,
+
+        })
 
     }, [])
 
 
-    // Updating Sub-Header based on route
+    // Sub Header Configuration
     useEffect(() => {
 
         handleSubHeader(["services"], loading)
@@ -187,12 +95,13 @@ export default function Service ({ config, handleSubHeader, ...props}) {
     }, [loading])
 
 
+    // Rendering Componenet
+
     if (loading) {
 
         return (
             <Wrapper>
-                
-                {/* Loading will be included below this */}
+                {/* Empty */}
             </Wrapper>
         )
 
@@ -202,33 +111,11 @@ export default function Service ({ config, handleSubHeader, ...props}) {
 
         return (
             <Wrapper>
-                
-                <h1>something went wrong</h1>
+                {/* Error Message */}
             </Wrapper>
         )
 
     }
-
-    const charts = [
-        {
-            heading: "Bandwith Usage",
-            total: 10000,
-            usage: 6500,
-            unit: "GB"
-        },
-        {
-            heading: "Storage Usage",
-            total: 100000,
-            usage: 5000,
-            unit: "GB"
-        }, 
-        {
-            heading: "Memeory Usage",
-            total: 500000,
-            usage: 50000,
-            unit: "GB"
-        }
-    ]
 
     return (
 
@@ -240,89 +127,20 @@ export default function Service ({ config, handleSubHeader, ...props}) {
                 
                 <Charts 
                     
-                    charts={charts} 
                 
                 />
             
             </VPSInformationWrapper>
 
             <SelectSection 
-            
-                options={selectOptions} 
-                selected={selected} 
+
+                selectedOption={selectedOption}
                 handleOptionClick={handleOptionClick} 
+                handleOptionClickProp={setSelectedOption}
                 
             />
 
-            <ContentWrapper screenHeight={screenHeight}>
-                
-                { (() => {
-
-                    switch(selected) {
-                        
-                        case 0:
-                            
-                            return (
-                            
-                                <Details 
-                                
-                                    data={details} 
-                                    config={config}
-                                    userDetails={userDetails} 
-                                    serviceStatus={serviceStatus} 
-                                    
-                                />
-                                
-                            )
-
-                        case 1:
-                            
-                            return (
-                                
-                                <Console 
-                                    
-                                    data={details} 
-                                    serviceConsole={serviceConsoleData} 
-                                    serviceNotActivated={serviceNotActivated()} 
-                                    
-                                />
-                                
-                            )
-                        
-                        case 2:
-                            
-                            return (
-                            
-                                <Billing 
-                                    
-                                    data={details} 
-                                    userDetails={userDetails} 
-                                    
-                                />
-                                
-                                )
-                            
-                        case 3:
-                            
-                            return (
-                                    
-                                    <Actions 
-                                    
-                                        data={details} 
-                                        userDetails={userDetails} 
-                                        setLoadingAnim={setActionLoading} 
-                                        serviceNotActivated={serviceNotActivated()} 
-                                        config={config} 
-                                    
-                                    />
-                                        
-                            )
-                            
-                    }
-
-                })()}
-
-            </ContentWrapper>
+            
 
         </Wrapper>
     )
@@ -388,10 +206,6 @@ const ServiceNotActivated = styled.div `
     align-items: center;
 `
 
-const ContentWrapper = styled.div `
-    width: 100%;
-    height: fit-content;
-`;
 
 const StyledLine = styled.div `
     width: 100%;

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export default function SelectSection({selected, handleOptionClick}) {
+export default function SelectSection({selectedOption, handleOptionClick, handleOptionClickProp}) {
 
     const options = [
         {
@@ -32,11 +32,11 @@ export default function SelectSection({selected, handleOptionClick}) {
                     
                     return (
                         
-                        <Item key={index} selected={selected === option.index}>
+                        <Item key={index} selected={selectedOption === option.index}>
                             
-                            <ItemButton onClick={() => {handleOptionClick(option.index)}}>
+                            <ItemButton onClick={() => {handleOptionClick(option.index, handleOptionClickProp)}}>
 
-                                <ItemText selected={selected === option.index} >{option.text}</ItemText>
+                                <ItemText selected={selectedOption === option.index} >{option.text}</ItemText>
 
                             </ItemButton>
                             
