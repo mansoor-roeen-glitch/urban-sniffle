@@ -899,7 +899,8 @@ export default function Details({data, serviceStatus, userDetails, config}) {
         <Wrapper>
             <InnerWrapper>
                     
-                    <VPSDetailsSection list={detialList} />
+                    <VPSDetailsSection list={detialList} heading="General Details" />
+                    <VPSDetailsSection list={detialList} heading="General Details" />
 
             </InnerWrapper>
         </Wrapper>

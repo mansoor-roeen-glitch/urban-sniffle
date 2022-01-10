@@ -17,7 +17,7 @@ export default function Service ({ config, handleSubHeader, ...props}) {
     const [serviceStatus, setServiceStatus] = React.useState();
     
     const [loading, setLoading] = React.useState(true);
-    const [success, setSuccess] = React.useState()
+    const [success, setSuccess] = React.useState() 
     const [error, setError] = React.useState()
 
     const [details, setDetails] = React.useState()
@@ -175,7 +175,6 @@ export default function Service ({ config, handleSubHeader, ...props}) {
     useEffect(() => {
 
         window.addEventListener("resize", () => {setScreenHeight(document.body.scrollHeight)})
-        getDetails()
 
     }, [])
 
@@ -320,6 +319,7 @@ export default function Service ({ config, handleSubHeader, ...props}) {
                             )
                             
                     }
+
                 })()}
 
             </ContentWrapper>

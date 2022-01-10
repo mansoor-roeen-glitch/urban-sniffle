@@ -2,14 +2,14 @@ import React from 'react'
 import styled from 'styled-components';
 import Svg from '../../../components/icons/SvgIcon'
 
-export default function VPSDetailsSection({list}) {
+export default function VPSDetailsSection({list, heading}) {
     return (
 
         <ContentSectionWrapper>
 
             <ContentSectionHeader>
 
-                <ContentSectionHeading>General Details</ContentSectionHeading>
+                <ContentSectionHeading>{heading}</ContentSectionHeading>
                 
                 <ContentSectionHeaderSvg> 
                     

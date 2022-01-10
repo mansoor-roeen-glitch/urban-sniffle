@@ -1,7 +1,27 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export default function SelectSection({options, selected, handleOptionClick}) {
+export default function SelectSection({selected, handleOptionClick}) {
+
+    const options = [
+        {
+            text: "Details",
+            index: 0
+        },
+        {
+            text: "Console",
+            index: 1
+        },
+        {
+            text: "Billing",
+            index: 2
+        }
+        ,
+        {
+            text: "Actions",
+            index: 3
+        }
+    ]
 
     return (
 
