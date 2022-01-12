@@ -15,6 +15,7 @@ export default async function service ({ ...props }) {
         setServiceConsole,
         setServiceInformation,
         setServiceStatus,
+        setUserInformation,
 
         setLoading,
         setSuccess,
@@ -22,6 +23,35 @@ export default async function service ({ ...props }) {
         error
 
     } = props
+
+
+    const userInformation = await fetchEndpoint({
+
+        token: token,
+        endpoint: `/auth/user/`
+        
+    })
+
+    
+    if ( userInformation.success === false ) {
+
+        // Handle Error
+        
+        setError( error.push( {
+
+            errorMessage: userInformation.error_message,
+            status_code: userInformation.status_code,
+            is_critical: true
+
+        } ) )
+
+        setLoading( false )
+
+        setSuccess( false )
+
+        return false;
+
+    }
 
 
     const serviceInformation = await fetchEndpoint({
@@ -100,6 +130,8 @@ export default async function service ({ ...props }) {
 
     // Updating "Service" state
 
+    setUserInformation( userInformation )
+
     setServiceInformation( serviceInformation )
     
     setServiceConsole( serviceConsole )
@@ -113,7 +145,7 @@ export default async function service ({ ...props }) {
     
     setSuccess( true )
 
-    console.log(serviceInformation)
+
     return {
 
         serviceStatus,

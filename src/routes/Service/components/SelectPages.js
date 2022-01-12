@@ -5,17 +5,34 @@ import styled from 'styled-components';
 
 // Importing Components
 
-import Details from './components/Details'
-import Console from './components/Console';
-import Billing from './components/Billing';
-import Actions from './components/Actions';
+import Details from './Details'
+import Console from './Console';
+import Billing from './Billing';
+import Actions from './Actions';
+
+// Importing Function
+
+import { serviceNotActivated } from '../functions/extraFunctions';
 
 
-export default function SelectPages() {
+export default function SelectPages (props) {
     
+    const {
+
+        serviceInformation,
+        userInformation,
+        serviceConsole,
+        serviceStatus,
+
+        setActionLoading,
+        selectedOption,
+        config,
+
+    } = props
+
     return (
 
-        <ContentWrapper screenHeight={screenHeight}>
+        <ContentWrapper>
                 
             { (() => {
 
@@ -29,7 +46,7 @@ export default function SelectPages() {
                             
                                 data={serviceInformation} 
                                 config={config}
-                                userDetails={userDetails} 
+                                userDetails={userInformation} 
                                 serviceStatus={serviceStatus} 
                                 
                             />
@@ -57,7 +74,7 @@ export default function SelectPages() {
                             <Billing 
                                 
                                 data={serviceInformation} 
-                                userDetails={userDetails} 
+                                userDetails={userInformation} 
                                 
                             />
                             
@@ -70,7 +87,7 @@ export default function SelectPages() {
                                 <Actions 
                                 
                                     data={serviceInformation} 
-                                    userDetails={userDetails} 
+                                    userDetails={userInformation} 
                                     setLoadingAnim={setActionLoading} 
                                     serviceNotActivated={serviceNotActivated} 
                                     config={config} 

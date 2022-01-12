@@ -21,6 +21,7 @@ import {
     updateScreenHeight
 
 } from './functions/extraFunctions'
+import SelectPages from './components/SelectPages';
 
 
 export default function Service ({ config, handleSubHeader, ...props}) {
@@ -35,7 +36,7 @@ export default function Service ({ config, handleSubHeader, ...props}) {
 
     
     // Connection status hooks and loading hook
-    const [loading, setLoading] = React.useState(false);
+    const [loading, setLoading] = React.useState(true);
     const [success, setSuccess] = React.useState() 
     const [error, setError] = React.useState([])
 
@@ -45,7 +46,7 @@ export default function Service ({ config, handleSubHeader, ...props}) {
     const [serviceConsole, setServiceConsole] = React.useState()
     
     // Information about user/owner
-    const [userDetails, setUserDetails] = React.useState()
+    const [userInformation, setUserInformation] = React.useState()
     
     // Extra Hooks
     const [screenHeight, setScreenHeight] = React.useState( scrollHeight );
@@ -77,6 +78,7 @@ export default function Service ({ config, handleSubHeader, ...props}) {
             setServiceConsole,
             setServiceInformation,
             setServiceStatus,
+            setUserInformation,
 
             setLoading,
             setSuccess,
@@ -100,20 +102,40 @@ export default function Service ({ config, handleSubHeader, ...props}) {
     if (loading) {
 
         return (
+
             <Wrapper>
                 {/* Empty */}
             </Wrapper>
+        
         )
 
     }
+    
+    if ( error.length > 0 ) {
 
-    if (error) {
+        let isAnyCriticalError = false;
+        
+        error.map((err) => {
 
-        return (
-            <Wrapper>
-                {/* Error Message */}
-            </Wrapper>
-        )
+            if (err.critical) {
+
+                isAnyCriticalError = true
+
+            }
+
+        })
+
+        if (isAnyCriticalError) {
+
+            return (
+
+                <Wrapper>
+                    {/* Error Message */}
+                </Wrapper>
+            
+            )
+
+        }
 
     }
 
@@ -127,6 +149,7 @@ export default function Service ({ config, handleSubHeader, ...props}) {
                 
                 <Charts 
                     
+                    serviceStatus={serviceStatus}
                 
                 />
             
@@ -140,6 +163,19 @@ export default function Service ({ config, handleSubHeader, ...props}) {
                 
             />
 
+
+            <SelectPages
+
+                serviceInformation={serviceInformation.body}
+                serviceConsole={serviceConsole}
+                serviceStatus={serviceStatus}
+
+                userInformation={userInformation}
+                setActionLoading={setActionLoading}
+                selectedOption={selectedOption}
+                config={config}
+
+            />
             
 
         </Wrapper>

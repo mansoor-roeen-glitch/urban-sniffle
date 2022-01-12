@@ -84,7 +84,7 @@ export default function Component () {
 
                                 <VPSButton>
 
-                                    <Svg path={`/images/${actionButton.file}`} width={55} height={55} />
+                                    <Svg path={`/images/${actionButton.file}`} width={45} height={45} />
 
                                 </VPSButton>
 
