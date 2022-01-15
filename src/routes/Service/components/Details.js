@@ -5,26 +5,9 @@ import Svg from '../../../components/icons/SvgIcon'
 import VPSDetailsSection from './VPSDetailsSection';
 import getServiceInformationList from '../functions/getServiceInformationList';
 
-export default function Details({ data, serviceStatus, userDetails, config }) {
+export default function Details({ data, userDetails }) {
 
-    // React Hooks ^^
-
-    const [plan, setPlan] = React.useState(0)
-    const [status, setStatus] = React.useState(0)
-    const [node, setNode] = React.useState(0)
-    const [template, setTemplate] = React.useState(0)
-    const [planType, setPlanType] = React.useState(0)
-    const [pool, setPool] = React.useState(0)
-    
-    const [dropdownDetailsLoading, setDropdownDetailsLoading] = React.useState(true);
-    const [dropdownDetailsSuccess, setDropdownDetailsSuccess] = React.useState();
-    const [dropdownDetailsError, setDropdownDetailsError] = React.useState();
-    const [dropdownDetails, setDropdownDetails] = React.useState();
-    
-    const [success, setSuccess] = React.useState();
-    const [error, setError] = React.useState();
-    const [loading, setLoading] = React.useState();
-    const [showMessage, setShowMessage] = React.useState(false);
+    // React State Hooks ^^
 
     const [serviceGeneralInformation, setServiceGeneralInformation] = React.useState([]);
     const [servicePlanInformation, setServicePlanInformation] = React.useState([]);
@@ -43,7 +26,7 @@ export default function Details({ data, serviceStatus, userDetails, config }) {
             planInformation,
             generalInformation,
 
-        } = getServiceInformationList({serviceInformation: data})
+        } = getServiceInformationList({serviceInformation: data, ownerInformation: userDetails.body})
 
         setServiceGeneralInformation( generalInformation )
         setServicePlanInformation( planInformation )
@@ -56,7 +39,7 @@ export default function Details({ data, serviceStatus, userDetails, config }) {
     useEffect(updateListData, [])
 
 
-    // JSX For Render
+    // JSX For Render ^^ 
 
     return (
 

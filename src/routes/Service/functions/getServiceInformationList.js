@@ -1,14 +1,19 @@
-export default function getServiceInformationList ({serviceInformation}) {
+export default function getServiceInformationList ({ serviceInformation, ownerInformation }) {
+
+    // Variables ^^
 
     const generalIconsPath = '/images/serviceInformationIcons/serviceGeneralInformation'
     const planIconsPath = '/images/serviceInformationIcons/servicePlanInformation'
+    
+
+    // List Data ^^
 
     let generalInformation = [
 
         {
             svg: generalIconsPath + '/profile_icon.svg',
             heading: "Owner",
-            value: "Joe Doe"
+            value: ownerInformation.username
         },
 
         {
