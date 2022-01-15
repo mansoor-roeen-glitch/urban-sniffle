@@ -126,7 +126,7 @@ const ContentSectionHeaderSvg = styled.div `
 
 const ContentSectionHeading = styled.span `
 
-    font-weight: 500;
+    font-weight: 300;
     font-size: 24px;
     margin-right: 15px;
 
@@ -159,5 +159,5 @@ const ContentSectionWrapper = styled.div `
     flex-direction: column;
     justify-content: center;
     margin-top: 10px;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
 `;
