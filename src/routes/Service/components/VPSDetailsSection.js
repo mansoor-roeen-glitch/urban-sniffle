@@ -1,8 +1,10 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Svg from '../../../components/icons/SvgIcon'
 
-export default function VPSDetailsSection({list, heading}) {
+export default function VPSDetailsSection({ list, heading, editPath }) {
+
     return (
 
         <ContentSectionWrapper>
@@ -13,8 +15,12 @@ export default function VPSDetailsSection({list, heading}) {
                 
                 <ContentSectionHeaderSvg> 
                     
-                    <Svg path="/images/edit.svg" width={18} height={18} /> 
-                    
+                    <ContentSectionHeaderSvgWrapper>
+                        <Link to={editPath} style={{width: "fit-content", height: "fit-content"}}>
+                            <Svg path="/images/edit.svg" width={18} height={18} /> 
+                        </Link>
+                    </ContentSectionHeaderSvgWrapper>
+
                 </ContentSectionHeaderSvg>
                 
             </ContentSectionHeader>
@@ -111,6 +117,19 @@ const ContentSectionGrid = styled.div `
     column-gap: 26px;
 
     grid-template-columns: repeat(5, 1fr);
+
+`;
+
+const ContentSectionHeaderSvgWrapper = styled.div `
+
+    height: fit-content;
+    width: fit-content;
+
+    cursor: pointer;
+
+    &:hover {
+        opacity: .9;
+    }
 
 `;
 

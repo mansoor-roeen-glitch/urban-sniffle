@@ -28,6 +28,7 @@ import CreatePool from './routes/Pools/components/CreatePool';
 import LandingPage from "./routes/LandingPage/LandingPage";
 import SubHeader from './components/Header/SubHeader';
 import Navbar from "./components/navbar/Navbar";
+import UpdateService from "./routes/UpdateService/UpdateService";
 
 
 function App() {
@@ -260,6 +261,7 @@ function App() {
                   <Route path="/create/node" exact render={() => <CreateNode userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} />} />
                   <Route path="/nodes/:id" exact render={() => <Node userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} nodeDetails={selectedNode} />} /> 
                   <Route path="/create/pool" exact render={() => <CreatePool userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} />} />
+                  <Route path="/services/:id/:hostname/update" exact render={() => <UpdateService handleSubHeader={handleSubHeader} config={token} details={selected} />} /> 
 
                 </InnerWrapper>
               </Wrapper>

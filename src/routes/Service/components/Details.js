@@ -1,12 +1,15 @@
-import axios from 'axios';
 import styled from 'styled-components'
 import React, { useEffect } from 'react'
-import Svg from '../../../components/icons/SvgIcon'
 import VPSDetailsSection from './VPSDetailsSection';
 import getServiceInformationList from '../functions/getServiceInformationList';
 
 export default function Details({ data, userDetails }) {
 
+    // Component Variables ^^
+
+    let edit_path = `/services/${data.id}/${data.hostname}/update`
+
+    
     // React State Hooks ^^
 
     const [serviceGeneralInformation, setServiceGeneralInformation] = React.useState([]);
@@ -14,10 +17,6 @@ export default function Details({ data, userDetails }) {
 
 
     // Functions ^^
-
-    const successRedirect = () => {
-        window.location.pathname = '/';
-    }
 
     const updateListData = () => {
 
@@ -46,14 +45,17 @@ export default function Details({ data, userDetails }) {
         <Wrapper>
             <InnerWrapper>
                     
-                    <VPSDetailsSection list={serviceGeneralInformation} heading="General Information" />
-                    <VPSDetailsSection list={servicePlanInformation} heading="Plan Information" />
+                    <VPSDetailsSection list={serviceGeneralInformation} heading="General Information" editPath={edit_path} />
+                    <VPSDetailsSection list={servicePlanInformation} heading="Plan Information" editPath={edit_path} />
         
             </InnerWrapper>
         </Wrapper>
 
     )
 }
+
+
+// Styled Components ^^
 
 const ButtonWrapper = styled.div `
     width: fit-content;
