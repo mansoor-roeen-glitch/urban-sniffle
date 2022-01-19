@@ -18,7 +18,7 @@ export default function SelectSection({selectedOption, handleOptionClick, handle
         }
         ,
         {
-            text: "Actions",
+            text: "Settings",
             index: 3
         }
     ]

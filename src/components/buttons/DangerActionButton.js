@@ -32,23 +32,23 @@ const StyledButton = styled.button `
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    background: transparent;
+    background: #21262d;
 
-    border-radius: 2px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: #bb4040;
+    border-radius: 5px;
+    border: solid 1px #323a46;
 
     transition: .4s ease;
 
     &:hover {
 
-        background: #a13434;
+        background: #b1281b;
         border-color: #a13434;
 
         span {
+            
             color: var(--white);
             opacity: .8;
+        
         }
 
     }
@@ -56,10 +56,9 @@ const StyledButton = styled.button `
 `;
 
 const StyledButtonText = styled.span `
-    background: transparent;
-    color: #bb4040;
+    color: #f75040;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 400;
 
     @media screen and (max-width: 600px) {
         font-size: 0.85rem;

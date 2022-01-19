@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import Details from './Details'
 import Console from './Console';
 import Billing from './Billing';
-import Actions from './Actions';
+import Settings from './Settings'
 
 // Importing Function
 
@@ -84,15 +84,12 @@ export default function SelectPages (props) {
                         
                         return (
                                 
-                                <Actions 
-                                
-                                    data={serviceInformation} 
-                                    userDetails={userInformation} 
-                                    setLoadingAnim={setActionLoading} 
-                                    serviceNotActivated={serviceNotActivated} 
-                                    config={config} 
-                                
-                                />
+                            <Settings
+
+                                config={config}
+                                serviceInformation={{currentHostname: serviceInformation.hostname}}
+
+                            />
                                     
                         )
                         
