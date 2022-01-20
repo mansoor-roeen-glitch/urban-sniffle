@@ -23,13 +23,29 @@ export default function Settings ({serviceInformation}) {
 
     const [updatedHostname, setUpdatedHostname] = useState('')
     const [updatedPassword, setUpdatedPassword] = useState('')
-    
+
+    const [isPopupActive, setIsPopupActive] = useState(false)
+    const [popupAction, setPopupAction] = useState()
+    const [popupCallback, setPopupCallback] = useState()
+
 
     // Component Functions
 
+    const confirmDelete = () => {
+        console.log('action has been confirmed')
+    }
+ 
+    const activatePopup = (callback) => {
+
+        setPopupAction('delete');
+        setPopupCallback(callback)
+        setIsPopupActive(true);
+
+    }
+
     const handleDeleteClick = () => {
 
-        
+        activatePopup(confirmDelete)
 
     }
 
@@ -39,9 +55,19 @@ export default function Settings ({serviceInformation}) {
         
         <Wrapper>
 
-            <PopupWrapper>
-                <PopupConfirmation />
-            </PopupWrapper>
+            {isPopupActive ? (
+                
+                <PopupWrapper>
+                    <PopupConfirmation 
+                    
+                        hostname={serviceInformation.hostname}
+                        callback={popupCallback}
+                        action={popupAction}
+                    
+                    />
+                </PopupWrapper>
+
+            ) : null}
 
             <InnerWrapper>
                 <GeneralSettingsWrapper>

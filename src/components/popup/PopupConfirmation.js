@@ -1,12 +1,26 @@
 // Import Dependencies
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components'
 
 // Import Components
 import Icon from '../icons/SvgIcon'
 
-export default function PopupConfirmation() {
-    
+export default function PopupConfirmation({ hostname, action, callback }) {
+
+    // React State Hooks
+    const [password, setPassowrd] = useState('')
+
+
+    // Component Functions
+
+    const handlePasswordUpdate = (event) => {
+        setPassowrd(event.target.value)
+    }
+
+    const handleSubmit = () => {
+        console.log(password)
+    }
+      
     return (
         
         <ComponentWrapper>
@@ -14,7 +28,7 @@ export default function PopupConfirmation() {
             <Header>
     
                 <Heading>
-                    Are you absolutely sure?
+                    Confirm This Action
                 </Heading>
 
                 <CancelSvg>
@@ -25,17 +39,17 @@ export default function PopupConfirmation() {
 
             <DescriptionWrapper>
                 <Description>
-                    NOTE: Please note that this action <BoldText>cannot</BoldText> be undone. This will permanently delete the <BoldText>test_hostname_1</BoldText> service
+                    NOTE: Please note that this action <BoldText>cannot</BoldText> be undone. This will permanently {action} the <BoldText>{hostname}</BoldText> service
                 </Description>
             </DescriptionWrapper>
 
             <PasswordInputFieldWrapper>
-                <PasswordLabel for='delete-confirmation-password' >Please enter your password to delete <BoldText>test_hostname_1</BoldText></PasswordLabel>
-                <PasswordInputField name='delete-confirmation-password' type='password' placeholder='' />
+                <PasswordLabel for='delete-confirmation-password' >Please enter your password to {action} <BoldText>{hostname}</BoldText></PasswordLabel>
+                <PasswordInputField name='delete-confirmation-password' type='password' placeholder='' onChange={handlePasswordUpdate} />
             </PasswordInputFieldWrapper>
 
             <ConfirmationButtonWrapper>
-                <ConfirmationButton>
+                <ConfirmationButton isPassword={password.length > 0} >
                     I understand the consequences, delete this service
                 </ConfirmationButton> 
             </ConfirmationButtonWrapper>
@@ -51,14 +65,16 @@ const ConfirmationButton = styled.button `
     width: 100%;
     height: 100%;
 
-    background: transparent;
     border: solid 1px #30363d;
     border-radius: 6px;
-
-    color: #6b2b2a;
+    
     font-weight: 400;
     font-size: 14px;
-
+    
+    background: ${props => props.isPassword ? '#21262d' : 'transparent'};
+    color: ${props => props.isPassword ? '#f75040' : '#6b2b2a'};
+    cursor: ${props => props.isPassword ? 'pointer' : 'not-allowed'};
+    
 `;
 
 const ConfirmationButtonWrapper = styled.div `
