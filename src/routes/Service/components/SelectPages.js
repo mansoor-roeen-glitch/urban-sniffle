@@ -88,6 +88,7 @@ export default function SelectPages (props) {
 
                                 config={config}
                                 serviceInformation={{currentHostname: serviceInformation.hostname}}
+                                userInformation={userInformation}
 
                             />
                                     

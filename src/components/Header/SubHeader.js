@@ -55,15 +55,12 @@ export default function Header({
 const PathWrapper = styled.div `
     align-items: center;
     justify-content: center;
-    margin-left: 20px;
+    margin-left: 14px;
 `
 
 const PathText = styled.span `
-    font-style: normal;
     font-weight: normal;
-    font-size: 1.22rem;
-    line-height: 124%;
-    /* or 8px */
+    font-size: 1.1rem;
     color: var(--primary-white);
 
     display: flex;
@@ -95,8 +92,8 @@ const StyledUsernameWrapper = styled.div `
 
 const StyledUserName = styled.span `
     color: var(--primary-purple);
-    font-size: 1.35rem;
-    font-weight: 300;
+    font-size: 1.1rem;
+    font-weight: 400;
 
     @media screen and (max-width: 600px) {
         font-size: 1.1rem;

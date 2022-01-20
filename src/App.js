@@ -299,7 +299,7 @@ const InnerWrapper = styled.div `
 const NavBarWrapper = styled.div `
   position: sticky;
   height: calc(100vh - 82px);
-  width: 210px;
+  width: 185px;
   background: #12171F;
   padding-top: 10px;
 `;

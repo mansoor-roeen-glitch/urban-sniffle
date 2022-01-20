@@ -33,10 +33,12 @@ const StyledButton = styled.button `
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    background: #764971;
+    background: #763470;
 
     border-radius: 5px;
     transition: .4s ease;
+
+    border: solid 1px #383f48;
 
     &:hover {
         
@@ -53,7 +55,7 @@ const StyledButton = styled.button `
 const StyledButtonText = styled.span `
     background: transparent;
     color: white;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
 
     @media screen and (max-width: 600px) {

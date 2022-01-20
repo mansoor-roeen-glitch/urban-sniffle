@@ -56,8 +56,8 @@ export default function Navbar({userDataLoading, userData}) {
 
 const ListItemText = styled.div `
     font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
+    font-weight: 400;
+    font-size: 15px;
     display: flex;
     align-items: center;
 
@@ -93,8 +93,6 @@ const ListItemWrapper = styled.li `
         bottom: 0px;
         height: 1px;
         width: 105%;
-        background: linear-gradient(90deg,rgba(44,46,49,0) -0.88%,#2a2d31 15.93%,#252c37 49.36%,#212224 82.14%,rgb(22 23 26 / 0%) 100%);
-
 
     }
 `;

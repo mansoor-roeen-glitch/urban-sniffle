@@ -102,18 +102,19 @@ const ElementDropdown = styled.div `
 
 const ElementInput = styled.input `
     width: 100%;
-    background-color: #141923;
-    border: none;
-    height: 45px;
+    height: 40px;
     padding-left: 20px;
+    font-size: 14px;
+    border-radius: 6px;
+    
     color: #ced0d4;
-    font-size: 16px;
-    border-radius: 3px;
+    border: solid 1px #24282e;
+    background: transparent;
 
     &::placeholder {
         font-style: normal;
         font-weight: normal;
-        font-size: 16px;
+        font-size: 14px;
 
         display: flex;
         align-items: center;
@@ -133,18 +134,18 @@ const ElementWrapper = styled.div `
 const ElementDesc = styled.span `
     font-style: normal;
     font-weight: 300;
-    line-height: 20px;
+    font-size: 15px;
 
     display: flex;
     align-items: center;
 
-    color: #848B95;
+    color: #6d6f72;
 `;
 
 const ElementHeading = styled.span `
     font-style: normal;
     font-weight: 400;
-    font-size: 18px;
+    font-size: 16px;
 
     display: flex;
     align-items: center;
@@ -156,17 +157,21 @@ const ElementHeader = styled.div `
     
     display: flex;
     flex-direction: column;
-    row-gap: 4px;
+
     width: auto;
     height: fit-content;
 
 `;
 
 const Wrapper = styled.div `
+    
     width: 100%;
+    max-width: 780px;
+    column-gap: 40px;
+
     height: fit-content;
     display: grid;
-    column-gap: 20px;
 
-    grid-template-columns: 1fr 1.2fr;
+    grid-template-columns: 1.1fr 1.2fr;
+
 `;

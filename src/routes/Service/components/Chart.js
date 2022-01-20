@@ -22,7 +22,7 @@ export default function Chart({heading, total, usage, text}) {
           <ChartSubHeaderTop>
         
             <ChartSubHeaderTopLeft>{progress}%</ChartSubHeaderTopLeft>
-            <ChartSubHeaderTopRight>Used</ChartSubHeaderTopRight>
+            <ChartSubHeaderTopRight>has been used</ChartSubHeaderTopRight>
         
           </ChartSubHeaderTop>  
           
@@ -45,7 +45,7 @@ export default function Chart({heading, total, usage, text}) {
 
         <ProgressBar
 
-            radius={50}
+            radius={40}
             progress={progress}
             strokeWidth={7}
             strokeColor="#a183c7"
@@ -64,8 +64,8 @@ const SubProgressText = styled.span `
   font-family: "Roboto";
   font-style: normal;
   font-weight: 300;
-  font-size: 18px;
-  line-height: 21px;
+  font-size: 14px;
+
   display: flex;
   align-items: center;
   text-align: center;
@@ -87,8 +87,8 @@ const ProgressText = styled.span `
   font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
-  font-size: 24px;
-  line-height: 28px;
+  font-size: 20px;
+
   display: flex;
   align-items: center;
   text-align: center;
@@ -98,34 +98,32 @@ const ProgressText = styled.span `
 `;
 
 const ChartSubHeaderBottom = styled.span `  
-  font-family: "Roboto";
-  font-style: normal;
+
   font-weight: 300;
-  font-size: 16px;
+  font-size: 14px;
   display: flex;
   align-items: center;
 
-  color: #b6bac1;
+  color: #8c8f95;
 
 `;
 
 const ChartSubHeaderTopRight = styled.span `
-  font-family: "Open Sans";
-  font-style: normal;
+
   font-weight: 300;
-  font-size: 16px;
+  font-size: 14px;
   display: flex;
   align-items: center;
 
-  color: #b6bac1;
+  color: #8c8f95;
 
 `; 
 
 const ChartSubHeaderTopLeft = styled.span `
-  font-family: "Open Sans";
+
   font-style: normal;
   font-weight: 300;
-  font-size: 22px;
+  font-size: 14px;
   display: flex;
   align-items: center;
 
@@ -135,7 +133,7 @@ const ChartSubHeaderTopLeft = styled.span `
 
 const ChartSubHeaderTop = styled.div `
   display: flex;
-  column-gap: 7px;
+  column-gap: 5px;
   height: fit-content;
   align-items: baseline;
 `;
@@ -151,7 +149,7 @@ const ChartHeading = styled.span `
   font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 16px;
   display: flex;
   align-items: center;
 
@@ -176,7 +174,7 @@ const ProgressBarWrapper = styled.div `
 const ChartWrapper = styled.div `
   background: #10151b;
   width: auto;
-  border-radius: 3px;
+  border-radius: 6px;
   
   display: flex;
   justify-content: space-between;

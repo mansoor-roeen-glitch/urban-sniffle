@@ -136,7 +136,7 @@ export default async function service ({ ...props }) {
     
     setServiceConsole( serviceConsole )
 
-    setServiceStatus( serviceStatus )
+    setServiceStatus( serviceStatus )   
 
 
     // Updating loading and error

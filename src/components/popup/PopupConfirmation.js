@@ -5,7 +5,8 @@ import styled from 'styled-components'
 // Import Components
 import Icon from '../icons/SvgIcon'
 
-export default function PopupConfirmation({ hostname, action, callback }) {
+
+export default function PopupConfirmation({ hostname, action, callback, closePopup }) {
 
     // React State Hooks
     const [password, setPassowrd] = useState('')
@@ -18,8 +19,13 @@ export default function PopupConfirmation({ hostname, action, callback }) {
     }
 
     const handleSubmit = () => {
-        console.log(password)
+        
+        callback({password: password})
+        
     }
+
+
+    // JSX For Render
       
     return (
         
@@ -31,7 +37,7 @@ export default function PopupConfirmation({ hostname, action, callback }) {
                     Confirm This Action
                 </Heading>
 
-                <CancelSvg>
+                <CancelSvg onClick={closePopup}>
                     <Icon path='/images/popupConfirmation/cancel.svg' width={16} height={16} />
                 </CancelSvg>
     
@@ -49,7 +55,7 @@ export default function PopupConfirmation({ hostname, action, callback }) {
             </PasswordInputFieldWrapper>
 
             <ConfirmationButtonWrapper>
-                <ConfirmationButton isPassword={password.length > 0} >
+                <ConfirmationButton isPassword={password.length > 0} onClick={password.length > 0 ? handleSubmit : null} >
                     I understand the consequences, delete this service
                 </ConfirmationButton> 
             </ConfirmationButtonWrapper>

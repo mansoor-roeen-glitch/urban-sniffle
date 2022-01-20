@@ -5,8 +5,9 @@ import PrimaryButton from '../../../components/buttons/ActionButton'
 import DangerButton from '../../../components/buttons/DangerActionButton'
 import FormElement from '../../../components/forms/ServiceFormElement'
 import PopupConfirmation from '../../../components/popup/PopupConfirmation'
+import postRequest from '../../../functions/postLoginRequest'
 
-export default function Settings ({serviceInformation}) {
+export default function Settings ({serviceInformation, userInformation}) {
     
     // Component Functions
 
@@ -26,27 +27,42 @@ export default function Settings ({serviceInformation}) {
 
     const [isPopupActive, setIsPopupActive] = useState(false)
     const [popupAction, setPopupAction] = useState()
-    const [popupCallback, setPopupCallback] = useState()
 
 
     // Component Functions
 
-    const confirmDelete = () => {
-        console.log('action has been confirmed')
+    const confirmDelete = async (props) => {
+        const response = await postRequest({
+
+            token: '',
+            endpoint: '/auth/login',
+            
+            dataset: {
+                
+                password: props.password,
+                email: userInformation.body.email,
+                username: userInformation.body.username,
+
+            }
+
+        })
+        console.log(response)
     }
  
-    const activatePopup = (callback) => {
+    const activatePopup = (action) => {
 
-        setPopupAction('delete');
-        setPopupCallback(callback)
+        setPopupAction(action);
         setIsPopupActive(true);
 
     }
 
     const handleDeleteClick = () => {
+        activatePopup('delete')
+    }
 
-        activatePopup(confirmDelete)
-
+    const closePopup = () => {
+        setIsPopupActive(false)
+        setPopupAction('')
     }
 
     // JSX For Render
@@ -61,7 +77,8 @@ export default function Settings ({serviceInformation}) {
                     <PopupConfirmation 
                     
                         hostname={serviceInformation.hostname}
-                        callback={popupCallback}
+                        closePopup={closePopup}
+                        callback={confirmDelete}
                         action={popupAction}
                     
                     />

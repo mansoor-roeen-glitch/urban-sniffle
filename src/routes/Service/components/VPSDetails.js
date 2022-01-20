@@ -103,7 +103,7 @@ export default function Component () {
                 <VPSTemplate>
 
                     <VPSTemplateSvgWrapper>
-                        <Svg path="/images/centOs.svg" width={60} height={60} />
+                        <Svg path="/images/centOs.svg" width={45} height={45} />
                     </VPSTemplateSvgWrapper>
 
                     <VPSTemplateTextWrapper>
@@ -122,7 +122,7 @@ const VPSTemplateText = styled.span `
     font-family: "Roboto";
     font-style: normal;
     font-weight: 400;
-    font-size: 18px;
+    font-size: 16px;
 
     display: flex;
     align-items: center;
@@ -157,6 +157,7 @@ const VPSTemplate = styled.div `
     flex-direction: column;
     row-gap: 15px;
 
+    border-radius: 6px;
     align-items: center;
     justify-content: center;
 `;
@@ -214,10 +215,9 @@ const VPSButtons = styled.div `
 `;
 
 const VPSDetailValue = styled.span `
-    font-family: "Open Sans";
-    font-style: normal;
+
     font-weight: normal;
-    font-size: 18px;
+    font-size: 15px;
     display: flex;
     align-items: center;
 
@@ -226,10 +226,9 @@ const VPSDetailValue = styled.span `
 `;
 
 const VPSDetailName = styled.span `
-    font-family: "Open Sans";
-    font-style: normal;
+
     font-weight: normal;
-    font-size: 18px;
+    font-size: 15px;
     display: flex;
     align-items: center;
 
@@ -241,14 +240,14 @@ const VPSDetailWrapper = styled.li `
     text-decoration: none;
     display: flex;
     align-items: center;
-    column-gap: 5px;
+    column-gap: 7px;
 `;
 
 const VPSDetailsList = styled.ul `
     list-style: none;
     display: flex;
     flex-direction: column;
-    row-gap: 10px;
+    row-gap: 3px;
 `; 
 
 const VPSDetails = styled.div `
@@ -266,7 +265,7 @@ const VPSDetails = styled.div `
 const VPSDetailsWrapper = styled.div `
     display: grid;
     grid-template-columns: 1fr 1.5fr 0.5fr;
-    grid-template-rows: 144px; 
+    grid-template-rows: 126.25px; 
     margin-bottom: 30px;
     grid-column-gap: 30px;
 `;

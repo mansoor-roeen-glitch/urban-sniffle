@@ -52,7 +52,7 @@ export default function SelectSection({selectedOption, handleOptionClick, handle
 
 const ItemText = styled.div `
     
-    font-size: 1.1rem;
+    font-size: 15px;
     font-weight: 400;
     font-style: normal;
     line-height: normal;
