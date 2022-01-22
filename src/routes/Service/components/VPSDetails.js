@@ -29,17 +29,17 @@ export default function Component () {
 
     let buttons = [
         {
-            file: "reboot_button.svg"
+            file: "reboot_button.svg",
+            label: "reboot service",
         },
         {
-            file: "stop_button.svg"
+            file: "stop_button.svg",
+            label: "stop service"
         },
         {
-            file: "power_button.svg"
+            file: "power_button.svg",
+            label: "power on service"
         },
-        {
-            file: "delete_button.svg"
-        }
     ]
     
     return (
@@ -84,7 +84,8 @@ export default function Component () {
 
                                 <VPSButton>
 
-                                    <Svg path={`/images/${actionButton.file}`} width={45} height={45} />
+                                    <Svg path={`/images/${actionButton.file}`} width={35} height={35} />
+                                    <VPSButtonLabel>{actionButton.label}</VPSButtonLabel>
 
                                 </VPSButton>
 
@@ -118,9 +119,19 @@ export default function Component () {
     )
 }
 
+
+const VPSButtonLabel = styled.span `
+    font-weight: 400;
+    font-size: 16px;
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #aeb3bb;
+`;
+
 const VPSTemplateText = styled.span `
-    font-family: "Roboto";
-    font-style: normal;
     font-weight: 400;
     font-size: 16px;
 
@@ -162,9 +173,10 @@ const VPSTemplate = styled.div `
     justify-content: center;
 `;
 
-const VPSButton = styled.div `
+const VPSButton = styled.button `
     width: 100%;
     height: 100%;
+    row-gap: 15px; 
 
     background: transparent;
     outline: none;
@@ -173,12 +185,17 @@ const VPSButton = styled.div `
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 
     cursor: pointer;
+
+    border-left: ${props => props.hasBorders ? 'solid 5px #0d1117' : 'none'};
+    border-right: ${props => props.hasBorders ? 'solid 5px #0d1117' : 'none'};
 
     &:hover {
         opacity: .8;
     }
+
 `;
 
 const VPSButtonWrapper = styled.li `
@@ -194,7 +211,7 @@ const VPSButtonsList = styled.ul `
     height: 100%;
     list-style: none;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
 
 `;
 

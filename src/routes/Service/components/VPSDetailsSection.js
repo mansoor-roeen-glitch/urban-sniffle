@@ -17,7 +17,7 @@ export default function VPSDetailsSection({ list, heading, editPath }) {
                     
                     <ContentSectionHeaderSvgWrapper>
                         <Link to={editPath} style={{width: "fit-content", height: "fit-content"}}>
-                            <Svg path="/images/edit.svg" width={18} height={18} /> 
+                            <Svg path="/images/edit.svg" width={16} height={16} /> 
                         </Link>
                     </ContentSectionHeaderSvgWrapper>
 
@@ -34,7 +34,7 @@ export default function VPSDetailsSection({ list, heading, editPath }) {
                         <GridItem key={index}>
 
                             <GridItemIcon>
-                                <Svg path={item.svg} width={26} height={26} />
+                                <Svg path={item.svg} width={20} height={20} />
                             </GridItemIcon>
                             
                             <GridItemContent>
@@ -61,10 +61,10 @@ const GridItemValue = styled.span `
 
     font-style: normal;
     font-weight: normal;
-    font-size: 18px;
+    font-size: 15px;
     display: flex;
     align-items: center;
-    color: #727880;
+    color: #686b6e;
 
 `;
 
@@ -72,10 +72,10 @@ const GridItemHeading = styled.span `
 
     font-style: normal;
     font-weight: normal;
-    font-size: 18px;
+    font-size: 16px;
     display: flex;
     align-items: center;
-    color: #c4c8cd;
+    color: #bdc2c9;
 
 `;
 
@@ -145,8 +145,8 @@ const ContentSectionHeaderSvg = styled.div `
 
 const ContentSectionHeading = styled.span `
 
-    font-weight: 300;
-    font-size: 24px;
+    font-weight: 500;
+    font-size: 18px;
     margin-right: 15px;
 
     font-style: normal;
@@ -170,7 +170,7 @@ const ContentSectionHeader = styled.div `
 const ContentSectionWrapper = styled.div `
 
     width: 100%;
-    row-gap: 35px;
+    row-gap: 22px;
 
     height: fit-content;
     display: flex;

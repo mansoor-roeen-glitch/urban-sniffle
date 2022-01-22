@@ -3,7 +3,7 @@ export default function handleNavbarOptions (isUserDataLoading, userData) {
     const clientAcessOptions = [
         {
             text: "Services",
-            link: "/dashboard",
+            link: "/services",
             icon_path: "services.svg",
             width: "19px",
             height: "19px"
@@ -19,8 +19,15 @@ export default function handleNavbarOptions (isUserDataLoading, userData) {
 
     const adminAccessOptions = [
         {
+            text: "Dashboard",
+            link: "/admin-dashboard",
+            icon_path: "services.svg",
+            width: "19px",
+            height: "19px"
+        },
+        {
             text: "Services",
-            link: "/dashboard",
+            link: "/services",
             icon_path: "services.svg",
             width: "19px",
             height: "19px"

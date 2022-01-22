@@ -247,7 +247,7 @@ function App() {
 
                 <InnerWrapper>
 
-                  <Route path="/dashboard" exact render={() => <Base handleSubHeader={handleSubHeader} config={token} handleClickChange={handleClickChange} />} />
+                  <Route path="/services" exact render={() => <Base handleSubHeader={handleSubHeader} config={token} handleClickChange={handleClickChange} />} />
                   <Route path="/nodes" exact render={() => <Nodes handleSubHeader={handleSubHeader} userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handleNodeClick={handleNodeClick} />} />
                   <Route path="/pools" exact render={() => <Pools handleSubHeader={handleSubHeader} userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handlePoolClick={handlePoolClick} />} />
                   <Route path="/plans" exact render={() => <Plans userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} handlePlanClick={handlePlanClick} />} />
