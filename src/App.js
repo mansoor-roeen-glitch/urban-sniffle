@@ -29,7 +29,7 @@ import LandingPage from "./routes/LandingPage/LandingPage";
 import SubHeader from './components/Header/SubHeader';
 import Navbar from "./components/navbar/Navbar";
 import UpdateService from "./routes/UpdateService/UpdateService";
-
+import Dashboard from './routes/Dashboard/Dashboard'
 
 function App() {
   
@@ -247,6 +247,7 @@ function App() {
 
                 <InnerWrapper>
 
+                  <Route path="/admin-dashboard" exact render={() => <Dashboard handleSubHeader={handleSubHeader} config={token} handleClickChange={handleClickChange} />} />
                   <Route path="/services" exact render={() => <Base handleSubHeader={handleSubHeader} config={token} handleClickChange={handleClickChange} />} />
                   <Route path="/nodes" exact render={() => <Nodes handleSubHeader={handleSubHeader} userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handleNodeClick={handleNodeClick} />} />
                   <Route path="/pools" exact render={() => <Pools handleSubHeader={handleSubHeader} userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handlePoolClick={handlePoolClick} />} />
