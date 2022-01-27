@@ -67,10 +67,10 @@ export default function GridItemTypeB({iconSize, heading, iconPath, used, availa
 
 
 const ProgressBar = styled.div `
-    height: 2px;
+    height: 3px;
     width: 100%;
 
-    background: #343b46;
+    background: #35303a;
 `;
 
 const ProgressBarWrapper = styled.div `
@@ -84,12 +84,12 @@ const ProgressBarWrapper = styled.div `
     justify-content: center;
 
     &::after {
-        height: 2px;
+        height: 3px;
         width: 25%;
         transition: width .3s ease;
         
         content: '';
-        background: white;
+        background: #758397;
 
         position: relative;
         z-index: 2;
@@ -97,17 +97,20 @@ const ProgressBarWrapper = styled.div `
 `;
 
 const Description = styled.span `
-    color: white;
+    color: #a4a9b1;
+
     font-size: 14px;
 `;
 
 const DescriptionWrapper = styled.div `
     width: 100%;
     margin-top: 20px;
-    border-top: solid 1px #aaa;
+    border-top: solid 1px #273446;
 
     display: flex;
     height: fit-content;
+
+    padding-top: 15px;
 `;
 
 const ContentWrapper = styled.div `

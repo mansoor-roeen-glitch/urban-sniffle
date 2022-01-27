@@ -19,15 +19,15 @@ export default function Dashbaord () {
     const [countOfNodeDisks, setCountOfNodeDisks] = useState(0)
 
     const [clusterStorage, setClusterStorage] = useState({
-        totalStorage: 1035,
+        totalStorage: 1030,
         remaining: 900,
-        usage: 135,
+        usage: 130,
     }) 
 
     const [clusterRam, setClusterRam] = useState({
-        totalStorage: 1035,
+        totalStorage: 1030,
         remaining: 900,
-        usage: 135,
+        usage: 130,
     })
 
 
@@ -56,8 +56,8 @@ export default function Dashbaord () {
                                     value='205'
                                     iconPath='vps-icon.svg'
                                     iconSize={{
-                                        iconWidth: 30,
-                                        iconHeight: 30,
+                                        iconWidth: 25,
+                                        iconHeight: 25,
                                     }}
                                 />
 
@@ -66,8 +66,8 @@ export default function Dashbaord () {
                                     value='3'
                                     iconPath='template-icon.svg'
                                     iconSize={{
-                                        iconWidth: 30,
-                                        iconHeight: 30,
+                                        iconWidth: 25,
+                                        iconHeight: 25,
                                     }}
                                 />
 
@@ -76,8 +76,8 @@ export default function Dashbaord () {
                                     value='12'
                                     iconPath='ipv4-icon.svg'
                                     iconSize={{
-                                        iconWidth: 30,
-                                        iconHeight: 30,
+                                        iconWidth: 25,
+                                        iconHeight: 25,
                                     }}
                                 />
 
@@ -90,8 +90,8 @@ export default function Dashbaord () {
                                     value='25'
                                     iconPath='users-icon.svg'
                                     iconSize={{
-                                        iconWidth: 30,
-                                        iconHeight: 30,
+                                        iconWidth: 25,
+                                        iconHeight: 25,
                                     }}
                                 />
 
@@ -100,8 +100,8 @@ export default function Dashbaord () {
                                     value='1'
                                     iconPath='vps-icon.svg'
                                     iconSize={{
-                                        iconWidth: 30,
-                                        iconHeight: 30,
+                                        iconWidth: 25,
+                                        iconHeight: 25,
                                     }}
                                 />
 
@@ -110,8 +110,8 @@ export default function Dashbaord () {
                                     value='118'
                                     iconPath='ipv4-icon.svg'
                                     iconSize={{
-                                        iconWidth: 30,
-                                        iconHeight: 30,
+                                        iconWidth: 25,
+                                        iconHeight: 25,
                                     }}
                                 />
 
@@ -130,8 +130,8 @@ export default function Dashbaord () {
                                 used={124}
                                 available={1024}
                                 iconSize={{
-                                    iconWidth: 35,
-                                    iconHeight: 35,
+                                    iconWidth: 30,
+                                    iconHeight: 30,
                                 }}
                             />
 
@@ -144,8 +144,8 @@ export default function Dashbaord () {
                                 used={124}
                                 available={1024}
                                 iconSize={{
-                                    iconWidth: 35,
-                                    iconHeight: 35,
+                                    iconWidth: 30,
+                                    iconHeight: 30,
                                 }}
                             />
 
