@@ -134,13 +134,13 @@ const ItemValue = styled.span `
     color: #e3e3e4;
     
     font-size: 18px;
-    font-weight: 400;
+    font-weight: 500;
 `;
 
 const ItemHeading = styled.span `
-    color: #9a9ea6;
+    color: #848b95;
     
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 300;
 `;
 

@@ -5,15 +5,15 @@ export default function handleNavbarOptions (isUserDataLoading, userData) {
             text: "Services",
             link: "/services",
             icon_path: "services.svg",
-            width: "19px",
-            height: "19px"
+            width: "18px",
+            height: "18px"
         },
         {
             text: "Support",
             link: "/support",
             icon_path: "support.svg",
-            width: "19px",
-            height: "19px"
+            width: "18px",
+            height: "18px"
         }
     ]
 
@@ -22,15 +22,15 @@ export default function handleNavbarOptions (isUserDataLoading, userData) {
             text: "Dashboard",
             link: "/admin-dashboard",
             icon_path: "services.svg",
-            width: "19px",
-            height: "19px"
+            width: "18px",
+            height: "18px"
         },
         {
             text: "Services",
             link: "/services",
             icon_path: "services.svg",
-            width: "19px",
-            height: "19px"
+            width: "18px",
+            height: "18px"
         },
         {
             text: "Plans",
@@ -57,15 +57,15 @@ export default function handleNavbarOptions (isUserDataLoading, userData) {
             text: "Templates",
             link: "/templates",
             icon_path: "templates.svg",
-            width: "19px",
-            height: "19px"
+            width: "18px",
+            height: "18px"
         },
         {
             text: "Support",
             link: "/support",
             icon_path: "support.svg",
-            width: "19px",
-            height: "19px"
+            width: "18px",
+            height: "18px"
         }
     ]
 

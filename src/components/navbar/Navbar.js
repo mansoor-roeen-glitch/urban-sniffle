@@ -34,7 +34,7 @@ export default function Navbar({userDataLoading, userData}) {
 
                                 <ListItem>
                                     <ListItemSvg>
-                                        <IconRenderer width="20px" height="20px" path={iconPath + option.icon_path} />    
+                                        <IconRenderer width="18px" height="18px" path={iconPath + option.icon_path} />    
                                     </ListItemSvg>
 
                                     <ListItemText>
@@ -56,8 +56,8 @@ export default function Navbar({userDataLoading, userData}) {
 
 const ListItemText = styled.div `
     font-style: normal;
-    font-weight: 400;
-    font-size: 15px;
+    font-weight: 500;
+    font-size: 14.5px;
     display: flex;
     align-items: center;
 
@@ -69,11 +69,17 @@ const ListItemSvg = styled.div `
     width: fit-content;
     height: fit-content;
     margin-right: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 const ListItem = styled.div `
     width: 100%;
+
     display: flex;
+    align-items: center;
 `;
 
 const ListItemWrapper = styled.li `

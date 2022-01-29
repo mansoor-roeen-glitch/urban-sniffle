@@ -1,9 +1,9 @@
-// Importing Libraries
-import { Chart } from 'chart.js';
+// Importing Dependencies 
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import GridItemTypeA from './components/GridItemTypeA';
-import GridItemTypeB from './components/GridItemTypeB';
+
+// Importing Components
+import SectionOne from './components/SectionOne';
 
 
 export default function Dashbaord () {
@@ -45,113 +45,16 @@ export default function Dashbaord () {
                         </ClusterStatisticsHeading>
                     </ClusterStatisticsHeader> */}
 
-                    <SectionOne>
+                    <SectionOne />
 
-                        <SectionOneLeft>
+                    <SectionTwo>
+                        <SectionTwoLeft>
                             
-                            <SectionOneLeftTop>
-
-                                <GridItemTypeA
-                                    heading='VPS Count'
-                                    value='205'
-                                    iconPath='vps-icon.svg'
-                                    iconSize={{
-                                        iconWidth: 25,
-                                        iconHeight: 25,
-                                    }}
-                                />
-
-                                <GridItemTypeA
-                                    heading='Templates'
-                                    value='3'
-                                    iconPath='template-icon.svg'
-                                    iconSize={{
-                                        iconWidth: 25,
-                                        iconHeight: 25,
-                                    }}
-                                />
-
-                                <GridItemTypeA
-                                    heading='Free IPV4 IPs'
-                                    value='12'
-                                    iconPath='ipv4-icon.svg'
-                                    iconSize={{
-                                        iconWidth: 25,
-                                        iconHeight: 25,
-                                    }}
-                                />
-
-                            </SectionOneLeftTop>
+                        </SectionTwoLeft>
+                        <SectionTwoRight>
                             
-                            <SectionOneLeftBottom>
-                                
-                                <GridItemTypeA
-                                    heading='Users Count'
-                                    value='25'
-                                    iconPath='users-icon.svg'
-                                    iconSize={{
-                                        iconWidth: 25,
-                                        iconHeight: 25,
-                                    }}
-                                />
-
-                                <GridItemTypeA
-                                    heading='Clusters Count'
-                                    value='1'
-                                    iconPath='vps-icon.svg'
-                                    iconSize={{
-                                        iconWidth: 25,
-                                        iconHeight: 25,
-                                    }}
-                                />
-
-                                <GridItemTypeA
-                                    heading='Free IPV6 IPs'
-                                    value='118'
-                                    iconPath='ipv4-icon.svg'
-                                    iconSize={{
-                                        iconWidth: 25,
-                                        iconHeight: 25,
-                                    }}
-                                />
-
-                            </SectionOneLeftBottom>
-
-                        </SectionOneLeft>
-
-    
-                        <SectionOneRight>
-
-                            <GridItemTypeB
-                                heading='Cluster Ram'
-                                textValue='NAN%'
-                                iconPath='cluster-ram-icon.svg'
-                                
-                                used={124}
-                                available={1024}
-                                iconSize={{
-                                    iconWidth: 30,
-                                    iconHeight: 30,
-                                }}
-                            />
-
-                            
-                            <GridItemTypeB
-                                heading='Cluster Ram'
-                                textValue='NAN%'
-                                iconPath='cluster-ram-icon.svg'
-                                
-                                used={124}
-                                available={1024}
-                                iconSize={{
-                                    iconWidth: 30,
-                                    iconHeight: 30,
-                                }}
-                            />
-
-                        </SectionOneRight>
-
-                    </SectionOne>
+                        </SectionTwoRight>
+                    </SectionTwo>
 
                 </ClusterStatisticsWrapper>
             </InnerWrapper>
@@ -162,43 +65,25 @@ export default function Dashbaord () {
 }
 
 
-const SectionOneLeftBottom = styled.div `
-    height: auto;
-    display: grid;
-    
-    width: 100%;
-    column-gap: 25px;
-    grid-template-columns: 1.2fr 1.2fr 2fr;
-`;
-
-const SectionOneLeftTop = styled.div `
-    height: auto;
-    display: grid;
-    
-    width: 100%;
-    column-gap: 25px;
-    grid-template-columns: 1.2fr 1.2fr 2fr;
-`;
-
-const SectionOneRight = styled.div `
+const SectionTwoRight = styled.div `
     width: auto;
     display: grid;
 
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 190px;
+    grid-template-rows: 270px;
     column-gap: 25px;
 `; 
 
-const SectionOneLeft = styled.div `
+const SectionTwoLeft = styled.div `
     width: auto;
     display: grid;
     
-    grid-template-rows: 85px 85px;
-    grid-template-columns: 1fr;
-    row-gap: 25px;
+    grid-template-rows: 170px;
+    grid-template-columns: 2fr 1fr;
+    column-gap: 25px;
 `;
 
-const SectionOne = styled.div `
+const SectionTwo = styled.div `
     display: grid;
     height: fit-content;
 
