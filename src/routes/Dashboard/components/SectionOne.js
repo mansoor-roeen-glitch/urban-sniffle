@@ -163,6 +163,6 @@ const SectionOne = styled.div `
     height: fit-content;
 
     width: 100%;
-    grid-column-gap: 30px;
+    grid-column-gap: 25px;
     grid-template-columns: 3fr 2fr;
 `;

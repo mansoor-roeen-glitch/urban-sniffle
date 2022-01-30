@@ -1,6 +1,7 @@
 // Importing Dependencies 
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import GridItemTypeC from './components/GridItemTypeC';
 
 // Importing Components
 import SectionOne from './components/SectionOne';
@@ -31,6 +32,60 @@ export default function Dashbaord () {
     })
 
 
+    // Component Variables
+
+    let tableOneHeaderData = [
+        '#',
+        'IP Address',
+
+        'ID',
+        'Pool',
+        'Owner',
+    ]
+
+    let tableOneData = [
+        [
+            '1.',
+            '10.10.10.102',
+
+            '25',
+            '3',
+            '3',
+        ],
+        [
+            '2.',
+            '10.10.10.102',
+
+            '25',
+            '3',
+            '3',
+        ],
+        [
+            '3.',
+            '10.10.10.102',
+
+            '25',
+            '3',
+            '3',
+        ],
+        [
+            '4.',
+            '10.10.10.102',
+
+            '25',
+            '3',
+            '3',
+        ],
+        [
+            '5.',
+            '10.10.10.102',
+
+            '25',
+            '3',
+            '3',
+        ]
+    ]
+
     // JSX For Render
 
     return (
@@ -48,12 +103,37 @@ export default function Dashbaord () {
                     <SectionOne />
 
                     <SectionTwo>
-                        <SectionTwoLeft>
+                        
+                        <GridItemTypeC 
+                            heading='List Of IP Addresses'
+                            status='(1/20 online)'
+                            iconPath='ipv4-icon.svg'
+
+                            tableHeaderData={tableOneHeaderData}
+                            tableData={tableOneData}
+
+                            iconSize={{
+                                iconWidth: 20, 
+                                iconHeight: 20,
+                            }} 
+
+                        />
+
+                        <GridItemTypeC 
+                            heading='List Of IP Addresses'
+                            status='(1/20 online)'
+                            iconPath='ipv4-icon.svg'
+
+                            tableHeaderData={tableOneHeaderData}
+                            tableData={tableOneData}
                             
-                        </SectionTwoLeft>
-                        <SectionTwoRight>
-                            
-                        </SectionTwoRight>
+                            iconSize={{
+                                iconWidth: 20, 
+                                iconHeight: 20,
+                            }} 
+
+                        />
+ 
                     </SectionTwo>
 
                 </ClusterStatisticsWrapper>
@@ -65,31 +145,14 @@ export default function Dashbaord () {
 }
 
 
-const SectionTwoRight = styled.div `
-    width: auto;
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 270px;
-    column-gap: 25px;
-`; 
-
-const SectionTwoLeft = styled.div `
-    width: auto;
-    display: grid;
-    
-    grid-template-rows: 170px;
-    grid-template-columns: 2fr 1fr;
-    column-gap: 25px;
-`;
-
 const SectionTwo = styled.div `
     display: grid;
     height: fit-content;
 
+    margin-top: 25px;
     width: 100%;
-    grid-column-gap: 30px;
-    grid-template-columns: 3fr 2fr;
+    grid-column-gap: 50px;
+    grid-template-columns: 1fr 1fr;
 `;
 
 const ClusterStatisticsHeading = styled.span `
