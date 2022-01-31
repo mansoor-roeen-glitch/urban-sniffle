@@ -149,9 +149,9 @@ const SectionTwo = styled.div `
     display: grid;
     height: fit-content;
 
-    margin-top: 25px;
+    margin-top: 15px;
     width: 100%;
-    grid-column-gap: 50px;
+    grid-column-gap: 35px;
     grid-template-columns: 1fr 1fr;
 `;
 

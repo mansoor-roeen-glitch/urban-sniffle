@@ -48,62 +48,66 @@ export default function GridItemTypeC({iconSize, heading, status, tableHeaderDat
                 </HeadingWrapper>
             </Header>
 
-            <TableHeader>
-                
-                <TableRowWrapper noBg={true}>
+            <TableContentWrapper>
 
-                    <TableRow>
+                <TableHeader>
+                    
+                    <TableRowWrapper noBg={true}>
 
-                        {tableHeaderData.map((field, index) => {
+                        <TableRow>
+
+                            {tableHeaderData.map((field, index) => {
+                                
+                                return (
+                                    <TableField key={index}>
+                                        <TableHeadingFieldValue>
+                                            {field}
+                                        </TableHeadingFieldValue>
+                                    </TableField>
+                                )
+
+                            })}
                             
-                            return (
-                                <TableField key={index}>
-                                    <TableHeadingFieldValue>
-                                        {field}
-                                    </TableHeadingFieldValue>
-                                </TableField>
-                            )
+                        </TableRow>
 
-                        })}
+                    </TableRowWrapper>
+
+                </TableHeader> 
+
+                <Table tableRowLength={tableData.length}>
+                    
+                    {tableData.map((table, index) => {
+
+                        let bg = shouldHaveBg(index + 1);
+
+                        return (
+
+                            <TableRowWrapper noBg={bg}>
                         
-                    </TableRow>
+                                <TableRow key={index}>
 
-                </TableRowWrapper>
+                                    {table.map((field, index) => {
 
-            </TableHeader> 
+                                        return(
+                                            <TableField key={index}>
+                                                <TableFieldValue>
+                                                    {field}
+                                                </TableFieldValue>
+                                            </TableField>
+                                        )
 
-            <Table tableRowLength={tableData.length}>
-                
-                {tableData.map((table, index) => {
+                                    })}
 
-                    let bg = shouldHaveBg(index + 1);
+                                </TableRow>
+                            
+                            </TableRowWrapper>
+                        )
 
-                    return (
+                    })}
 
-                        <TableRowWrapper noBg={bg}>
-                      
-                            <TableRow key={index}>
+                </Table>
 
-                                {table.map((field, index) => {
-
-                                    return(
-                                        <TableField key={index}>
-                                            <TableFieldValue>
-                                                {field}
-                                            </TableFieldValue>
-                                        </TableField>
-                                    )
-
-                                })}
-
-                            </TableRow>
-                        
-                        </TableRowWrapper>
-                    )
-
-                })}
-
-            </Table>
+            </TableContentWrapper>
 
         </Wrapper>
     
@@ -112,44 +116,62 @@ export default function GridItemTypeC({iconSize, heading, status, tableHeaderDat
 }
 
 
+
+const TableContentWrapper = styled.div `
+    height: fit-content;
+    overflow-y: scroll;
+    
+    width: 100%;
+    max-height: 200px;
+
+    transition: background-color .3s ease;
+
+    &:hover {
+        
+        &::-webkit-scrollbar-thumb {
+            background-color: #4d5868ff;
+        }
+
+    }
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #4d586800;
+        border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+
+    
+`;
+
 const Table = styled.div `
     display: grid;
     align-items: center;
     height: fit-content;
-    overflow-y: scroll;
 
     width: 100%;
-    max-height: 200px;
+    padding-top: 4px;
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(${props => props.tableRowLength}, 50px);
-
-    &::-webkit-scrollbar {
-        width: 4px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        background-color: #888;
-    }
-
-    &::-webkit-scrollbar-track {
-        background-color: #28292a;
-        position: sticky;
-    }
-
-
+    grid-template-rows: repeat(${props => props.tableRowLength}, 39px);
 `;
 
 const TableFieldValue = styled.span `
     color: #CDD1D7;
 
-    font-size: 17px;
+    font-size: 14px;
     font-weight: 300;
 `;
 
 const TableHeadingFieldValue = styled.span `
     color: #6B717A;
 
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 300;
 `;
 
@@ -183,7 +205,7 @@ const TableRow = styled.div `
     height: 100%;
     grid-column-gap: 10px;
     grid-template-rows: 1fr;
-    grid-template-columns: 0.3fr 2.5fr 0.8fr 0.7fr 0.7fr;
+    grid-template-columns: 0.26fr 2.5fr 0.8fr 0.7fr 0.7fr;
 
     display: grid;
 `;
@@ -195,28 +217,23 @@ const TableRowWrapper = styled.div `
     display: flex;
     align-items: center;
     justify-content: center;
-    border-bottom: solid 1px #181e26;
-
-    &::before {
-        content: '';
-        position: absolute;
-        background: ${props => props.noBg ? 'transparent' : '#0e1218' };
-
-        height: 100%;
-        width: 100%;
-
-    }
 
 `;
 
 const TableHeader = styled.div `
     width: 100%;
-    height: 45px;
-
+    height: 38px;
+    z-index: 2;
+    top: 0px;
+    
+    position: sticky;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0px 3px 6px #00000047
+    
+    background: #10151b;
+    box-shadow: 0px 3px 6px #00000047;
+    border-bottom: solid 2px #1E2125;
 
 `;
 
@@ -232,14 +249,14 @@ const Status = styled.span `
     color: #8A8E94;
     font-weight: 300;
 
-    font-size: 16px;
+    font-size: 14px;
 `;
 
 const Heading = styled.span `
     color: #CCD1D9;
     font-weight: 500;
 
-    font-size: 18px;
+    font-size: 14px;
 `;
 
 const HeadingWrapper = styled.div `
@@ -249,7 +266,7 @@ const HeadingWrapper = styled.div `
     width: fit-content;
 
     column-gap: 8px;
-    width: 93%;
+    width: 94%;
 `;
 
 const Header = styled.div `
@@ -258,7 +275,7 @@ const Header = styled.div `
     justify-content: center;
 
     width: 100%;
-    height: 60px;
+    height: 50px;
 `;
 
 const Wrapper = styled.div `
@@ -270,29 +287,19 @@ const Wrapper = styled.div `
     width: 100%;
     height: 100%;
     border-radius: 10px;
+    padding-bottom: 5px;
 
     &::before {
         content: '';
         position: absolute;
         background: #1E2125;
         
-        top: 60px;
+        top: 50px;
         width: 100%;
         height: 1px;
         left: 0px;
         right: 0px;
-    }
-
-    &::after {
-        content: '';
-        position: absolute;
-        background: #1E2125;
-        
-        top: 105px;
-        width: 100%;
-        height: 1px;
-        left: 0px;
-        right: 0px;
+        z-index: 3;
     }
 
 `;
