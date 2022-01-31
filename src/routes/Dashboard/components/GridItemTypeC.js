@@ -115,10 +115,28 @@ export default function GridItemTypeC({iconSize, heading, status, tableHeaderDat
 const Table = styled.div `
     display: grid;
     align-items: center;
-    
+    height: fit-content;
+    overflow-y: scroll;
+
     width: 100%;
+    max-height: 200px;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(${props => props.tableRowLength}, 50px);
+
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #888;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: #28292a;
+        position: sticky;
+    }
+
+
 `;
 
 const TableFieldValue = styled.span `
@@ -143,15 +161,19 @@ const TableField = styled.div `
     align-items: center;
     justify-content: center;
 
-    border-right: solid 1px #181e26;
 
-    &:nth-child(1) {
+    &:nth-child(1) {    
+        border-right: solid 1px #181e26;
         justify-content: flex-start;
     }
 
     &:nth-child(2) {
         justify-content: flex-start;
         padding-left: 15px;
+    }
+
+    &:nth-child(5) {
+        border-right: none;
     }
 
 `;
@@ -184,6 +206,7 @@ const TableRowWrapper = styled.div `
         width: 100%;
 
     }
+
 `;
 
 const TableHeader = styled.div `
@@ -193,6 +216,8 @@ const TableHeader = styled.div `
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0px 3px 6px #00000047
+
 `;
 
 const IconWrapper = styled.div `
@@ -205,9 +230,9 @@ const IconWrapper = styled.div `
 
 const Status = styled.span `
     color: #8A8E94;
-    font-weight: 400;
+    font-weight: 300;
 
-    font-size: 17px;
+    font-size: 16px;
 `;
 
 const Heading = styled.span `
