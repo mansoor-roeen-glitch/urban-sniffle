@@ -6,29 +6,10 @@ import styled from 'styled-components';
 import Svg from '../../../components/icons/SvgIcon';
 
 
-export default function GridItemTypeC({iconSize, heading, status, tableHeaderData, tableData}) {
+export default function GridItemTypeC({iconSize, heading, status, tableHeaderData, tableData, isListOfTasks}) {
     
     // Component Variables
     const {iconWidth, iconHeight} = iconSize; 
-
-    
-    // Functions ^^
-    const shouldHaveBg = (index) => {
-        console.log(index)
-        let reminder = index % 2;
-
-        if (reminder == 0) {
-            return false;
-
-        } else if (reminder == Math.round(reminder)) {
-            return true;
-
-        } else {
-            return false;
-        
-        }
-
-    }
 
 
     // JSX for Render
@@ -42,9 +23,15 @@ export default function GridItemTypeC({iconSize, heading, status, tableHeaderDat
                     <Heading>
                         {heading}
                     </Heading>
-                    <Status>
-                        {status}
-                    </Status>
+                    
+                    {!isListOfTasks ? (
+
+                        <Status>
+                            {status}    
+                        </Status>
+
+                    ) : null }
+
                 </HeadingWrapper>
             </Header>
 
@@ -54,12 +41,12 @@ export default function GridItemTypeC({iconSize, heading, status, tableHeaderDat
                     
                     <TableRowWrapper noBg={true}>
 
-                        <TableRow>
+                        <TableRow isListOfTasks={isListOfTasks}>
 
                             {tableHeaderData.map((field, index) => {
                                 
                                 return (
-                                    <TableField key={index}>
+                                    <TableField key={index} isListOfTasks={isListOfTasks}>
                                         <TableHeadingFieldValue>
                                             {field}
                                         </TableHeadingFieldValue>
@@ -78,18 +65,16 @@ export default function GridItemTypeC({iconSize, heading, status, tableHeaderDat
                     
                     {tableData.map((table, index) => {
 
-                        let bg = shouldHaveBg(index + 1);
-
                         return (
 
-                            <TableRowWrapper noBg={bg}>
+                            <TableRowWrapper>
                         
-                                <TableRow key={index}>
+                                <TableRow key={index} isListOfTasks={isListOfTasks}>
 
                                     {table.map((field, index) => {
 
                                         return(
-                                            <TableField key={index}>
+                                            <TableField key={index} isListOfTasks={isListOfTasks}>
                                                 <TableFieldValue>
                                                     {field}
                                                 </TableFieldValue>
@@ -116,15 +101,12 @@ export default function GridItemTypeC({iconSize, heading, status, tableHeaderDat
 }
 
 
-
 const TableContentWrapper = styled.div `
     height: fit-content;
     overflow-y: scroll;
     
     width: 100%;
     max-height: 200px;
-
-    transition: background-color .3s ease;
 
     &:hover {
         
@@ -185,17 +167,17 @@ const TableField = styled.div `
 
 
     &:nth-child(1) {    
-        border-right: solid 1px #181e26;
+        border-right: ${props => props.isListOfTasks ? 'none' : 'solid 1px #181e26'};
         justify-content: flex-start;
     }
 
     &:nth-child(2) {
-        justify-content: flex-start;
-        padding-left: 15px;
+        justify-content: ${props => props.isListOfTasks ? 'center': 'flex-start'};
+        padding-left: ${props => props.isListOfTasks ? '0px' : '15px'};
     }
 
-    &:nth-child(5) {
-        border-right: none;
+    &:nth-child(3) {
+        justify-content: ${props => props.isListOfTasks ? 'flex-end': 'center'};
     }
 
 `;
@@ -205,7 +187,8 @@ const TableRow = styled.div `
     height: 100%;
     grid-column-gap: 10px;
     grid-template-rows: 1fr;
-    grid-template-columns: 0.26fr 2.5fr 0.8fr 0.7fr 0.7fr;
+
+    grid-template-columns: ${props => !props.isListOfTasks ? '0.26fr 2.5fr 0.8fr 0.7fr 0.7fr' : '1fr 1fr 1fr'};
 
     display: grid;
 `;
@@ -256,7 +239,7 @@ const Heading = styled.span `
     color: #CCD1D9;
     font-weight: 500;
 
-    font-size: 14px;
+    font-size: 16px;
 `;
 
 const HeadingWrapper = styled.div `

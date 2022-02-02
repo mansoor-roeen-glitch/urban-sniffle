@@ -43,6 +43,13 @@ export default function Dashbaord () {
         'Owner',
     ]
 
+
+    let tableTwoHeaderData = [
+        'User',
+        'Task',
+        'Service ID',
+    ]
+
     let tableOneData = [
         [
             '1.',
@@ -86,6 +93,35 @@ export default function Dashbaord () {
         ]
     ]
 
+    let tableTwoData = [
+        [
+            'mansoor_01',
+            'Delete',
+            '201'
+        ],
+        [
+            'mansoor_02',
+            'reboot',
+            '201'
+        ],
+        [
+            'mansoor_03',
+            'reboot',
+            '201'
+        ],
+        [
+            'mansoor_04',
+            'shutdown',
+            '201'
+        ],
+        [
+            'mansoor_05',
+            'stoped',
+            '201'
+        ],
+    ]
+
+
     // JSX For Render
 
     return (
@@ -94,11 +130,11 @@ export default function Dashbaord () {
             <InnerWrapper>
                 <ClusterStatisticsWrapper>
 
-                    {/* <ClusterStatisticsHeader>
+                    {/* {<ClusterStatisticsHeader>
                         <ClusterStatisticsHeading>
                             Cluster Statistics
                         </ClusterStatisticsHeading>
-                    </ClusterStatisticsHeader> */}
+                    </ClusterStatisticsHeader>} */}
 
                     <SectionOne />
 
@@ -120,12 +156,11 @@ export default function Dashbaord () {
                         />
 
                         <GridItemTypeC 
-                            heading='List Of IP Addresses'
-                            status='(1/20 online)'
-                            iconPath='ipv4-icon.svg'
+                            heading='List Of Recent Tasks'
 
-                            tableHeaderData={tableOneHeaderData}
-                            tableData={tableOneData}
+                            tableHeaderData={tableTwoHeaderData}
+                            tableData={tableTwoData}
+                            isListOfTasks={true}
                             
                             iconSize={{
                                 iconWidth: 20, 
@@ -149,9 +184,10 @@ const SectionTwo = styled.div `
     display: grid;
     height: fit-content;
 
-    margin-top: 15px;
     width: 100%;
-    grid-column-gap: 35px;
+    margin-top: 15px;
+    grid-gap: 35px;
+    grid-template-columns: 1fr 1fr;
     grid-template-columns: 1fr 1fr;
 `;
 
