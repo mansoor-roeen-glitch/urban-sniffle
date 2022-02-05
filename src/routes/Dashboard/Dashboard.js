@@ -4,7 +4,9 @@ import styled from 'styled-components';
 import GridItemTypeC from './components/GridItemTypeC';
 
 // Importing Components
-import SectionOne from './components/SectionOne';
+import SectionOneComponent from './components/SectionOne';
+import SectionTwoComponent from './components/SectionTwo';
+import ServerStatisticsComponent from './components/ServerStatisticsComponent';
 
 
 export default function Dashbaord () {
@@ -130,46 +132,21 @@ export default function Dashbaord () {
             <InnerWrapper>
                 <ClusterStatisticsWrapper>
 
-                    {/* {<ClusterStatisticsHeader>
-                        <ClusterStatisticsHeading>
-                            Cluster Statistics
-                        </ClusterStatisticsHeading>
-                    </ClusterStatisticsHeader>} */}
 
-                    <SectionOne />
+                    {/* Cluster Statistics and extra infromations*/}
+                    <SectionOneComponent />
 
-                    <SectionTwo>
-                        
-                        <GridItemTypeC 
-                            heading='List Of IP Addresses'
-                            status='(1/20 online)'
-                            iconPath='ipv4-icon.svg'
+                    {/* Lists of IP addresses and recent tasks */}
+                    <SectionTwoComponent 
+                        tableOneHeaderData={tableOneHeaderData}
+                        tableTwoHeaderData={tableTwoHeaderData}
+                        tableOneData={tableOneData}
+                        tableTwoData={tableTwoData}
+                    />
 
-                            tableHeaderData={tableOneHeaderData}
-                            tableData={tableOneData}
+                    {/* Server Statistics */}
+                    <ServerStatisticsComponent />
 
-                            iconSize={{
-                                iconWidth: 20, 
-                                iconHeight: 20,
-                            }} 
-
-                        />
-
-                        <GridItemTypeC 
-                            heading='List Of Recent Tasks'
-
-                            tableHeaderData={tableTwoHeaderData}
-                            tableData={tableTwoData}
-                            isListOfTasks={true}
-                            
-                            iconSize={{
-                                iconWidth: 20, 
-                                iconHeight: 20,
-                            }} 
-
-                        />
- 
-                    </SectionTwo>
 
                 </ClusterStatisticsWrapper>
             </InnerWrapper>
@@ -180,16 +157,6 @@ export default function Dashbaord () {
 }
 
 
-const SectionTwo = styled.div `
-    display: grid;
-    height: fit-content;
-
-    width: 100%;
-    margin-top: 15px;
-    grid-gap: 35px;
-    grid-template-columns: 1fr 1fr;
-    grid-template-columns: 1fr 1fr;
-`;
 
 const ClusterStatisticsHeading = styled.span `
     font-weight: 500;
@@ -207,7 +174,7 @@ const ClusterStatisticsWrapper = styled.div `
     display: flex;
     flex-direction: column;
 
-    row-gap: 20px;
+    row-gap: 40px;
 `;
 
 const InnerWrapper = styled.div `
