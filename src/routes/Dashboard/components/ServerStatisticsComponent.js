@@ -1,6 +1,7 @@
 // Importing Dependencies
 import React from 'react';
 import styled from 'styled-components';
+import ChartTypeB from '../../../components/charts/ChartTypeB';
 
 // Importing Components
 import Svg from '../../../components/icons/SvgIcon';
@@ -14,6 +15,7 @@ export default function ServerStatisticsComponent() {
     const [selectedDropdownOption, setSelectedDropdownOption] = React.useState(0)
 
     // Component Variables
+    
     const dropdownOptions = [
         {
             optionText: 'Local Host'
@@ -22,6 +24,45 @@ export default function ServerStatisticsComponent() {
             optionText: 'Random Server '
         }
     ]
+
+    const charts = [
+        {
+            heading: "CPU",
+            progressText: "32%",
+            description: "1 GB / 20 GB used",
+
+            progress: 32,
+        },
+        {
+            heading: "Disk",
+            progressText: "35%",
+            description: "3 GB / 20 GB used",
+
+            progress: 35,
+        },
+        {
+            heading: "Ram",
+            progressText: "39%",
+            description: "1 GB / 20 GB used",
+
+            progress: 39,
+        },
+        {
+            heading: "Storage",
+            progressText: "12%",
+            description: "1 GB / 20 GB used",
+
+            progress: 12,
+        },
+        {
+            heading: "Bandwidth",
+            progressText: "85%",
+            description: "1 GB / 20 GB used",
+
+            progress: 85,
+        }
+    ]
+
 
     // Functions ^^
     const handleDropdownClick = () => setIsDropdownActive(!isDropdownActive)
@@ -81,12 +122,45 @@ export default function ServerStatisticsComponent() {
 
             </Header>
 
+            <ChartsWrapper>
+                <ChartGrid>
+
+                    {charts.map((chart, index) => (
+
+                        <ChartTypeB 
+                            key={index}
+                            heading={chart.heading}
+                            progress={chart.progress}
+                            description={chart.description}
+                            progressText={chart.progressText}
+                        />
+
+                    ))}
+
+                </ChartGrid>
+            </ChartsWrapper>
+
         </Wrapper>
 
     )
 
 }
 
+const ChartGrid = styled.div `
+    display: grid;
+    
+    width: 100%;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+`;
+
+const ChartsWrapper = styled.div `
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 48px;
+    width: 98%;
+`;
 
 const DropdownItemButton = styled.button `
     width: 100%;
@@ -153,11 +227,12 @@ const Dropdown = styled.div `
     
     height: 32px;
     width: 360px;
+    z-index: 2;
 `;
 
 const Heading = styled.span `
     font-weight: 500;
-    font-size: 16px;
+    font-size: 18px;
 
     color: #CCD1D9;
 `;
@@ -186,5 +261,6 @@ const Wrapper = styled.div `
 
     background: #10151B;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 `;
