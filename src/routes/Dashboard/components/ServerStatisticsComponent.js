@@ -8,6 +8,30 @@ import Svg from '../../../components/icons/SvgIcon';
 
 export default function ServerStatisticsComponent() {
     
+
+    // React State Variables 
+    const [isDropdownActive, setIsDropdownActive] = React.useState(false)
+    const [selectedDropdownOption, setSelectedDropdownOption] = React.useState(0)
+
+    // Component Variables
+    const dropdownOptions = [
+        {
+            optionText: 'Local Host'
+        },
+        {
+            optionText: 'Random Server '
+        }
+    ]
+
+    // Functions ^^
+    const handleDropdownClick = () => setIsDropdownActive(!isDropdownActive)
+    
+    const handleOptionClick = (index) => {
+        setSelectedDropdownOption(index)
+        setIsDropdownActive(false)
+    }
+
+
     // JSX For Render
     return (
         
@@ -22,10 +46,11 @@ export default function ServerStatisticsComponent() {
                 </HeadingWrapper>
 
                 <Dropdown>
-                    <DropdownButton>
+
+                    <DropdownButton onClick={handleDropdownClick}>
 
                         <DropdownButtonText>
-                            - Local host -
+                            - {dropdownOptions[selectedDropdownOption].optionText} -
                         </DropdownButtonText>
 
                         <DropdownButtonIcon>
@@ -33,6 +58,25 @@ export default function ServerStatisticsComponent() {
                         </DropdownButtonIcon>
 
                     </DropdownButton>
+
+                    <DropdownList isDropdownActive={isDropdownActive}>
+                        
+                        {dropdownOptions.map((option, index) => (
+
+                            <DropdownListItem>
+                                <DropdownItemButton onClick={() => handleOptionClick(index) } > 
+
+                                    <DropdownButtonText>
+                                        {option.optionText}
+                                    </DropdownButtonText>
+
+                                </DropdownItemButton>
+                            </DropdownListItem>
+
+                        ))}
+
+                    </DropdownList>
+
                 </Dropdown>
 
             </Header>
@@ -44,6 +88,33 @@ export default function ServerStatisticsComponent() {
 }
 
 
+const DropdownItemButton = styled.button `
+    width: 100%;
+    height: 100%;
+    
+    background: transparent;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+`;
+
+const DropdownListItem = styled.li `
+    width: 100%;
+    height: 32px;
+`;
+
+const DropdownList = styled.ul `
+    width: 100%;
+    padding: 10px 15px;
+    top: 35px;
+    
+    display: ${props => props.isDropdownActive ? 'flex' : 'none'};
+    flex-direction: column;
+    position: absolute;
+    background: #171D25;
+    list-style: none;
+`;
 
 const DropdownButtonIcon = styled.div `
     width: fit-content;
@@ -77,8 +148,9 @@ const DropdownButton = styled.button `
 
 const Dropdown = styled.div `
     display: flex;
+    flex-direction: column;
     background-color: #171D25;
-
+    
     height: 32px;
     width: 360px;
 `;
