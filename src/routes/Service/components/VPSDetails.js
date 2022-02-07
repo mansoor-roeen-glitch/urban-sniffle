@@ -2,13 +2,19 @@ import React from 'react'
 import styled from 'styled-components'
 import Svg from '../../../components/icons/SvgIcon';
 
-export default function Component () {
+export default function Component ({...props}) {
     
+    const {
+        handleAction,
+        hostname,
+        status,
+    } = props;
+
     let vpsDetails = [ 
         
         {
             name: "Status",
-            value: "Inactive",
+            value: status,
 
             color: "A75F5F", 
             green: "46E857",
@@ -22,25 +28,38 @@ export default function Component () {
         },
         {
             name: "Hostname",
-            value: "test_hostname_1"
+            value: hostname
         }
 
     ]
 
-    let buttons = [
+    let actions = [
         {
             file: "reboot_button.svg",
-            label: "reboot service",
+            label: "reboot ",
+            action: 'reboot',
         },
         {
             file: "stop_button.svg",
-            label: "stop service"
+            label: "stop",
+            action: "stop",
+
         },
         {
             file: "power_button.svg",
-            label: "power on service"
+            label: "power on",
+            action: "power-on",
         },
     ]
+
+
+    // Functions ^^
+
+    const handleActionClick = (action) => {
+
+        handleAction(action)
+
+    }
     
     return (
 
@@ -76,13 +95,13 @@ export default function Component () {
                 
                 <VPSButtonsList>
                     
-                    {buttons.map((actionButton, index) => {
+                    {actions.map((actionButton, index) => {
                         
                         return (
 
                             <VPSButtonWrapper key={index}>
 
-                                <VPSButton>
+                                <VPSButton onClick={() => {handleActionClick(actionButton.action)}}>
 
                                     <Svg path={`/images/${actionButton.file}`} width={35} height={35} />
                                     <VPSButtonLabel>{actionButton.label}</VPSButtonLabel>

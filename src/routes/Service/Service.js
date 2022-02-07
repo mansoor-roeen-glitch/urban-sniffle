@@ -92,7 +92,7 @@ export default function Service ({ config, handleSubHeader, ...props}) {
     // Sub Header Configuration
     useEffect(() => {
 
-        handleSubHeader(["services"], loading)
+        handleSubHeader([hostname], loading)
 
     }, [loading])
 
@@ -145,7 +145,11 @@ export default function Service ({ config, handleSubHeader, ...props}) {
             
             <VPSInformationWrapper>
             
-                <VPSDetails />
+                <VPSDetails
+                    status={serviceStatus?.body?.status}
+                    hostname={'Hostname'}
+                    handleAction={() => {console.log("shit")}}
+                />
                 
                 <Charts 
                     
