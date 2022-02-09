@@ -9,11 +9,14 @@ import axios from 'axios';
 import VPSDetails from './components/VPSDetails';
 import Charts from './components/Charts';
 import SelectSection from './components/SelectSection';
+import SelectPages from './components/SelectPages';
+import ConfirmAlert from '../../components/popup/ConfirmAlert';
 
 // Importing Functions
 
 import getUser from '../../functions/getUserDetails';
 import service from './functions/service';
+import postRequest from '../../functions/postRequest';
 import {
 
     handleOptionClick,
@@ -21,7 +24,6 @@ import {
     updateScreenHeight
 
 } from './functions/extraFunctions'
-import SelectPages from './components/SelectPages';
 
 
 export default function Service ({ config, handleSubHeader, ...props}) {
@@ -52,13 +54,41 @@ export default function Service ({ config, handleSubHeader, ...props}) {
     const [screenHeight, setScreenHeight] = React.useState( scrollHeight );
     const [actionLoading, setActionLoading] = React.useState(false)
     const [selectedOption, setSelectedOption] = React.useState(0)
+    const [confirmAlert, setConfirmAlert] = React.useState(false)
     
 
     // Functions ^^
+    const cleanup = () => {
+        setConfirmAlert(false)
+    }
+
+    const actionConfirmed = () => {
+        
+    }
+
+    const handleAction = (action) => {
+        setConfirmAlert({
+            title: 'Confirm Action',
+            message: `Are you sure you want to ${action} ${hostname}`,
+            buttons: [
+                {   
+                    label: 'Confirm',
+                    isPrimary: true,
+                    isDangerous: false,
+                    clickFunc: actionConfirmed
+                },
+                {
+                    label: 'Abort',
+                    isPrimary: false,
+                    isDangerous: false,
+                    clickFunc: () => {console.log("sheet")}
+                }
+            ]
+        })
+    }
 
 
     // Use Effect Hooks 
-
     useEffect(() => {
 
         // Resize Event Listener
@@ -143,12 +173,20 @@ export default function Service ({ config, handleSubHeader, ...props}) {
 
         <Wrapper>   
             
+            {confirmAlert ? (
+                <ConfirmAlert 
+                    buttons={confirmAlert.buttons}
+                    title={confirmAlert.title}
+                    message={confirmAlert.message}
+                />
+            ) : null}
+
             <VPSInformationWrapper>
             
                 <VPSDetails
                     status={serviceStatus?.body?.status}
                     hostname={'Hostname'}
-                    handleAction={() => {console.log("shit")}}
+                    handleAction={handleAction}
                 />
                 
                 <Charts 
