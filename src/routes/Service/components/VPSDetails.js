@@ -1,6 +1,8 @@
-import React from 'react'
+// Dependencies
+import React, {useState} from 'react'
 import styled from 'styled-components'
 import Svg from '../../../components/icons/SvgIcon';
+import { checkMachineStatus, getExtraActions } from '../functions/extraFunctions';
 
 export default function Component ({...props}) {
     
@@ -10,17 +12,25 @@ export default function Component ({...props}) {
         status,
     } = props;
 
+    // Component States
+    const [extraMachineActions, setExtraMachineActions] = useState(getExtraActions(status));
+
+    const statusTextColor = (machineStatus) => {
+        if (machineStatus === 'active') {
+            return '#46E857';
+        } else if (machineStatus === 'not_active') {
+            return '#A75F5F';
+        } else if (machineStatus === 'pending') {
+            return '#E0C745';
+        }
+    }
+
     let vpsDetails = [ 
         
         {
             name: "Status",
             value: status,
-
-            color: "A75F5F", 
-            green: "46E857",
-            red: "A75F5F",
-            yellow: "E0C745",
-            
+            color: statusTextColor(checkMachineStatus(status)),          
         },
         {
             name: "IP address",
@@ -33,34 +43,10 @@ export default function Component ({...props}) {
 
     ]
 
-    let actions = [
-        {
-            file: "reboot_button.svg",
-            label: "reboot ",
-            action: 'reboot',
-        },
-        {
-            file: "stop_button.svg",
-            label: "stop",
-            action: "stop",
-
-        },
-        {
-            file: "power_button.svg",
-            label: "power on",
-            action: "power-on",
-        },
-    ]
-
-
-    // Functions ^^
-
-    const handleActionClick = (action) => {
-
-        handleAction(action)
-
-    }
+    // Component Functions
+    const handleActionClick = (action) => handleAction(action);
     
+
     return (
 
         <VPSDetailsWrapper>
@@ -78,7 +64,7 @@ export default function Component ({...props}) {
                                     {VPSItem.name}: 
                                 </VPSDetailName>
 
-                                <VPSDetailValue textColor={VPSItem.name.toLowerCase() === "status" ? `#${VPSItem.color}` : false} >
+                                <VPSDetailValue textColor={VPSItem.name.toLowerCase() === "status" ? VPSItem.color : false} >
                                     {VPSItem.value}
                                 </VPSDetailValue>
                                 
@@ -95,7 +81,7 @@ export default function Component ({...props}) {
                 
                 <VPSButtonsList>
                     
-                    {actions.map((actionButton, index) => {
+                    {extraMachineActions.map((actionButton, index) => {
                         
                         return (
 

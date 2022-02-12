@@ -3,11 +3,11 @@ import React, { useEffect } from 'react'
 import VPSDetailsSection from './VPSDetailsSection';
 import getServiceInformationList from '../functions/getServiceInformationList';
 
-export default function Details({ data, userDetails }) {
+export default function Details({ service, user }) {
 
     // Component Variables ^^
 
-    let edit_path = `/services/${data.id}/${data.hostname}/update`
+    let edit_path = `/services/${service.id}/${service.hostname}/update`
 
     
     // React State Hooks ^^
@@ -25,7 +25,7 @@ export default function Details({ data, userDetails }) {
             planInformation,
             generalInformation,
 
-        } = getServiceInformationList({serviceInformation: data, ownerInformation: userDetails.body})
+        } = getServiceInformationList({serviceInformation: service, ownerInformation: user})
 
         setServiceGeneralInformation( generalInformation )
         setServicePlanInformation( planInformation )

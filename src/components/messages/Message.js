@@ -2,48 +2,47 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export default function ConfirmAlert({...props}) {
+export default function Message({...props}) {
 
     // Passed Props
     const {
         title,
-        message,
-        buttons,
+        description,
+        button,
+        success,
     } = props
 
     return (
-        <AlertOuterWrapper>
-            <AlertWrapper>
-                <AlertHeader>
-                    <AlertHeading>
+        <MessagetOuterWrapper>
+            <MessagetWrapper>
+                <MessagetHeader>
+                    <MessagetHeading success={success}>
                         {title}
-                    </AlertHeading>
-                </AlertHeader>
-                <AlertDesc>
-                    <AlertDescText>
-                        {message}
-                    </AlertDescText>
-                </AlertDesc>
-                <AlertButtons>
-                    {buttons.map((button, index) => (
-                        <AlertButton isPrimary={button.isPrimary} isDangerous={button.isDangerous} key={index} onClick={button.onClick} >
-                            {button.label}
-                        </AlertButton>
-                    ))}
-                </AlertButtons>
-            </AlertWrapper>
-        </AlertOuterWrapper>
+                    </MessagetHeading>
+                </MessagetHeader>
+                <MessagetDesc>
+                    <MessagetDescText>
+                        {description}
+                    </MessagetDescText>
+                </MessagetDesc>
+                <MessagetButtons>
+                    <MessagetButton onClick={button.onClick} >
+                        {button.label}
+                    </MessagetButton>
+                </MessagetButtons>
+            </MessagetWrapper>
+        </MessagetOuterWrapper>
     );
 
 }
 
 
-const AlertButton = styled.button `
+const MessagetButton = styled.button `
     cursor: pointer;
     color: #e5e6e9;
     width: fit-content;
     border: solid 1px #252c36;
-    background: ${props => props.isPrimary ? 'rgb(118, 52, 112)' : '#10151c'};
+    background: #10151c;
     
     border-radius: 4px;
     padding: 0px 20px;
@@ -55,7 +54,7 @@ const AlertButton = styled.button `
     }
 `;
 
-const AlertButtons = styled.div `
+const MessagetButtons = styled.div `
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -65,7 +64,7 @@ const AlertButtons = styled.div `
     margin: 10px 0px;
 `;
 
-const AlertDescText = styled.span `
+const MessagetDescText = styled.span `
     font-size: 15px;
     font-weight: 400;
     color: rgb(170, 173, 181);
@@ -74,7 +73,7 @@ const AlertDescText = styled.span `
     height: fit-content;
 `;
 
-const AlertDesc = styled.div `
+const MessagetDesc = styled.div `
     display: flex;
     align-items: center;
     justify-content: center;
@@ -105,8 +104,8 @@ const AlertDesc = styled.div `
 
 `;
 
-const AlertHeading = styled.span `
-    color: #e5e6e9;
+const MessagetHeading = styled.span `
+    color: ${props => props.success ? '#4da56a' : '#a54d4d'};
     height: fit-content;
 
     width: 100%;  
@@ -114,7 +113,7 @@ const AlertHeading = styled.span `
     font-weight: 500;
 `;
 
-const AlertHeader = styled.div `
+const MessagetHeader = styled.div `
     display: flex;
     align-items: center; 
     justify-content: center;
@@ -124,7 +123,7 @@ const AlertHeader = styled.div `
     margin-top: 10px;
 `;
 
-const AlertWrapper = styled.div `
+const MessagetWrapper = styled.div `
     display: flex;
     justify: center;
     align-items: center;
@@ -142,7 +141,7 @@ const AlertWrapper = styled.div `
     filter: drop-shadow(0px 0px 4px rgba(255, 255, 255, 0.05));
 `;
 
-const AlertOuterWrapper = styled.div `
+const MessagetOuterWrapper = styled.div `
     &::before {
         content: '';
         position: fixed;

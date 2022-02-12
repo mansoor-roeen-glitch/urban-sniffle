@@ -1,12 +1,14 @@
+// Dependencies
 import React from "react";
-import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
-import {createBrowserHistory} from 'history'
-import Register from "./routes/Register/Register";
-import Login from './routes/Login/Login'
-import Reset from "./routes/Reset/Reset";
+import { BrowserRouter, Route, Redirect, Switch, useHistory } from "react-router-dom";
+import styled from 'styled-components';
 import axios from "axios";
+import getUserDetails from "./functions/getUserDetails";
 
 // Components
+import Login from './routes/Login/Login'
+import Register from "./routes/Register/Register";
+import Reset from "./routes/Reset/Reset";
 import Base from './routes/Base/Base';
 import Service from './routes/Service/Service';
 import Create from './routes/Create/Create';
@@ -18,8 +20,6 @@ import Templates from './routes/templates/Templates';
 import Template from './routes/templates/components/Template'
 import CreateTemplate from './routes/templates/components/CreateTemplate';
 import Logout from './routes/Logout/Logout';
-import styled from 'styled-components';
-import getUserDetails from "./functions/getUserDetails";
 import Nodes from "./routes/Nodes/Nodes";
 import CreateNode from "./routes/Nodes/components/CreateNode";
 import Node from './routes/Nodes/components/Node';
@@ -31,9 +31,11 @@ import Navbar from "./components/navbar/Navbar";
 import UpdateService from "./routes/UpdateService/UpdateService";
 import Dashboard from './routes/Dashboard/Dashboard'
 
+
 function App() {
-  
+
   const params = new Map(window.location.search.slice(1).split('&').map(kv => kv.split('=')))
+  const history = useHistory();
 
   const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState(false)
@@ -61,8 +63,6 @@ function App() {
     isLoading: loading
 
   })
-
-  const history = createBrowserHistory(); 
 
   const handleClickChange = (id, hostname) => {
       setSelected({hostname, id})
@@ -172,7 +172,7 @@ function App() {
         
         })
 
-        handleSuccessRedirect('/dashboard')
+        handleSuccessRedirect('/services')
         setLoading(false)
         
       } else {
@@ -216,14 +216,17 @@ function App() {
   }, [])
 
   return (
+
     <div className="App_Wrapper" style={{display: "flex", overflow: "hidden", flexDirection: "column", minHeight: "100vh", height: "fit-content", justifyContent: "center"}}>
-      <BrowserRouter history={history}>
+    
+      <BrowserRouter>
 
         {redirectTo && (
           <Redirect to={redirectTo} />
         )}
 
         {!loading ? (
+
           <Switch>
 
             <Route path="/" exact render={() => <LandingPage />}  />

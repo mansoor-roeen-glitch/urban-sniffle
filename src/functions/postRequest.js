@@ -7,7 +7,7 @@ export default async function postRequest({token, dataset, endpoint}) {
         {
             
             data: dataset,
-            method: 'post',
+            method: 'POST',
             url: `https://hosnet.io${endpoint}/`,
             
             headers: {

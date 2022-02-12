@@ -1,11 +1,9 @@
 // Importing Libraries
-
 import React, {useEffect} from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 // Importing Components
-
 import VPSDetails from './components/VPSDetails';
 import Charts from './components/Charts';
 import SelectSection from './components/SelectSection';
@@ -13,8 +11,6 @@ import SelectPages from './components/SelectPages';
 import ConfirmAlert from '../../components/popup/ConfirmAlert';
 
 // Importing Functions
-
-import getUser from '../../functions/getUserDetails';
 import service from './functions/service';
 import postRequest from '../../functions/postRequest';
 import {
@@ -24,6 +20,7 @@ import {
     updateScreenHeight
 
 } from './functions/extraFunctions'
+import Message from '../../components/messages/Message';
 
 
 export default function Service ({ config, handleSubHeader, ...props}) {
@@ -35,7 +32,7 @@ export default function Service ({ config, handleSubHeader, ...props}) {
     // Global Variables 
     var scrollHeight = document.body.scrollHeight;
     var scrollWidth = document.body.scrollWidth;
-
+    let history = useHistory();
     
     // Connection status hooks and loading hook
     const [loading, setLoading] = React.useState(true);
@@ -55,18 +52,66 @@ export default function Service ({ config, handleSubHeader, ...props}) {
     const [actionLoading, setActionLoading] = React.useState(false)
     const [selectedOption, setSelectedOption] = React.useState(0)
     const [confirmAlert, setConfirmAlert] = React.useState(false)
+    const [message, setMessage] = React.useState(false)
     
 
     // Functions ^^
-    const cleanup = () => {
+    const messageCleanup = () => {
+        setMessage(false)
+    }
+
+    const showMessage = ({...props}) => {
+        setMessage({
+            success: props.success,
+            title: props.title,
+            description: props.description,
+            button: {
+                label: 'Close',
+                onClick: messageCleanup,
+            }
+        })
+    }
+
+    const alertCleanup = () => {
         setConfirmAlert(false)
     }
 
-    const actionConfirmed = () => {
+    const actionConfirmed = async (action) => {
         
+        alertCleanup()
+        setActionLoading(true)
+        
+        let result = await postRequest({
+
+            endpoint: `/api/services/${id}/${action}`,
+            token: config,
+            dataset: {}
+
+        })
+                
+        if (result.success) {
+            showMessage({
+                success: true,
+                title: 'Task completed',
+                description: `"${hostname}" ${action} succeeded`
+            })
+
+        } else if  (!result.success) {
+            showMessage({
+                success: false,
+                title: 'Task failed',
+                description: `"${hostname}" ${action} failed`
+            })
+        }
+        
+        setActionLoading(false)
+
     }
 
     const handleAction = (action) => {
+
+        const confirmedActionFunc = () => actionConfirmed(action)
+
         setConfirmAlert({
             title: 'Confirm Action',
             message: `Are you sure you want to ${action} ${hostname}`,
@@ -75,13 +120,13 @@ export default function Service ({ config, handleSubHeader, ...props}) {
                     label: 'Confirm',
                     isPrimary: true,
                     isDangerous: false,
-                    clickFunc: actionConfirmed
+                    onClick: confirmedActionFunc
                 },
                 {
                     label: 'Abort',
                     isPrimary: false,
                     isDangerous: false,
-                    clickFunc: () => {console.log("sheet")}
+                    onClick: alertCleanup,
                 }
             ]
         })
@@ -173,6 +218,15 @@ export default function Service ({ config, handleSubHeader, ...props}) {
 
         <Wrapper>   
             
+            {message ? (
+                <Message 
+                    button={message.button}
+                    title={message.title}
+                    success={message.success}
+                    description={message.description}
+                />
+            ) : null}
+            
             {confirmAlert ? (
                 <ConfirmAlert 
                     buttons={confirmAlert.buttons}
@@ -184,7 +238,7 @@ export default function Service ({ config, handleSubHeader, ...props}) {
             <VPSInformationWrapper>
             
                 <VPSDetails
-                    status={serviceStatus?.body?.status}
+                    status={serviceStatus?.body?.status || 'inactive'}
                     hostname={'Hostname'}
                     handleAction={handleAction}
                 />
@@ -208,14 +262,14 @@ export default function Service ({ config, handleSubHeader, ...props}) {
 
             <SelectPages
 
-                serviceInformation={serviceInformation.body}
-                serviceConsole={serviceConsole}
-                serviceStatus={serviceStatus}
-
-                userInformation={userInformation}
-                setActionLoading={setActionLoading}
+                user={userInformation}
                 selectedOption={selectedOption}
                 config={config}
+                service={{
+                    details: serviceInformation.body,
+                    console: serviceConsole.body,
+                    status: serviceStatus.body,
+                }}
 
             />
             
