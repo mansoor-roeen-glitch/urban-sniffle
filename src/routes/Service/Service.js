@@ -28,7 +28,6 @@ export default function Service ({ config, handleSubHeader, ...props}) {
     // Refactored Props
     const {id, hostname} = props.details
 
-
     // Global Variables 
     var scrollHeight = document.body.scrollHeight;
     var scrollWidth = document.body.scrollWidth;
@@ -53,10 +52,12 @@ export default function Service ({ config, handleSubHeader, ...props}) {
     const [selectedOption, setSelectedOption] = React.useState(0)
     const [confirmAlert, setConfirmAlert] = React.useState(false)
     const [message, setMessage] = React.useState(false)
+    const [update, setUpdate] = React.useState(false);
     
 
     // Functions ^^
     const messageCleanup = () => {
+        history.push('/services')
         setMessage(false)
     }
 

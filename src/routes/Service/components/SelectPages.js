@@ -43,7 +43,7 @@ export default function SelectPages ({...props}) {
             return (
                 <Console 
                     service={service.details} 
-                    console={service.console} 
+                    terminalData={service.console} 
                     status={service.status}
                     config={config}
                 />
