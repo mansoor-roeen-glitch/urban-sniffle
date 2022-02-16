@@ -1,4 +1,37 @@
 import { ACTIVE_MACHINE_EXTRA_ACTIONS, INACTIVE_MACHINE_EXTRA_ACTIONS } from "../../../constants";
+import postRequest from "../../../functions/postRequest";
+
+const actionConfirmed = async (id, hostname, action, alertCleanup, setActionLoading, showMessage, token) => {
+        
+    alertCleanup()
+    setActionLoading(true)
+    
+    let result = await postRequest({
+
+        endpoint: `/api/services/${id}/${action}`,
+        token: token,
+        dataset: {}
+
+    })
+            
+    if (result.success) {
+        showMessage({
+            success: true,
+            title: 'Task completed',
+            description: `"${hostname}" ${action} succeeded`
+        })
+
+    } else if  (!result.success) {
+        showMessage({
+            success: false,
+            title: 'Task failed',
+            description: `"${hostname}" ${action} failed`
+        })
+    }
+    
+    setActionLoading(false)
+
+}
 
 const checkMachineStatus = (status) => {
     if (status === 'inactive' || status === 'stopped') {
@@ -43,5 +76,6 @@ export {
     serviceNotActivated,
     updateScreenHeight,
     getExtraActions,
-    checkMachineStatus
+    checkMachineStatus,
+    actionConfirmed
 }   

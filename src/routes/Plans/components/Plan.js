@@ -1,13 +1,11 @@
 import React, {useEffect} from 'react'
 import styled from 'styled-components';
 import Section from '../../Service/components/Section';
-import SubHeader from '../../../components/Header/SubHeader'
 import Button from '../../../components/buttons/ActionButton';
 import DeleteBtn from '../../../components/buttons/DangerActionButton';
 import axios from 'axios';
 import SuccessMessage from '../../../components/messages/SuccessMessage';
 import ErrorMessage from '../../../components/messages/ErrorMessage';
-import { Redirect } from 'react-router-dom';
 
 export default function Plan(
 
@@ -576,11 +574,11 @@ export default function Plan(
         )
     }
 
-    if (!userDataLoading && userData.is_staff === false) {
-        return (
-            <Redirect to="/" push={true} />
-        )
-    }
+    // if (!userDataLoading && userData.is_staff === false) {
+    //     return (
+    //         <Redirect to="/" push={true} />
+    //     )
+    // }
 
     return (
         <Wrapper>

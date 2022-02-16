@@ -1,9 +1,9 @@
 // Dependencies
-import React from "react";
-import { BrowserRouter, Route, Redirect, Switch, useHistory } from "react-router-dom";
+import React, {useState, useEffect} from "react";
 import styled from 'styled-components';
-import axios from "axios";
-import getUserDetails from "./functions/getUserDetails";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {authenticatedRedirect, authenticator, notAuthenticatedRedirect} from './functions/authenticator';
+import { useNavigate } from "react-router";
 
 // Components
 import Login from './routes/Login/Login'
@@ -32,36 +32,29 @@ import UpdateService from "./routes/UpdateService/UpdateService";
 import Dashboard from './routes/Dashboard/Dashboard'
 
 
-function App() {
+export default function App () {
 
-  const params = new Map(window.location.search.slice(1).split('&').map(kv => kv.split('=')))
-  const history = useHistory();
+  // const params = new Map(window.location.search.slice(1).split('&').map(kv => kv.split('=')));
+  const locationPathname = window.location.pathname;
+  const navigate = useNavigate();
 
-  const [loading, setLoading] = React.useState(true)
-  const [error, setError] = React.useState(false)
-  
-  const [userData, setUserData] = React.useState()
-  const [userDataLoading, setUserDataLoading] = React.useState(true)
-  const [userDataSuccess, setUserDataSuccess] = React.useState(false)
-  const [userDataError, setUserDataError] = React.useState(false)
-  
-  const [pathname, setPathname] = React.useState(window.location.pathname)
-  const [redirectTo, setRedirectTo] = React.useState("")
-  const [config, setConfig] = React.useState({})
-  const [token, setToken] = React.useState("")
-  
-  const [selected, setSelected] = React.useState(false)
-  const [selectedPlan, setSelectedPlan] = React.useState()
-  const [selectedTemplate, setSelectedTemplate] = React.useState()
-  const [selectedPool, setSelectedPool] = React.useState()
-  const [selectedNode, setSelectedNode] = React.useState()
-  
-  const [subHeader, setSubHeader] = React.useState({
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
 
+  const [userDetails, setUserDetails] = useState()
+  const [authenticated, setAuthenticated] = useState(false)
+  const [token, setToken] = useState(localStorage.getItem('x-token'))
+
+  const [selectedTemplate, setSelectedTemplate] = useState()
+  const [selectedPlan, setSelectedPlan] = useState()
+  const [selectedPool, setSelectedPool] = useState()
+  const [selectedNode, setSelectedNode] = useState()
+  const [selected, setSelected] = useState(false)
+
+  const [subHeaderDetails, setSubheaderDetails] = useState({
     path: "Hostler",
     subPaths: ["dashboard"],
     isLoading: loading
-
   })
 
   const handleClickChange = (id, hostname) => {
@@ -70,7 +63,7 @@ function App() {
 
   const handlePlanClick = (details) => {
       setSelectedPlan(details)
-  } 
+  }
 
   const handleTemplateClick = (details) => {
       setSelectedTemplate(details)
@@ -84,228 +77,142 @@ function App() {
     setSelectedPool(details)
   }
 
-  const handleSuccessRedirect = (defaultLocation) => {
-    
-    if ( params.has('redirect') ) {
+  const redirectUserTo = (pathname) => {
+    navigate(pathname)
+  }
 
-      setRedirectTo( `/${params.get('redirect')}` )
+  // Checking whether userDetails is logged in or not
+  // If token fails or did not exist, userDetails would be redirected to /login...
+  // If token works, userDetails would be redirected to /...
+  const authentication = async () => {
 
-      if (params.has('plan_id')) {
-        
-        setRedirectTo(prev => `${prev}?plan_id=${params.get('plan_id')}`)
+    let response = await authenticator(token, setToken, setUserDetails);
 
-      }
+    if (response === 'authenticated') {
 
-    } else {
+      setAuthenticated(true)
+      authenticatedRedirect(redirectUserTo)
 
-      setRedirectTo(defaultLocation)
+    } else if (response === 'not_authenticated') {
+
+      setAuthenticated(false)
+      notAuthenticatedRedirect(redirectUserTo)
 
     }
 
-  }
-
-  const checkToken = async (token) => {
-    const response = await axios({
-      method: 'get',
-      url: 'https://hosnet.io/api/',
-      headers: {
-        'content-type': 'application/json',
-        'Authorization': `Token ${token}`
-      }
-    });
-  
-    if (response.status === 200) {
-
-      return true;
-
-    } else if (response.status !== 200) {
-
-      return false;
-
-    }
+    setLoading(false)
 
   }
 
-  const getUserData = async (token) => {
-    const response = await getUserDetails(token);
-    if (response.success === true ) {
-      setUserData(response.data);
-      setUserDataLoading(false)
-      setUserDataSuccess(true)
-    }
-  }
+  // this function can be used to update the sub-header
+  // updating sub-header depending on state and pathname 
+  const subHeader = (subPaths, isLoading, ) => {
 
-  const notAuthenticated = (path) => {
-
-    const reLocation = () => {
-      if (window.location.pathname === "/register") {
-        return "/register";
-      } else if (window.location.pathname === "/reset") {
-        return "/reset";
-      } else if (window.location.pathname === "/login") {
-        return '/login'
-      } else {
-        return "/"
-      }
-    }
-
-    setRedirectTo(reLocation());
-    setPathname(path ? path : reLocation())
-
-  }
-
-  const authenticator = (path) => {
-    if (localStorage.getItem("x-token")) {
-      
-      const xtoken = localStorage.getItem("x-token");
-
-      setToken(xtoken)
-      
-      if (checkToken(xtoken)) {
-
-        getUserData(xtoken)
-
-        setConfig({
-        
-          'content-type': 'application/json',
-          'Authorization': `Token ${xtoken}`
-        
-        })
-
-        handleSuccessRedirect('/services')
-        setLoading(false)
-        
-      } else {
-
-        notAuthenticated(path)
-        setLoading(false)
-
-      }
-      
-    } else {
-
-      notAuthenticated(path)
-      setLoading(false)
-
-    }
-  }
-
-  const handleSubHeader = (subPaths, isLoading, ) => {
-    
     if (!subPaths) {
       // Handle error
       return "sorry something went wrong";
     }
 
-    setSubHeader((prevState) => ({
-      
-      ...prevState, 
+    setSubheaderDetails((prevState) => ({
+      ...prevState,
       subPaths: subPaths,
       isLoading: isLoading
-    
+
     }))
 
     return null;
 
   }
 
-  React.useEffect(() => {
-
-    authenticator()
-    
+ useEffect(() => {
+    authentication()
   }, [])
+
+
+  if (loading) {
+    return <div>loading</div>
+  }
+
+  if (error) {
+    return <div>error occured</div>
+  }
+
+  if (!authenticated) {
+    return (
+      <Routes>
+        <Route path="/" exact element={<LandingPage />}  />
+        <Route path="/login" exact element={<Login />}  />
+        <Route path="/register" exact element={<Register />} />
+        <Route path="/reset" exact element={<Reset />} />
+      </Routes>
+    )
+  }
 
   return (
 
-    <div className="App_Wrapper" style={{display: "flex", overflow: "hidden", flexDirection: "column", minHeight: "100vh", height: "fit-content", justifyContent: "center"}}>
-    
-      <BrowserRouter>
+    <MainAppWrapper>
+      
+      <Header token={token} userDetails={userDetails} />
+      <SubHeader loading={subHeaderDetails.isLoading} path={true} pathName={subHeaderDetails.subPaths[0]} />
 
-        {redirectTo && (
-          <Redirect to={redirectTo} />
-        )}
+      <AppContentWrapper>
 
-        {!loading ? (
+        <NavBarWrapper>
+          <Navbar />
+        </NavBarWrapper>
 
-          <Switch>
+        <AppContent>
+          <Routes>
 
-            <Route path="/" exact render={() => <LandingPage />}  />
-            <Route path="/login" exact render={() => <Login />}  />
-            <Route path="/register" exact render={() => <Register />}  />
-            <Route path="/reset" exact render={() => <Reset />} />
-            <Route path="/logout" exact render={() => <Logout />} />
+            <Route path="/" exact element={<Dashboard token={token} subHeader={subHeader} />} />
+            <Route path="/services/:id/:hostname" exact element={<Service token={token} subHeader={subHeader} />} />
+            <Route path="/services" exact element={<Base token={token} subHeader={subHeader} />} />
+            <Route path="/logout" exact element={<Logout />} />
+            
+          </Routes>
+        </AppContent>
 
-            <OuterWrapper>
-              
-              <Header config={config} userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} />
-              <SubHeader loading={subHeader.isLoading} path={true} pathName={subHeader.subPaths[0]} />
+      </AppContentWrapper>
 
+    </MainAppWrapper>
 
-              <Wrapper> 
-                
-                
-                <NavBarWrapper>
-                  <Navbar userDataLoading={userDataLoading} userData={userData} />
-                </NavBarWrapper>
-
-                <InnerWrapper>
-
-                  <Route path="/admin-dashboard" exact render={() => <Dashboard handleSubHeader={handleSubHeader} config={token} handleClickChange={handleClickChange} />} />
-                  <Route path="/services" exact render={() => <Base handleSubHeader={handleSubHeader} config={token} handleClickChange={handleClickChange} />} />
-                  <Route path="/nodes" exact render={() => <Nodes handleSubHeader={handleSubHeader} userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handleNodeClick={handleNodeClick} />} />
-                  <Route path="/pools" exact render={() => <Pools handleSubHeader={handleSubHeader} userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} config={token} handlePoolClick={handlePoolClick} />} />
-                  <Route path="/plans" exact render={() => <Plans userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} handlePlanClick={handlePlanClick} />} />
-                  <Route path="/create_service" exact render={() => <Create handleSubHeader={handleSubHeader} config={token}  />} />
-                  <Route path="/plans/:id" exact render={() => <Plan userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} planDetails={selectedPlan} />} /> 
-                  <Route path="/templates" exact render={() => < Templates userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} handleTemplateClick={handleTemplateClick} />} />
-                  <Route path="/create/plan" exact render={() => <CreatePlan userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} />} />
-                  <Route path="/templates/:id" exact render={() => <Template userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} templateDetails={selectedTemplate} />} /> 
-                  <Route path="/create/template" exact render={() => <CreateTemplate userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} />} />
-                  <Route path="/services/:id/:hostname" exact render={() => <Service handleSubHeader={handleSubHeader} config={token} details={selected} />} /> 
-                  <Route path="/create/node" exact render={() => <CreateNode userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} />} />
-                  <Route path="/nodes/:id" exact render={() => <Node userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} nodeDetails={selectedNode} />} /> 
-                  <Route path="/create/pool" exact render={() => <CreatePool userDataLoading={userDataLoading} userDataSuccess={userDataSuccess} userData={userData} handleSubHeader={handleSubHeader} config={token} />} />
-                  <Route path="/services/:id/:hostname/update" exact render={() => <UpdateService handleSubHeader={handleSubHeader} config={token} details={selected} />} /> 
-
-                </InnerWrapper>
-              </Wrapper>
-            </OuterWrapper>
-
-          </Switch>
-        ) : (
-          <span>Loading</span>
-        )}
-      </BrowserRouter>
-    </div>
   );
 }
 
-const OuterWrapper = styled.div `
+const AppContentWrapper = styled.div `
+  display: flex;
+
+  width: 100%;
+  height: 100%;
+`;
+
+const MainWrapper = styled.div `
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+`;
+
+const MainAppWrapper = styled.div `
   display: flex;
   flex-direction: column;
-
   overflow: hidden;
 `;
 
-const Wrapper = styled.div `
-  height: fit-content;
-  overflow: hidden;
-  display: flex;
-`;
+const AppContent = styled.div `
+  overflow-y: scroll;
 
-const InnerWrapper = styled.div `
   width: 100%;
   max-height: calc(100vh - 82px);
-  padding-bottom: 80px;
-  overflow-y: scroll;
 `;
 
 const NavBarWrapper = styled.div `
   position: sticky;
-  height: calc(100vh - 82px);
-  width: 185px;
   background: #12171F;
+
+  width: 185px;
+  height: calc(100vh - 82px);
   padding-top: 10px;
 `;
-
-export default App;

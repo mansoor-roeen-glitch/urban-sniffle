@@ -1,4 +1,3 @@
-import { Redirect } from 'react-router-dom';
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components';
 import Section from '../../Service/components/Section';
@@ -202,11 +201,11 @@ export default function CreateTemplate(
         )
     }
 
-    if (!userDataLoading && userData.is_staff === false) {
-        return (
-            <Redirect to="/" push={true} />
-        )
-    }
+    // if (!userDataLoading && userData.is_staff === false) {
+    //     return (
+    //         <Redirect to="/" push={true} />
+    //     )
+    // }
 
     return (
         <Wrapper>

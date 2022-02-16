@@ -1,13 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components';
 import Section from '../../Service/components/Section';
-import SubHeader from '../../../components/Header/SubHeader'
 import Button from '../../../components/buttons/ActionButton';
 import DeleteBtn from '../../../components/buttons/DangerActionButton';
 import axios from 'axios';
 import ErrorMessage from '../../../components/messages/ErrorMessage';
 import SuccessMessage from '../../../components/messages/SuccessMessage';
-import {Redirect} from 'react-router-dom'
 
 export default function Node (
     
@@ -452,11 +450,11 @@ export default function Node (
         )
     }
 
-    if (!userDataLoading && userData.is_staff === false) {
-        return (
-            <Redirect to="/" push={true} />
-        )
-    }
+    // if (!userDataLoading && userData.is_staff === false) {
+    //     return (
+    //         <Redirect to="/" push={true} />
+    //     )
+    // }
 
     return (
         <Wrapper>

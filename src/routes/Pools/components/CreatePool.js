@@ -1,7 +1,5 @@
-import { Redirect } from 'react-router-dom';
 import React, { useEffect } from 'react'
 import styled from 'styled-components';
-import SubHeader from '../../../components/Header/SubHeader';
 import Section from '../../Service/components/Section';
 import Button from '../../../components/buttons/ActionButton'
 import axios from 'axios';
@@ -444,11 +442,11 @@ export default function CreatePlan(
         )
     }
 
-    if (!userDataLoading && userData.is_staff === false) {
-        return (
-            <Redirect to="/" push={true} />
-        )
-    }
+    // if (!userDataLoading && userData.is_staff === false) {
+    //     return (
+    //         <Redirect to="/" push={true} />
+    //     )
+    // }
 
     return (
         <Wrapper>

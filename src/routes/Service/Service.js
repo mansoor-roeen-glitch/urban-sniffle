@@ -1,7 +1,7 @@
 // Importing Libraries
 import React, {useEffect} from 'react';
 import styled from 'styled-components';
-import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 // Importing Components
 import VPSDetails from './components/VPSDetails';
@@ -12,9 +12,9 @@ import ConfirmAlert from '../../components/popup/ConfirmAlert';
 
 // Importing Functions
 import service from './functions/service';
-import postRequest from '../../functions/postRequest';
 import {
 
+    actionConfirmed,
     handleOptionClick,
     serviceNotActivated,
     updateScreenHeight
@@ -23,15 +23,14 @@ import {
 import Message from '../../components/messages/Message';
 
 
-export default function Service ({ config, handleSubHeader, ...props}) {
+export default function Service ({ config, subHeader, ...props}) {
 
     // Refactored Props
-    const {id, hostname} = props.details
+    const {id, hostname} = useParams();
 
     // Global Variables 
     var scrollHeight = document.body.scrollHeight;
     var scrollWidth = document.body.scrollWidth;
-    let history = useHistory();
     
     // Connection status hooks and loading hook
     const [loading, setLoading] = React.useState(true);
@@ -57,7 +56,6 @@ export default function Service ({ config, handleSubHeader, ...props}) {
 
     // Functions ^^
     const messageCleanup = () => {
-        history.push('/services')
         setMessage(false)
     }
 
@@ -77,36 +75,8 @@ export default function Service ({ config, handleSubHeader, ...props}) {
         setConfirmAlert(false)
     }
 
-    const actionConfirmed = async (action) => {
-        
-        alertCleanup()
-        setActionLoading(true)
-        
-        let result = await postRequest({
-
-            endpoint: `/api/services/${id}/${action}`,
-            token: config,
-            dataset: {}
-
-        })
-                
-        if (result.success) {
-            showMessage({
-                success: true,
-                title: 'Task completed',
-                description: `"${hostname}" ${action} succeeded`
-            })
-
-        } else if  (!result.success) {
-            showMessage({
-                success: false,
-                title: 'Task failed',
-                description: `"${hostname}" ${action} failed`
-            })
-        }
-        
-        setActionLoading(false)
-
+    const handleActionConfirmation = (action) => {
+        actionConfirmed(action, alertCleanup, setActionLoading, showMessage);   
     }
 
     const handleAction = (action) => {
@@ -168,7 +138,7 @@ export default function Service ({ config, handleSubHeader, ...props}) {
     // Sub Header Configuration
     useEffect(() => {
 
-        handleSubHeader([hostname], loading)
+        subHeader([hostname], loading)
 
     }, [loading])
 

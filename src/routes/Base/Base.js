@@ -4,10 +4,9 @@ import PrimaryButton from '../../components/buttons/PrimaryButton';
 import PrimarySearchBar from '../../components/inputs/PrimarySearchBar';
 import ServiceItemPlaceholder from './components/ServiceItemPlaceholder';
 import ServiceList from './components/ServiceList';
-import SubHeader from '../../components/Header/SubHeader';
-import axios from 'axios';
+import fetchEndpoint from '../../functions/fetchAnEndpoint';
 
-export default function BaseRoute({config, handleClickChange, handleSubHeader}) {
+export default function BaseRoute({token, subHeader}) {
 
     const [foundMatch, setFoundMatch] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
@@ -15,44 +14,56 @@ export default function BaseRoute({config, handleClickChange, handleSubHeader}) 
     const [search, setSearch] = React.useState("")
     const [error, setError] = React.useState()
 
+
+    // This functoin would update the services list
+    // Services list would be updated based on the search keyword
     const handleValueChange = (value) => {
-            const keyword = value;
-        
-            if (keyword !== '') {
-              
-                const searchRes = services.filter((service) => {
-                
-                    return service.hostname.toLowerCase().startsWith(keyword.toLowerCase());
-                    // Use the toLowerCase() method to make it case-insensitive
-                
-                });
+        const keyword = value;
 
-                setFoundMatch(searchRes);
-
-            } else {
-              
-                setFoundMatch(false);
-                // If the text field is empty, show all users
+        if (keyword !== '') {
             
-            }
+            const searchRes = services.filter((service) => {
+            
+                return service.hostname.toLowerCase().startsWith(keyword.toLowerCase());
+                // Use the toLowerCase() method to make it case-insensitive
+            
+            });
+
+            setFoundMatch(searchRes);
+
+        } else {
+            
+            setFoundMatch(false);
+            // If the text field is empty, show all users
+        
+        }
     }
 
+    // Getting list of services using the fetchEndpoint function
+    // Once services have been fetched, the services list would be updated
+    // If failure occurs, error would be set as error_message
     const getServices = async () => {
-        const response = await axios({
-            method: "get",
-            url: "https://hosnet.io/api/services/",
-            headers: {
-                'Authorization': `Token ${config}`,
-                'content-type': "application/json"
-            }
+        
+        let response = await fetchEndpoint({
+            token: token,
+            endpoint: "/api/services/",
         })
-            .then((res) => {setLoading(false); setServices(res.data.results); return res})
-            .catch((err) => {setError(true); setLoading(false); return err});
+        
+        if (response.success) {
+            setServices(response.body.results)
+            setLoading(false)
+            return null;
+        } 
+
+        setServices([])
+        setError(response?.error_message)
+        setLoading(false)
+
     }
 
     React.useEffect(() => {
         
-        handleSubHeader(["dashboard"], loading)
+        subHeader(["dashboard"], loading)
         getServices()
 
     }, [loading])
@@ -81,7 +92,7 @@ export default function BaseRoute({config, handleClickChange, handleSubHeader}) 
             </Header> 
 
             <ServiceItemPlaceholder data={["hostname", "plan", "status", "ram"]} />
-            <ServiceList handleClickChange={handleClickChange} data={foundMatch ? foundMatch : services} type="services" />
+            <ServiceList data={foundMatch ? foundMatch : services} type="services" />
             
         </Wrapper>
     )

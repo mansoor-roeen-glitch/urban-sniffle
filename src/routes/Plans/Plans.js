@@ -1,9 +1,7 @@
 import axios from 'axios';
 import React, {useEffect} from 'react'
-import { Redirect } from 'react-router-dom';
 import styled from 'styled-components'
 import PrimaryButton from '../../components/buttons/PrimaryButton';
-import SubHeader from '../../components/Header/SubHeader';
 import PrimarySearchBar from '../../components/inputs/PrimarySearchBar';
 import ServiceItemPlaceholder from '../Base/components/ServiceItemPlaceholder';
 import ServiceList from '../Base/components/ServiceList';
@@ -106,11 +104,11 @@ export default function Plans(
         )
     }
 
-    if (!userDataLoading && !loading && userData.is_staff === false) {
-        return (
-            <Redirect to="/" push={true} />
-        )
-    }
+    // if (!userDataLoading && !loading && userData.is_staff === false) {
+    //     return (
+    //         <Redirect to="/" push={true} />
+    //     )
+    // }
 
     return (
         <Wrapper>

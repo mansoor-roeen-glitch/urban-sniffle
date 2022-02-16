@@ -6,7 +6,6 @@ import DeleteBtn from '../../../components/buttons/DangerActionButton';
 import axios from 'axios';
 import ErrorMessage from '../../../components/messages/ErrorMessage';
 import SuccessMessage from '../../../components/messages/SuccessMessage';
-import {Redirect} from 'react-router-dom'
 
 export default function Plan(
     
@@ -256,11 +255,11 @@ export default function Plan(
         )
     }
 
-    if (!userDataLoading && userData.is_staff === false) {
-        return (
-            <Redirect to="/" push={true} />
-        )
-    }
+    // if (!userDataLoading && userData.is_staff === false) {
+    //     return (
+    //         <Redirect to="/" push={true} />
+    //     )
+    // }
 
     return (
         <Wrapper>

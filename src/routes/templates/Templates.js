@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, {useEffect} from 'react'
-import { Redirect } from 'react-router-dom';
 import styled from 'styled-components'
 import PrimaryButton from '../../components/buttons/PrimaryButton';
 import SubHeader from '../../components/Header/SubHeader';
@@ -103,11 +102,11 @@ export default function Templates(
         )
     }
 
-    if (!userDataLoading && !loading && userData.is_staff === false) {
-        return (
-            <Redirect to="/" push={true} />
-        )
-    }
+    // if (!userDataLoading && !loading && userData.is_staff === false) {
+    //     return (
+    //         <Redirect to="/" push={true} />
+    //     )
+    // }
 
     return (
         <Wrapper>

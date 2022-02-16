@@ -16,8 +16,9 @@ import {
 
 } from './StyledHeader';
 
-export default function Header({userDataLoading, userData, userDataSuccess}) {
+export default function Header({userDetails}) {
 
+    console.log(userDetails)
     let [featuresBtn, setFeaturesBtn] = React.useState(false);
     let [profileBtn, setProfileBtn] = React.useState(false);
     let [notificationBtn, setNotificationBtn] = React.useState(false);
@@ -72,8 +73,7 @@ export default function Header({userDataLoading, userData, userDataSuccess}) {
                             )
                         })}
 
-                        <Features setProfileBtn={setProfileBtn} active={featuresBtn} setActive={setFeaturesBtn} userDataLoading={userDataLoading} userData={userData} userDataSuccess={userDataSuccess} />
-                        <Profile setFeaturesBtn={setFeaturesBtn} active={profileBtn} setActive={setProfileBtn} userDataLoading={userDataLoading} userData={userData} />
+                        <Profile setFeaturesBtn={setFeaturesBtn} active={profileBtn} setActive={setProfileBtn} userDetails={userDetails} />
 
                     </StyledList>
                 </RightWrapper>

@@ -61,8 +61,6 @@ export default function Chart({heading, total, usage, text}) {
 }
 
 const SubProgressText = styled.span `
-  font-family: "Roboto";
-  font-style: normal;
   font-weight: 300;
   font-size: 14px;
 

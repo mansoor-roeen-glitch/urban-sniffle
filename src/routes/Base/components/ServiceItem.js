@@ -1,40 +1,21 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
-export default function ServiceItem({
-    
-    handleTemplateClick, 
-    handlePlanClick, 
-    handleNodeClick, 
-    handleClickChange, 
-    handlePoolClick, 
+export default function ServiceItem({index, details, redirectTo, item, type,}) {
 
-    index,
-    details, 
-    redirectTo, 
-    item, 
-    type
+    // Component variables
+    const navigate = useNavigate();
 
-    }) {
+    // Function to redirect user based on click
+    const handleClick = () => {
+        navigate(redirectTo);
+    }
 
     return (
         
-        <Link onClick={() => {
-
-            if (type === "service") {
-                handleClickChange(item[0], item[1])
-            } else if (type === "plan") {
-                handlePlanClick(details)
-            } else if (type === "template") {
-                handleTemplateClick(details)
-            } else if (type === "node") {
-                handleNodeClick(details)
-            } else if (type === "pool") {
-                handlePoolClick(details)
-            }
-
-        }} style={{textDecoration: "none", outline: "none"}} to={redirectTo}>
+        <Link onClick={handleClick} style={{textDecoration: "none", outline: "none"}} to={redirectTo}>
             <StyledWrapper id={item[0]} isOdd={index % 2 === 0 ? false : true} >
                 <StyledGrid>
 
