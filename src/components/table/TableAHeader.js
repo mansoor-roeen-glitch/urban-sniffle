@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 
-export default function ServiceItemPlaceholder({data}) {
+export default function PrimaryTableItemHeader({data}) {
     return (
         <ContentWrapper>
                 <ContentHeader>
@@ -37,23 +37,16 @@ const ListItem = styled.li `
 `;
 
 const ItemText = styled.span `
-    font-style: normal;
-    font-weight: normal;
     font-size: 0.85rem;
-    line-height: 124%;
-    text-transform: uppercase;
 
+    text-transform: uppercase;
     color: var(--primary-gray);
-    
-    @media screen and (max-width: 600px) {
-        font-size: 0.75rem;
-    }
 `;
 
 const HeaderList = styled.ul `
     list-style: none;
     display: grid;
-    grid-template-columns: 1fr 70px 70px 70px;
+    grid-template-columns: 1fr 85px 85px 85px;
     grid-template-rows: auto;
     column-gap: 40px;
 `;

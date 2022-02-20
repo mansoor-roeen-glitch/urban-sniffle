@@ -1,36 +1,27 @@
+// Dependencies
 import styled from 'styled-components'
-import TemplateSection from './components/TemplateSection'
-import PlanSection from './components/PlanSection'
 import React, { useEffect, useState } from 'react'
-import FormElement from '../../components/forms/FormElement'
-import fetchCreateInformation from './functions/fetchCreateInformation'
-import Button from '../../components/buttons/ActionButton'
+
+// Functions
 import {validateForm} from './functions/validateForm'
+import fetchCreateInformation from './functions/fetchCreateInformation'
 import submitForm from './functions/submitForm'
 
-export default function Create(
-    
-    {
+// Components
+import PlanSection from './components/PlanSection'
+import TemplateSection from './components/TemplateSection'
+import FormElement from '../../components/forms/FormElement'
+import Button from '../../components/buttons/ActionButton'
 
-        config,
-        handleSubHeader
-
-    }) {
+export default function Create({ token, subHeader }) {
     
     // React useState hooks ^^
 
     const [selectedPlan, setSelectedPlan] = useState(0)
     const [selectedTemplate, setSelectedTemplate] = useState(0)
-    const [responseLoading, setResponseLoading] = useState(false)
-
-    const [ownerLoading, setOwnerLoading] = useState(true);
-    const [ownerDetails, setOwnerDetails] = useState()
-    const [ownerSuccess, setOwnerSuccess] = useState();
+    const [user, setUser] = useState()
     
-    const [showMessage, setShowMessage] = React.useState(false);
-    const [details, setDetails] = useState()
     const [loading, setLoading] = useState(true)
-    const [success, setSuccess] = useState()
     const [error, setError] = useState()
 
     const [plansList, setPlansList] = useState([])
@@ -79,14 +70,14 @@ export default function Create(
                 password: password.value,
                 plan: plansList[selectedPlan].name,
                 template: templateList[selectedTemplate].name,
-                owner: ownerDetails.username
+                owner: user.username
 
             }
 
             submitForm({ 
                 
                 data: submitData, 
-                token: config
+                token: token
             
             })
 
@@ -96,43 +87,31 @@ export default function Create(
 
     async function getRequiredInformation () {
     
-        const response = await fetchCreateInformation(config)
+        const response = await fetchCreateInformation(token)
 
-        if (
+        if ( response.plansList.success && response.templatesList.success && response.userInformation.success ){
             
-            response.plansList.success && 
-            response.templatesList.success && 
-            response.userInformation.success
-            
-            ){
-            
-            setOwnerDetails(response.userInformation.body)
+            setUser(response.userInformation.body)
             setPlansList(response.plansList.body.results)
             setTemplateList(response.templatesList.body.results)
-            
+
             setError(false)
             setLoading(false)
 
-            setOwnerSuccess(true)
-            setOwnerLoading(false)
-
         } else {
-
             setError(true)
             setLoading(false)
-
         }
 
     }
 
 
     // Use effect hooks ^^
-
     useEffect( getRequiredInformation , [])
 
     // Updating Sub-Header based on route
     useEffect(() => {
-        handleSubHeader(["create service"], loading)
+        subHeader(["Create Service"], loading)
     }, [loading])
 
 
@@ -143,6 +122,7 @@ export default function Create(
         return (
             <Wrapper>
                 {/* Loading will be included below this */}
+                something
             </Wrapper>
         )
 

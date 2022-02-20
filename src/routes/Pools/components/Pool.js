@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import styled from 'styled-components';
-import Section from '../../Service/components/Section';
+import Table from '../../../components/table/TableB';
 import SubHeader from '../../../components/Header/SubHeader'
 import Button from '../../../components/buttons/ActionButton';
 import DeleteBtn from '../../../components/buttons/DangerActionButton';
@@ -504,9 +504,8 @@ export default function Plan(props) {
 
             <SubHeader path={true} loading={loading || props.userDataLoading ? true : false} pathName={details.name} />
             <InnerWrapper>
-                <Content>
-                    <Section data={data} heading="Update Pool" rows={4} rows2={5} rows3={10} rowHeight={105} />
-                </Content>
+                
+                
                 
                 <ButtonWrapper>
                     <Button height="45px" width="150px" text="Update Pool" onClick={handleClick} />

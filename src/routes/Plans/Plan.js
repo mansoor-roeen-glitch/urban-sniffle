@@ -1,11 +1,10 @@
 import React, {useEffect} from 'react'
 import styled from 'styled-components';
-import Section from '../../Service/components/Section';
-import Button from '../../../components/buttons/ActionButton';
-import DeleteBtn from '../../../components/buttons/DangerActionButton';
+import Button from '../../components/buttons/ActionButton';
+import DeleteBtn from '../../components/buttons/DangerActionButton';
 import axios from 'axios';
-import SuccessMessage from '../../../components/messages/SuccessMessage';
-import ErrorMessage from '../../../components/messages/ErrorMessage';
+import SuccessMessage from '../../components/messages/SuccessMessage';
+import ErrorMessage from '../../components/messages/ErrorMessage';
 
 export default function Plan(
 
@@ -603,9 +602,9 @@ export default function Plan(
 
             
             <InnerWrapper>
-                <Content>
-                    <Section data={data} heading="Update Plan" rows={4} rows1={5} rows2={7} rows3={14} rowHeight={105} />
-                </Content>
+                {/* <Content>
+                    <Table data={data} heading="Update Plan" rows={4} rows1={5} rows2={7} rows3={14} rowHeight={105} />
+                </Content> */}
 
                 <ButtonWrapper>
                     <Button height="45px" width="140px" text="Update Plan" onClick={hanldeClick} />

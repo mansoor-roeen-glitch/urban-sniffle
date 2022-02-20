@@ -3,8 +3,8 @@ import React, {useEffect} from 'react'
 import styled from 'styled-components'
 import PrimaryButton from '../../components/buttons/PrimaryButton';
 import PrimarySearchBar from '../../components/inputs/PrimarySearchBar';
-import ServiceItemPlaceholder from '../Base/components/ServiceItemPlaceholder';
-import ServiceList from '../Base/components/ServiceList';
+import TableHeader from '../../components/table/TableAHeader';
+import Table from '../../components/table/TableA';
 
 export default function Nodes(
     
@@ -120,8 +120,8 @@ export default function Nodes(
 
             </Header>
 
-            <ServiceItemPlaceholder data={["name", "size", "period", "bandwidth"]} />
-            <ServiceList handleNodeClick={handleNodeClick} data={foundMatch ? foundMatch : nodes} type="nodes" />
+            <TableHeader data={["name", "size", "period", "bandwidth"]} />
+            <Table handleNodeClick={handleNodeClick} data={foundMatch ? foundMatch : nodes} type="nodes" />
 
         </Wrapper>
     )

@@ -7,16 +7,11 @@ import FormElement from '../../../components/forms/ServiceFormElement'
 import PopupConfirmation from '../../../components/popup/PopupConfirmation'
 import postRequest from '../../../functions/postLoginRequest'
 
-export default function Settings ({serviceInformation, userInformation}) {
+export default function Settings ({service, user}) {
     
     // Component Functions
 
-    const {
-
-        currentHostname,
-        currentPassword
-
-    } = serviceInformation
+    const currentHostname = service.body.hostname
 
     let inputType = 'input'
 
@@ -32,28 +27,20 @@ export default function Settings ({serviceInformation, userInformation}) {
     // Component Functions
 
     const confirmDelete = async (props) => {
-        const response = await postRequest({
-
+        postRequest({
             token: '',
             endpoint: '/auth/login',
-            
             dataset: {
-                
                 password: props.password,
-                email: userInformation.body.email,
-                username: userInformation.body.username,
-
+                email: user.body.email,
+                username: user.body.username,
             }
-
         })
-        console.log(response)
     }
  
     const activatePopup = (action) => {
-
         setPopupAction(action);
         setIsPopupActive(true);
-
     }
 
     const handleDeleteClick = () => {
@@ -76,7 +63,7 @@ export default function Settings ({serviceInformation, userInformation}) {
                 <PopupWrapper>
                     <PopupConfirmation 
                     
-                        hostname={serviceInformation.hostname}
+                        hostname={service.body.hostname}
                         closePopup={closePopup}
                         callback={confirmDelete}
                         action={popupAction}

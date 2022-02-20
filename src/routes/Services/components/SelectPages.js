@@ -15,11 +15,14 @@ import { serviceNotActivated } from '../functions/extraFunctions';
 export default function SelectPages ({...props}) {
     
   const {
-      config,
+
+      token,
       service,
       user,
-      selectedOption
-  } = props
+      selectedOption,
+
+  } = props;
+
 
   return (
 
@@ -35,7 +38,7 @@ export default function SelectPages ({...props}) {
                     service={service.details} 
                     status={service.status} 
                     user={user} 
-                    config={config}
+                    token={token}
                 />
             )
 
@@ -45,7 +48,7 @@ export default function SelectPages ({...props}) {
                     service={service.details} 
                     terminalData={service.console} 
                     status={service.status}
-                    config={config}
+                    token={token}
                 />
             )
           
@@ -56,7 +59,7 @@ export default function SelectPages ({...props}) {
                     service={service.details} 
                     status={service.status}
                     user={user} 
-                    config={config}
+                    token={token}
                 />
               )
               
@@ -66,7 +69,7 @@ export default function SelectPages ({...props}) {
                 <Settings
                     service={service.details}
                     user={user}
-                    config={config}
+                    token={token}
                 />
             )
                   

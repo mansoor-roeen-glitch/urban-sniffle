@@ -1,22 +1,19 @@
+// Dependencies
 import axios from 'axios';
 import React, {useEffect} from 'react'
 import styled from 'styled-components'
+
+// Components
 import PrimaryButton from '../../components/buttons/PrimaryButton';
 import PrimarySearchBar from '../../components/inputs/PrimarySearchBar';
-import ServiceItemPlaceholder from '../Base/components/ServiceItemPlaceholder';
-import ServiceList from '../Base/components/ServiceList';
+import TableHeader from '../../components/table/TableAHeader';
+import Table from '../../components/table/TableA';
 
-export default function Plans(
-    
-    {
-            
-        config, 
-        handlePlanClick, 
-        userDataLoading, 
-        userData,
-        handleSubHeader
+// Functions
+import fetchEndpoint from '../../functions/fetchAnEndpoint';
+import { searchList } from '../../functions/tableSearchbar';
 
-    }) {
+export default function Plans({ token, subHeader }) {
 
     const [error, setError] = React.useState();
     const [plans, setPlans] = React.useState();
@@ -24,61 +21,45 @@ export default function Plans(
     const [search, setSearch] = React.useState("")
     const [foundMatch, setFoundMatch] = React.useState(false);
 
+    // update result based on search
     const handleValueChange = (value) => {
-        const keyword = value;
-    
-        if (keyword !== '') {
-          
-            const searchRes = plans.filter((plan) => {
-            
-                return plan.name.toLowerCase().startsWith(keyword.toLowerCase());
-                // Use the toLowerCase() method to make it case-insensitive
-            
-            });
-
-            setFoundMatch(searchRes);
-
-        } else {
-          
-            setFoundMatch(false);
-        
-        }
-    }
-
-    const getPlans = async () => {
-        let response = await axios({
-            method: "get",
-            url: `https://hosnet.io/api/plans/`,
-            headers: {
-                "content-type": "application/json",
-                "Authorization": `Token ${config}`
-            }
+        searchList({
+            list: plans || [],
+            value,
+            setFoundMatch,
+            searchKey: 'name',
         })
-            .then((res) => {return {status: 200, data: res.data}})
-            .catch((error ) => {return {status: false, data: error};})
-        
-        return response;
+    }
+    
+    // getting list of plans using the fetchEndpoint function
+    // once plans have been fetched, the plans list would be updated
+    // if failure occurs, error would be set as error_message
+    const getPlans = async () => {
+        let response = await fetchEndpoint({
+            token: token,
+            endpoint: '/api/plans/',
+        })
+
+        if (response.success) {
+            setPlans(response.body.results)
+            setLoading(false)
+            return null;
+        } 
+
+        setPlans([])
+        setError(response?.error_message)
+        setLoading(false)
+
     }
 
-    useEffect( async () => {
-
-        const plans = await getPlans()
-
-        if (plans.status) {
-            setPlans(plans.data.results);
-            setLoading(false);
-        } else {
-            setError(plans.data);
-            setLoading(false);
-        }
-
-
+    // run "getPlans" function
+    useEffect( () => {
+        getPlans();
     }, [])
 
-
-    // Updating Sub-Header based on route
+    // update sub-header
     useEffect(() => {
-        handleSubHeader(["plans"], loading)
+        subHeader(["plans"], loading)
     }, [loading])
 
 
@@ -97,19 +78,6 @@ export default function Plans(
         )
     }
 
-    if (!loading && userDataLoading) {
-        return (
-            <Wrapper>
-            </Wrapper>
-        )
-    }
-
-    // if (!userDataLoading && !loading && userData.is_staff === false) {
-    //     return (
-    //         <Redirect to="/" push={true} />
-    //     )
-    // }
-
     return (
         <Wrapper>
             <Header>
@@ -122,34 +90,35 @@ export default function Plans(
 
             </Header>
 
-            <ServiceItemPlaceholder data={["name", "size", "period", "bandwidth"]} />
-            <ServiceList handlePlanClick={handlePlanClick} data={foundMatch ? foundMatch : plans} type="plans" />
+            <TableHeader data={["name", "size", "period", "bandwidth"]} />
+            <Table data={foundMatch ? foundMatch : plans} type="plans" />
 
         </Wrapper>
     )
 }
 
 const SearchWrapper = styled.div `
-
+    width: fit-content;
+    height: fit-content;
 `;
 
 const Header = styled.div `
     width: 93%;
     max-width: 1600px;
-    background: transparent;
+    margin-bottom: 35px;
 
+    background: transparent;
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    margin-bottom: 40px;
 `;
 
 const Wrapper = styled.div `
     width: 100%;
+    padding-top: 35px;
+
     height: fit-content;
     background: transparent;
-
     display: flex;
     align-items: center;
     justify-content: center;

@@ -3,8 +3,8 @@ import React, {useEffect} from 'react'
 import styled from 'styled-components'
 import PrimaryButton from '../../components/buttons/PrimaryButton';
 import PrimarySearchBar from '../../components/inputs/PrimarySearchBar';
-import ServiceItemPlaceholder from '../Base/components/ServiceItemPlaceholder';
-import ServiceList from '../Base/components/ServiceList';
+import TableHeader from '../../components/table/TableAHeader';
+import Table from '../../components/table/TableA';
 
 export default function Pools(
     
@@ -119,8 +119,8 @@ export default function Pools(
 
             </Header>
 
-            <ServiceItemPlaceholder data={["name", "type", "interface", "mask"]} />
-            <ServiceList handlePoolClick={handlePoolClick} data={foundMatch ? foundMatch : pools} type="pools" />
+            <TableHeader data={["name", "type", "interface", "mask"]} />
+            <Table handlePoolClick={handlePoolClick} data={foundMatch ? foundMatch : pools} type="pools" />
 
         </Wrapper>
     )

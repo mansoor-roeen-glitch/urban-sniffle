@@ -1,4 +1,4 @@
-export default function handleNavbarOptions (isUserDataLoading, userData) {
+export default function handleNavbarOptions (user) {
 
     const clientAcessOptions = [
         {
@@ -69,11 +69,11 @@ export default function handleNavbarOptions (isUserDataLoading, userData) {
         }
     ]
 
-    if (isUserDataLoading || !userData || !userData.is_staff) {
+    if (!user?.body || !user?.body?.is_staff) {
         return clientAcessOptions;
     }
 
-    if (!isUserDataLoading && userData.is_staff) {
+    if (user?.body?.is_staff) {
         return adminAccessOptions;
     }
 

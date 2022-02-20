@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react'
 import styled from 'styled-components';
-import Section from '../../Service/components/Section';
 import Button from '../../../components/buttons/ActionButton'
 import axios from 'axios';
 import SuccessMessage from '../../../components/messages/SuccessMessage';
@@ -441,7 +440,7 @@ export default function CreatePlan(
 
             <InnerWrapper>
 
-                <Section data={data} heading="Create new plan" rows={3} rows1={4} rows2={5} rows3={10} rowHeight={105}  />
+                {/* <Table data={data} heading="Create new plan" rows={3} rows1={4} rows2={5} rows3={10} rowHeight={105}  /> */}
                 
                 <ButtonWrapper>
                     <Button onClick={hanldeClick} text="Create node" width="125px" height="45px" />

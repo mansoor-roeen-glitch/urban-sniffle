@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import Icon from '../icons/SvgIcon';
 
 export default function PrimaryButton({to, text, height, width, onClick}) {
 
@@ -11,12 +12,22 @@ export default function PrimaryButton({to, text, height, width, onClick}) {
                     <StyledButtonText>
                         {text}
                     </StyledButtonText>
+                    <StyledIconWrapper>
+                        <Icon path='/images/general/arrow-up-down-icon.svg' width={9} height={14} alt="Create arrow" />
+                    </StyledIconWrapper>
                 </StyledButton>
             </Link>
         </ButtonWrapper>
     )
 }
 
+const StyledIconWrapper = styled.div `
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    width: fit-content;
+`;  
 
 const ButtonWrapper = styled.div `
     width: auto;
@@ -30,16 +41,15 @@ const ButtonWrapper = styled.div `
 const StyledButton = styled.button `
     width: ${props => props.width};
     height: ${props => props.height};
+    border-radius: 1px;
+    column-gap: 10px;
+    
     background: transparent;
-    border-color: var(--secondary-purple);
-    border-width: 0.5px;
-    border-style: solid;
-
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 1px;
     cursor: pointer;
+    border: solid 1px #322d34;
 
     &:hover {
         opacity: .8;
@@ -48,12 +58,7 @@ const StyledButton = styled.button `
 `;
 
 const StyledButtonText = styled.span `
-    background: transparent;
-    color: var(--primary-purple);
-    font-size: 18px;
+    color: #a978ab;
+    font-size: 16px;
     font-weight: 400;
-
-    @media screen and (max-width: 600px) {
-        font-size: 0.95rem;
-    }
 `;

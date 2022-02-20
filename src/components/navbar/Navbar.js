@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import handleNavbarOptions from '../../functions/handleNavbarOptions.js'
 import IconRenderer from '../../components/icons/SvgIcon'
 
-export default function Navbar({userDataLoading, userData}) {
+export default function Navbar({user}) {
 
     const [navbarOptions, setNavbarOptions] = React.useState([]); 
     const iconPath = '/images/'
@@ -12,10 +12,10 @@ export default function Navbar({userDataLoading, userData}) {
     React.useEffect(() => {
 
         setNavbarOptions (
-            handleNavbarOptions(userDataLoading, userData)
+            handleNavbarOptions(user)
         )
 
-    }, [userDataLoading, userData])
+    }, [user])
 
     if (navbarOptions.length < 1) {
         return null;

@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components';
-import Section from '../../Service/components/Section';
 import Button from '../../../components/buttons/ActionButton';
 import axios from 'axios';
 import ErrorMessage from '../../../components/messages/ErrorMessage';
@@ -201,12 +200,6 @@ export default function CreateTemplate(
         )
     }
 
-    // if (!userDataLoading && userData.is_staff === false) {
-    //     return (
-    //         <Redirect to="/" push={true} />
-    //     )
-    // }
-
     return (
         <Wrapper>
 
@@ -230,7 +223,7 @@ export default function CreateTemplate(
 
             <InnerWrapper>
 
-                <Section data={data} heading="Create new template" rows={1} rows2={2} rows3={3} rowHeight={105}  />
+                {/* <Table data={data} heading="Create new template" rows={1} rows2={2} rows3={3} rowHeight={105}  /> */}
                 
                 <ButtonWrapper>
                     <Button onClick={hanldeClick} text="Create Template" width="145px" height="45px" />

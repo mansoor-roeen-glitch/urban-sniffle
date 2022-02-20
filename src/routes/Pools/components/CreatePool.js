@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components';
-import Section from '../../Service/components/Section';
 import Button from '../../../components/buttons/ActionButton'
 import axios from 'axios';
 import SuccessMessage from '../../../components/messages/SuccessMessage';
@@ -472,7 +471,7 @@ export default function CreatePlan(
 
             <InnerWrapper>
 
-                <Section data={data} heading="Create new pool" rows={3} rows1={4} rows2={6} rows3={12} rowHeight={105}  />
+                {/* <Table data={data} heading="Create new pool" rows={3} rows1={4} rows2={6} rows3={12} rowHeight={105}  /> */}
                 
                 <ButtonWrapper>
                     <Button onClick={hanldeClick} text="Create Pool" width="125px" height="45px" />

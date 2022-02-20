@@ -1,36 +1,18 @@
 // Dependencies
+import {authenticatedRedirect, authenticator, notAuthenticatedRedirect} from './functions/authenticator';
 import React, {useState, useEffect} from "react";
 import styled from 'styled-components';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import {authenticatedRedirect, authenticator, notAuthenticatedRedirect} from './functions/authenticator';
 import { useNavigate } from "react-router";
 
 // Components
-import Login from './routes/Login/Login'
-import Register from "./routes/Register/Register";
-import Reset from "./routes/Reset/Reset";
-import Base from './routes/Base/Base';
-import Service from './routes/Service/Service';
-import Create from './routes/Create/Create';
 import Header from './components/Header/Header';
-import Plans from './routes/Plans/Plans';
-import Plan from './routes/Plans/components/Plan';
-import CreatePlan from './routes/Plans/components/CreatePlan';
-import Templates from './routes/templates/Templates';
-import Template from './routes/templates/components/Template'
-import CreateTemplate from './routes/templates/components/CreateTemplate';
-import Logout from './routes/Logout/Logout';
-import Nodes from "./routes/Nodes/Nodes";
-import CreateNode from "./routes/Nodes/components/CreateNode";
-import Node from './routes/Nodes/components/Node';
-import Pools from './routes/Pools/Pools';
-import CreatePool from './routes/Pools/components/CreatePool';
-import LandingPage from "./routes/LandingPage/LandingPage";
 import SubHeader from './components/Header/SubHeader';
 import Navbar from "./components/navbar/Navbar";
-import UpdateService from "./routes/UpdateService/UpdateService";
-import Dashboard from './routes/Dashboard/Dashboard'
 
+// Routes
+import PublicRoutes from "./routes/PublicRoutes";
+import ClientRoutes from "./routes/ClientRoutes";
+import AdminRoutes from "./routes/AdminRoutes";
 
 export default function App () {
 
@@ -139,12 +121,7 @@ export default function App () {
 
   if (!authenticated) {
     return (
-      <Routes>
-        <Route path="/" exact element={<LandingPage />}  />
-        <Route path="/login" exact element={<Login />}  />
-        <Route path="/register" exact element={<Register />} />
-        <Route path="/reset" exact element={<Reset />} />
-      </Routes>
+      <PublicRoutes />
     )
   }
 
@@ -158,18 +135,21 @@ export default function App () {
       <AppContentWrapper>
 
         <NavBarWrapper>
-          <Navbar />
+          <Navbar user={userDetails} />
         </NavBarWrapper>
 
         <AppContent>
-          <Routes>
-
-            <Route path="/" exact element={<Dashboard token={token} subHeader={subHeader} />} />
-            <Route path="/services/:id/:hostname" exact element={<Service token={token} subHeader={subHeader} />} />
-            <Route path="/services" exact element={<Base token={token} subHeader={subHeader} />} />
-            <Route path="/logout" exact element={<Logout />} />
-            
-          </Routes>
+          {userDetails?.body?.is_staff ? (
+            <AdminRoutes
+              token={token}
+              subHeader={subHeader}
+            />
+          ) : (
+            <ClientRoutes
+              token={token}
+              subHeader={subHeader}
+            /> 
+          )}
         </AppContent>
 
       </AppContentWrapper>

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
-import ServiceItem from './ServiceItem'
+import TableItem from './TableAItem'
 
-export default function ServiceList({data, type}) {
+export default function PrimaryTable({data, type}) {
     return (    
         <StyledWrapper>
             <List>
@@ -19,35 +19,35 @@ export default function ServiceList({data, type}) {
 
                             case "services": 
                                 return (
-                                    <ServiceItem type="service" index={index} item={[
+                                    <TableItem type="service" index={index} item={[
                                         item.id, item.hostname, item.plan, item.status, item.service_plan.ram
-                                    ]} redirectTo={`/services/${item.id}/${item.hostname}`} key={index} />
+                                    ]} redirectTo={`/services/${item.id}/${item.hostname?.toLowerCase()}`} key={index} />
                                 );
     
                             case "plans":
                                 return (
-                                    <ServiceItem type="plan" index={index} details={item} item={[
+                                    <TableItem type="plan" index={index} details={item} item={[
                                         item.id, item.name, item.size, item.period, item.bandwidth
                                     ]} redirectTo={`/plans/${item.id}`} key={index} />
                                 );
     
                             case "templates":
                                 return (
-                                    <ServiceItem index={index} details={item} type="template" item={[
+                                    <TableItem index={index} details={item} type="template" item={[
                                         item.id, item.name, item.type, item.id, item.file
                                     ]} redirectTo={`/templates/${item.id}`} key={index} />
                                 );
 
                             case "nodes":
                                 return (
-                                    <ServiceItem index={index} details={item} type="node" item={[
+                                    <TableItem index={index} details={item} type="node" item={[
                                         item.id, item.name, item.size, item.ram, item.bandwidth
                                     ]} redirectTo={`/nodes/${item.id}`} key={index} />
                                 );
 
                             case "pools":
                                 return (
-                                    <ServiceItem index={index} details={item} type="pool" item={[
+                                    <TableItem index={index} details={item} type="pool" item={[
                                         item.id, item.name, item.type, item.interface, item.mask
                                     ]} redirectTo={`/pools/${item.id}`} key={index} />
                                 );

@@ -2,10 +2,9 @@ import axios from 'axios';
 import React, {useEffect} from 'react'
 import styled from 'styled-components'
 import PrimaryButton from '../../components/buttons/PrimaryButton';
-import SubHeader from '../../components/Header/SubHeader';
 import PrimarySearchBar from '../../components/inputs/PrimarySearchBar';
-import ServiceItemPlaceholder from '../Base/components/ServiceItemPlaceholder';
-import ServiceList from '../Base/components/ServiceList';
+import TableHeader from '../../components/table/TableAHeader';
+import Table from '../../components/table/TableA';
 
 export default function Templates(
     
@@ -119,8 +118,8 @@ export default function Templates(
 
             </Header>
 
-            <ServiceItemPlaceholder data={["name", "type", "id", "file"]} />
-            <ServiceList handleTemplateClick={handleTemplateClick} data={foundMatch ? foundMatch : templates} type="templates" />
+            <TableHeader data={["name", "type", "id", "file"]} />
+            <Table handleTemplateClick={handleTemplateClick} data={foundMatch ? foundMatch : templates} type="templates" />
 
         </Wrapper>
     )

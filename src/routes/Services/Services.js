@@ -1,12 +1,18 @@
+// Dependencies
 import React from 'react'
 import styled from 'styled-components'
+
+// Components
 import PrimaryButton from '../../components/buttons/PrimaryButton';
 import PrimarySearchBar from '../../components/inputs/PrimarySearchBar';
-import ServiceItemPlaceholder from './components/ServiceItemPlaceholder';
-import ServiceList from './components/ServiceList';
-import fetchEndpoint from '../../functions/fetchAnEndpoint';
+import TableHeader from '../../components/table/TableAHeader';
+import Table from '../../components/table/TableA';
 
-export default function BaseRoute({token, subHeader}) {
+// Functions
+import fetchEndpoint from '../../functions/fetchAnEndpoint';
+import { searchList } from '../../functions/tableSearchbar';
+
+export default function Services({token, subHeader, is_staff}) {
 
     const [foundMatch, setFoundMatch] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
@@ -14,29 +20,14 @@ export default function BaseRoute({token, subHeader}) {
     const [search, setSearch] = React.useState("")
     const [error, setError] = React.useState()
 
-
-    // This functoin would update the services list
-    // Services list would be updated based on the search keyword
+    // update result based on search
     const handleValueChange = (value) => {
-        const keyword = value;
-
-        if (keyword !== '') {
-            
-            const searchRes = services.filter((service) => {
-            
-                return service.hostname.toLowerCase().startsWith(keyword.toLowerCase());
-                // Use the toLowerCase() method to make it case-insensitive
-            
-            });
-
-            setFoundMatch(searchRes);
-
-        } else {
-            
-            setFoundMatch(false);
-            // If the text field is empty, show all users
-        
-        }
+        searchList({
+            list: services || [],
+            value,
+            setFoundMatch,
+            searchKey: 'hostname',
+        })
     }
 
     // Getting list of services using the fetchEndpoint function
@@ -61,12 +52,15 @@ export default function BaseRoute({token, subHeader}) {
 
     }
 
-    React.useEffect(() => {
-        
+    // update sub-header
+    React.useEffect(() => {        
         subHeader(["dashboard"], loading)
-        getServices()
-
     }, [loading])
+
+    // run "getServices" function
+    React.useEffect(() => {
+        getServices()
+    })
 
     if (loading) {
         return (
@@ -88,11 +82,11 @@ export default function BaseRoute({token, subHeader}) {
                 <SearchWrapper>
                     <PrimarySearchBar valueHasChanged={handleValueChange} value={search} onChange={setSearch} name="SearchBar" className="Primary-Search-Bar" id="Primary-Search-Bar" />
                 </SearchWrapper>
-                <PrimaryButton to="/create_service" text="New" width="80px" height="40px" />
+                <PrimaryButton to="/create/service" text="New" width="80px" height="40px" />
             </Header> 
 
-            <ServiceItemPlaceholder data={["hostname", "plan", "status", "ram"]} />
-            <ServiceList data={foundMatch ? foundMatch : services} type="services" />
+            <TableHeader data={["hostname", "plan", "status", "ram"]} />
+            <Table data={foundMatch ? foundMatch : services} type="services" />
             
         </Wrapper>
     )
@@ -124,6 +118,4 @@ const Wrapper = styled.div `
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding-top: 35px;
 `;
-

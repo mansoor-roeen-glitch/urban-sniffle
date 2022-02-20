@@ -23,7 +23,7 @@ import {
 import Message from '../../components/messages/Message';
 
 
-export default function Service ({ config, subHeader, ...props}) {
+export default function Service ({ token, subHeader, ...props}) {
 
     // Refactored Props
     const {id, hostname} = useParams();
@@ -105,7 +105,12 @@ export default function Service ({ config, subHeader, ...props}) {
 
 
     // Use Effect Hooks 
-    useEffect(() => {
+    useEffect( () => {
+
+        console.log("use effect has been triggered")
+
+        // Setting loading to true by default
+        setLoading(true)
 
         // Resize Event Listener
         window.addEventListener( "resize", () => {
@@ -118,7 +123,7 @@ export default function Service ({ config, subHeader, ...props}) {
         service ({
 
             error,
-            token: config,
+            token: token,
             serviceId: id,
 
             setServiceConsole,
@@ -233,13 +238,13 @@ export default function Service ({ config, subHeader, ...props}) {
 
             <SelectPages
 
+                token={token}
                 user={userInformation}
                 selectedOption={selectedOption}
-                config={config}
                 service={{
-                    details: serviceInformation.body,
-                    console: serviceConsole.body,
-                    status: serviceStatus.body,
+                    details: serviceInformation,
+                    console: serviceConsole,
+                    status: serviceStatus,
                 }}
 
             />

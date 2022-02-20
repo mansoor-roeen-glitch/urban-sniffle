@@ -9,7 +9,7 @@ import SectionTwoComponent from './components/SectionTwo';
 import ServerStatisticsComponent from './components/ServerStatisticsComponent';
 
 
-export default function Dashbaord () {
+export default function Dashboard () {
 
     // React State Hooks
 

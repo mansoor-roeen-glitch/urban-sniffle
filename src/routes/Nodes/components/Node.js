@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components';
-import Section from '../../Service/components/Section';
 import Button from '../../../components/buttons/ActionButton';
 import DeleteBtn from '../../../components/buttons/DangerActionButton';
 import axios from 'axios';
@@ -478,9 +477,9 @@ export default function Node (
             }
 
             <InnerWrapper>
-                <Content>
-                    <Section data={data} heading="Update Node" rows={3} rows1={4} rows2={5} rows3={10} rowHeight={105} />
-                </Content>
+                {/* <Content>
+                    <Table data={data} heading="Update Node" rows={3} rows1={4} rows2={5} rows3={10} rowHeight={105} />
+                </Content> */}
                 
                 <ButtonWrapper>
                     <Button height="45px" width="150px" text="Update Node" onClick={handleClick} />

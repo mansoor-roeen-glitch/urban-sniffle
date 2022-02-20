@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components';
-import Section from '../../Service/components/Section';
 import Button from '../../../components/buttons/ActionButton';
 import DeleteBtn from '../../../components/buttons/DangerActionButton';
 import axios from 'axios';
@@ -283,9 +282,10 @@ export default function Plan(
             }
 
             <InnerWrapper>
-                <Content>
-                    <Section data={data} heading="Update Template" rows={1} rows1={1} rows2={2} rows3={3} rowHeight={105} />
-                </Content>
+                
+                {/* <Content>
+                    <Table data={data} heading="Update Template" rows={1} rows1={1} rows2={2} rows3={3} rowHeight={105} />
+                </Content> */}
                 
                 <ButtonWrapper>
                     <Button height="45px" width="160px" text="Update Template" onClick={handleClick} />

@@ -5,9 +5,9 @@ import getServiceInformationList from '../functions/getServiceInformationList';
 
 export default function Details({ service, user }) {
 
+    
     // Component Variables ^^
-
-    let edit_path = `/services/${service.id}/${service.hostname}/update`
+    let edit_path = `/services/${service.body.id}/${service.body.hostname}/update`;
 
     
     // React State Hooks ^^
@@ -25,7 +25,7 @@ export default function Details({ service, user }) {
             planInformation,
             generalInformation,
 
-        } = getServiceInformationList({serviceInformation: service, ownerInformation: user})
+        } = getServiceInformationList({serviceInformation: service.body, ownerInformation: user.body})
 
         setServiceGeneralInformation( generalInformation )
         setServicePlanInformation( planInformation )

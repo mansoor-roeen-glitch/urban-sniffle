@@ -18,7 +18,6 @@ import {
 
 export default function Header({userDetails}) {
 
-    console.log(userDetails)
     let [featuresBtn, setFeaturesBtn] = React.useState(false);
     let [profileBtn, setProfileBtn] = React.useState(false);
     let [notificationBtn, setNotificationBtn] = React.useState(false);

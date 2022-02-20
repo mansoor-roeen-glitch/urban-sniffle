@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 
-export default function ServiceItem({index, details, redirectTo, item, type,}) {
+export default function TableAItem({index, details, redirectTo, item, type,}) {
 
     // Component variables
     const navigate = useNavigate();
@@ -50,17 +50,11 @@ export default function ServiceItem({index, details, redirectTo, item, type,}) {
 }
 
 const ServiceDetailText = styled.span `
-    font-family: "Josefin Sans";
-    font-style: normal;
-    font-weight: 300;
-    font-size: 1.15rem;
-    line-height: 124%;
+    font-weight: 400;
+    font-size: 1rem;
     color: var(--white);
-    text-transform: capitalize;
 
-    @media screen and (max-width: 600px) {
-        font-size: 1.1rem;
-    }
+    text-transform: capitalize;
 `;
 
 const ServiceDetail = styled.div ` 
@@ -74,16 +68,9 @@ const ServiceHostname = styled.div `
 `;
 
 const ServiceHostnameText = styled.span `
-    font-style: normal;
-    font-weight: 300;
-    font-size: 1.15rem;
-    line-height: 124%;
+    font-weight: 400;
+    font-size: 1rem;
     color: var(--white);
-    opacity: .9;
-
-    @media screen and (max-width: 600px) {
-        font-size: 1rem;
-    }
 `;
 
 const StyledGrid = styled.div `
@@ -93,7 +80,7 @@ const StyledGrid = styled.div `
     max-width: 1600px;
     display: grid;
     justify-content: space-between;
-    grid-template-columns: 1fr 70px 70px 70px;
+    grid-template-columns: 1fr 85px 85px 85px;
     column-gap: 40px;
 
     &:hover {
@@ -104,7 +91,7 @@ const StyledGrid = styled.div `
 
 const StyledWrapper = styled.li `
     width: 100%;
-    height: 67px;
+    height: 55px;
 
     display: flex;
     align-items: center;
