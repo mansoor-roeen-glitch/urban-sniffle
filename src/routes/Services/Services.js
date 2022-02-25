@@ -111,9 +111,10 @@ const Header = styled.div `
 
 const Wrapper = styled.div `
     width: 100%;
+    padding-top: 35px;
+
     height: fit-content;
     background: transparent;
-
     display: flex;
     align-items: center;
     justify-content: center;

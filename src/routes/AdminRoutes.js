@@ -21,7 +21,7 @@ export default function AdminRoutes({subHeader, token}) {
       <Route path="/create/service" exact element={<Create token={token} subHeader={subHeader} />} />
 
       <Route path="/plans" exact element={<Plans token={token} subHeader={subHeader} />} />
-      <Route path="/plans/:id/:name" exact element={<Plan token={token} subHeader={subHeader} />} />
+      <Route path="/plans/:plan_id/" exact element={<Plan token={token} subHeader={subHeader} />} />
 
 
       <Route path="/logout" exact element={<Logout />} />   

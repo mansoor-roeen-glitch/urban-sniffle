@@ -1,618 +1,103 @@
-import React, {useEffect} from 'react'
+// Dependencies
+import React, {useEffect, useState} from 'react'
 import styled from 'styled-components';
+import axios from 'axios';
+import fetchEndpoint from '../../functions/fetchAnEndpoint'
+import {getFormData, getPlan} from './functions'
+
+// Components
 import Button from '../../components/buttons/ActionButton';
 import DeleteBtn from '../../components/buttons/DangerActionButton';
-import axios from 'axios';
 import SuccessMessage from '../../components/messages/SuccessMessage';
 import ErrorMessage from '../../components/messages/ErrorMessage';
+import { useParams } from 'react-router';
+import EditGrid from '../../components/grids/EditGrid';
 
-export default function Plan(
 
-
-    {
-
-        planDetails,
-        userData,
-        userDataLoading,
-        handleSubHeader,
-        config
-
-    }) {
+export default function Plan({ subHeader, token, ...props }) {
     
-    const [details, setDetails] = React.useState(planDetails);
+    // getting route params
+    let {plan_id} = useParams();
 
-    const [loading, setLoading] = React.useState(false)
-    const [success, setSuccess] = React.useState(false)
-    const [error, setError] = React.useState(false)
-    const [showMessage, setShowMessage] = React.useState(false);
+    // a list of inputs/dropdowns
+    // this would later be updated based on server response
+    const [formData, setFormData] = useState([]);
+    const [planDetails, setPlanDetails] = useState({});
 
-    const [ipPool, setIpPool] = React.useState(0);
-    const [bandwidth, setBandwidth] = React.useState({
+    //  plan detail, loading, error and message states
+    const [details, setDetails] = useState({})
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(false)
+    const [showMessage, setShowMessage] = useState(false);
 
-        value: JSON.stringify(details.bandwidth),
-        errorMes: "",
-        messageDur: 5000,
-        hasErrorMessage: false
-
-    });
-
-    const [cpuu, setCpuu] = React.useState({
-
-        value: JSON.stringify(details.cpu_units),
-        errorMes: "",
-        messageDur: 5000,
-        hasErrorMessage: false
-
-    });
-
-    const [cpul, setCpul] = React.useState({
-
-        value: details.cpu_limit,
-        errorMes: "",
-        messageDur: 5000,
-        hasErrorMessage: false
-
-    });
-    
-    const [size, setSize] = React.useState({
-
-        value: JSON.stringify(details.size),
-        errorMes: "",
-        messageDur: 5000,
-        hasErrorMessage: false
-
-    });
-
-    const [swap, setSwap] = React.useState({
-
-        value: JSON.stringify(details.swap),
-        errorMes: "",
-        messageDur: 5000,
-        hasErrorMessage: false
-
-    });
-
-    const [ram, setRam] = React.useState({
-
-        value: JSON.stringify(details.ram),
-        errorMes: "",
-        messageDur: 5000,
-        hasErrorMessage: false
-
-    });
-
-    const [name, setName] = React.useState({
-
-        value: details.name,
-        errorMes: "",
-        messageDur: 5000,
-        hasErrorMessage: false
-
-    });
-
-    const [price, setPrice] = React.useState({
-
-        value: JSON.stringify(details.price),
-        errorMes: "",
-        messageDur: 5000,
-        hasErrorMessage: false
-
-    });
-    
-    const [cores, setCores] = React.useState({
-
-        value: JSON.stringify(details.cores),
-        errorMes: "",
-        messageDur: 5000,
-        hasErrorMessage: false
-
-    });
-
-    const [ipv4, setIpv4] = React.useState({
-
-        value: JSON.stringify(details.ipv4_ips),
-        errorMes: "",
-        messageDur: 5000,
-        hasErrorMessage: false
-
-    });
-
-    const [ipv6, setIpv6] = React.useState({
-
-        value: JSON.stringify(details.ipv6_ips),
-        errorMes: "",
-        messageDur: 5000,
-        hasErrorMessage: false
-
-    });
-
-    const [internalIps, setInternalIps] = React.useState({
-
-        value: JSON.stringify(details.internal_ips),
-        errorMes: "",
-        messageDur: 5000,
-        hasErrorMessage: false
-
-    });
-
-    const [term, setTerm] = React.useState({
-
-        value: JSON.stringify(details.term),
-        errorMes: "",
-        messageDur: 5000,
-        hasErrorMessage: false
-
-    });
-
-
-    const successRedirect = () => {
-        window.location.pathname = '/plans/';
+    // thou shall update the route states
+    const updateRouteState = ({isLoading, isError}) => {
+        if (loading != isLoading) setLoading(isLoading);
+        if (error != isError) setError(isError);
     }
 
-    const handleMessage = (messageType, duration, message) => {
-
-        setShowMessage({messageType, duration, message});
-        
-        setTimeout(() => {
-            
-            setShowMessage(false);
-
-        }, duration * 1000)
-
+    // thou shall update plan details state
+    const updatePlanDetails = (responseContent) => {
+        setPlanDetails(responseContent)
     }
 
-
-    const data = [
-        {
-            heading: "name",
-            value: name.value,
-            type: "input",
-            htmlType: "text",
-            inputValue: name.value,
-            errorMes: name.errorMes,
-            messageDur: name.messageDur,
-            hasErrorMessage: name.hasErrorMessage,
-            onChange: setName
-        },
-        {
-            heading: "price",
-            value: price.value,
-            type: "input",
-            htmlType: "text",
-            inputValue: price.value,
-            errorMes: price.errorMes,
-            messageDur: price.messageDur,
-            hasErrorMessage: price.hasErrorMessage, 
-            onChange: setPrice
-        },
-        {
-            heading: "size",
-            value: size.value,
-            type: "input",
-            htmltype: "number",
-            inputValue: size.value,
-            errorMes: size.errorMes,
-            messageDur: size.messageDur,
-            hasErrorMessage: size.hasErrorMessage,
-            onChange: setSize
-        },
-        {
-
-            heading: "cores",
-            value: cores.value,
-            type: "input",
-            htmltype: "number",
-            inputValue: cores.value,
-            errorMes: cores.errorMes,
-            messageDur: cores.messageDur,
-            hasErrorMessage: cores.hasErrorMessage,
-            onChange: setCores
-
-        },
-        {
-            heading: "ram",
-            value: ram.value,
-            type: "input",
-            htmltype: "number",
-            inputValue: ram.value,
-            errorMes: ram.errorMes,
-            messageDur: ram.messageDur,
-            hasErrorMessage: ram.hasErrorMessage,
-            onChange: setRam
-        },
-        {
-            heading: "bandwidth",
-            value: bandwidth.value,
-            type: "input",
-            htmltype: "number",
-            inputValue: bandwidth.value,
-            errorMes: bandwidth.errorMes,
-            messageDur: bandwidth.messageDur,
-            hasErrorMessage: bandwidth.hasErrorMessage,
-            onChange: setBandwidth
-        },
-        {
-            heading: "Cpu Unit",
-            value: cpuu.value,
-            type: "input",
-            htmltype: "number",
-            inputValue: cpuu.value,
-            errorMes: cpuu.errorMes,
-            messageDur: cpuu.messageDur,
-            hasErrorMessage: cpuu.hasErrorMessage,
-            onChange: setCpuu
-        },
-        {
-            heading: "swap",
-            value: swap.value,
-            type: "input",
-            htmltype: "number",
-            inputValue: swap.value,
-            errorMes: swap.errorMes,
-            messageDur: swap.messageDur,
-            hasErrorMessage: swap.hasErrorMessage,
-            onChange: setSwap
-        },
-        {
-            heading: "cpu limit",
-            value: cpul.value,
-            type: "input",
-            htmltype: "number",
-            inputValue: cpul.value,
-            errorMes: cpul.errorMes,
-            messageDur: cpul.messageDur,
-            hasErrorMessage: cpul.hasErrorMessage,
-            onChange: setCpul
-        },
-        {
-            heading: "ipv6 ips",
-            value: ipv6.value,
-            type: "input",
-            htmltype: "number",
-            inputValue: ipv6.value,
-            errorMes: ipv6.errorMes,
-            messageDur: ipv6.messageDur,
-            hasErrorMessage: ipv6.hasErrorMessage,
-            onChange: setIpv6
-        }, 
-        {
-            heading: "ipv4 ips",
-            value: ipv4.value,
-            type: "input",
-            htmltype: "number",
-            inputValue: ipv4.value,
-            errorMes: ipv4.errorMes,
-            messageDur: ipv4.messageDur,
-            hasErrorMessage: ipv4.hasErrorMessage,
-            onChange: setIpv4
-        },
-        {
-            heading: "internal ips",
-            value: internalIps.value,
-            type: "input",
-            htmltype: "number",
-            inputValue: internalIps.value,
-            errorMes: internalIps.errorMes,
-            messageDur: internalIps.messageDur,
-            hasErrorMessage: internalIps.hasErrorMessage,
-            onChange: setInternalIps
-        },
-        {
-            heading: "term",
-            value: "Type the value",
-            type: "input",
-            htmltype: "number",
-            inputValue: term.value,
-            errorMes: term.errorMes,
-            messageDur: term.messageDur,
-            hasErrorMessage: term.hasErrorMessage,
-            onChange: setTerm
-        },
-        {
-            heading: "ip pool",
-            value: "1",
-            type: "dropdown",
-            options: [
-                {
-                    name: 1,
-                    type: "option"
-                }
-            ],
-            selected: ipPool,
-            onChange: setIpPool
-        }
-    ]
-
-    const validateForm = () => {
-
-        let isFormValid = true;
-
-        if (!name.value || name.value.length < 2 || name.value.length > 20) {
-            setName(prevState => ({
-                ...prevState,
-                hasErrorMessage: true,
-                errorMes: "must be between 1-20 char long"
-            }))
-
-            isFormValid = false
-        }
-
-        if (!/^\d+(?:[.,]\d+)*$/.test(price.value) || !price.value) {
-            setPrice(prevState => ({
-                ...prevState,
-                hasErrorMessage: true,
-                errorMes: "must only be int or float"
-            }))
-
-            isFormValid = false
-        }
-
-        if (!size.value || !/^\d+$/.test(size.value)) {
-            setSize(prevState => ({
-                ...prevState,
-                hasErrorMessage: true,
-                errorMes: "must only be int only"
-            }))
-
-            isFormValid = false
-        }
-
-        if (!cores.value || !/^\d+$/.test(cores.value)) {
-            setCores(prevState => ({
-                ...prevState,
-                hasErrorMessage: true,
-                errorMes: "must be int only"
-            }))
-
-            isFormValid = false
-        }
-
-        if (!ram.value || !/^\d+$/.test(ram.value)) {
-            setRam(prevState => ({
-                ...prevState,
-                hasErrorMessage: true,
-                errorMes: "must be int only"
-            }))
-
-            isFormValid = false
-        }
-
-        if (!bandwidth.value || !/^\d+$/.test(bandwidth.value)) {
-            setBandwidth(prevState => ({
-                ...prevState,
-                hasErrorMessage: true,
-                errorMes: "must be int only"
-            }))
-
-            isFormValid = false
-        }
-
-        if (!cpul.value || !/^\d+(?:[.,]\d+)*$/.test(cpul.value)) {
-            setCpul(prevState => ({
-                ...prevState,
-                hasErrorMessage: true,
-                errorMes: "must be int only"
-            }))
-
-            isFormValid = false
-        }
-
-        if (!swap.value || !/^\d+$/.test(swap.value)) {
-            setSwap(prevState => ({
-                ...prevState,
-                hasErrorMessage: true,
-                errorMes: "must be int only"
-            }))
-
-            isFormValid = false
-        }
-
-        if (!cpuu.value || !/^\d+(?:[.,]\d+)*$/.test(cpuu.value)) {
-            setCpuu(prevState => ({
-                ...prevState,
-                hasErrorMessage: true,
-                errorMes: "must be int or float only"
-            }))
-
-            isFormValid = false
-        }
-
-        if (!ipv4.value || !/^\d+$/.test(ipv4.value)) {
-            setIpv4(prevState => ({
-                ...prevState,
-                hasErrorMessage: true,
-                errorMes: "must be int only"
-            }))
-
-            isFormValid = false
-        }
-
-        if (!ipv6.value || !/^\d+$/.test(ipv6.value)) {
-            setIpv6(prevState => ({
-                ...prevState,
-                hasErrorMessage: true,
-                errorMes: "must be int only"
-            }))
-
-            isFormValid = false
-        }
-
-        if (!internalIps.value || !/^\d+$/.test(internalIps.value)) {
-            setInternalIps(prevState => ({
-                ...prevState,
-                hasErrorMessage: true,
-                errorMes: "must be int only"
-            }))
-
-            isFormValid = false
-        }
-
-        if (!term.value || !/^\d+$/.test(term.value)) {
-            setTerm(prevState => ({
-                ...prevState,
-                hasErrorMessage: true,
-                errorMes: "must be int only"
-            }))
-
-            isFormValid = false
-        }
-
-        return isFormValid;
-
+    // thou shalt first get the form data
+    // and then shall update form state     
+    const updateFormState = (responseContent) => {
+        let formData = getFormData(responseContent);
+        setFormData(formData);
     }
 
-    const hanldeClick = () => {
-        
-        let isFormValid = validateForm()
-
-        if (!isFormValid) {
-            setLoading(false)
-            return;
-        }
-
-        setLoading(true)
-
-        let conf = {
-            headers: {
-                'Authorization': `Token ${config}`,
-                'content-type': 'application/json'
-            }
-        }
-
-        axios.put(`https://hosnet.io/api/plans/${details.id}/`, { 
-            
-            size: size.value,
-            ram: ram.value,
-            swap: swap.value,
-            cores: cores.value,
-            bandwidth: bandwidth.value, 
-            cpu_units: cpuu.value,
-            cpu_limit: cpul.value, 
-            name: name.value,
-            price: price.value, 
-            ipv4_ips: ipv4.value,
-            ipv6_ips: ipv6.value,
-            internal_ips: internalIps.value,
-            term: term.value,
-            ip_pools: [data[13].options[ipPool].name]
-
-        }, conf)
-            
-            .then((res) => {
-
-                if (res.status === 200) {
-                    setSuccess(true)
-                    setError(false)
-                    setLoading(false)
-                    handleMessage("success", 5, "Plan was updated successfully!")
-
-                   
-                }
-
-            })
-
-            .catch((err) => {
-
-                setError(err)
-                setSuccess(false)
-                setLoading(false)
-                handleMessage("error", 5, "Something went wrong, try again later")
-
-            })
-
-    }
-
-    const handleDelete = () => {
-
-        setLoading(true)
-        setError(false)
-        setSuccess(false)
-
-        const conf = {
-            headers: {
-                'Authorization': `Token ${config}`,
-                'content-type': 'application/json'
-            }
-        }
-
-        axios.delete(`https://hosnet.io/api/plans/${details.id}/`, conf)
-
-        .then((res) => {
-
-            setSuccess(true)
-            setError(false)
-            setLoading(false)
-            
-            handleMessage("success", 5, "Plan was deleted successfully!")
-
-            setTimeout(() => {
-                successRedirect();
-            }, 2000)
+    // this function will get details for a plan based on its ID
+    // states would  be updated according to the api response
+    // if fails, error would be set to error message
+    const handleRouteInitialization = async () => {
+        const response = await getPlan({
+            token, 
+            plan_id
         })
 
-        .catch((err) => {
-
-            setError(err)
-            setSuccess(false)
-            setLoading(false)
-            handleMessage("error", 5, "Something went wrong, try again later")
-        
-        })
+        if (response?.success) {
+            let responseContent = response.body;
+            updatePlanDetails(responseContent)
+            updateFormState(responseContent)
+            updateRouteState({isLoading: false})
+        }
     }
 
-    // Updating Sub-Header based on route
-    useEffect(() => {
-        handleSubHeader([details.name], loading)
-    }, [loading])
+    // updating sub-header based on route
+    useEffect(() => subHeader([details?.name], loading), [loading])
 
-    if (userDataLoading) {
+    // plan route initialization
+    useEffect(() => handleRouteInitialization(), [])
+
+    // check if the page was loading
+    // if the page was loading, then return the loading screen
+    if (loading) {
         return (
-            <Wrapper>
-                
-            </Wrapper>
+            <p>page is loading</p>
         )
     }
 
-    // if (!userDataLoading && userData.is_staff === false) {
-    //     return (
-    //         <Redirect to="/" push={true} />
-    //     )
-    // }
-
+    // if page has been loaded properly
+    // then we wanna show this 
     return (
-        <Wrapper>
-
-            {showMessage && 
-
-                showMessage.messageType === "success" && (
-
-                    <SuccessMessage message={showMessage.message} duration={showMessage.duration} isVisible={true} />
-
-                )
-            }
-
-            {showMessage && 
-
-                showMessage.messageType === "error" && (
-
-                    <ErrorMessage message={showMessage.message} duration={showMessage.duration} isVisible={true} />
-
-                )
-            }
-
-            
+        <MainWrapper>     
             <InnerWrapper>
-                {/* <Content>
-                    <Table data={data} heading="Update Plan" rows={4} rows1={5} rows2={7} rows3={14} rowHeight={105} />
-                </Content> */}
 
+                <GridWrapper> 
+                    <EditGrid data={formData} />
+                </GridWrapper>
+                
+                {/* 
                 <ButtonWrapper>
                     <Button height="45px" width="140px" text="Update Plan" onClick={hanldeClick} />
                     <DeleteBtn height="45px" width="140px" text="Delete Plan" onClick={handleDelete} />
                 </ButtonWrapper>
+                 */}
 
             </InnerWrapper>
-        </Wrapper>
+        </MainWrapper>
     )
 }
 
@@ -624,20 +109,25 @@ const ButtonWrapper = styled.div `
     column-gap: 30px;
 `;
 
-const Content = styled.div `
+const GridWrapper = styled.div `
+    width: 100%;
+
+    height: fit-content;
 `;
 
 const InnerWrapper = styled.div `
-    width: 93%;
     height: fit-content;
-    padding-top: 10px;
 
+    width: 93%;
+    padding-top: 10px;
     max-width: 1600px;
     margin-bottom: 15px;
 `;
 
-const Wrapper = styled.div `
+const MainWrapper = styled.div `
     width: 100%;
+    padding-top: 35px;
+    
     height: fit-content;
     display: flex;
     flex-direction: column;
