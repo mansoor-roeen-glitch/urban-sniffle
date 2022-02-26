@@ -57,7 +57,7 @@ const integerValidation = (value, max, min, float) => {
 
 // this function returns the form data
 // the form data would be used to create form fields
-const getFormData = (data) => {
+const getFormData = (data) => { 
 
     let formData = [
         {
@@ -66,6 +66,33 @@ const getFormData = (data) => {
             description: '(Please enter a plan name)',
             label: 'Plan Name',   
             stringValidation, 
+            field: 'string',
+            regex: /^[A-Za-z0-9 ]+$/,
+            minmax: {
+                max: 50,
+                min: 2,
+            }
+        },
+        {
+            value: data.name,
+            errorMes: false,
+            description: '(Please enter a plan name)',
+            label: 'Plan Name',   
+            stringValidation, 
+            regex: /^[A-Za-z0-9 ]+$/,
+            field: 'string',
+            minmax: {
+                max: 50,
+                min: 2,
+            }
+        },
+        {
+            value: data.name,
+            errorMes: false,
+            description: '(Please enter a plan name)',
+            label: 'Plan Name',   
+            stringValidation, 
+            regex: /^[A-Za-z0-9 ]+$/,
             field: 'string',
             minmax: {
                 max: 50,
