@@ -70,6 +70,8 @@ export default function Plan({ subHeader, token, ...props }) {
 
     // plan route initialization
     useEffect(() => handleRouteInitialization(), [])
+    useEffect(() => console.log(formData), [formData])
+
 
     // check if the page was loading
     // if the page was loading, then return the loading screen
@@ -78,7 +80,7 @@ export default function Plan({ subHeader, token, ...props }) {
             <p>page is loading</p>
         )
     }
-
+    
     // if page has been loaded properly
     // then we wanna show this 
     return (
@@ -86,7 +88,7 @@ export default function Plan({ subHeader, token, ...props }) {
             <InnerWrapper>
 
                 <GridWrapper> 
-                    <EditGrid data={formData} />
+                    <EditGrid data={formData} formData={formData} updateForm={setFormData} />
                 </GridWrapper>
                 
                 {/* 

@@ -2,7 +2,7 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components';
 
-export default function StringGridItem({fieldData, updateFormField}) {
+export default function StringGridItem({fieldData, updateFormField, index}) {
     
     // component props
     let {value, errorMes, description, label, stringValidation, minmax, regex} = fieldData
@@ -28,13 +28,31 @@ export default function StringGridItem({fieldData, updateFormField}) {
         if (isStringValid.error) {
             setInputError(isStringValid)
             setInputCompleted(false)
+
+            // update the form
+            updateFormField({
+                inputValue,
+                fieldIndex: index,
+                errorMes: isStringValid,
+            })
         }
         
         else {
+
             setInputError({error: false});
             // if input is not empty
             // then set input completed to true
-            if (inputValue !== '') {setInputCompleted(true)} 
+            if (inputValue !== '') {
+                setInputCompleted(true)
+                
+                // update the form
+                updateFormField({
+                    inputValue,
+                    fieldIndex: index,
+                })
+
+            } 
+
             else {setInputCompleted(false)}
         }
 

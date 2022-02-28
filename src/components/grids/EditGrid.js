@@ -1,6 +1,8 @@
 // dependencies
 import React from 'react'
 import styled from 'styled-components';
+import FloatGridItem from './FloatGridItem';
+import NumberGridItem from './NumberGridItem';
 
 // components
 import StringGridItem from './StringGridItem';
@@ -10,26 +12,32 @@ import StringGridItem from './StringGridItem';
 // import PrimaryInput from '../../../components/inputs/PrimaryInput';
 
 
-export default function EditGrid({data, heading, updateForm}) {
+export default function EditGrid({data, heading, updateForm, formData}) {
     
-    // updating the form field based on index
-    const udpateFormField = (fieldIndex) => {
-        
+    // updating the input field from form depending on fieldIndex
+    const updateInputFormField = ({fieldIndex, inputValue, errorMes}) => {
+        let newFormData = [...formData];
+        newFormData[fieldIndex].inputValue = inputValue;
+
+        // if we got error, then update with error
+        if (errorMes) {
+            newFormData[fieldIndex].errorMes = errorMes
+        }
+
+        updateForm(newFormData)
     }
 
     // determine the field type and return component
     const determineItemField = (gridItem, index) => {
-        // checks if field is number
+        // checks if field is string
         if (gridItem?.field === 'string') {
-            return <StringGridItem fieldData={gridItem} key={index} index={index} updateFormField={updateFormField} />}
+            return <StringGridItem fieldData={gridItem} key={index} index={index} updateFormField={updateInputFormField} />}
+        // checks if field is number
+        else if (gridItem?.field === 'number') {
+            return <NumberGridItem fieldData={gridItem} key={index} index={index} updateFormField={updateInputFormField} />}
         // checks if field is float
         else if (gridItem?.field === 'float') {
-            // return <FloatGridItem fieldData={gridItem} />    
-        }
-        // checks if field is string
-        else if (gridItem?.field === 'number') {
-            // return <NumberGridItem fieldData={gridItem} />
-        }
+            return <FloatGridItem fieldData={gridItem} key={index} index={index} updateFormField={updateInputFormField} />}
     }
 
     // this function maps through data

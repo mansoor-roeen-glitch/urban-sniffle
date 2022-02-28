@@ -62,6 +62,7 @@ const getFormData = (data) => {
     let formData = [
         {
             value: data.name,
+            inputValue: '',
             errorMes: false,
             description: '(Please enter a plan name)',
             label: 'Plan Name',   
@@ -74,29 +75,21 @@ const getFormData = (data) => {
             }
         },
         {
-            value: data.name,
-            errorMes: false,
-            description: '(Please enter a plan name)',
-            label: 'Plan Name',   
-            stringValidation, 
-            regex: /^[A-Za-z0-9 ]+$/,
-            field: 'string',
-            minmax: {
-                max: 50,
-                min: 2,
-            }
+            value: data.price,
+            description: '(USD)',
+            label: 'Price',   
+            field: 'float',
+            minmax: false,
         },
         {
-            value: data.name,
-            errorMes: false,
-            description: '(Please enter a plan name)',
-            label: 'Plan Name',   
-            stringValidation, 
-            regex: /^[A-Za-z0-9 ]+$/,
-            field: 'string',
+            value: data.ram,
+            inputValue: '',
+            description: '(in megabytes)',
+            label: 'Ram',   
+            field: 'number',
             minmax: {
-                max: 50,
-                min: 2,
+                max: 100,
+                min: -20,
             }
         },
         // {
