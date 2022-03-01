@@ -64,7 +64,7 @@ const getFormData = (data) => {
             value: data.name,
             inputValue: '',
             errorMes: false,
-            description: '(Please enter a plan name)',
+            description: '(Please enter plan name)',
             label: 'Plan Name',   
             stringValidation, 
             field: 'string',
@@ -76,7 +76,7 @@ const getFormData = (data) => {
         },
         {
             value: data.price,
-            description: '(USD)',
+            description: '(in USD)',
             label: 'Price',   
             field: 'float',
             minmax: false,
@@ -88,9 +88,136 @@ const getFormData = (data) => {
             label: 'Ram',   
             field: 'number',
             minmax: {
-                max: 100,
-                min: -20,
+                max: 1073741824,
+                min: 100,
             }
+        },
+        {
+            value: data.storage,
+            inputValue: '',
+            description: '(in megabytes)',
+            label: 'Storage',   
+            field: 'number',
+            minmax: {
+                max: 1073741824,
+                min: 100,
+            }
+        },
+        {
+            value: data.bandwidth,
+            inputValue: '',
+            description: '(in megabytes)',
+            label: 'Bandwidth',   
+            field: 'number',
+            minmax: {
+                max: 1073741824,
+                min: 100,
+            }
+        },
+        {
+            value: data.cores,
+            inputValue: '',
+            description: '(no. of cores)',
+            label: 'No. Cores',   
+            field: 'number',
+            minmax: {
+                max: 8,
+                min: 1,
+            }
+        },
+        {
+            value: data.cpu_units,
+            inputValue: '',
+            description: '(no. of units)',
+            label: 'Storage',   
+            field: 'number',
+            minmax: {
+                max: 1,
+                min: 10,
+            }
+        },
+        {
+            value: data.cpu_limit,
+            description: '',
+            label: 'CPU Limit',   
+            field: 'float',
+            minmax: false,
+        },
+        {
+            value: data.swap,
+            inputValue: '',
+            description: '(in megabytes)',
+            label: 'Swap',   
+            field: 'number',
+            minmax: {
+                max: 1,
+                min: 10,
+            }
+        },
+        {
+            value: data.internal_ips,
+            inputValue: '',
+            description: '(no. of IPs)',
+            label: 'Internal IPs',   
+            field: 'number',
+            minmax: {
+                max: 1,
+                min: 10,
+            }
+        },
+        {
+            value: data.ipv4_ips,
+            inputValue: '',
+            description: '(no. of IPs)',
+            label: 'IPv4 IPs',   
+            field: 'number',
+            minmax: {
+                max: 1,
+                min: 10,
+            }
+        },
+        {
+            value: data.ipv6_ips,
+            inputValue: '',
+            description: '(no. of IPs)',
+            label: 'IPv6 IPs',   
+            field: 'number',
+            minmax: {
+                max: 1,
+                min: 10,
+            }
+        },
+        {
+            value: data.term,
+            inputValue: '',
+            description: '(no. of Terms)',
+            label: 'Terms',   
+            field: 'number',
+            minmax: {
+                max: 1,
+                min: 10,
+            }
+        },
+        {
+            selected: 0,
+            description: '(select a node)',
+            label: 'Node',   
+            field: 'selector',
+            options: [
+                {
+                    value: 'Magus',
+                    index: 0,
+                },
+                {
+                    value: 'Magus',
+                    index: 0,
+                },
+                {
+                    value: 'Magus',
+                    index: 0,
+                }
+            ]
+            
         },
         // {
         //     value: data.price,

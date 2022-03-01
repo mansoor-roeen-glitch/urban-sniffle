@@ -1,6 +1,7 @@
 // dependencies
 import React from 'react'
 import styled from 'styled-components';
+import DropdownGridItem from '../dropdowns/PrimaryDropdown';
 import FloatGridItem from './FloatGridItem';
 import NumberGridItem from './NumberGridItem';
 
@@ -18,12 +19,21 @@ export default function EditGrid({data, heading, updateForm, formData}) {
     const updateInputFormField = ({fieldIndex, inputValue, errorMes}) => {
         let newFormData = [...formData];
         newFormData[fieldIndex].inputValue = inputValue;
-
+        
         // if we got error, then update with error
-        if (errorMes) {
-            newFormData[fieldIndex].errorMes = errorMes
-        }
+        if (errorMes) newFormData[fieldIndex].errorMes = errorMes;
 
+        updateForm(newFormData)
+    }
+
+    // updating the dropdown field
+    const updateDropdownField = ({selectedOption, fieldIndex}) => {
+        if (formData[fieldIndex].selected === selectedOption) return null;
+
+        let newFormData = [...formData];
+        // if the selected option is not that same as it was previously
+        // then update form data
+        newFormData[fieldIndex].selected = selectedOption
         updateForm(newFormData)
     }
 
@@ -38,6 +48,9 @@ export default function EditGrid({data, heading, updateForm, formData}) {
         // checks if field is float
         else if (gridItem?.field === 'float') {
             return <FloatGridItem fieldData={gridItem} key={index} index={index} updateFormField={updateInputFormField} />}
+        // checks if field is float
+        else if (gridItem?.field === 'selector') {
+            return <DropdownGridItem fieldData={gridItem} key={index} index={index} updateFormField={updateDropdownField} />}
     }
 
     // this function maps through data

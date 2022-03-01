@@ -1,63 +1,92 @@
-import React from 'react'
+// dependencies
+import React, {useEffect, useState, useRef} from 'react'
 import styled from 'styled-components'
+
+// components
 import SvgIcon from '../icons/SvgIcon'
 import PrimaryOption from './PrimaryOption';
 
-export default function PrimaryDropdown({heading, options, selected, onChange}) {
+export default function DropdownGridItem({fieldData, updateFormField, index}) {
 
-    const [isActive, setIsActive ] = React.useState(false);
-    const [selectedOption, setSelectedOption] = React.useState(selected)
+    // Component props
+    let {description, label, options, selected} = fieldData
 
-    const handleClick = (event) => {
-        setIsActive(!isActive)
+    // Reference to Filter Select Wrapper
+    const nodeRef = useRef();
+
+	// Component States
+    const [isDropdownActive, setIsDropdownActive] = useState(false)
+    const [selectedOption, setSelectedOption] = useState(selected)
+
+    // toggle state of dropdown
+    const handleDropdownToggle = () => setIsDropdownActive(!isDropdownActive);
+
+    // updating selected option
+    const updateSelectedOption = (index) => {
+        setSelectedOption(index);
+        setIsDropdownActive(false)
     }
 
-    const handleOptionClick = (option, index) => {
-        setIsActive(!isActive)
-        setSelectedOption(index)
-        onChange(index)
+    const returnRenderList = () => {
+        return options?.map((option, optionIndex) => {
+            return (
+                <DropdownButton onClick={() => {updateSelectedOption(optionIndex)}}>
+                    <PrimaryOption option={option} isOptionInLastPosition={optionIndex +1 === options.length} />
+                </DropdownButton>)
+        })
     }
 
-    window.onclick = (event) => {
-        if (!event.target.classList.contains('primary-dropdown')) {
-            setIsActive(false)
-        }
-    }
+    // handle mousedown
+    const handleClick = e => {
+        if (nodeRef.current.contains(e.target)) return;
+        // outside click 
+        setIsDropdownActive(false)
+    };
+
+    useEffect(() => {
+        // add when mounted
+        document.addEventListener("mousedown", handleClick);
+        // return function to be called when unmounted
+        return () => {
+        document.removeEventListener("mousedown", handleClick);
+        };
+    })
+
+    // see if changes are made to selectedOption, if yes then do stuff
+    useEffect(() => updateFormField({selectedOption, fieldIndex: index}), [selectedOption])
 
     return (
-        <Wrapper>
+        <MainWrapper ref={nodeRef}>
+            
             <HeadingWrapper>
                 <StyledHeading>
-                    {heading}
+                    {label}
                 </StyledHeading>    
+                <Description>
+                    {description}
+                </Description>
             </HeadingWrapper>        
-            <ContentWrapper onClick={handleClick} className="primary-dropdown">
+            
+            <ContentWrapper onClick={handleDropdownToggle}>
                 <ContentTextWrapper>
                     <ContentText>
-                        { options[selectedOption].name }
+                        {options[selected].value}
                     </ContentText>
                 </ContentTextWrapper>
                 <ContentSvgWrapper>
                     <ContentSvg>
-                        <SvgIcon width="16px" height="16px" path="/images/arrow-bottom.svg" alt="arrow bottom" />
+                        <SvgIcon width="14px" height="14px" path="/images/general/dropdown-expand-icon.svg" alt="arrow bottom" />
                     </ContentSvg>
                 </ContentSvgWrapper>
             </ContentWrapper>
-            {isActive && (
-                <DropdownMenuWrapper>
-                    <DropDownMenu>
-                        { options && options.map((option, index) => {
-                            return (
-                                <DropdownButton onClick={() => {handleOptionClick(option, index)}}>
-                                    <PrimaryOption option={option} isOptionInLastPosition={index +1 === options.length} />
-                                </DropdownButton>
-                            )
+            
+            <DropdownMenuWrapper isDropdownActive={isDropdownActive}>
+                <DropDownMenu>
+                    {returnRenderList()}
+                </DropDownMenu>
+            </DropdownMenuWrapper>
 
-                        } )}
-                    </DropDownMenu>
-                </DropdownMenuWrapper>
-            )}
-        </Wrapper>
+        </MainWrapper>
     )
 }
 
@@ -75,14 +104,15 @@ const DropDownMenu = styled.ul `
 `;
 
 const DropdownMenuWrapper = styled.div `
-    width: 100%;
     height: fit-content;
     position: absolute;
+    background: #10151c;
+    border: solid 1px #242424;
+    display: ${props => props.isDropdownActive ? 'initial' : 'none'};
     
-    background: #11161f;
-    border-radius: 2px;
+    width: 100%;
+    border-radius: 6px;
     z-index: 2;
-
     top: 83px;
 `;
 
@@ -96,20 +126,26 @@ const ContentSvg = styled.div `
     width: fit-content;
 `
 
+const Description = styled.span `
+    font-size: 0.85rem;
+    font-weight: 300;
+
+    color: #a5a9af;
+    text-transform: capitalize;
+`;
+
 const StyledHeading = styled.span `
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #7b8187;
-    opacity: .9;
-    text-transform: uppercase;
+    font-weight: 400;
+    color: rgb(186 193 203);
+    font-size: 1rem;
+
+    text-transform: capitalize;
 `;
 
 const ContentText = styled.span `
     font-size: 1rem;
     font-weight: 300;
-    font-style: normal;
-    color: var(--white);
-    opacity: .85;
+    color: #d3d6db;
 `;
 
 const ContentTextWrapper = styled.div `
@@ -118,31 +154,34 @@ const ContentTextWrapper = styled.div `
 `;
 
 const ContentWrapper = styled.div `
-    height: 42px;
-
+    height: 40px;
     width: 100%;
-    border-radius: 3px;
+    border-radius: 6px;
+    padding: 0px 10px;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0px 20px;
+    background: #10151c;
+    border: solid 1px #323334;
     cursor: pointer;
-    background-color: #11161f;
 `;
 
 const HeadingWrapper = styled.div `
-    height: fit-content;
-    width: 100%;
-
     display: flex;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: flex-start;
+    height: fit-content;
+
+    padding-left: 6px;
+    column-gap: 8px;
 `;
 
-const Wrapper = styled.div `
-    width: 100%;
+const MainWrapper = styled.div `
+    width: auto;
+    height: fit-content;
     display: flex;
     flex-direction: column;
-    row-gap: 14px;
+
+    row-gap: 10px;
 `; 

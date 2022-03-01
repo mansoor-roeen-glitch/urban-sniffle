@@ -6,7 +6,7 @@ export default function PrimaryOption({option, isOptionInLastPosition}) {
         <StyledOptionWrapper isOptionInLastPosition={isOptionInLastPosition}>
             <StyledOption>
                 <StyledOptionText>
-                    {option.name}
+                    {option.value}
                 </StyledOptionText>
             </StyledOption>
         </StyledOptionWrapper>
@@ -14,17 +14,14 @@ export default function PrimaryOption({option, isOptionInLastPosition}) {
 }
 
 const StyledOptionWrapper = styled.div `
-    height: 54px;
-    margin: 0px;
+    height: 40px;
     width: 100%;
+    padding: 0px 14px;
 
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding: 0px 20px;
-    
-    border-bottom: ${props => props.isOptionInLastPosition ? "none" : "solid 1px #d8d3e51f"};
-
+    border-bottom: ${props => props.isOptionInLastPosition ? 'none' : 'solid 1px #242424'};
 
     &:hover {
         opacity: .8;
@@ -38,9 +35,7 @@ const StyledOption = styled.div `
 `;
 
 const StyledOptionText = styled.h1 `
-    font-size: 1rem;
+    font-size: 15px;
     font-weight: 300;
-    font-style: normal;
-    color: var(--white);
-    opacity: .85;
+    color: #d3d6db;
 `;

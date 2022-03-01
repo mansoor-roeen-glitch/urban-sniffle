@@ -120,7 +120,7 @@ const Input = styled.input `
     align-items: center;
     justify-content: flex-start;
     outline: none;
-    background: ${props => props.inputCompleted ? '#10151c': 'transparent'};
+    background: transparent;
     color: #d3d6db;
     border: solid 1px ${props => props.error ? '#4b1e1e' : '#323334'};
 
