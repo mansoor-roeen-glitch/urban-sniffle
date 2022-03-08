@@ -1,12 +1,12 @@
 // dependencies
 import React from 'react'
 import styled from 'styled-components';
-import DropdownGridItem from '../dropdowns/PrimaryDropdown';
-import FloatGridItem from './FloatGridItem';
-import NumberGridItem from './NumberGridItem';
 
 // components
+import NumberGridItem from './NumberGridItem';
+import FloatGridItem from './FloatGridItem';
 import StringGridItem from './StringGridItem';
+import DropdownGridItem from '../dropdowns/PrimaryDropdown';
 // import Detail from './Detail';
 // import PrimaryDropdown from '../../../components/dropdowns/PrimaryDropdown';
 // import PrimaryHeading from "../../../components/texts/PrimaryHeading";
@@ -72,23 +72,34 @@ export default function EditGrid({data, heading, updateForm, formData}) {
                 </GridHeading>
             </GridHeader>    
 
-            <Grid>
-                {mapGridData()}
-            </Grid>
+            <FormWrapper>
+                <Grid>
+                    {mapGridData()}
+                </Grid>
+            </FormWrapper>
 
         </MainWrapper>
 
     )
 }
 
-const GridItem = styled.span `
-    color: white;
+const FormWrapper = styled.div `
+    width: 100%;
+
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
 `;
 
-const Grid = styled.div `
+const Grid = styled.li `
     display: grid;
-    column-gap: 2%;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    list-style: none;
+
+    width: 100%;
+    grid-column-gap: 30px;
+    grid-row-gap: 20px;
+
+    grid-template-columns: repeat(auto-fit, minmax(250px, 300px));
 `;
 
 const GridHeading = styled.span `

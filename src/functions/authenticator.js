@@ -1,5 +1,19 @@
 // Dependencies 
-import fetchEndpoint from "./fetchAnEndpoint";
+import apiRequest from "./apiRequest";
+
+// this would basically just login 
+const loginRequest = async ({password, email, username}) => {
+  return await apiRequest({
+    token: '',
+    method: 'post',
+    endpoint: '/auth/login/',
+    data: {
+        password,
+        email,
+        username,
+    }
+  })
+}
 
 // Funtion to redirect users if they are authenticated
 // Using this I prevent users from having to login again and again
@@ -46,7 +60,7 @@ const authenticator = async (token, setToken, setUser) => {
   if (token) {
   
     // Getting the user infromation and checking the token
-    let response = await fetchEndpoint({token, endpoint: '/auth/user/'}); 
+    let response = await apiRequest({token, endpoint: '/auth/user/'}); 
     
     if (response.status_code === 200) {   
       
@@ -73,4 +87,5 @@ export {
   authenticator,
   notAuthenticatedRedirect,
   authenticatedRedirect,
+  loginRequest
 }

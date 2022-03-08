@@ -1,9 +1,9 @@
 import React from 'react'
 import Detail from './Detail';
 import styled from 'styled-components';
-import PrimaryDropdown from '../../../components/dropdowns/PrimaryDropdown';
-import PrimaryHeading from "../../../components/texts/PrimaryHeading";
-import PrimaryInput from '../../../components/inputs/PrimaryInput';
+import PrimaryDropdown from '../../../../components/dropdowns/PrimaryDropdown';
+import PrimaryHeading from "../../../../components/texts/PrimaryHeading";
+import PrimaryInput from '../../../../components/inputs/PrimaryInput';
 
 export default function Section({data, heading, rows, rows1, rows2, rows3, rowHeight}) {
     return (

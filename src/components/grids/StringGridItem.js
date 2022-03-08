@@ -95,7 +95,7 @@ export default function StringGridItem({fieldData, updateFormField, index}) {
                     error={showError?.error}
                     onChange={handleInputChange}
                     value={inputValue} 
-                    placeholder={value}
+                    placeholder={value || 'type a value'}
                     name={label} 
                     minlength={minmax?.min} 
                     maxlength={minmax?.max} 
@@ -141,7 +141,7 @@ const InputWrapper = styled.div `
 `;
 
 const Description = styled.span `
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 300;
 
     color: ${props => props.error ? '#af6f65' : '#a5a9af'};
@@ -151,7 +151,7 @@ const Description = styled.span `
 const Heading = styled.span `
     font-weight: 400;
     color: ${props => props.error ? '#bb5b5b' : 'rgb(186 193 203)'};
-    font-size: 1rem;
+    font-size: 0.9rem;
 
     text-transform: capitalize;
 `;
@@ -172,5 +172,5 @@ const MainWrapper = styled.div `
     display: flex;
     flex-direction: column;
 
-    row-gap: 10px;
+    row-gap: 6px;
 `;

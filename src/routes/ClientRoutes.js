@@ -4,8 +4,8 @@ import {Routes, Route} from 'react-router-dom'
 
 // Components
 import Dashboard from './Dashboard/Dashboard'
-import Service from './Services/Service'
-import Services from './Services/Services.js'
+import Service from './neutralRoutes/services/Service'
+import Services from './neutralRoutes/services/Services'
 import Create from './Create/Create'
 import Logout from './Logout/Logout'
 

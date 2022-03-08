@@ -1,23 +1,32 @@
 // Dependencies
 import axios from "axios"
 
-export default async function fetchEndpoint ({endpoint, token}) {
+export default async function request ({endpoint, token, method, data}) {
 
     // response variable for response
     let response = {};
 
     // request url and request headers
-    const requestUrl = `https://hosnet.io${endpoint}`;
-    const requestHeaders = {
+    let requestUrl = `https://hosnet.io${endpoint}`;
+    let requestHeaders = {
         'content-type': 'application/json',
-        'Authorization': `Token ${token}`
+        'Authorization': `Token ${token}`,}
+
+    let authRequestHeaders = {
+        'content-type': 'application/json',
     }
 
-    // get request url
+    // will check if endpoint contains auth in it
+    if (endpoint.includes('/auth/login') || endpoint.includes('/auth/register') || endpoint.includes('/auth/reset')) {
+        requestHeaders = authRequestHeaders
+    }
+
+    // axios API request
     response = await axios({
-        method: 'get',
+        method: method || 'get',
+        data: data || {},
         url: requestUrl,
-        headers: requestHeaders
+        headers: requestHeaders,
     })
 
     // if request was successful do this 

@@ -1,5 +1,5 @@
 import handleStripeCheckout from "../../../functions/handleStripeCheckout";
-import postRequest from "../../../functions/postRequest";
+import apiRequest from "../../../functions/apiRequest";
 
 export default async function submitForm({data, token}) {
 
@@ -15,11 +15,11 @@ export default async function submitForm({data, token}) {
 
     }
 
-    let response = await postRequest({ 
-        
+    let response = await apiRequest({ 
         token: token, 
         dataset: updatedDate, 
-        endpoint: "/api/services"
+        method: 'post',
+        endpoint: "/api/services/"
     
     })
 

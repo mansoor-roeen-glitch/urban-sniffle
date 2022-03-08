@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Svg from '../../../components/icons/SvgIcon'
+import Svg from '../../../../components/icons/SvgIcon'
 
 export default function VPSDetailsSection({ list, heading, editPath }) {
 

@@ -57,11 +57,6 @@ const StyledButton = styled.button `
 
 const StyledButtonText = styled.span `
     color: #f75040;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 400;
-
-    @media screen and (max-width: 600px) {
-        font-size: 0.85rem;
-        text-transform: uppercase;
-    }
 `;

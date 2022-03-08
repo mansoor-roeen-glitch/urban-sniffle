@@ -1,17 +1,16 @@
 // Dependencies
-import axios from 'axios';
 import React, {useEffect} from 'react'
 import styled from 'styled-components'
 
 // Components
-import PrimaryButton from '../../components/buttons/PrimaryButton';
-import PrimarySearchBar from '../../components/inputs/PrimarySearchBar';
-import TableHeader from '../../components/table/TableAHeader';
-import Table from '../../components/table/TableA';
+import PrimaryButton from '../../../components/buttons/PrimaryButton';
+import PrimarySearchBar from '../../../components/inputs/PrimarySearchBar';
+import TableHeader from '../../../components/table/TableAHeader';
+import Table from '../../../components/table/TableA';
 
 // Functions
-import fetchEndpoint from '../../functions/fetchAnEndpoint';
-import { searchList } from '../../functions/tableSearchbar';
+import apiRequest from '../../../functions/apiRequest';
+import { searchList } from '../../../functions/tableSearchbar';
 
 export default function Plans({ token, subHeader }) {
 
@@ -31,18 +30,18 @@ export default function Plans({ token, subHeader }) {
         })
     }
     
-    // getting list of plans using the fetchEndpoint function
+    // getting list of plans using the apiRequest function
     // once plans have been fetched, the plans list would be updated
     // if failure occurs, error would be set as error_message
     const getPlans = async () => {
-        let response = await fetchEndpoint({
+        let response = await apiRequest({
             token: token,
             endpoint: '/api/plans/',
         })
 
         if (response.success) {
             setPlans(response.body.results)
-            setLoading(false)
+            setLoading(false) 
             return null;
         } 
 

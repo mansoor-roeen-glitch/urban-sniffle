@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
-import handleNavbarOptions from '../../functions/handleNavbarOptions.js'
+import handleNavbarOptions from './navbarOptions';
 import IconRenderer from '../../components/icons/SvgIcon'
 
 export default function Navbar({user}) {

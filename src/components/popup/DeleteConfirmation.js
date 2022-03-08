@@ -6,22 +6,18 @@ import styled from 'styled-components'
 import Icon from '../icons/SvgIcon'
 
 
-export default function PopupConfirmation({ hostname, action, callback, closePopup }) {
+export default function DeleteConfirmation({ name, action, callback, closePopup }) {
 
     // React State Hooks
     const [password, setPassowrd] = useState('')
 
-
     // Component Functions
-
     const handlePasswordUpdate = (event) => {
         setPassowrd(event.target.value)
     }
 
     const handleSubmit = () => {
-        
         callback({password: password})
-        
     }
 
 
@@ -31,8 +27,7 @@ export default function PopupConfirmation({ hostname, action, callback, closePop
         
         <ComponentWrapper>
 
-            <Header>
-    
+            <Header>    
                 <Heading>
                     Confirm This Action
                 </Heading>
@@ -40,17 +35,16 @@ export default function PopupConfirmation({ hostname, action, callback, closePop
                 <CancelSvg onClick={closePopup}>
                     <Icon path='/images/popupConfirmation/cancel.svg' width={16} height={16} />
                 </CancelSvg>
-    
             </Header>
 
             <DescriptionWrapper>
                 <Description>
-                    NOTE: Please note that this action <BoldText>cannot</BoldText> be undone. This will permanently {action} the <BoldText>{hostname}</BoldText> service
+                    NOTE: Please note that this action <BoldText>cannot</BoldText> be undone. This will permanently {action} the <BoldText>{name}</BoldText> service
                 </Description>
             </DescriptionWrapper>
 
             <PasswordInputFieldWrapper>
-                <PasswordLabel for='delete-confirmation-password' >Please enter your password to {action} <BoldText>{hostname}</BoldText></PasswordLabel>
+                <PasswordLabel for='delete-confirmation-password' >Please enter your password to {action} <BoldText>{name}</BoldText></PasswordLabel>
                 <PasswordInputField name='delete-confirmation-password' type='password' placeholder='' onChange={handlePasswordUpdate} />
             </PasswordInputFieldWrapper>
 
@@ -184,7 +178,7 @@ const ComponentWrapper = styled.div `
     width: 450px;
     
     height: fit-content;
-    background: #0d1117;
+    background: #0d1117; 
 
     display: flex;
     align-items: center;

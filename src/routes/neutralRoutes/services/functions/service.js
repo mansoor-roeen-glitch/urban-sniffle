@@ -1,7 +1,5 @@
 // Importing functions
-import fetchEndpoint from '../../../functions/fetchAnEndpoint'
-import postRequest from '../../../functions/postRequest'
-
+import apiRequest from '../../../../functions/apiRequest'
 
 export default async function service ({ ...props }) {
 
@@ -24,7 +22,7 @@ export default async function service ({ ...props }) {
     } = props
 
 
-    const userInformation = await fetchEndpoint({
+    const userInformation = await apiRequest({
         token: token,
         endpoint: `/auth/user/`
     })
@@ -46,7 +44,7 @@ export default async function service ({ ...props }) {
     }
 
 
-    const serviceInformation = await fetchEndpoint({
+    const serviceInformation = await apiRequest({
         token: token,
         endpoint: `/api/services/${serviceId}`
     })
@@ -67,7 +65,7 @@ export default async function service ({ ...props }) {
 
     }
 
-    const serviceConsole = await postRequest({
+    const serviceConsole = await apiRequest({
         token: token,
         endpoint: `/api/services/${serviceId}/console_login`
     })
@@ -86,9 +84,10 @@ export default async function service ({ ...props }) {
 
     }
 
-    const serviceStatus = await postRequest({
+    const serviceStatus = await apiRequest({
+        method: 'post',
         token: token,
-        endpoint: `/api/services/${serviceId}/status`
+        endpoint: `/api/services/${serviceId}/status/`
     })
 
 

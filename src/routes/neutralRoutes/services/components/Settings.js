@@ -1,76 +1,120 @@
 // Import Dependencies
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
-import PrimaryButton from '../../../components/buttons/ActionButton'
-import DangerButton from '../../../components/buttons/DangerActionButton'
-import FormElement from '../../../components/forms/ServiceFormElement'
-import PopupConfirmation from '../../../components/popup/PopupConfirmation'
-import postRequest from '../../../functions/postLoginRequest'
 
-export default function Settings ({service, user}) {
+// components
+import PrimaryButton from '../../../../components/buttons/ActionButton'
+import DangerButton from '../../../../components/buttons/DangerActionButton'
+import FormElement from '../../../../components/forms/ServiceFormElement'
+import Message from '../../../../components/messages/Message'
+import DeleteConfirmation from '../../../../components/popup/DeleteConfirmation'
+import apiRequest from '../../../../functions/apiRequest'
+
+export default function Settings ({service, user, token}) {
     
-    // Component Functions
-
     const currentHostname = service.body.hostname
-
     let inputType = 'input'
 
     // React State Hooks ^^ 
-
     const [updatedHostname, setUpdatedHostname] = useState('')
     const [updatedPassword, setUpdatedPassword] = useState('')
+    const [deleteConfirmationAlert, setDeleteConfirmationAlert] = useState(false)
+    const [message, setMessage] = useState(false);
+    const [actionLoading, setActionLoading] = useState(false);
 
-    const [isPopupActive, setIsPopupActive] = useState(false)
-    const [popupAction, setPopupAction] = useState()
+    // this function will reset and remove the confirmation alert
+    const alertCleanup = () => {
+        setDeleteConfirmationAlert(false)
+    }
 
+    // reset and clean the message
+    const messageCleanup = () => {
+        setMessage(false)
+    }
 
-    // Component Functions
+    // we'll show a message after confirmation or failure
+    const showMessage = ({...props}) => {
+        setMessage({
+            success: props.success,
+            title: props.title,
+            description: props.description,
+            button: {
+                label: 'Close',
+                onClick: messageCleanup,
+            }
+        })
+    }
 
-    const confirmDelete = async (props) => {
-        postRequest({
+    // this function runs when deleting has been comfirmed
+    const deleteConfirmed = async (props) => {
+        setActionLoading(true)
+        setDeleteConfirmationAlert(false)
+
+        let response = await apiRequest({
             token: '',
-            endpoint: '/auth/login',
-            dataset: {
+            method: 'post',
+            endpoint: '/auth/login/',
+            data: {
                 password: props.password,
                 email: user.body.email,
                 username: user.body.username,
             }
         })
+
+
+        if (response.success) {
+            let deleteResponse = await apiRequest({
+                token,
+                method: 'delete',
+                endpoint: `/api/services/${service.body.id}/`,
+            })
+
+            showMessage({
+                success: deleteResponse.success,
+                title: deleteResponse.success ? 'Task Completed' : 'Task Failed',
+                description: deleteResponse.success ? `'${currentHostname}' service has successfully been deleted` : `Failed to delete '${currentHostname}' service`,
+                
+            })
+
+        } else {
+            showMessage({
+                success: false,
+                title: 'Task Failed',
+                description: `Authentication Failed`,
+                
+            })
+        }
+        
+        setActionLoading(false)
     }
- 
-    const activatePopup = (action) => {
-        setPopupAction(action);
-        setIsPopupActive(true);
+    
+    // this function will activate the delete confirmation alert    
+    const handleDelete = () => {
+        setDeleteConfirmationAlert(true);
     }
 
-    const handleDeleteClick = () => {
-        activatePopup('delete')
-    }
-
-    const closePopup = () => {
-        setIsPopupActive(false)
-        setPopupAction('')
-    }
-
-    // JSX For Render
 
     return (
         
         <Wrapper>
 
-            {isPopupActive ? (
-                
+            {message ? (
+                <Message 
+                    button={message.button}
+                    title={message.title}
+                    success={message.success}
+                    description={message.description}
+                />
+            ) : null}
+
+            {deleteConfirmationAlert ? (
                 <PopupWrapper>
-                    <PopupConfirmation 
-                    
-                        hostname={service.body.hostname}
-                        closePopup={closePopup}
-                        callback={confirmDelete}
-                        action={popupAction}
-                    
+                    <DeleteConfirmation 
+                        name={service.body.hostname}
+                        closePopup={alertCleanup}
+                        callback={deleteConfirmed}
                     />
                 </PopupWrapper>
-
             ) : null}
 
             <InnerWrapper>
@@ -119,7 +163,7 @@ export default function Settings ({service, user}) {
                         text="Delete Service"
                         height="40px"
                         width="170px"
-                        onClick={handleDeleteClick}
+                        onClick={handleDelete}
                     />
                 </ButtonsWrapper>
 

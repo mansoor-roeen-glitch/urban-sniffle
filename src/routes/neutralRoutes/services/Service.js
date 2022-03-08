@@ -8,20 +8,19 @@ import VPSDetails from './components/VPSDetails';
 import Charts from './components/Charts';
 import SelectSection from './components/SelectSection';
 import SelectPages from './components/SelectPages';
-import ConfirmAlert from '../../components/popup/ConfirmAlert';
+import ActionConfirmation from '../../../components/popup/ActionConfirmation';
 
 // Importing Functions
 import service from './functions/service';
 import {
 
-    actionConfirmed,
     handleOptionClick,
     serviceNotActivated,
     updateScreenHeight
 
 } from './functions/extraFunctions'
-import Message from '../../components/messages/Message';
-
+import Message from '../../../components/messages/Message';
+import {action} from '../../../functions/extraActions';
 
 export default function Service ({ token, subHeader, ...props}) {
 
@@ -53,12 +52,18 @@ export default function Service ({ token, subHeader, ...props}) {
     const [message, setMessage] = React.useState(false)
     const [update, setUpdate] = React.useState(false);
     
-
-    // Functions ^^
+    
+    // reset and clean the message
     const messageCleanup = () => {
         setMessage(false)
     }
 
+    // reset and clean the alert
+    const alertCleanup = () => {
+        setConfirmAlert(false)
+    }
+
+    // we'll show a message after confirmation or aboration
     const showMessage = ({...props}) => {
         setMessage({
             success: props.success,
@@ -71,18 +76,24 @@ export default function Service ({ token, subHeader, ...props}) {
         })
     }
 
-    const alertCleanup = () => {
-        setConfirmAlert(false)
+    // this function would run if action has been confirmed
+    const handleActionConfirmation = (selectedAction) => {
+        action({
+            action: selectedAction,
+            name: hostname,
+            endpoint: 'services',
+            alertCleanup,
+            setActionLoading,
+            showMessage,
+            token
+        });   
     }
 
-    const handleActionConfirmation = (action) => {
-        actionConfirmed(action, alertCleanup, setActionLoading, showMessage);   
-    }
-
+    // this function would initialize the pop up or alert
     const handleAction = (action) => {
+        let confirmedActionFunc = () => handleActionConfirmation(action)
 
-        const confirmedActionFunc = () => actionConfirmed(action)
-
+        // set up the alert of confirmation pop up
         setConfirmAlert({
             title: 'Confirm Action',
             message: `Are you sure you want to ${action} ${hostname}`,
@@ -105,21 +116,16 @@ export default function Service ({ token, subHeader, ...props}) {
 
 
     // Use Effect Hooks 
+    // setting loading to true by default
+    // resize Event Listener
+    // function to get service data from server
     useEffect( () => {
 
-        console.log("use effect has been triggered")
-
-        // Setting loading to true by default
         setLoading(true)
-
-        // Resize Event Listener
         window.addEventListener( "resize", () => {
-
             updateScreenHeight(setScreenHeight)
-
         } ) 
 
-        // Function to get service data from server
         service ({
 
             error,
@@ -140,11 +146,9 @@ export default function Service ({ token, subHeader, ...props}) {
     }, [])
 
 
-    // Sub Header Configuration
+    // sub-header initialization
     useEffect(() => {
-
         subHeader([hostname], loading)
-
     }, [loading])
 
 
@@ -204,7 +208,7 @@ export default function Service ({ token, subHeader, ...props}) {
             ) : null}
             
             {confirmAlert ? (
-                <ConfirmAlert 
+                <ActionConfirmation
                     buttons={confirmAlert.buttons}
                     title={confirmAlert.title}
                     message={confirmAlert.message}

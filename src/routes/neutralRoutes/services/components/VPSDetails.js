@@ -1,7 +1,7 @@
 // Dependencies
 import React, {useState} from 'react'
 import styled from 'styled-components'
-import Svg from '../../../components/icons/SvgIcon';
+import Svg from '../../../../components/icons/SvgIcon';
 import { checkMachineStatus, getExtraActions } from '../functions/extraFunctions';
 
 export default function Component ({...props}) {

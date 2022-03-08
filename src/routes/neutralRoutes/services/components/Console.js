@@ -1,7 +1,7 @@
 // Dependencies
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import '../../../../node_modules/xterm/css/xterm.css';
+import '../../../../../node_modules/xterm/css/xterm.css';
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
 import { handleTerminalAuthentication } from '../functions/console';

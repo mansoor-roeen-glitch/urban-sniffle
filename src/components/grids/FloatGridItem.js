@@ -65,7 +65,7 @@ export default function FloatGridItem({fieldData, updateFormField, index}) {
                 <Input  
                     onChange={handleInputChange}
                     value={inputValue} 
-                    placeholder={value}
+                    placeholder={value || 'ex: 1.00'}
                     name={label} 
                     min={minmax?.min} 
                     max={minmax?.max} 
@@ -110,7 +110,7 @@ const InputWrapper = styled.div `
 `;
 
 const Description = styled.span `
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 300;
 
     color: #a5a9af;
@@ -120,7 +120,7 @@ const Description = styled.span `
 const Heading = styled.span `
     font-weight: 400;
     color: rgb(186 193 203);
-    font-size: 1rem;
+    font-size: 0.9rem;
 
     text-transform: capitalize;
 `;
@@ -141,5 +141,5 @@ const MainWrapper = styled.div `
     display: flex;
     flex-direction: column;
 
-    row-gap: 10px;
+    row-gap: 6px;
 `;

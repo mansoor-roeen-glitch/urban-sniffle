@@ -3,14 +3,14 @@ import React from 'react'
 import styled from 'styled-components'
 
 // Components
-import PrimaryButton from '../../components/buttons/PrimaryButton';
-import PrimarySearchBar from '../../components/inputs/PrimarySearchBar';
-import TableHeader from '../../components/table/TableAHeader';
-import Table from '../../components/table/TableA';
+import PrimaryButton from '../../../components/buttons/PrimaryButton';
+import PrimarySearchBar from '../../../components/inputs/PrimarySearchBar';
+import TableHeader from '../../../components/table/TableAHeader';
+import Table from '../../../components/table/TableA';
 
 // Functions
-import fetchEndpoint from '../../functions/fetchAnEndpoint';
-import { searchList } from '../../functions/tableSearchbar';
+import apiRequest from '../../../functions/apiRequest';
+import { searchList } from '../../../functions/tableSearchbar';
 
 export default function Services({token, subHeader, is_staff}) {
 
@@ -30,12 +30,12 @@ export default function Services({token, subHeader, is_staff}) {
         })
     }
 
-    // Getting list of services using the fetchEndpoint function
+    // Getting list of services using the apiRequest function
     // Once services have been fetched, the services list would be updated
     // If failure occurs, error would be set as error_message
     const getServices = async () => {
         
-        let response = await fetchEndpoint({
+        let response = await apiRequest({
             token: token,
             endpoint: "/api/services/",
         })

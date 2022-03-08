@@ -1,10 +1,10 @@
-import fetchEndpoint from '../../../functions/fetchAnEndpoint'
+import apiRequest from '../../../functions/apiRequest'
 
 export default async function fetchCreateInformation (token) {
 
-    const plansList = await fetchEndpoint({endpoint: '/api/plans', token})
-    const templatesList = await fetchEndpoint({endpoint: '/api/templates', token})
-    const userInformation = await fetchEndpoint({endpoint: '/auth/user', token})
+    const plansList = await apiRequest({endpoint: '/api/plans', token})
+    const templatesList = await apiRequest({endpoint: '/api/templates', token})
+    const userInformation = await apiRequest({endpoint: '/auth/user', token})
 
     return {
 
