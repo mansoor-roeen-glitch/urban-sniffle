@@ -7,13 +7,10 @@ import NumberGridItem from './NumberGridItem';
 import FloatGridItem from './FloatGridItem';
 import StringGridItem from './StringGridItem';
 import DropdownGridItem from '../dropdowns/PrimaryDropdown';
-// import Detail from './Detail';
-// import PrimaryDropdown from '../../../components/dropdowns/PrimaryDropdown';
-// import PrimaryHeading from "../../../components/texts/PrimaryHeading";
-// import PrimaryInput from '../../../components/inputs/PrimaryInput';
-
 
 export default function EditGrid({data, heading, updateForm, formData}) {
+    
+    const [error, setError] = React.useState(false);
     
     // updating the input field from form depending on fieldIndex
     const updateInputFormField = ({fieldIndex, inputValue, errorMes}) => {
@@ -21,7 +18,8 @@ export default function EditGrid({data, heading, updateForm, formData}) {
         newFormData[fieldIndex].inputValue = inputValue;
         
         // if we got error, then update with error
-        if (errorMes) newFormData[fieldIndex].errorMes = errorMes;
+        if (errorMes) newFormData[fieldIndex].errorMes = errorMes
+        else newFormData[fieldIndex].errorMes = false;
 
         updateForm(newFormData)
     }
@@ -57,9 +55,20 @@ export default function EditGrid({data, heading, updateForm, formData}) {
     // returns grid item
     const mapGridData = () => {
         // we wanna return the end result
-        return data?.map((gridItem, index) => (
-            determineItemField(gridItem, index)
-        ))
+        if (data.length > 0 && data !== false) {
+            return data.map((gridItem, index) => (
+                determineItemField(gridItem, index)
+            ))
+        }
+    }
+
+    React.useEffect(() => {
+        if (data === [] || !data) setError(true);
+    }, [])
+
+
+    if (error) {
+        return null;
     }
 
     return (
@@ -68,7 +77,7 @@ export default function EditGrid({data, heading, updateForm, formData}) {
             
             <GridHeader>
                 <GridHeading>
-                    update "test-plan-3" plan
+                    {heading.charAt(0).toUpperCase() + heading.slice(1)}
                 </GridHeading>
             </GridHeader>    
 

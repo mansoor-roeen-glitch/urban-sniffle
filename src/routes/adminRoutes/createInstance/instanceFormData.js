@@ -1,69 +1,3 @@
-// Functions
-import { token } from "proxmox-client"
-import apiRequest from "../../../functions/apiRequest"
-
-// create plan function
-const createPlan = async ({token, showMessage, formData}) => {
-    // this will be the final data that we'll send to server
-    let data = {};
-
-    // go through all the formItems
-    formData.map((formItem, index) => {
-        // we'll initially see if it's number or float or string
-        // if then we'll see if the value has changed or not
-        // if the value had changed then update data as the changed value
-        // otherwise use the inital value provided by server
-        if (formItem.field === 'number' || formItem.field === 'float' || formItem.field === 'string') {
-            data[formItem.for] = formItem.inputValue
-        }
-
-        else if (formItem.field === 'selector') {
-            data[formItem.for] = formItem.options[formItem.selected].value
-        }
-    })   
-    
-    // set ip pools
-    data.ip_pools = [3]
-
-    let successMessage = () => {
-        showMessage({
-            success: true,
-            title: 'Task Completed',
-            description: `Plan has been created successfully`,
-        })
-    }
-
-    let errorMessage = () => {
-        showMessage({
-            success: false,
-            title: 'Task Failed',
-            description: `Failed to create new plan`,
-        })
-    }
-
-    // 'put' api request
-    apiRequest({
-        data,
-        token, 
-        method: 'post',
-        endpoint: `/api/plans/`,
-    })
-
-    // if no error occurs, say it's done 
-    // then redirect them to /plans
-    .then((response) => {
-        // if success
-        if (response.success) successMessage()
-        // if failed
-        else errorMessage()
-    })
-
-    // if error occured, show this message
-    .catch(() => {
-        errorMessage()
-    })
-}
-
 // validation function for string inputs
 const stringValidation = (value, max, min, regex) => {
 
@@ -88,11 +22,87 @@ const stringValidation = (value, max, min, regex) => {
     return {error: false, error_message: '' }
 }
 
-// this function returns the form data
-// the form data would be used to create form fields
-const getFormData = () => { 
+const nodeFormData = ({putOptions, mapChoices, selectedChoice}) => {
+    return [
+        {
+            value: '',
+            inputValue: '',
+            errorMes: false,
+            description: '(Please enter node name)',
+            label: 'Node name',   
+            for: 'name',
+            stringValidation, 
+            field: 'string',
+            regex: /^[A-Za-z0-9 ]+$/,
+            minmax: {max: 50, min: 2}
+        },
+        {
+            value: '',
+            inputValue: '',
+            description: '(in megabytes)',
+            label: 'Ram',   
+            for: 'ram',
+            field: 'number',
+            minmax: {max: 1073741824,}
+        },
+        {
+            value: '',
+            inputValue: '',
+            description: '(in megabytes)',
+            label: 'Storage',   
+            for: 'size',
+            field: 'number',
+            minmax: {max: 1073741824,}
+        },
+        {
+            value: '',
+            inputValue: '',
+            description: '(in megabytes)',
+            label: 'Bandwidth',   
+            for: 'bandwidth',
+            field: 'number',
+            minmax: {max: 1073741824,}
+        },
+        {
+            value: '',
+            inputValue: '',
+            description: '(no. of cores)',
+            label: 'No. Cores',   
+            for: 'cores',
+            field: 'number',
+            minmax: {max: 8,}
+        },
+        {
+            value: '',
+            inputValue: '',
+            description: '(in megabytes)',
+            label: 'Swap', 
+            for: 'swap',
+            field: 'number',
+            minmax: {max: 10,}
+        },
+        {
+            intialChoice: 'hosnet',
+            selected: 0,
+            description: '(select a cluster)',
+            label: 'Cluster',   
+            for: 'cluster',
+            field: 'selector',
+            options: [{value: 1, index: 0}]
+            
+        },
+        {
+            intialChoice: '',
+            selected: 0,
+            description: '(select the type)',
+            label: 'Node Type',    
+            options: mapChoices('type')
+        }
+    ]
+}
 
-    let formData = [
+const planFormData = ({data, putOptions, mapChoices, selectedChoice}) => {
+    return [
         {
             value: '',
             inputValue: '',
@@ -103,10 +113,7 @@ const getFormData = () => {
             stringValidation, 
             field: 'string',
             regex: /^[A-Za-z0-9 ]+$/,
-            minmax: {
-                max: 50,
-                min: 2, 
-            }
+            minmax: {max: 50, min: 2}
         },
         {
             value: '',
@@ -123,10 +130,7 @@ const getFormData = () => {
             label: 'Ram',   
             for: 'ram',
             field: 'number',
-            minmax: {
-                max: 1073741824,
-                min: 0,
-            }
+            minmax: {max: 1073741824}
         },
         {
             value: '',
@@ -135,10 +139,7 @@ const getFormData = () => {
             label: 'Storage',   
             for: 'size',
             field: 'number',
-            minmax: {
-                max: 1073741824,
-                min: 0,
-            }
+            minmax: {max: 1073741824}
         },
         {
             value: '',
@@ -147,10 +148,7 @@ const getFormData = () => {
             label: 'Bandwidth',   
             for: 'bandwidth',
             field: 'number',
-            minmax: {
-                max: 1073741824,
-                min: 0,
-            }
+            minmax: {max: 1073741824}
         },
         {
             value: '',
@@ -159,10 +157,7 @@ const getFormData = () => {
             label: 'No. Cores',   
             for: 'cores',
             field: 'number',
-            minmax: {
-                max: 8,
-                min: 1,
-            }
+            minmax: {max: 8}
         },
         {
             value: '',
@@ -171,10 +166,7 @@ const getFormData = () => {
             label: 'No. Cpu Units',   
             for: 'cpu_units',
             field: 'number',
-            minmax: {
-                max: 1,
-                min: 10,
-            }
+            minmax: {max: 10}
         },
         {
             value: '',
@@ -191,10 +183,7 @@ const getFormData = () => {
             label: 'Swap', 
             for: 'swap',
             field: 'number',
-            minmax: {
-                max: 1,
-                min: 10,
-            }
+            minmax: {max: 10}
         },
         {
             value: '',
@@ -203,10 +192,7 @@ const getFormData = () => {
             label: 'Internal IPs',   
             for: 'internal_ips',
             field: 'number',
-            minmax: {
-                max: 1,
-                min: 10,
-            }
+            minmax: {max: 10}
         },
         {
             value: '',
@@ -215,10 +201,7 @@ const getFormData = () => {
             label: 'IPv4 IPs',   
             for: 'ipv4_ips',
             field: 'number',
-            minmax: {
-                max: 1,
-                min: 10,
-            }
+            minmax: {max: 10}
         },
         {
             value: '',
@@ -227,10 +210,7 @@ const getFormData = () => {
             label: 'IPv6 IPs', 
             for: 'ipv6_ips',    
             field: 'number',
-            minmax: {
-                max: 1,
-                min: 10,
-            }
+            minmax: {max: 10}
         },
         {
             value: '',
@@ -239,10 +219,7 @@ const getFormData = () => {
             label: 'Terms',   
             for: 'terms',
             field: 'number',
-            minmax: {
-                max: 1,
-                min: 10,
-            }
+            minmax: {max: 10}
         },
         {
             selected: 0,
@@ -250,16 +227,47 @@ const getFormData = () => {
             label: 'Period',   
             for: 'period',
             field: 'selector',
-            options: [
-                {value: 'month', index: 0, },
-                {value: 'year', index: 1,}
-            ]
-            
+            options: [{value: 'month', index: 0, }, {value: 'year', index: 1}]
         }
     ]
-
-    return formData;
 }
 
+const templateFormData = ({data, putOptions, mapChoices, selectedChoice}) => {
+    return [
+        {
+            value: '',
+            inputValue: '',
+            errorMes: false,
+            description: '(Enter template name)',
+            label: 'Template Name',   
+            for: 'name',
+            stringValidation, 
+            field: 'string',
+            regex: /^[A-Za-z0-9 ]+$/,
+            minmax: {max: 50, min: 2}
+        },
+        {
+            value: '',
+            inputValue: '',
+            errorMes: false,
+            description: '(Enter template file)',
+            label: 'Template File',   
+            for: 'file',
+            stringValidation, 
+            field: 'string',
+            regex: /^[A-Za-z0-9 ]+$/,
+            minmax: {max: 50, min: 1}
+        },
+        {
+            intialChoice: 0,
+            selected: 0,
+            description: '(select the type)',
+            field: 'selector',
+            for: 'type',
+            label: 'Template Type',    
+            options: mapChoices('type')
+        },
+    ]
+}
 
-export {getFormData, createPlan}
+export {nodeFormData, planFormData, templateFormData}

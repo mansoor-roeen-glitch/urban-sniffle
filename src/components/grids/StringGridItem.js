@@ -53,7 +53,15 @@ export default function StringGridItem({fieldData, updateFormField, index}) {
 
             } 
 
-            else {setInputCompleted(false)}
+            else {
+                setInputCompleted(false)
+                setInputValue("")
+                
+                updateFormField({
+                    inputValue: '',
+                    fieldIndex: index,
+                })
+            }
         }
 
         setIsInputFocused(false)

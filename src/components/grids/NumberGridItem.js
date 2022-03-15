@@ -8,7 +8,7 @@ export default function NumberGridItem({fieldData, updateFormField, index}) {
     let {value, description, label, minmax} = fieldData
 
     // setting up component states
-    const [inputValue, setInputValue] = useState(false);
+    const [inputValue, setInputValue] = useState('');
 
     // this well update the inputValue to whatever the value of input is
     const handleInputChange = (event) => {

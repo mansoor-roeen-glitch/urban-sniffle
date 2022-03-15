@@ -1,3 +1,10 @@
+const TABLE_LABELS_DATA = {
+    service: ["hostname", "plan", "status", "ram"],
+    plan: ["name", "size", "period", "bandwidth"],
+    node: ["name", "size", "period", "bandwidth"],
+    template: ["name", "type", "id", "file"],
+}
+
 const ACTIVE_MACHINE_EXTRA_ACTIONS = [
     {
         file: "reboot_button.svg",
@@ -39,4 +46,5 @@ const INACTIVE_MACHINE_EXTRA_ACTIONS = [
 export {
     ACTIVE_MACHINE_EXTRA_ACTIONS,
     INACTIVE_MACHINE_EXTRA_ACTIONS,
+    TABLE_LABELS_DATA
 }

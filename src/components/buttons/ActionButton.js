@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components';
 
-export default function PrimaryButton({ text, height, width, onClick }) {
+export default function PrimaryButton({ text, height, width, onClick, isDisabled }) {
 
     return (
         <ButtonWrapper>
-            <StyledButton onClick={onClick} height={height} width={width}>
+            <StyledButton onClick={isDisabled ? null : onClick} height={height} width={width} isDisabled={isDisabled}>
                 <StyledButtonText>
                     {text}
                 </StyledButtonText>
@@ -32,20 +32,19 @@ const StyledButton = styled.button `
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    cursor: ${props => props.isDisabled ? 'not-allowed': 'pointer'};
     background: #763470;
-
     border-radius: 5px;
     transition: .4s ease;
-
     border: solid 1px #383f48;
+    opacity: ${props => props.isDisabled ? '0.4' : '1'};
 
     &:hover {
         
-        background: #5e3a5a;
+        background: ${props => props.isDisabled ? '#763470' : '#5e3a5a'};
 
         span {
-            opacity: .9;
+            opacity: ${props => props.isDisabled ? '1' : '0.9'};
         }
 
     }

@@ -11,54 +11,71 @@ import Table from '../../../components/table/TableA';
 // Functions
 import apiRequest from '../../../functions/apiRequest';
 import { searchList } from '../../../functions/tableSearchbar';
+import { TABLE_LABELS_DATA } from '../../../constants';
 
-export default function Plans({ token, subHeader }) {
+export default function Instances({ token, subHeader, instanceType, tableLabelsData }) {
+
+    let location = document.location.pathname;
 
     const [error, setError] = React.useState();
-    const [plans, setPlans] = React.useState();
+    const [results, setResults] = React.useState();
     const [loading, setLoading] = React.useState(true);
     const [search, setSearch] = React.useState("")
     const [foundMatch, setFoundMatch] = React.useState(false);
 
+    // this function will determain the filter input
+    let handleSearchKey = () => {
+        if (instanceType === 'service') return 'hostname'
+        else if (instanceType === 'node' || instanceType === 'plan') return 'name'
+    }
+
+    // returns the table labels data depending on instance type
+    let getTableLabels = () => {
+        return TABLE_LABELS_DATA[instanceType]
+    }
+
     // update result based on search
     const handleValueChange = (value) => {
         searchList({
-            list: plans || [],
+            list: results || [],
             value,
             setFoundMatch,
-            searchKey: 'name',
+            searchKey: handleSearchKey(),
         })
     }
     
-    // getting list of plans using the apiRequest function
-    // once plans have been fetched, the plans list would be updated
+    // getting list if results using the apiRequest function
+    // once results have been fetched, the results list would be updated
     // if failure occurs, error would be set as error_message
-    const getPlans = async () => {
+    const getResults = async () => {
         let response = await apiRequest({
             token: token,
-            endpoint: '/api/plans/',
+            endpoint: `/api/${instanceType}s/`,
         })
 
         if (response.success) {
-            setPlans(response.body.results)
+            setResults(response.body.results)
             setLoading(false) 
             return null;
         } 
 
-        setPlans([])
+        setResults([])
         setError(response?.error_message)
         setLoading(false)
 
     }
 
-    // run "getPlans" function
+    // run "getResults" function
     useEffect( () => {
-        getPlans();
-    }, [])
+        setResults([])
+        setLoading(true)
+        setError(false)
+        getResults();
+    }, [location])
 
     // update sub-header
     useEffect(() => {
-        subHeader(["plans"], loading)
+        subHeader([`List of ${instanceType}s`], loading)
     }, [loading])
 
 
@@ -80,17 +97,30 @@ export default function Plans({ token, subHeader }) {
     return (
         <Wrapper>
             <Header>
-        
                 <SearchWrapper>
-                    <PrimarySearchBar valueHasChanged={handleValueChange} onChange={setSearch} name="SearchBar" className="Primary-Search-Bar" id="Primary-Search-Bar" />
+                    <PrimarySearchBar 
+                        name="SearchBar" 
+                        className="Primary-Search-Bar" 
+                        id="Primary-Search-Bar"
+                        valueHasChanged={handleValueChange} 
+                        onChange={setSearch} 
+                    />
                 </SearchWrapper>
                 
-                <PrimaryButton to="/create/plan" text="New" width="80px" height="40px" />
-
+                <PrimaryButton 
+                    text="New" 
+                    height="40px" 
+                    width="80px" 
+                    to={`/create/${instanceType}`} 
+                />
             </Header>
 
-            <TableHeader data={["name", "size", "period", "bandwidth"]} />
-            <Table data={foundMatch ? foundMatch : plans} type="plans" />
+            <TableHeader data={getTableLabels()} />
+            
+            <Table 
+                data={foundMatch ? foundMatch : results} 
+                type={`${instanceType}s`} 
+            />
 
         </Wrapper>
     )
