@@ -184,7 +184,7 @@ export default function Instance({ subHeader, token, instanceType }) {
     // if the page was loading, then return the loading screen
     if (loading) {
         return (
-            <p>Instance is being loaded</p>
+            <p></p>
         )
     }
     

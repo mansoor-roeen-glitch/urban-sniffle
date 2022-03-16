@@ -3,10 +3,10 @@ import React from 'react'
 import {Route, Routes} from 'react-router-dom'
 
 // Components
-import LandingPage from './LandingPage/LandingPage'
-import Login from './Login/Login'
-import Register from './Register/Register'
-import Reset from './Reset/Reset'
+import LandingPage from './publicRoutes/LandingPage/LandingPage'
+import Login from './publicRoutes/Login/Login'
+import Register from './publicRoutes/Register/Register'
+import Reset from './publicRoutes/Reset/Reset'
 
 export default function PublicRoutes() {
   return (

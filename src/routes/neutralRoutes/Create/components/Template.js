@@ -1,16 +1,8 @@
 import React from 'react'
 import styled from 'styled-components';
-import SvgIcon from '../../../components/icons/SvgIcon';
+import SvgIcon from '../../../../components/icons/SvgIcon';
 
-export default function Template(
-    {
-
-        template,
-        templateIndex,
-        handleTemplateClick,
-        selectedTemplate
-
-    }) {
+export default function Template({template, templateIndex, handleTemplateClick, selectedTemplate }) {
 
     const templateName = template.name
     let svgPath = "/images/ubontuBW.svg"

@@ -1,10 +1,10 @@
 // Importing Dependencies
 import React from 'react';
 import styled from 'styled-components';
-import ChartTypeB from '../../../components/charts/ChartTypeB';
+import ChartTypeB from '../../../../components/charts/ChartTypeB';
 
 // Importing Components
-import Svg from '../../../components/icons/SvgIcon';
+import Svg from '../../../../components/icons/SvgIcon';
 
 
 export default function ServerStatisticsComponent() {

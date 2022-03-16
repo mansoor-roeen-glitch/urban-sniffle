@@ -2,10 +2,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-// Importing Components
-import Svg from '../../../components/icons/SvgIcon';
-
-
 export default function GridItemTypeC({iconSize, heading, status, tableHeaderData, tableData, isListOfTasks}) {
     
     // Component Variables

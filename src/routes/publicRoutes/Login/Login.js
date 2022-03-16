@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components';
-import SecondaryInput from '../../components/inputs/SecondaryInput';
-import SecondaryHeading from '../../components/texts/SecondaryHeading';
-import SecondaryButton from '../../components/buttons/SecondaryButton';
+import SecondaryInput from '../../../components/inputs/SecondaryInput';
+import SecondaryHeading from '../../../components/texts/SecondaryHeading';
+import SecondaryButton from '../../../components/buttons/SecondaryButton';
 import axios from 'axios';
 
 export default function Login(props) {

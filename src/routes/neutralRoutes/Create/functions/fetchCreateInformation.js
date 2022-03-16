@@ -1,4 +1,4 @@
-import apiRequest from '../../../functions/apiRequest'
+import apiRequest from '../../../../functions/apiRequest'
 
 export default async function fetchCreateInformation (token) {
 

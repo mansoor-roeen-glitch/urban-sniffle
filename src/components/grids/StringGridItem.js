@@ -23,8 +23,8 @@ export default function StringGridItem({fieldData, updateFormField, index}) {
     // if failed, inputerror would be set to true
     // else if, do nothin...
     const handleInputBlur = () => {
-        let isStringValid = stringValidation(inputValue, minmax.max, minmax.min, regex)
-        
+        let isStringValid = stringValidation({value: inputValue, fieldData})
+        console.log(isStringValid)
         if (isStringValid.error) {
             setInputError(isStringValid)
             setInputCompleted(false)
@@ -69,14 +69,8 @@ export default function StringGridItem({fieldData, updateFormField, index}) {
 
     // this well update the inputValue to whatever the value of input is
     const handleInputChange = (event) => {
-        if (event.target.value === '') {
-            setInputValue('')
-        } else {
-            // we'll see if character is valid or not
-            if (regex.test(event.target.value)) {
-                setInputValue(event.target.value)
-            }
-        }
+        if (event.target.value === '') setInputValue('')
+        else setInputValue(event.target.value);
     }
 
     // setting up component onMount effect

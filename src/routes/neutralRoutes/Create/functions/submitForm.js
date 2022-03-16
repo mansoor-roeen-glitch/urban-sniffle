@@ -1,5 +1,5 @@
-import handleStripeCheckout from "../../../functions/handleStripeCheckout";
-import apiRequest from "../../../functions/apiRequest";
+import handleStripeCheckout from "../../../../functions/handleStripeCheckout";
+import apiRequest from "../../../../functions/apiRequest";
 
 export default async function submitForm({data, token}) {
 

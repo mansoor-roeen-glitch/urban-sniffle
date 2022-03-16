@@ -10,8 +10,8 @@ import submitForm from './functions/submitForm'
 // Components
 import PlanSection from './components/PlanSection'
 import TemplateSection from './components/TemplateSection'
-import FormElement from '../../components/forms/FormElement'
-import Button from '../../components/buttons/ActionButton'
+import FormElement from '../../../components/forms/FormElement'
+import Button from '../../../components/buttons/ActionButton'
 
 export default function Create({ token, subHeader }) {
     

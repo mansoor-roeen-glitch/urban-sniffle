@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 // Importing Components
-import Svg from '../../../components/icons/SvgIcon';
+import Svg from '../../../../components/icons/SvgIcon';
 
 
 export default function GridItemTypeA({heading, value, iconSize, iconPath}) {

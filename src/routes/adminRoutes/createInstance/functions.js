@@ -1,6 +1,6 @@
 // Functions
 import apiRequest from "../../../functions/apiRequest"
-import {planFormData, nodeFormData, templateFormData} from './instanceFormData' 
+import {planFormData, nodeFormData, templateFormData, poolFormData} from './instanceFormData' 
 
 // getting route options 
 const getInstanceOptions = async (props) => {
@@ -106,6 +106,7 @@ const getFormData = async ({data, instance_id, token, instanceType}) => {
     if (instanceType === 'plan') return planFormData({data, putOptions, mapChoices})
     else if (instanceType === 'node') return nodeFormData({data, putOptions, mapChoices})
     else if (instanceType === 'template') return templateFormData({data, putOptions, mapChoices})
+    else if (instanceType === 'pool') return poolFormData({data, putOptions, mapChoices})
 
     return [];
 }

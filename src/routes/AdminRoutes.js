@@ -3,14 +3,12 @@ import React from 'react'
 import {Routes, Route} from 'react-router-dom'
 
 // Components
-import Dashboard from './Dashboard/Dashboard'
+import Dashboard from './adminRoutes/Dashboard/Dashboard'
 import Service from './neutralRoutes/services/Service'
-import Create from './Create/Create'
-import Logout from './Logout/Logout'
+import Logout from './neutralRoutes/Logout/Logout'
 import Instance from './adminRoutes/instance/Instance'
 import Instances from './adminRoutes/instances/Instances'
 import CreateInstance from './adminRoutes/createInstance/CreateInstance'
-import { TABLE_LABELS_DATA } from '../constants'
 
 export default function AdminRoutes({subHeader, token}) {
   return (
@@ -19,7 +17,7 @@ export default function AdminRoutes({subHeader, token}) {
       
       <Route path="/services" exact element={<Instances token={token} subHeader={subHeader} instanceType='service' />} />
       <Route path="/services/:id/:hostname" exact element={<Service token={token} subHeader={subHeader} />} />
-      <Route path="/create/service" exact element={<Create token={token} subHeader={subHeader} />} />
+      <Route path="/create/service/" exact element={<CreateInstance token={token} subHeader={subHeader} instanceType='service' />} />
 
       <Route path="/plans" exact element={<Instances token={token} subHeader={subHeader} instanceType='plan' />} />
       <Route path="/plans/:instance_id/" exact element={<Instance token={token} subHeader={subHeader} instanceType='plan' />} />
@@ -32,6 +30,10 @@ export default function AdminRoutes({subHeader, token}) {
       <Route path="/templates" exact element={<Instances token={token} subHeader={subHeader} instanceType='template' />} />
       <Route path="/templates/:instance_id/" exact element={<Instance token={token} subHeader={subHeader} instanceType='template' />} />
       <Route path="/create/template/" exact element={<CreateInstance token={token} subHeader={subHeader} instanceType='template' />} />
+
+      <Route path="/pools" exact element={<Instances token={token} subHeader={subHeader} instanceType='pool' />} />
+      <Route path="/pools/:instance_id/" exact element={<Instance token={token} subHeader={subHeader} instanceType='pool' />} />
+      <Route path="/create/pool/" exact element={<CreateInstance token={token} subHeader={subHeader} instanceType='pool' />} />
 
       <Route path="/logout" exact element={<Logout />} />   
     </Routes>

@@ -1,17 +1,35 @@
+import validator from 'validator';
+
 // validation function for string inputs
-const stringValidation = (value, max, min, regex) => {
+const stringValidation = ({value, fieldData}) => {
+    
+    if (!fieldData.validationType) return {error: false};
 
-    // running regex to test value
-    let isStringValid = regex ? regex?.test(value) : /^[a-zA-Z0-9]{2,40}$/.test(value)
+    let {min, max} = fieldData?.minmax;
+    let stringValidator = validator[fieldData.validationType]
 
-    // check if regex test passed
+    // check if ip is either version 4 or version 6
+    // if neither then return false
+    let ipValidator = () => {
+        if (stringValidator(value, 4)) return true
+        else if (stringValidator(value, 6)) return true
+        else return false
+    }
+
+    // running the validation test on value
+    let isStringValid = fieldData.validationType === 'isIP'
+        ? ipValidator() 
+        : stringValidator(value, 'en-US', {ignore: fieldData.ignore});
+ 
+    // if validation test passed then
     if (isStringValid) {
-        // check if min or max have been mentioned 
-        if (max || min) {
+        
+        // check if there's a minmax field
+        if (min || max) {
             // check if length is more than or less than max and min
-            if (value.length > max || value.length < min) {
-                return {error: true, error_message: `must be ${min}-${max}`};}
-            else { return {error: false, error_message: '' }}
+            if (!validator.isLength(value, {min, max})) 
+                return {error: true, error_message: `must be ${min}-${max}`}
+            else return {error: false, error_message: '' };
         }
         
         // else if, return with no error
@@ -19,7 +37,7 @@ const stringValidation = (value, max, min, regex) => {
     }
 
     // else if, return with no error
-    return {error: false, error_message: '' }
+    return {error: true, error_message: 'String must be alphanumeric' }
 }
 
 const nodeFormData = ({data, putOptions, mapChoices, selectedChoice}) => {
@@ -33,7 +51,8 @@ const nodeFormData = ({data, putOptions, mapChoices, selectedChoice}) => {
             for: 'name',
             stringValidation, 
             field: 'string',
-            regex: /^[A-Za-z0-9 ]+$/,
+            ignore: ' -_',
+            validationType: 'isAlphanumeric',
             minmax: {max: 50, min: 2}
         },
         {
@@ -112,7 +131,8 @@ const planFormData = ({data, putOptions, mapChoices, selectedChoice}) => {
             for: 'name',
             stringValidation, 
             field: 'string',
-            regex: /^[A-Za-z0-9 ]+$/,
+            ignore: ' -_',
+            validationType: 'isAlphanumeric',
             minmax: {max: 50, min: 2}
         },
         {
@@ -243,7 +263,8 @@ const templateFormData = ({data, putOptions, mapChoices, selectedChoice}) => {
             for: 'name',
             stringValidation, 
             field: 'string',
-            regex: /^[A-Za-z0-9 ]+$/,
+            ignore: ' -_',
+            validationType: 'isAlphanumeric',
             minmax: {max: 50, min: 2}
         },
         {
@@ -255,7 +276,8 @@ const templateFormData = ({data, putOptions, mapChoices, selectedChoice}) => {
             for: 'file',
             stringValidation, 
             field: 'string',
-            regex: /^[A-Za-z0-9 ]+$/,
+            ignore: '',
+            validationType: 'isAlphanumeric',
             minmax: {max: 50, min: 1}
         },
         {
@@ -270,4 +292,96 @@ const templateFormData = ({data, putOptions, mapChoices, selectedChoice}) => {
     ]
 }
 
-export {nodeFormData, planFormData, templateFormData}
+const poolFormData = ({data, putOptions, mapChoices, selectedChoice}) => {
+    return [
+        {
+            value: data.name,
+            inputValue: '',
+            errorMes: false,
+            description: '(Enter IP Pool Name)',
+            label: 'Pool Name',   
+            for: 'name',
+            stringValidation, 
+            field: 'string',
+            ignore: ' -_',
+            validationType: 'isAlphanumeric',
+            minmax: {max: 50, min: 2}
+        },
+        {
+            value: data.network,
+            inputValue: '',
+            errorMes: false,
+            description: '(Enter Network Address)',
+            label: 'Pool Network',   
+            for: 'network',
+            stringValidation, 
+            field: 'string',
+            validationType: 'isIP',
+            minmax: {max: 45, min: 7 }
+        },
+        {
+            value: data.gateway,
+            inputValue: '',
+            errorMes: false,
+            description: '(Enter Gateway Address)',
+            label: 'Pool Gateway',   
+            for: 'gateway',
+            stringValidation, 
+            field: 'string',
+            validationType: 'isIP',
+            minmax: {max: 45, min: 7 }
+        },
+        {
+            value: data.dns,
+            inputValue: '',
+            errorMes: false,
+            description: '(Enter DNS Address)',
+            label: 'Pool DNS',   
+            for: 'dns',
+            stringValidation, 
+            field: 'string',
+            validationType: 'isIP',
+            minmax: {max: 45, min: 7 }
+        },
+        {
+            value: data.interface,
+            inputValue: '',
+            errorMes: false,
+            description: '(Enter an interface)',
+            label: 'Pool Interface',   
+            for: 'interface',
+            stringValidation, 
+            field: 'string',
+            regex: /^[A-Za-z0-9 ]+$/,
+            minmax: {max: 50, min: 2}
+        },
+        {
+            value: data.mask,
+            inputValue: '',
+            description: '',
+            label: 'Pool Mask',   
+            for: 'mask',
+            field: 'number',
+            minmax: {max: 1025, min: 0 }
+        },
+        {
+            intialChoice: data.type,
+            selected: selectedChoice('type')[0] || 0,
+            description: '(select the type)',
+            field: 'selector',
+            for: 'type',
+            label: 'Pool Type',    
+            options: mapChoices('type')
+        },
+        {
+            selected: 0,
+            description: '(select true or false)',
+            label: 'Internal',   
+            for: 'internal',
+            field: 'selector',
+            options: [{value: 'true', index: 0, }, {value: 'false', index: 1}]
+        }
+    ]
+}
+
+export {nodeFormData, planFormData, templateFormData, poolFormData}
