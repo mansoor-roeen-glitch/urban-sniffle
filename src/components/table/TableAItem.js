@@ -74,10 +74,10 @@ const ServiceHostnameText = styled.span `
 `;
 
 const StyledGrid = styled.div `
-    width: 93%;
+    width: 95%;
     height: auto;
 
-    max-width: 1600px;
+    max-width: 2000px;
     display: grid;
     justify-content: space-between;
     grid-template-columns: 1fr 85px 85px 85px;
@@ -91,7 +91,7 @@ const StyledGrid = styled.div `
 
 const StyledWrapper = styled.li `
     width: 100%;
-    height: 55px;
+    height: 54px;
 
     display: flex;
     align-items: center;

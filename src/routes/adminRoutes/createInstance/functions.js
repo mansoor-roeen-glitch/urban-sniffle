@@ -1,6 +1,6 @@
 // Functions
 import apiRequest from "../../../functions/apiRequest"
-import {planFormData, nodeFormData, templateFormData, poolFormData} from './instanceFormData' 
+import {planFormData, nodeFormData, templateFormData, poolFormData, serviceFormData} from './instanceFormData' 
 
 // getting route options 
 const getInstanceOptions = async (props) => {
@@ -50,7 +50,7 @@ const formValidation = ({formData}) => {
 }
 
 // create instance function
-const createInstance = async ({token, showMessage, formData, instanceType}) => {
+const createInstance = async ({token, showMessage, formData, instanceType, optionalAction}) => {
 
     let data = createInstanceData(formData)
 
@@ -71,7 +71,7 @@ const createInstance = async ({token, showMessage, formData, instanceType}) => {
     }
 
     // 'put' api request
-    apiRequest({
+    return apiRequest({
         data,
         token, 
         method: 'post',
@@ -80,15 +80,20 @@ const createInstance = async ({token, showMessage, formData, instanceType}) => {
 
     // if no error occurs, say it's done 
     .then((response) => {
+        if (optionalAction) {
+            return response;
+        }
+
         // if success
-        if (response.success) successMessage()
+        if (response.success) {successMessage(); return response}
         // if failed
-        else errorMessage()
+        else {errorMessage(); return response} 
     })
 
     // if error occured, show this message
-    .catch(() => {
-        errorMessage()
+    .catch((error) => {
+        errorMessage();
+        return error;
     })
 }
 
@@ -103,10 +108,11 @@ const getFormData = async ({data, instance_id, token, instanceType}) => {
     // this function loops through and returns dropdown field options 
     let mapChoices = (f) => putOptions[f].choices.map((e, i) => ({value: e.value, name: e.name, index: i}));
 
-    if (instanceType === 'plan') return planFormData({data, putOptions, mapChoices})
-    else if (instanceType === 'node') return nodeFormData({data, putOptions, mapChoices})
-    else if (instanceType === 'template') return templateFormData({data, putOptions, mapChoices})
-    else if (instanceType === 'pool') return poolFormData({data, putOptions, mapChoices})
+    if (instanceType === 'plan') return planFormData({mapChoices})
+    else if (instanceType === 'node') return nodeFormData({mapChoices})
+    else if (instanceType === 'template') return templateFormData({mapChoices})
+    else if (instanceType === 'pool') return poolFormData({mapChoices})
+    else if (instanceType === 'service') return serviceFormData({mapChoices})
 
     return [];
 }

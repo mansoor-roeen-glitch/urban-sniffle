@@ -1,13 +1,13 @@
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 
-export default async function handleStripeCheckout ({serviceId, authToken}) {
+export default async function handleStripeCheckout ({id, token}) {
 
     // handle checkout with stripe
-    axios.get(`https://hosnet.io/api/services/${serviceId}/billing/`, {
+    axios.get(`https://hosnet.io/api/services/${id}/billing/`, {
 
         headers: {
-            "Authorization": `Token ${authToken}`
+            "Authorization": `Token ${token}`
         }
 
     })

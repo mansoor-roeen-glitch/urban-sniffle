@@ -259,9 +259,8 @@ export default function Service ({ token, subHeader, ...props}) {
 }
 
 const VPSInformationWrapper = styled.div `
-    
-    width: 93%;
-    max-width: 1600px;
+    width: 95%;
+    max-width: 2000px;
     padding-top: 35px;
     
     display: flex;
@@ -313,8 +312,8 @@ const ServiceNotActivatedMessage = styled.span `
 const ServiceNotActivated = styled.div `
     display: flex;
     height: 50px;
-    width: 93%;
-    max-width: 1600px;
+    width: 95%;
+    max-width: 2000px;
     align-items: center;
 `
 

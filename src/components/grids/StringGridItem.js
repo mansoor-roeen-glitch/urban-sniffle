@@ -24,7 +24,7 @@ export default function StringGridItem({fieldData, updateFormField, index}) {
     // else if, do nothin...
     const handleInputBlur = () => {
         let isStringValid = stringValidation({value: inputValue, fieldData})
-        console.log(isStringValid)
+        
         if (isStringValid.error) {
             setInputError(isStringValid)
             setInputCompleted(false)

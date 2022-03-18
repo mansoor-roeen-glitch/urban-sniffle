@@ -52,8 +52,8 @@ const HeaderList = styled.ul `
 `;
 
 const ContentHeader = styled.div `
-    width: 93%;
-    max-width: 1600px;
+    width: 95%;
+    max-width: 2000px;
     height: fit-content;
 `;
 

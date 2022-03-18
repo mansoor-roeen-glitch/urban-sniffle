@@ -7,7 +7,7 @@ import {validateForm} from './functions/validateForm'
 import fetchCreateInformation from './functions/fetchCreateInformation'
 import submitForm from './functions/submitForm'
 
-// Components
+// Components 
 import PlanSection from './components/PlanSection'
 import TemplateSection from './components/TemplateSection'
 import FormElement from '../../../components/forms/FormElement'
@@ -47,15 +47,11 @@ export default function Create({ token, subHeader }) {
     // Functions ^^
 
     const handlePlanClick = (planIndex) => {
-
         setSelectedPlan(planIndex)
-
     }
 
     const handleTemplateClick = (templateIndex) => {
-
         setSelectedTemplate(templateIndex)
-
     }
 
     function handleSubmission () {
@@ -160,10 +156,9 @@ export default function Create({ token, subHeader }) {
                 />
 
                 <FormWrapper>
-                    <FormList>
+`                    <FormList>
                         
                         <FormElement 
-                        
                             title="3. Choose a hostname" 
                             desc="This field can only consist of alphabets, numbers, dashes and underscores"
                             placeholder="ex: ExampleHostname-101_5"
@@ -171,11 +166,10 @@ export default function Create({ token, subHeader }) {
                             
                             value={hostname.value}
                             onChange={setHostname}
-                            
+                            hasError={hostname.hasErrorMessage}
                         />
 
                         <FormElement 
-                        
                             title="4. Choose a password" 
                             desc="Password field must be at least 8 characters long"
                             placeholder="ex: 4cK[BZ:6HMxGm/kV"
@@ -183,10 +177,10 @@ export default function Create({ token, subHeader }) {
 
                             value={password.value}
                             onChange={setPassword} 
-                            
+                            hasError={password.hasErrorMessage}
                         />
 
-                    </FormList>
+                    </FormList>`
                 </FormWrapper>
 
                 <ButtonWrapper>
@@ -242,9 +236,9 @@ const Wrapper = styled.div `
 `;
 
 const InnerWrapper = styled.div `
-    width: 93%;
+    width: 95%;
     height: fit-content;
-    max-width: 1600px;
+    max-width: 2000px;
     padding-top: 38px;
 
     margin-bottom: 10px;

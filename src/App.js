@@ -34,7 +34,7 @@ export default function App () {
   const [selected, setSelected] = useState(false)
 
   const [subHeaderDetails, setSubheaderDetails] = useState({
-    path: "Hostler",
+    path: userDetails?.username || 'Hosnet',
     subPaths: ["dashboard"],
     isLoading: loading
   })
@@ -185,7 +185,8 @@ const AppContent = styled.div `
   overflow-y: scroll;
 
   width: 100%;
-  max-height: calc(100vh - 82px);
+  max-height: calc(100vh - 82px - 35px);
+  padding-bottom: 35px;
 `;
 
 const NavBarWrapper = styled.div `

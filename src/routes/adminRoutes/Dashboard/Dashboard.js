@@ -9,10 +9,11 @@ import SectionTwoComponent from './components/SectionTwo';
 import ServerStatisticsComponent from './components/ServerStatisticsComponent';
 
 
-export default function Dashboard () {
+export default function Dashboard ({token, subHeader}) {
+
+    const [loading, setLoading] = useState()
 
     // React State Hooks
-
     const [countOfServices, setCountOfServices] = useState(0)
     const [countOfNodes, setCountOfNodes] = useState(0)
     const [countOfIpv4, setCountOfIpv4] = useState(0)
@@ -124,7 +125,11 @@ export default function Dashboard () {
     ]
 
 
-    // JSX For Render
+
+    // update sub-header
+    useEffect(() => {
+        subHeader([`Admin Dashboard`], loading)
+    }, [loading])
 
     return (
 
@@ -178,8 +183,8 @@ const ClusterStatisticsWrapper = styled.div `
 `;
 
 const InnerWrapper = styled.div `
-    width: 93%;
-    max-width: 1600px;
+    width: 95%;
+    max-width: 2000px;
 
     height: fit-content;
 `;

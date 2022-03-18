@@ -83,19 +83,19 @@ const ConsoleElem = styled.div `
 const ConsoleElemWrapper = styled.div `
     height: fit-content;
     width: fit-content;
+    
     padding: 15px;
-    background: black;
 `
 
 const InnerWrapper = styled.div `
-    width: 93%;
-    max-width: 1600px;
+    width: 95%;
+    max-width: 2000px;
 `;
 
 
 const Wrapper = styled.div `
     width: 100%;
-    margin-top: 30px;
+
     height: fit-content;
     display: flex;
     align-items: center;

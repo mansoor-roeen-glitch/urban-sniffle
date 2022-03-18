@@ -278,9 +278,9 @@ const InnerWrapper = styled.div `
     display: flex;
     flex-direction: column;
 
-    width: 93%;
+    width: 95%;
     padding-top: 10px;
-    max-width: 1600px;
+    max-width: 2000px;
     row-gap: 40px;
 `;
 

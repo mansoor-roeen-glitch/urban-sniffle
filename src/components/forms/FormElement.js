@@ -2,20 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 import Svg from '../../components/icons/SvgIcon';
 
-export default function FormElement(
-
-    {
-        type,
-        value,
-        title,
-        desc,
-        placeholder,
-        onChange,
-    })
-    
-    {
-
-        let isInput = type === "input"
+export default function FormElement({type, value, title, desc, placeholder, onChange, hasError}){
 
         const handleInputChange = (event) => {
             onChange({value: event.target.value})
@@ -30,28 +17,18 @@ export default function FormElement(
                 </ElementHeader>
 
                 <ElementWrapper>
-
-                    {isInput && (<ElementInput placeholder={placeholder} value={value} onChange={handleInputChange} /> )}
-
-                    {!isInput && 
+                    <ElementInput hasError={hasError} placeholder={placeholder} value={value} onChange={handleInputChange} /> )
+                    {/* {!isInput && 
                         (<ElementDropdown>
-
                             <ElementDropdownButton>
-
                                 <ElementDropdownButtonText>
                                     {title}
                                 </ElementDropdownButtonText>
-
                                 <ElementDropdownSvg>
                                     <Svg path="/images/dropdown.svg" width={11} height={24} />
                                 </ElementDropdownSvg>
-
                             </ElementDropdownButton>
-
-                            
-
-                        </ElementDropdown> )}
-
+                    </ElementDropdown> )} */}
                 </ElementWrapper>
 
             </Wrapper>
@@ -103,60 +80,57 @@ const ElementDropdown = styled.div `
 
 const ElementInput = styled.input `
     width: 100%;
-    background-color: #141923;
-    border: none;
     height: 45px;
     padding-left: 20px;
+
+    border: none;
+    background-color: #141923;
     color: #ced0d4;
 
     &::placeholder {
-        font-family: "Roboto";
-        font-style: normal;
-        font-weight: normal;
-        font-size: 18px;
+        font-size: 16px;
 
         display: flex;
         align-items: center;
-
         color: #666F7B; 
     }
 `;
 
 const ElementWrapper = styled.div `
-    width: auto;
     height: 100%;
+
+    width: auto;
     display: flex;
     align-items: center;
     justify-content: center;
 `;
 
 const ElementDesc = styled.span `
-    font-style: normal;
     font-weight: 300;
-    line-height: 20px;
+    line-height: 22px;
+    font-size: 15px;
 
+    font-style: normal;
     display: flex;
     align-items: center;
-
     color: #848B95;
 `;
 
 const ElementHeading = styled.span `
-    font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
-
+    font-weight: 400;
+    font-size: 18px;
+    
     display: flex;
     align-items: center;
-
+    font-style: normal;
     color: #c9ced5;
 `;
 
 const ElementHeader = styled.div `
+    row-gap: 10px;
     
     display: flex;
     flex-direction: column;
-    row-gap: 10px;
     width: auto;
     height: fit-content;
 

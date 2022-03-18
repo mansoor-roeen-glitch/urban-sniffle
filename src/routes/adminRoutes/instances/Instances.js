@@ -132,8 +132,8 @@ const SearchWrapper = styled.div `
 `;
 
 const Header = styled.div `
-    width: 93%;
-    max-width: 1600px;
+    width: 95%;
+    max-width: 2000px;
     margin-bottom: 35px;
 
     background: transparent;

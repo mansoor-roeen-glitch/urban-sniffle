@@ -20,7 +20,7 @@ export default function navbarOptions (user) {
     const adminAccessOptions = [
         {
             text: "Dashboard",
-            link: "/admin-dashboard",
+            link: "/",
             icon_path: "services.svg",
             width: "18px",
             height: "18px"

@@ -49,7 +49,7 @@ const FeatureName = styled.span `
     font-family: "Roboto";
     font-style: normal;
     font-weight: 300;
-    font-size: 15px;
+    font-size: 14px;
 
     display: flex;
     align-items: center;
@@ -60,8 +60,8 @@ const FeatureName = styled.span `
 const FeatureValue = styled.span `
     font-family: "Roboto";
     font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
+    font-weight: 400;
+    font-size: 14px;
 
     display: flex;
     align-items: center;
@@ -95,7 +95,7 @@ const Price = styled.span `
     font-family: "Roboto";
     font-style: normal;
     font-weight: 300;
-    font-size: 17px;
+    font-size: 15px;
 
     display: flex;
     align-items: center;
@@ -104,14 +104,11 @@ const Price = styled.span `
 `;
 
 const Heading = styled.span `
-    font-family: "Roboto";
-    font-style: normal;
     font-weight: 400;
-    font-size: 18px;
+    font-size: 15px;
 
     display: flex;
     align-items: center;
-
     color: #e7e7e7;
 `;
 
@@ -137,7 +134,7 @@ const Header = styled.div `
 
 const Wrapper = styled.button `
     width: auto;
-    height: 200px;
+    height: 185px;
 
     display: flex;
     flex-direction: column;

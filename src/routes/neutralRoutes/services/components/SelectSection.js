@@ -113,8 +113,8 @@ const List = styled.ul `
 
 const Wrapper = styled.div `
 
-    width: 93%;
-    max-width: 1600px;
+    width: 95%;
+    max-width: 2000px;
     height: 62px;
     margin: 35px 0px;
 

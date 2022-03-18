@@ -49,12 +49,13 @@ const TemplateSectionList = styled.ul `
 const TemplateSectionSubHeading = styled.span `
     color: #a6aab1;
     font-weight: 300;
+    font-size: 15px;
 `;
 
 const TemplateSectionHeading = styled.div `
     font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
+    font-weight: 400;
+    font-size: 18px;
 
     display: flex;
     align-items: center;

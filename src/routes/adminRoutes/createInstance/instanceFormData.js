@@ -389,4 +389,83 @@ const poolFormData = ({mapChoices}) => {
     ]
 }
 
-export {nodeFormData, planFormData, templateFormData, poolFormData}
+
+const serviceFormData = ({mapChoices}) => {
+    return [
+        {
+            value: '',
+            inputValue: '',
+            errorMes: false,
+            description: '(Enter VPS Hostname)',
+            label: 'VPS Hostname',   
+            for: 'hostname',
+            stringValidation, 
+            ignore: ' -_',
+            validationType: 'isAlphanumeric',
+            field: 'string',
+            minmax: {max: 50, min: 2}
+        },
+        {
+            value: '',
+            inputValue: '',
+            errorMes: false,
+            description: '(Enter strong password)',
+            label: 'VPS Password',   
+            for: 'password',
+            stringValidation, 
+            field: 'string',
+            minmax: {max: 50, min: 6 }
+        },
+        {
+            value: '',
+            inputValue: '',
+            errorMes: false,
+            description: '(VPS Owner Username)',
+            label: 'VPS Owner',   
+            for: 'owner',
+            stringValidation, 
+            field: 'string',
+            ignore: ' -_',
+            validationType: 'isAlphanumeric',
+            minmax: {max: 45, min: 1 }
+        },
+        {
+            intialChoice: 'Basic',
+            selected: 0,
+            description: '(select a plan)',
+            label: 'VPS Plan',   
+            for: 'plan',
+            field: 'selector',
+            options: [{value: 'Basic', index: 0}, {value: 'Affordable', index: 1}, {value: 'Scalable', index: 2}]
+        },
+        {
+            intialChoice: 'Ubuntu Focal',
+            selected: 0,
+            description: '(Select a template)',
+            label: 'VPS Template',   
+            for: 'template',
+            field: 'selector',
+            options: [{value: 'Ubuntu Focal', index: 0}, {value: 'CentOS 8', index: 1}, {value: 'Ubuntu Bionic', index: 2}]
+        },
+        {
+            intialChoice: 'Magus',
+            selected: 0,
+            description: '(Select a node)',
+            label: 'VPS Node',   
+            for: 'node',
+            field: 'selector',
+            options: [{value: 'magus', index: 0}]
+        },
+        {
+            intialChoice: 'Stripe',
+            selected: 0,
+            description: '(Select a billing type)',
+            label: 'VPS Billing',   
+            for: 'billing',
+            field: 'selector',
+            options: [{value: 'stripe', index: 0}]
+        }
+    ]
+}
+
+export {nodeFormData, planFormData, templateFormData, poolFormData, serviceFormData}

@@ -76,10 +76,10 @@ const Content = styled.div `
 
 const InnerWrapper = styled.div `
     overflow: none;
-    width: 93%;
     height: fit-content;
-
-    max-width: 1600px;
+    
+    width: 95%;
+    max-width: 2000px;
 `;
 
 const Wrapper = styled.div `

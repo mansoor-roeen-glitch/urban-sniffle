@@ -1,7 +1,7 @@
 // Dependencies
 import React, {useEffect, useState} from 'react'
 import styled from 'styled-components';
-import {formValidation, getFormData, createInstance} from './functions'
+import {formValidation, getFormData} from './functions'
 import { useParams, useNavigate } from 'react-router';
 
 // Components
@@ -10,8 +10,9 @@ import SubmitButton from '../../../components/buttons/ActionButton';
 import EditGrid from '../../../components/grids/EditGrid';
 import Message from '../../../components/messages/Message';
 import ConfirmAlert from '../../../components/popup/ActionConfirmation';
+import { createInstance } from './functions';
 
-export default function Instance({ subHeader, token, instanceType }) {
+export default function Instance({ subHeader, token, instanceType, optionalAction }) {
     
     let navigate = useNavigate();
 
@@ -55,16 +56,22 @@ export default function Instance({ subHeader, token, instanceType }) {
     const handleCreate = async () => {
         setActionLoading(true)
         
-        // run create function 
-        createInstance({
+        // run create function         
+        let response = await createInstance({
             token, 
             formData: formData,   
             instanceType,
-            showMessage
+            showMessage, 
+            optionalAction
         })
-
+        
+        // run any optional functions
+        if (optionalAction && response.success) {
+            optionalAction({id: response.body.id, setActionLoading})
+        }
+    
         // once it's all done, set action loading to false
-        setActionLoading(false)
+        if (!optionalAction) setActionLoading(false);
     }
 
     // thou shall update the route states
@@ -197,9 +204,9 @@ const InnerWrapper = styled.div `
     display: flex;
     flex-direction: column;
 
-    width: 93%;
+    width: 95%;
     padding-top: 10px;
-    max-width: 1600px;
+    max-width: 2000px;
     row-gap: 40px;
 `;
 

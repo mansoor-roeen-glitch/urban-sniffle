@@ -13,7 +13,7 @@ import CreateInstance from './adminRoutes/createInstance/CreateInstance'
 export default function AdminRoutes({subHeader, token}) {
   return (
     <Routes>
-      <Route path="/dashboard" exact element={<Dashboard token={token} subHeader={subHeader} />} />
+      <Route path="/" exact element={<Dashboard token={token} subHeader={subHeader} />} />
       
       <Route path="/services" exact element={<Instances token={token} subHeader={subHeader} instanceType='service' />} />
       <Route path="/services/:id/:hostname" exact element={<Service token={token} subHeader={subHeader} />} />

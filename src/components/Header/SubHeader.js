@@ -15,12 +15,10 @@ export default function Header({
             <InnerWrapper>
                 <ContentWrapper>
                     <ProfileWrapper>
-                        <StyledImage>
-                            
-                            <svg width="25" height="25" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <StyledImage>    
+                            <svg width="20" height="20" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M17 0C7.61175 0 0 7.61175 0 17C0 26.3882 7.61175 34 17 34C26.3882 34 34 26.3882 34 17C34 7.61175 26.3882 0 17 0ZM17 31.1667C12.5757 31.1667 8.62183 29.1252 6.02225 25.9392C6.38917 25.1062 7.1315 24.5296 8.66717 24.174C11.8462 23.4402 14.9841 22.7842 13.4739 20.0019C9.00433 11.7569 12.2003 7.08333 17 7.08333C21.7062 7.08333 24.9815 11.5841 20.5261 20.0019C19.0598 22.7673 22.0844 23.4246 25.3328 24.174C26.8657 24.5282 27.6137 25.1019 27.9834 25.9321C25.3824 29.1238 21.4271 31.1667 17 31.1667Z" fill="white" fillOpacity="0.85"/>
                             </svg>
-
                         </StyledImage>
 
                         <StyledUsernameWrapper>
@@ -30,9 +28,7 @@ export default function Header({
                         </StyledUsernameWrapper>
 
                         <StyledArrow>
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path fillRule="evenodd" clipRule="evenodd" d="M2.33325 0.440417L10.7181 7L2.33325 13.5444L2.69434 14L11.6666 7L2.6885 0L2.33325 0.440417Z" fill="#84709C"/>
-                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="#ba97e4"><path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z"/></svg>
                         </StyledArrow>
 
                     </ProfileWrapper>
@@ -55,22 +51,18 @@ export default function Header({
 const PathWrapper = styled.div `
     align-items: center;
     justify-content: center;
-    margin-left: 14px;
+    margin-left: 12px;
 `
 
 const PathText = styled.span `
     font-weight: normal;
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--primary-white);
 
     display: flex;
     align-items: center;
     opacity: .8;
     font-weight: 300;
-
-    @media screen and (max-width: 600px) {
-        font-size: 1.1rem;
-    }
 `;
 
 const StyledArrow = styled.div `
@@ -92,12 +84,8 @@ const StyledUsernameWrapper = styled.div `
 
 const StyledUserName = styled.span `
     color: var(--primary-purple);
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 400;
-
-    @media screen and (max-width: 600px) {
-        font-size: 1.1rem;
-    }
 `;
 
 const ContentWrapper = styled.div `
@@ -132,14 +120,15 @@ const StyledImage = styled.div `
 const Wrapper = styled.div `
     z-index: 2;
     width: 100%;
-    height: 60px;
+    height: 55px;
+    padding-left: 172px;
     background: var(--secondary-background);
+
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 0px;
-    filter: drop-shadow(0px 7px 4px #0D1117);
 
+    filter: drop-shadow(0px 7px 4px #0D1117);
 
     &::after {
         content: "";
@@ -172,8 +161,8 @@ const Wrapper = styled.div `
 `;
 
 const InnerWrapper = styled.div `
-    width: 93%;
-    max-width: 1400px;
+    width: 95%;
+    max-width: 2000px;
     height: fit-content;
     display: flex;
     align-items: center;

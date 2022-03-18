@@ -41,7 +41,7 @@ const PlanSectionList = styled.ul `
     height: fit-content;
 
     width: 100%;
-    column-gap: 35px;
+    column-gap: 50px;
     padding-top: 20px;
 
     grid-template-columns: repeat(5, 1fr);
@@ -50,12 +50,13 @@ const PlanSectionList = styled.ul `
 const PlanSectionSubHeading = styled.span `
     color: #a6aab1;
     font-weight: 300;
+    font-size: 15px;
 `;
 
 const PlanSectionHeading = styled.div `
     font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
+    font-weight: 400;
+    font-size: 18px;
 
     display: flex;
     align-items: center;

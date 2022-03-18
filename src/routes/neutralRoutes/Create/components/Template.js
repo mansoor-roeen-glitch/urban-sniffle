@@ -21,7 +21,7 @@ export default function Template({template, templateIndex, handleTemplateClick, 
         <Wrapper selected={selectedTemplate} onClick={handleClick}>
            <InnerWrapper>
                <SvgWrapper>
-                   <SvgIcon path={svgPath} width={50} height={50} />
+                   <SvgIcon path={svgPath} width={45} height={45} />
                </SvgWrapper>
                <TextWrapper>
                    <Text> {templateName} </Text>
@@ -32,15 +32,12 @@ export default function Template({template, templateIndex, handleTemplateClick, 
 }
 
 const Text = styled.span `
-    font-family: "Roboto";
-    font-style: normal;
     font-weight: 400;
-    font-size: 17px;
+    font-size: 14px;
 
     display: flex;
     align-items: center;
     text-align: center;
-
     color: #D7DCE3;
 `;
 
