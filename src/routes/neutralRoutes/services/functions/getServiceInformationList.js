@@ -101,12 +101,9 @@ export default function getServiceInformationList ({ serviceInformation, ownerIn
 
     ]
 
-
     return {
-
         planInformation,
-        generalInformation
-
+        generalInformation,
     }
 
 }

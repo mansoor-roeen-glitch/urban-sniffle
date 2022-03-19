@@ -5,49 +5,36 @@ import getServiceInformationList from '../functions/getServiceInformationList';
 
 export default function Details({ service, user }) {
 
-    
-    // Component Variables ^^
-    let edit_path = `/services/${service.body.id}/${service.body.hostname}/update`;
-
-    
-    // React State Hooks ^^
-
+    // Details Lists
     const [serviceGeneralInformation, setServiceGeneralInformation] = React.useState([]);
     const [servicePlanInformation, setServicePlanInformation] = React.useState([]);
 
+    // Returns a url to update service
+    const updatePath = () => {
+        return `/services/${service.body.id}/${service.body.hostname}/update`;
+    }
 
-    // Functions ^^
-
+    // This function fetches the details array
     const updateListData = () => {
-
         const {
-
             planInformation,
             generalInformation,
-
         } = getServiceInformationList({serviceInformation: service.body, ownerInformation: user.body})
 
-        setServiceGeneralInformation( generalInformation )
-        setServicePlanInformation( planInformation )
-
+        setServiceGeneralInformation(generalInformation)
+        setServicePlanInformation(planInformation)
     }
 
 
-    // React Use Effects Hooks ^^
-
+    // Details Initialization 
     useEffect(updateListData, [])
-
-
-    // JSX For Render ^^ 
 
     return (
 
         <Wrapper>
             <InnerWrapper>
-                    
-                    <VPSDetailsSection list={serviceGeneralInformation} heading="General Information" editPath={edit_path} />
-                    <VPSDetailsSection list={servicePlanInformation} heading="Plan Information" editPath={edit_path} />
-        
+                <VPSDetailsSection list={serviceGeneralInformation} heading="General Information" updatePath={updatePath()} isEditable={true} />
+                <VPSDetailsSection list={servicePlanInformation} heading="Plan Information" updatePath={updatePath()} isEditable={user.body.is_staff} />
             </InnerWrapper>
         </Wrapper>
 

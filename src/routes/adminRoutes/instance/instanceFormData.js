@@ -384,4 +384,33 @@ const poolFormData = ({data, putOptions, mapChoices, selectedChoice}) => {
     ]
 }
 
-export {nodeFormData, planFormData, templateFormData, poolFormData}
+const clientServiceFormData = ({data, putOptions, mapChoices, selectedChoice}) => {
+    return [
+        {
+            value: data.hostname,
+            inputValue: '',
+            errorMes: false,
+            description: '(Enter VPS Hostname)',
+            label: 'VPS Hostname',   
+            for: 'hostname',
+            stringValidation, 
+            ignore: ' -_',
+            validationType: 'isAlphanumeric',
+            field: 'string',
+            minmax: {max: 50, min: 2}
+        },
+        {
+            value: '',
+            inputValue: '',
+            errorMes: false,
+            description: '(Enter strong password)',
+            label: 'VPS Password',   
+            for: 'password',
+            stringValidation, 
+            field: 'string',
+            minmax: {max: 50, min: 6 }
+        },
+    ]
+}
+
+export {nodeFormData, planFormData, templateFormData, poolFormData, clientServiceFormData}

@@ -3,56 +3,53 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Svg from '../../../../components/icons/SvgIcon'
 
-export default function VPSDetailsSection({ list, heading, editPath }) {
+export default function VPSDetailsSection({list, heading, updatePath, isEditable}) {
+
+    // map through the list and return Grid Item
+    const mapList = () => {
+        return list.map((item, index) => {
+            return (
+                <GridItem key={index}>
+                    <GridItemIcon>
+                        <Svg path={item.svg} width={20} height={20} />
+                    </GridItemIcon>
+                    
+                    <GridItemContent>
+                        <GridItemHeading>{item.heading}</GridItemHeading>
+                        <GridItemValue>{item.value}</GridItemValue>
+                    </GridItemContent>
+                </GridItem>
+            )
+        })
+    }
+
+    // this function will see if grid is editable or not
+    // if is then return the svg, otherwise don't
+    const renderIcon = () => {
+        if (!isEditable) return null;
+        return (
+            <HeaderSvgWrapper> 
+                <HeaderSvg>
+                    <Link to={updatePath} style={{width: "fit-content", height: "fit-content"}}>
+                        <Svg path="/images/edit.svg" width={16} height={16} /> 
+                    </Link>
+                </HeaderSvg>
+            </HeaderSvgWrapper>
+        )
+    }
 
     return (
 
-        <ContentSectionWrapper>
+        <Wrapper>
+            <Header>
+                <Heading>{heading}</Heading>
+                {renderIcon()}
+            </Header>
 
-            <ContentSectionHeader>
-
-                <ContentSectionHeading>{heading}</ContentSectionHeading>
-                
-                <ContentSectionHeaderSvg> 
-                    
-                    <ContentSectionHeaderSvgWrapper>
-                        <Link to={editPath} style={{width: "fit-content", height: "fit-content"}}>
-                            <Svg path="/images/edit.svg" width={16} height={16} /> 
-                        </Link>
-                    </ContentSectionHeaderSvgWrapper>
-
-                </ContentSectionHeaderSvg>
-                
-            </ContentSectionHeader>
-
-            <ContentSectionGrid>
-                
-                {list.map((item, index) => {
-
-                    return (
-
-                        <GridItem key={index}>
-
-                            <GridItemIcon>
-                                <Svg path={item.svg} width={20} height={20} />
-                            </GridItemIcon>
-                            
-                            <GridItemContent>
-
-                                <GridItemHeading>{item.heading}</GridItemHeading>
-                                <GridItemValue>{item.value}</GridItemValue>
-                                
-                            </GridItemContent>
-
-                        </GridItem>
-
-                    )
-
-                })}
-
-            </ContentSectionGrid>
-
-        </ContentSectionWrapper>
+            <GridWrapper>
+                {mapList()}
+            </GridWrapper>
+        </Wrapper>
     )
 }
 
@@ -107,7 +104,7 @@ const GridItem = styled.div `
 
 `;
 
-const ContentSectionGrid = styled.div `
+const GridWrapper = styled.div `
 
     width: 100%;
     height: fit-content;
@@ -120,7 +117,7 @@ const ContentSectionGrid = styled.div `
 
 `;
 
-const ContentSectionHeaderSvgWrapper = styled.div `
+const HeaderSvg = styled.div `
 
     height: fit-content;
     width: fit-content;
@@ -133,7 +130,7 @@ const ContentSectionHeaderSvgWrapper = styled.div `
 
 `;
 
-const ContentSectionHeaderSvg = styled.div `
+const HeaderSvgWrapper = styled.div `
     
     height: 100%;
     display: flex;
@@ -143,7 +140,7 @@ const ContentSectionHeaderSvg = styled.div `
 
 `;
 
-const ContentSectionHeading = styled.span `
+const Heading = styled.span `
 
     font-weight: 500;
     font-size: 18px;
@@ -156,7 +153,7 @@ const ContentSectionHeading = styled.span `
 
 `;
 
-const ContentSectionHeader = styled.div `
+const Header = styled.div `
     
     width: fit-content;
     height: fit-content;
@@ -167,7 +164,7 @@ const ContentSectionHeader = styled.div `
 
 `;
 
-const ContentSectionWrapper = styled.div `
+const Wrapper = styled.div `
 
     width: 100%;
     row-gap: 22px;

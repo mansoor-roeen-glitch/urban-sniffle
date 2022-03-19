@@ -14,15 +14,7 @@ import { serviceNotActivated } from '../functions/extraFunctions';
 
 export default function SelectPages ({...props}) {
     
-  const {
-
-      token,
-      service,
-      user,
-      selectedOption,
-
-  } = props;
-
+  const {token, service, user, selectedOption, } = props;
 
   return (
 
@@ -52,8 +44,7 @@ export default function SelectPages ({...props}) {
                 />
             )
           
-          case 2:
-              
+          case 2: 
             return (
                 <Billing  
                     service={service.details} 
@@ -63,16 +54,6 @@ export default function SelectPages ({...props}) {
                 />
               )
               
-          case 3:
-              
-            return (
-                <Settings
-                    service={service.details}
-                    user={user}
-                    token={token}
-                />
-            )
-                  
         }
 
       })()}

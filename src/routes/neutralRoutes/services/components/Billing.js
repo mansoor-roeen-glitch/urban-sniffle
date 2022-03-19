@@ -1,52 +1,35 @@
 import React from 'react'
 import styled from 'styled-components'
-import Section from './Section';
+import VPSDetailsSection from './VPSDetailsSection';
 
-export default function Billing({data}) {
+export default function Billing({service}) {
 
-    const bd = [
+    let serviceInformation = service.body
+    const generalIconsPath = '/images/serviceInformationIcons/serviceGeneralInformation'
+
+    let billingInformation = [
         {
+            svg: generalIconsPath + '/profile_icon.svg',
             heading: "Plan Type",
-            value: data.plan + " plan",
-            type: "detail"
+            value: serviceInformation.plan
         },
         {
-            heading: "Monthly Charge",
-            value: "$1.00",
-            type: "detail"
+            svg: generalIconsPath + '/template_icon.svg',
+            heading: "Payment Period",
+            value: "Montly"
         },
-        {
-            heading: "Payment Method",
-            value: data.billing_type,
-            type: "detail"
-        }
-    ]
 
-    const pb = [
         {
-            heading: "Bandwidth",
-            value: data.service_plan.bandwidth,
-            type: "detail"
+            svg: generalIconsPath + '/node_icon.svg',
+            heading: "Payment Method",
+            value: "Stripe"
         },
-        {
-            heading: "Size",
-            value: data.service_plan.size,
-            type: "detail"
-        },
-        {
-            heading: "Ram",
-            value: data.service_plan.ram,
-            type: "detail"
-        },
-        
     ]
 
     return (
         <Wrapper>
             <InnerWrapper>
-                <Section data={bd} heading="Billing Details" rows={1} rows2={2} rows3={3} rowHeight={105} />
-                <RowGap />
-                <Section data={pb} heading="Plan Benifits" rows={1} rows2={2} rows3={3} rowHeight={105} />
+                <VPSDetailsSection list={billingInformation} heading='Billing General Information' editPath='/' />
             </InnerWrapper>
         </Wrapper>
 
@@ -59,14 +42,13 @@ const RowGap = styled.div `
 `;
 
 const InnerWrapper = styled.div `
-    max-width: 1600px;
-    width: 93%;
+    max-width: 2000px;
+    width: 95%;
 `;
 
 const Wrapper = styled.div `
     width: 100%;
     height: fit-content;
-    margin-top: 30px;
     display: flex;
     align-items: center;
     justify-content: center;

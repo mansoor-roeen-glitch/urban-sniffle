@@ -13,7 +13,7 @@ import apiRequest from '../../../functions/apiRequest';
 import { searchList } from '../../../functions/tableSearchbar';
 import { TABLE_LABELS_DATA } from '../../../constants';
 
-export default function Instances({ token, subHeader, instanceType, tableLabelsData }) {
+export default function Instances({ token, subHeader, instanceType}) {
 
     let location = document.location.pathname;
 

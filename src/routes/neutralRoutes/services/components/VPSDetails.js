@@ -6,15 +6,12 @@ import { checkMachineStatus, getExtraActions } from '../functions/extraFunctions
 
 export default function Component ({...props}) {
     
-    const {
-        handleAction,
-        hostname,
-        status,
-    } = props;
+    const {handleAction, hostname, status} = props;
 
-    // Component States
+    // component states
     const [extraMachineActions, setExtraMachineActions] = useState(getExtraActions(status));
 
+    // return the color based on machine status
     const statusTextColor = (machineStatus) => {
         if (machineStatus === 'active') {
             return '#46E857';
@@ -25,107 +22,82 @@ export default function Component ({...props}) {
         }
     }
 
-    let vpsDetails = [ 
-        
-        {
-            name: "Status",
-            value: status,
-            color: statusTextColor(checkMachineStatus(status)),          
-        },
-        {
-            name: "IP address",
-            value: "127.0.0.1"
-        },
-        {
-            name: "Hostname",
-            value: hostname
-        }
-
+    // vps details
+    const serviceDetails = [ 
+        {name: "Status", value: status, color: statusTextColor(checkMachineStatus(status))},
+        {name: "IP address" ,value: "127.0.0.1"},
+        {name: "Hostname" ,value: hostname}
     ]
 
-    // Component Functions
+    // map through the details list
+    // return detail key with detail value
+    const mapDetailsList = () => {
+        return serviceDetails.map((item, index) => {
+            return (
+                <ItemWrapper key={index}>
+                    <DetailKey >
+                        {item.name}: 
+                    </DetailKey>
+
+                    <DetailValue textColor={item.name.toLowerCase() === "status" ? item.color : false} >
+                        {item.value}
+                    </DetailValue>
+                </ItemWrapper>
+            )
+        })
+    }
+
+    const mapActionsList = () => {
+        return extraMachineActions.map((actionButton, index) => {
+            console.log(actionButton)
+            return (
+                <ButtonWrapper key={index}>
+                    <Button onClick={() => {handleActionClick(actionButton.action)}}>
+                        <Svg path={`/images/${actionButton.file}`} width={35} height={35} />
+                        <ButtonLabel>{actionButton.label}</ButtonLabel>
+                    </Button>
+                </ButtonWrapper>
+            )
+
+        })
+    }
+
+    // run the handleAction function with the action
     const handleActionClick = (action) => handleAction(action);
     
-
     return (
 
-        <VPSDetailsWrapper>
+        <Wrapper>
+            <DetailsWrapper>
+                <DetailsList>
+                    {mapDetailsList()}
+                </DetailsList>
+            </DetailsWrapper>   
 
-            <VPSDetails>
-                
-                <VPSDetailsList>
+            <ActionsWrapper>
+                <ActionsList>
+                    {mapActionsList()}
+                </ActionsList>
+            </ActionsWrapper>
 
-                    {vpsDetails.map((VPSItem, index) => {
-                        return (
-
-                            <VPSDetailWrapper key={index}>
-
-                                <VPSDetailName >
-                                    {VPSItem.name}: 
-                                </VPSDetailName>
-
-                                <VPSDetailValue textColor={VPSItem.name.toLowerCase() === "status" ? VPSItem.color : false} >
-                                    {VPSItem.value}
-                                </VPSDetailValue>
-                                
-                            </VPSDetailWrapper>
-
-                        )
-                    })}
-
-                </VPSDetailsList>
-
-            </VPSDetails>   
-
-            <VPSButtons>
-                
-                <VPSButtonsList>
-                    
-                    {extraMachineActions.map((actionButton, index) => {
-                        
-                        return (
-
-                            <VPSButtonWrapper key={index}>
-
-                                <VPSButton onClick={() => {handleActionClick(actionButton.action)}}>
-
-                                    <Svg path={`/images/${actionButton.file}`} width={35} height={35} />
-                                    <VPSButtonLabel>{actionButton.label}</VPSButtonLabel>
-
-                                </VPSButton>
-
-                            </VPSButtonWrapper>
-
-                        )
-
-                    })}
-
-                </VPSButtonsList>
-
-            </VPSButtons>
-
-            <VPSTemplateWrapper>
-
-                <VPSTemplate>
-
-                    <VPSTemplateSvgWrapper>
+            <TemplateWrapper>
+                <Template>
+                    <TemplateIcon>
                         <Svg path="/images/centOs.svg" width={45} height={45} />
-                    </VPSTemplateSvgWrapper>
+                    </TemplateIcon>
 
-                    <VPSTemplateTextWrapper>
-                        <VPSTemplateText> CentOs 8 </VPSTemplateText>
-                    </VPSTemplateTextWrapper>
+                    <TemplateTextWrapper>
+                        <TemplateText> CentOs 8 </TemplateText>
+                    </TemplateTextWrapper>
+                </Template>
+            </TemplateWrapper>
 
-                </VPSTemplate>
-
-            </VPSTemplateWrapper>
-
-        </VPSDetailsWrapper>
+        </Wrapper>
     )
 }
 
 
-const VPSButtonLabel = styled.span `
+const ButtonLabel = styled.span `
     font-weight: 400;
     font-size: 16px;
 
@@ -136,7 +108,7 @@ const VPSButtonLabel = styled.span `
     color: #aeb3bb;
 `;
 
-const VPSTemplateText = styled.span `
+const TemplateText = styled.span `
     font-weight: 400;
     font-size: 16px;
 
@@ -147,7 +119,7 @@ const VPSTemplateText = styled.span `
     color: #D7DCE3;
 `;
 
-const VPSTemplateTextWrapper = styled.div `
+const TemplateTextWrapper = styled.div `
     display: flex;
     align-items: center;
     justify-content: center;
@@ -156,7 +128,7 @@ const VPSTemplateTextWrapper = styled.div `
     height: fit-content;
 `;
 
-const VPSTemplateSvgWrapper = styled.div `
+const TemplateIcon = styled.div `
     width: fit-content;
     height: fit-content;
 
@@ -165,7 +137,7 @@ const VPSTemplateSvgWrapper = styled.div `
     justify-content: center;
 `;
 
-const VPSTemplate = styled.div `
+const Template = styled.div `
     width: fit-content;
     height: fit-content;
 
@@ -178,7 +150,7 @@ const VPSTemplate = styled.div `
     justify-content: center;
 `;
 
-const VPSButton = styled.button `
+const Button = styled.button `
     width: 100%;
     height: 100%;
     row-gap: 15px; 
@@ -203,7 +175,7 @@ const VPSButton = styled.button `
 
 `;
 
-const VPSButtonWrapper = styled.li `
+const ButtonWrapper = styled.li `
     width: auto;
     height: 100%;
     display: flex;
@@ -211,7 +183,7 @@ const VPSButtonWrapper = styled.li `
     justify-content: center;
 `;
 
-const VPSButtonsList = styled.ul `
+const ActionsList = styled.ul `
     
     height: 100%;
     list-style: none;
@@ -220,7 +192,7 @@ const VPSButtonsList = styled.ul `
 
 `;
 
-const VPSTemplateWrapper = styled.div `
+const TemplateWrapper = styled.div `
     width: auto;
     height: auto;
     background: #10151b;
@@ -230,13 +202,13 @@ const VPSTemplateWrapper = styled.div `
     justify-content: center;
 `;
 
-const VPSButtons = styled.div `
+const ActionsWrapper = styled.div `
     height: auto;
     width: auto;
     background: #10151b;
 `;
 
-const VPSDetailValue = styled.span `
+const DetailValue = styled.span `
 
     font-weight: normal;
     font-size: 15px;
@@ -247,7 +219,7 @@ const VPSDetailValue = styled.span `
 
 `;
 
-const VPSDetailName = styled.span `
+const DetailKey = styled.span `
 
     font-weight: normal;
     font-size: 15px;
@@ -258,21 +230,21 @@ const VPSDetailName = styled.span `
 
 `;
 
-const VPSDetailWrapper = styled.li `
+const ItemWrapper = styled.li `
     text-decoration: none;
     display: flex;
     align-items: center;
     column-gap: 7px;
 `;
 
-const VPSDetailsList = styled.ul `
+const DetailsList = styled.ul `
     list-style: none;
     display: flex;
     flex-direction: column;
     row-gap: 3px;
 `; 
 
-const VPSDetails = styled.div `
+const DetailsWrapper = styled.div `
     display: flex;
     width: auto;
     height: auto;
@@ -284,7 +256,7 @@ const VPSDetails = styled.div `
     padding-left: 30px;
 `;
 
-const VPSDetailsWrapper = styled.div `
+const Wrapper = styled.div `
     display: grid;
     grid-template-columns: 1fr 1.5fr 0.5fr;
     grid-template-rows: 126.25px; 

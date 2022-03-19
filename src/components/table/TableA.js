@@ -1,83 +1,90 @@
+// dependencies
 import React from 'react'
-import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import TableItem from './TableAItem'
 
 export default function PrimaryTable({data, type}) {
+    
+    // This function will return Table Row depending on type
+    // if type is service and service_plan doesn't exist, then return null
+    const typeSwitch = (item, index) => {
+
+        if (type === 'services' && !item.service_plan) return null;
+
+        switch (type) {
+
+            case "services": 
+                return (
+                    <TableItem type="service" index={index} item={[
+                        item.id, item.hostname, item.plan, item.status, item.service_plan.ram
+                    ]} redirectTo={`/services/${item.id}/${item.hostname?.toLowerCase()}`} key={index} />);
+
+            case "plans":
+                return (
+                    <TableItem type="plan" index={index} details={item} item={[
+                        item.id, item.name, item.size, item.period, item.bandwidth
+                    ]} redirectTo={`/plans/${item.id}`} key={index} />);
+
+            case "templates":
+                return (
+                    <TableItem index={index} details={item} type="template" item={[
+                        item.id, item.name, item.type, item.id, item.file
+                    ]} redirectTo={`/templates/${item.id}`} key={index} />);
+
+            case "nodes":
+                return (
+                    <TableItem index={index} details={item} type="node" item={[
+                        item.id, item.name, item.size, item.ram, item.bandwidth
+                    ]} redirectTo={`/nodes/${item.id}`} key={index} />);
+
+            case "pools":
+                return (
+                    <TableItem index={index} details={item} type="pool" item={[
+                        item.id, item.name, item.type, item.interface, item.mask
+                    ]} redirectTo={`/pools/${item.id}`} key={index} />);
+        }
+
+    }
+
+    // mapping through all the results
+    // if data is empty then return nothing
+    // otherwise call typeSwitch Function
+    const mapData = () => {
+        return data.map((item, index) => {
+            return typeSwitch(item, index)
+        })
+    }
+    
+    if (!Array.isArray(data) || data === []) {
+        return (
+            <MessageWrapper>
+                <MessageInnerWrapper>
+                    <Message>
+                        No Results Found
+                    </Message>
+                </MessageInnerWrapper>
+            </MessageWrapper>
+        )
+    }
+
     return (    
-        <StyledWrapper>
-            <List>
-                {data.length > 0 ? data.map((item, index) => {
-                    
-                    if (type === "services" && !item.service_plan) 
-
-                        return (null) 
-                        
-                    else {
-
-                        switch (type) {
-
-                            case "services": 
-                                return (
-                                    <TableItem type="service" index={index} item={[
-                                        item.id, item.hostname, item.plan, item.status, item.service_plan.ram
-                                    ]} redirectTo={`/services/${item.id}/${item.hostname?.toLowerCase()}`} key={index} />
-                                );
-    
-                            case "plans":
-                                return (
-                                    <TableItem type="plan" index={index} details={item} item={[
-                                        item.id, item.name, item.size, item.period, item.bandwidth
-                                    ]} redirectTo={`/plans/${item.id}`} key={index} />
-                                );
-    
-                            case "templates":
-                                return (
-                                    <TableItem index={index} details={item} type="template" item={[
-                                        item.id, item.name, item.type, item.id, item.file
-                                    ]} redirectTo={`/templates/${item.id}`} key={index} />
-                                );
-
-                            case "nodes":
-                                return (
-                                    <TableItem index={index} details={item} type="node" item={[
-                                        item.id, item.name, item.size, item.ram, item.bandwidth
-                                    ]} redirectTo={`/nodes/${item.id}`} key={index} />
-                                );
-
-                            case "pools":
-                                return (
-                                    <TableItem index={index} details={item} type="pool" item={[
-                                        item.id, item.name, item.type, item.interface, item.mask
-                                    ]} redirectTo={`/pools/${item.id}`} key={index} />
-                                );
-                        }
-                    }
-
-
-                }) : (
-                    <MessageWrapper>
-                        <MessageInnerWrapper>
-                            <Message>
-                                You currently have no {type} set up, <Link to={type === 'services' ? '/create' : `/${type}/create`} style={{fontSize: '19px', color: '#ba97e4'}}>click here</Link> if you want to create a new {type}
-                            </Message>
-                        </MessageInnerWrapper>
-                    </MessageWrapper>
-                )}
-            </List>
-        </StyledWrapper>
+        <MainWrapper>
+            <TableWrapper>
+                {mapData()}
+            </TableWrapper>
+        </MainWrapper>
     )
 }
 
 const MessageInnerWrapper = styled.div `
-    max-width: 1400px;
-    width: 92%;
+    width: 95%;
+    max-width: 2000px;
 `;
 
 const Message = styled.p `
     color: var(--white);
-    font-size: 19px;
-    width: 500px;
+    font-size: 18;
+    width: 450px;
 `
 
 const MessageWrapper = styled.div `
@@ -91,8 +98,8 @@ const MessageWrapper = styled.div `
 
 `;
 
-const List = styled.ul `
-    list-style: none;
+const TableWrapper = styled.ul `
+    TableWrapper-style: none;
     display: flex;
     flex-direction: column;
 
@@ -102,7 +109,7 @@ const List = styled.ul `
 
 `
 
-const StyledWrapper = styled.div `
+const MainWrapper = styled.div `
     width: 100%;
     padding-top: 10px;
     background: transparent;
