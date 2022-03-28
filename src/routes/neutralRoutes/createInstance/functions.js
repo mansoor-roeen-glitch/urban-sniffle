@@ -10,7 +10,7 @@ const getInstanceOptions = async (props) => {
     const response = await apiRequest ({
         token: token,
         method: 'options',
-        endpoint: `/api/${instanceType}s/`,
+        endpoint: `/core/${instanceType}s/`,
     })
 
     // sending response back
@@ -75,7 +75,7 @@ const createInstance = async ({token, showMessage, formData, instanceType, optio
         data,
         token, 
         method: 'post',
-        endpoint: `/api/${instanceType}s/`,
+        endpoint: `/${instanceType}s/`,
     })
 
     // if no error occurs, say it's done 

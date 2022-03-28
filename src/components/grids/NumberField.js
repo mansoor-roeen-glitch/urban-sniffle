@@ -5,15 +5,15 @@ import styled from 'styled-components';
 export default function NumberGridItem({fieldData, updateFormField, index}) {
     
     // component props
-    let {value, description, label, minmax} = fieldData
+    let {value, error, ui, validation} = fieldData
 
     // setting up component states
     const [inputValue, setInputValue] = useState('');
 
     // this well update the inputValue to whatever the value of input is
     const handleInputChange = (event) => {
-        if (event.target.value < minmax.min) setInputValue(minmax.min) 
-        else if (event.target.value > minmax.max) setInputValue(minmax.max)
+        if (event.target.value < validation.min) setInputValue(validation.min) 
+        else if (event.target.value > validation.max) setInputValue(validation.max)
         else setInputValue(event.target.value); 
     }
 
@@ -29,11 +29,11 @@ export default function NumberGridItem({fieldData, updateFormField, index}) {
     return (
         <MainWrapper>
             <Header>
-                <Heading for={label} >
-                    {label}
+                <Heading for={ui.label} >
+                    {ui.label}
                 </Heading>
                 <Description >
-                    {description}
+                    {ui.description}
                 </Description>
             </Header>
 
@@ -42,9 +42,9 @@ export default function NumberGridItem({fieldData, updateFormField, index}) {
                     onChange={handleInputChange}
                     value={inputValue} 
                     placeholder={value || 'ex: 1024'}
-                    name={label} 
-                    min={minmax?.min} 
-                    max={minmax?.max} 
+                    name={ui.label} 
+                    min={validation?.min} 
+                    max={validation?.max} 
                     type='number'
                 />
             </InputWrapper>

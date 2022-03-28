@@ -1,5 +1,5 @@
 // Dependencies
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import styled from 'styled-components'
 
 // Components
@@ -17,11 +17,11 @@ export default function Instances({ token, subHeader, instanceType}) {
 
     let location = document.location.pathname;
 
-    const [error, setError] = React.useState();
-    const [results, setResults] = React.useState();
-    const [loading, setLoading] = React.useState(true);
-    const [search, setSearch] = React.useState("")
-    const [foundMatch, setFoundMatch] = React.useState(false);
+    const [error, setError] = useState();
+    const [results, setResults] = useState();
+    const [loading, setLoading] = useState(true);
+    const [search, setSearch] = useState("")
+    const [foundMatch, setFoundMatch] = useState(false);
 
     // this function will determain the filter input
     let handleSearchKey = () => {
@@ -50,11 +50,11 @@ export default function Instances({ token, subHeader, instanceType}) {
     const getResults = async () => {
         let response = await apiRequest({
             token: token,
-            endpoint: `/api/${instanceType}s/`,
+            endpoint: `/core/${instanceType}s/`,
         })
 
         if (response.success) {
-            setResults(response.body.results)
+            setResults(response?.body?.results)
             setLoading(false) 
             return null;
         } 

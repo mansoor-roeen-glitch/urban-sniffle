@@ -7,7 +7,7 @@ export default async function request ({endpoint, token, method, data}) {
     let response = {};
 
     // request url and request headers
-    let requestUrl = `https://hosnet.io${endpoint}`;
+    let requestUrl = `https://hosnet.io/api${endpoint}`;   
     let requestHeaders = {
         'content-type': 'application/json',
         'Authorization': `Token ${token}`,}

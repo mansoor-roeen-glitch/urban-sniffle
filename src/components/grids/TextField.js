@@ -5,7 +5,7 @@ import styled from 'styled-components';
 export default function StringGridItem({fieldData, updateFormField, index}) {
     
     // component props
-    let {value, errorMes, description, label, stringValidation, minmax, regex} = fieldData
+    let {value, error, ui, validation} = fieldData
 
     // setting up component states
     const [inputValue, setInputValue] = useState('');
@@ -23,7 +23,7 @@ export default function StringGridItem({fieldData, updateFormField, index}) {
     // if failed, inputerror would be set to true
     // else if, do nothin...
     const handleInputBlur = () => {
-        let isStringValid = stringValidation({value: inputValue, fieldData})
+        let isStringValid = validation.validator({value: inputValue, fieldData})
         
         if (isStringValid.error) {
             setInputError(isStringValid)
@@ -33,7 +33,7 @@ export default function StringGridItem({fieldData, updateFormField, index}) {
             updateFormField({
                 inputValue,
                 fieldIndex: index,
-                errorMes: isStringValid,
+                error: isStringValid,
             })
         }
         
@@ -83,11 +83,11 @@ export default function StringGridItem({fieldData, updateFormField, index}) {
     return (
         <MainWrapper>
             <Header>
-                <Heading for={label} error={showError?.error}>
-                    {label}
+                <Heading for={ui.label} error={showError?.error}>
+                    {ui.label}
                 </Heading>
                 <Description error={showError?.error}>
-                    {description}
+                    {ui.description}
                 </Description>
             </Header>
 
@@ -98,9 +98,9 @@ export default function StringGridItem({fieldData, updateFormField, index}) {
                     onChange={handleInputChange}
                     value={inputValue} 
                     placeholder={value || 'type a value'}
-                    name={label} 
-                    minlength={minmax?.min} 
-                    maxlength={minmax?.max} 
+                    name={ui.label} 
+                    minlength={validation?.min} 
+                    maxlength={validation?.max} 
                     onBlur={handleInputBlur}
                     onFocus={handleInputFocus}
                 />

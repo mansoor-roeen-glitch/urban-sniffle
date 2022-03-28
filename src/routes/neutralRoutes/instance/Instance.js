@@ -22,7 +22,6 @@ export default function Instance({ subHeader, token, instanceType }) {
     // this would later be updated based on server response
     const [instanceDetails, setInstanceDetails] = useState([])
     const [formData, setFormData] = useState([]);
-    const [initialFormData, setInitialFormData] = useState([]);
 
     //  plan detail, loading, error and message states
     const [loading, setLoading] = useState(true)
@@ -69,7 +68,8 @@ export default function Instance({ subHeader, token, instanceType }) {
             instance_id, 
             instanceType,
             token, 
-            formData,    
+            formData,   
+            nestedObjects: [formData, formData], 
             showMessage
         })
 
@@ -150,10 +150,7 @@ export default function Instance({ subHeader, token, instanceType }) {
     // if form data is valid then update button can be accessiable 
     // otherwise the update button is not gonna be accessable
     const handleFormUpdate = () => {
-        setIsFormValid(formValidation({
-            formData,
-            initialFormData
-        }))
+        setIsFormValid(formValidation({formData}))
     }
 
 

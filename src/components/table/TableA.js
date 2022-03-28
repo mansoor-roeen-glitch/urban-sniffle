@@ -37,11 +37,11 @@ export default function PrimaryTable({data, type}) {
                         item.id, item.name, item.size, item.ram, item.bandwidth
                     ]} redirectTo={`/nodes/${item.id}`} key={index} />);
 
-            case "pools":
+            case "ippools":
                 return (
-                    <TableItem index={index} details={item} type="pool" item={[
+                    <TableItem index={index} details={item} type="ip_pool" item={[
                         item.id, item.name, item.type, item.interface, item.mask
-                    ]} redirectTo={`/pools/${item.id}`} key={index} />);
+                    ]} redirectTo={`/ip_pools/${item.id}`} key={index} />);
         }
 
     }

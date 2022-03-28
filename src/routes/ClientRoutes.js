@@ -4,8 +4,8 @@ import {Routes, Route} from 'react-router-dom'
 
 // Components
 import Logout from './neutralRoutes/Logout/Logout'
-import Instances from './adminRoutes/instances/Instances'
-import CreateInstance from './adminRoutes/createInstance/CreateInstance'
+import Instances from './neutralRoutes/instances/Instances'
+import CreateInstance from './neutralRoutes/createInstance/CreateInstance'
 import Service from './neutralRoutes/services/Service'
 import handleStripeCheckout from '../functions/handleStripeCheckout'
 

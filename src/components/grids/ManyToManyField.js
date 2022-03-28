@@ -4,36 +4,52 @@ import styled from 'styled-components'
 
 // components
 import SvgIcon from '../icons/SvgIcon'
-import PrimaryOption from './PrimaryOption';
+import PrimaryOption from '../dropdowns/PrimaryOption'
 
-export default function DropdownGridItem({fieldData, updateFormField, index}) {
+export default function ManyToManyField({fieldData, updateFormField, index}) {
 
     // Component props
-    let {ui, choices, choice} = fieldData
+    let {ui, choices} = fieldData
 
     // Reference to Filter Select Wrapper
     const nodeRef = useRef();
 
 	// Component States
     const [isDropdownActive, setIsDropdownActive] = useState(false)
-    const [selectedOption, setSelectedOption] = useState(choice)
+    const [lastSelectedOption, setLastSelectedOption] = useState(choices[0]?.index)
 
     // toggle state of dropdown
     const handleDropdownToggle = () => setIsDropdownActive(!isDropdownActive);
 
-    // updating selected option
-    const updateSelectedOption = (index) => {
-        setSelectedOption(index);
-        setIsDropdownActive(false)
+    // get the list of selected options
+    const getSelectedOptions = () => {
+        if (Array.isArray(choices) && choices !== []) { 
+            let result = '';
+            choices.map(({label, isChecked}, index) => {
+                if (isChecked) result = result + label + ', '
+            })
+
+            return result;
+        }
+
+        return '';
     }
 
+    // updating selected option
+    const updateSelectedOption = (index) => setLastSelectedOption(index);
+
+    // render list of options for dropdown;
     const returnRenderList = () => {
-        return choices?.map((option, optionIndex) => {
-            return (
-                <DropdownButton onClick={() => {updateSelectedOption(optionIndex)}}>
-                    <PrimaryOption option={option} isOptionInLastPosition={optionIndex +1 === choices.length} />
-                </DropdownButton>)
-        })
+        if (Array.isArray(choices) && choices !== []) {
+            return choices?.map((option, optionIndex) => {
+                return (
+                    <DropdownButton onClick={() => {updateSelectedOption(optionIndex)}}>
+                        <PrimaryOption option={option} isOptionInLastPosition={optionIndex +1 === choices.length} />
+                    </DropdownButton>)
+            })
+        }
+
+        return null;
     }
 
     // handle mousedown
@@ -53,7 +69,8 @@ export default function DropdownGridItem({fieldData, updateFormField, index}) {
     })
 
     // see if changes are made to selectedOption, if yes then do stuff
-    useEffect(() => updateFormField({selectedOption, fieldIndex: index}), [selectedOption])
+    useEffect(() => updateFormField({selectedOption: lastSelectedOption, fieldIndex: index}), [lastSelectedOption])
+
 
     return (
         <MainWrapper ref={nodeRef}>
@@ -70,7 +87,7 @@ export default function DropdownGridItem({fieldData, updateFormField, index}) {
             <ContentWrapper onClick={handleDropdownToggle}>
                 <ContentTextWrapper>
                     <ContentText>
-                        {choices[selectedOption]?.label || fieldData.default}
+                        {getSelectedOptions()}
                     </ContentText>
                 </ContentTextWrapper>
                 <ContentSvgWrapper>
@@ -82,7 +99,7 @@ export default function DropdownGridItem({fieldData, updateFormField, index}) {
             
             <DropdownMenuWrapper isDropdownActive={isDropdownActive}>
                 <DropDownMenu>
-                    {returnRenderList()}
+                    {returnRenderList()} 
                 </DropDownMenu>
             </DropdownMenuWrapper>
 

@@ -6,7 +6,7 @@ export default function PrimaryOption({option, isOptionInLastPosition}) {
         <StyledOptionWrapper isOptionInLastPosition={isOptionInLastPosition}>
             <StyledOption>
                 <StyledOptionText>
-                    {option.value}
+                    {option.label}
                 </StyledOptionText>
             </StyledOption>
         </StyledOptionWrapper>

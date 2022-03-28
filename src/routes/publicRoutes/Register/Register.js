@@ -84,7 +84,7 @@ export default function Register() {
 
         let response = await axios({
             method: "post",
-            url: "https://hosnet.io/auth/register/",
+            url: "https://hosnet.io/api/auth/register/",
             data: {
                 username, email, password1: password, password2: password
             },

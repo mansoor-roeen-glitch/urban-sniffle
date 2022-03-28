@@ -3,10 +3,11 @@ import React from 'react'
 import styled from 'styled-components';
 
 // components
-import NumberGridItem from './NumberGridItem';
-import FloatGridItem from './FloatGridItem';
-import StringGridItem from './StringGridItem';
-import DropdownGridItem from '../dropdowns/PrimaryDropdown';
+import NumberField from './NumberField';
+import FloatField from './FloatField';
+import TextField from './TextField';
+import SelectField from '../dropdowns/PrimaryDropdown';
+import ManyToManyField from './ManyToManyField';
 
 export default function EditGrid({data, heading, updateForm, formData}) {
     
@@ -14,41 +15,63 @@ export default function EditGrid({data, heading, updateForm, formData}) {
     
     // updating the input field from form depending on fieldIndex
     const updateInputFormField = ({fieldIndex, inputValue, errorMes}) => {
+
         let newFormData = [...formData];
+
+        if (newFormData[fieldIndex].type === 'number') {
+            if (newFormData[fieldIndex].key === 'price') inputValue = inputValue
+            else inputValue = Math.round(inputValue);
+        }
+
         newFormData[fieldIndex].inputValue = inputValue;
         
         // if we got error, then update with error
-        if (errorMes) newFormData[fieldIndex].errorMes = errorMes
-        else newFormData[fieldIndex].errorMes = false;
+        if (errorMes) newFormData[fieldIndex].error = errorMes
+        else newFormData[fieldIndex].error = false;
 
         updateForm(newFormData)
     }
 
     // updating the dropdown field
-    const updateDropdownField = ({selectedOption, fieldIndex}) => {
-        if (formData[fieldIndex].selected === selectedOption) return null;
+    const updateSelectFormField = ({selectedOption, fieldIndex}) => {
+        if (formData.choice === formData.default) return null;
 
         let newFormData = [...formData];
-        // if the selected option is not that same as it was previously
-        // then update form data
-        newFormData[fieldIndex].selected = selectedOption
-        updateForm(newFormData)
+        newFormData[fieldIndex].choice = selectedOption;
+        updateForm(newFormData);
     }
+
+    // updating the many to many lists
+    const updateManyToManyField = ({selectedOption, fieldIndex}) => {
+        let newFormData = [...formData];
+        console.log(selectedOption)
+        if (Array.isArray(formData[fieldIndex].choices) && formData[fieldIndex].choices !== []) {
+            let isChecked = formData[fieldIndex].choices[selectedOption].isChecked
+            newFormData[fieldIndex].choices[selectedOption].isChecked = !isChecked;
+
+            updateForm(newFormData);
+        }
+
+        return null;
+    }   
 
     // determine the field type and return component
     const determineItemField = (gridItem, index) => {
+
+        if (!gridItem || !gridItem?.type) return null;
+
         // checks if field is string
-        if (gridItem?.field === 'string') {
-            return <StringGridItem fieldData={gridItem} key={index} index={index} updateFormField={updateInputFormField} />}
+        if (gridItem?.type === 'text') {
+            return <TextField fieldData={gridItem} key={index} index={index} updateFormField={updateInputFormField} />}
         // checks if field is number
-        else if (gridItem?.field === 'number') {
-            return <NumberGridItem fieldData={gridItem} key={index} index={index} updateFormField={updateInputFormField} />}
+        else if (gridItem?.type === 'number') {
+            return <NumberField fieldData={gridItem} key={index} index={index} updateFormField={updateInputFormField} />}
         // checks if field is float
-        else if (gridItem?.field === 'float') {
-            return <FloatGridItem fieldData={gridItem} key={index} index={index} updateFormField={updateInputFormField} />}
-        // checks if field is float
-        else if (gridItem?.field === 'selector') {
-            return <DropdownGridItem fieldData={gridItem} key={index} index={index} updateFormField={updateDropdownField} />}
+        else if (gridItem?.type === 'select' || gridItem.type === 'foreignkey') {
+            return <SelectField fieldData={gridItem} key={index} index={index} updateFormField={updateSelectFormField} />}
+
+        else if (gridItem?.type === 'manytomany-lists') {
+            return <ManyToManyField fieldData={gridItem} key={index} index={index} updateFormField={updateManyToManyField} />}
     }
 
     // this function maps through data

@@ -65,7 +65,7 @@ export default function Login(props) {
 
         let response = await axios({
             method: "post",
-            url: "https://hosnet.io/auth/login/",
+            url: "https://hosnet.io/api/auth/login/",
             data: {
                 username, password
             },

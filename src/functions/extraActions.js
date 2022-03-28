@@ -4,7 +4,7 @@ import apiRequest from "./apiRequest"
 const action = async ({...props}) => {
         
     // destructurization of component props
-    let {name, endpoint, action, alertCleanup, setActionLoading, showMessage, token, dataset} = props
+    let {name, service_id, action, alertCleanup, setActionLoading, showMessage, token, dataset} = props
 
     // reset and remove the alert message
     // set action loading to true
@@ -14,7 +14,7 @@ const action = async ({...props}) => {
     // push request to endpoint/action
     let result = await apiRequest({
         method: 'post',
-        endpoint: `/api/${endpoint}/${action}`,
+        endpoint: `/api/services/${service_id}/${action}/`,
         token: token,
         dataset,
     })

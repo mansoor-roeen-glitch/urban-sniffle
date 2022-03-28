@@ -49,7 +49,6 @@ export default function Component ({...props}) {
 
     const mapActionsList = () => {
         return extraMachineActions.map((actionButton, index) => {
-            console.log(actionButton)
             return (
                 <ButtonWrapper key={index}>
                     <Button onClick={() => {handleActionClick(actionButton.action)}}>

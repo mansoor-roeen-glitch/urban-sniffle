@@ -80,8 +80,8 @@ export default function Service ({ token, subHeader, ...props}) {
     const handleActionConfirmation = (selectedAction) => {
         action({
             action: selectedAction,
+            service_id: id,
             name: hostname,
-            endpoint: 'services',
             alertCleanup,
             setActionLoading,
             showMessage,
