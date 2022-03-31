@@ -141,7 +141,8 @@ export default function Instance({ subHeader, token, instanceType }) {
     // thou shalt first get the form data
     // and then shall update form state     
     const updateFormState = async (responseContent) => {
-        let response = await getFormData({data: responseContent, instance_id, token, instanceType});
+        let response = await getFormData({data: responseContent, instance_id, token, instanceType, showMessage});
+        
         setFormData(response);
         updateRouteState({isLoading: false})
     }

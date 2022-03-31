@@ -1,6 +1,63 @@
 // Functions
 import apiRequest from "../../../functions/apiRequest"
-import {planFormData, nodeFormData, templateFormData, poolFormData, serviceFormData} from './instanceFormData' 
+import {initializeForm} from './instanceFormData';
+
+let successMessage = ({showMessage, instance_id, instanceType, task}) => {
+    showMessage({
+        success: true,
+        title: 'Task Completed',
+        description: `${instanceType} ID: ${instance_id} ${task} completed`,
+    })
+}
+
+let errorMessage = ({showMessage, instance_id, instanceType, task}) => {
+    showMessage({
+        success: false,
+        title: 'Task Failed',
+        description: `${instanceType} ID: ${instance_id} ${task} failed`,
+    })
+}
+
+const getRequestData = ({object}) => {
+    // store result in this object
+    let objectData = {};
+
+    object.map((formItem) => {
+
+        if (!formItem) return null;
+
+        // map args destructured    
+        let key = formItem.key;
+        let formItemField = formItem.type;
+        
+        if (formItemField === 'select' || formItemField === 'foreginkey') {
+            if (!formItem?.default) objectData[key] = formItem.choices[formItem.choice].value
+            else {objectData[key] = formItem.choices[formItem.choice]?.value}
+        }
+
+        else if (formItemField === 'manytomany-lists') {
+            let result = []
+            formItem.choices.map(({isChecked, value}) => {isChecked && result.push(value)});
+
+            objectData[key] = result;
+        }
+
+        else if (formItemField === 'read_only') objectData[key] = formItem.value
+        
+        else if (formItemField === 'number' || formItemField === 'text') {
+
+            let updatedValue = formItem.inputValue;
+            let initialValue = formItem.value
+
+            if (formItem.inputValue) objectData[key] = updatedValue; 
+            else objectData[key] = initialValue
+        }
+
+    }) 
+
+    // return request data
+    return objectData
+}
 
 // getting route options 
 const getInstanceOptions = async (props) => {
@@ -17,104 +74,94 @@ const getInstanceOptions = async (props) => {
     return await response
 }
 
-const createInstanceData = (formData) => {
-    // this will be the final data that we'll send to server
-    let data = {};
-
-    // go through all the formItems
-    formData.map((formItem, index) => {
-        if (formItem.field === 'number' || formItem.field === 'float' || formItem.field === 'string') {
-            data[formItem.for] = formItem.inputValue
-        }
-
-        else if (formItem.field === 'selector') {
-            data[formItem.for] = formItem.options[formItem.selected].value
-        }
-    })   
-
-    return data;
-}
-
-// this function will see if all fields are filled
+// this function will see if form fields have been changed
 // it returns true or false
 const formValidation = ({formData}) => {
+    if (!Array.isArray(formData) || formData === []) return false;
+    
     let isFormValid = true;
+    let isError = false;
 
+    // this function will see if at least one of many to many options have been selected
+    // if not then error would be set to true
+    const manyToManyFieldValidation = (formItem) => {
+        let isFieldValid = false;
+
+        if (formItem.validation.required) formItem.choices.map(({isChecked}) => isChecked ? isFieldValid = true : null)    
+        !isFieldValid ? isError = true : isError = isError;
+    }
+
+    // check if select field is valid or not
+    // no validation since there is none required
+    const selectFieldValidation = () => {
+        return null;
+    }
+
+    // checks if string is neither empty nor invalid
+    const textFieldValidation = (formItem) => {
+        if (formItem.inputValue === '' && formItem.validation.required) isFormValid = false;
+        else if (formItem.inputValue !== '' && formItem.error) isError = true;
+    }
+
+    // checks if no number has been entered
+    // if no number has been entered then form will not be valid anymore
+    const numberFieldValidation = (formItem) => {if (formItem.inputValue === '') isFormValid = false};
+
+    // map through all form fields, if form field is updated, then set is formValid to true
+    // if field type is select then run selectFieldValidation, or if text, then run textFieldValidation
     formData.map((formItem) => {
-        if (formItem.field === 'number' || formItem.field === 'float' || formItem.field === 'string') {
-            if (formItem.inputValue == "" && !formItem.errorMes) isFormValid = false;
-        }
+        if (formItem?.type === 'text' ) textFieldValidation(formItem);
+        else if (formItem?.type === 'number') numberFieldValidation(formItem)
+        else if (formItem?.type === 'manytomany-lists') manyToManyFieldValidation(formItem)
+        else if (formItem?.type === 'select' || formItem?.type === 'foreginkey') selectFieldValidation(formItem)
     })
 
+    // if error occured then
+    if (isError) return false;
     return isFormValid;
 }
 
-// create instance function
-const createInstance = async ({token, showMessage, formData, instanceType, optionalAction}) => {
-
-    let data = createInstanceData(formData)
-
-    let successMessage = () => {
-        showMessage({
-            success: true,
-            title: 'Task Completed',
-            description: `${instanceType} has been created successfully`,
-        })
-    }
-
-    let errorMessage = () => {
-        showMessage({
-            success: false,
-            title: 'Task Failed',
-            description: `Failed to create new ${instanceType}`,
-        })
-    }
-
+// update plan function
+const createInstance = async ({token, showMessage, formData, instanceType}) => {
+    // this will be the final data that we'll send to server
+    let data = getRequestData({object: formData});
+    
     // 'put' api request
-    return apiRequest({
+    apiRequest({
         data,
         token, 
         method: 'post',
-        endpoint: `/${instanceType}s/`,
+        endpoint: `/core/${instanceType}s/`,
     })
 
     // if no error occurs, say it's done 
+    // then redirect them to /plans
     .then((response) => {
-        if (optionalAction) {
-            return response;
-        }
-
         // if success
-        if (response.success) {successMessage(); return response}
+        if (response.success) successMessage({showMessage, instanceType})
         // if failed
-        else {errorMessage(); return response} 
+        else errorMessage({showMessage, instanceType})
     })
 
     // if error occured, show this message
-    .catch((error) => {
-        errorMessage();
-        return error;
+    .catch(() => {
+        errorMessage({showMessage, instanceType})
     })
+    
 }
 
 // this function returns the form data
 // the form data would be used to create form fields
-const getFormData = async ({data, instance_id, token, instanceType}) => { 
-
-    let response = await getInstanceOptions({instance_id, token, instanceType})
-    if (response.success !== true) return [];
-    let putOptions = response.body.actions.POST;
+const getFormData = async ({data, token, instanceType}) => { 
+    // get the instance options for form initialization
+    let response = await getInstanceOptions({token, instanceType})
     
-    // this function loops through and returns dropdown field options 
-    let mapChoices = (f) => putOptions[f].choices.map((e, i) => ({value: e.value, name: e.name, index: i}));
+    if (response.success == false) return [];
 
-    if (instanceType === 'plan') return planFormData({mapChoices})
-    else if (instanceType === 'node') return nodeFormData({mapChoices})
-    else if (instanceType === 'template') return templateFormData({mapChoices})
-    else if (instanceType === 'pool') return poolFormData({mapChoices})
-    else if (instanceType === 'service') return serviceFormData({mapChoices})
-
-    return [];
+    // get the list of form fields with the options and data
+    let results = initializeForm({data, options: response, token})
+    return results;
 }
 
-export {getFormData, formValidation, createInstance}
+
+export {formValidation, getFormData, createInstance}

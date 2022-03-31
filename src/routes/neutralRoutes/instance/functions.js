@@ -2,19 +2,19 @@
 import apiRequest from "../../../functions/apiRequest"
 import {initializeForm} from './instanceFormData';
 
-let successMessage = ({showMessage, instance_id, instanceType}) => {
+let successMessage = ({showMessage, instance_id, instanceType, task}) => {
     showMessage({
         success: true,
         title: 'Task Completed',
-        description: `${instanceType} ID: ${instance_id} update completed`,
+        description: `${instanceType} ID: ${instance_id} ${task} completed`,
     })
 }
 
-let errorMessage = ({showMessage, instance_id, instanceType}) => {
+let errorMessage = ({showMessage, instance_id, instanceType, task}) => {
     showMessage({
         success: false,
         title: 'Task Failed',
-        description: `${instanceType} ID: ${instance_id} update failed`,
+        description: `${instanceType} ID: ${instance_id} ${task} failed`,
     })
 }
 
@@ -33,6 +33,13 @@ const getRequestData = ({object}) => {
         if (formItemField === 'select' || formItemField === 'foreginkey') {
             if (!formItem?.default) objectData[key] = formItem.choices[formItem.choice].value
             else {objectData[key] = formItem.choices[formItem.choice]?.value}
+        }
+
+        else if (formItemField === 'manytomany-lists') {
+            let result = []
+            formItem.choices.map(({isChecked, value}) => {isChecked && result.push(value)});
+
+            objectData[key] = result;
         }
 
         else if (formItemField === 'read_only') objectData[key] = formItem.value
@@ -76,23 +83,48 @@ const formValidation = ({formData}) => {
     let isFormValid = false;
     let isError = false;
 
-    const selectFieldValidation = (formItem) => {
-        if (!formItem?.default) return null;
-        else if (formItem.default !== formItem.choices[formItem.choice].label) isFormValid = true;
+    // this function will see if at least one of many to many options have been selected
+    // if not then error would be set to true
+    const manyToManyFieldValidation = (formItem) => {
+        let checkedChoices = [];
+        formItem.choices.map(({isChecked, value}) => isChecked ? checkedChoices.push(value) : null);
+
+        
+        if (checkedChoices === [] && formItem.validation.required) isError = true;
+        else { checkedChoices.sort().join(',') === formItem.default.sort().join(',') ? isFormValid = isFormValid : isFormValid = true}
     }
 
+    // check if select field is valid or not
+    // no validation since there is none required
+    const selectFieldValidation = (formItem) => {
+        console.log(formItem.default === formItem.choice)
+        if (!Array.isArray(formItem.choices) || formItem.choices === []) {isError = true; return null}
+        formItem.default === formItem.choice ? isFormValid = isFormValid : isFormValid = true
+    }
+
+    // checks if string is neither empty nor invalid
     const textFieldValidation = (formItem) => {
         if (formItem.inputValue === '') return null;
         else if (formItem.inputValue !== '' && formItem.error) isError = true;
         else if (formItem.inputValue !== '' && formItem.inputValue == formItem.value) return null;
-        else if (formItem.inputValue !== '' && formItem.inputValue != formItem.value) isFormValid = true;
+        else if (formItem.inputValue !== '' && formItem.inputValue != formItem.value) {console.log('here'); isFormValid = true};
+    }
+
+    // checks if no number has been entered
+    // if no number has been entered then form will not be valid anymore
+    const numberFieldValidation = (formItem) => {
+        if (formItem.inputValue == '') return null;
+        else if (formItem.inputValue != '' && formItem.inputValue === formItem.value) return null;
+        else if (formItem.inputValue != '' && formItem.inputValue != formItem.value) {console.log('here'); isFormValid = true};
     }
 
     // map through all form fields, if form field is updated, then set is formValid to true
     // if field type is select then run selectFieldValidation, or if text, then run textFieldValidation
     formData.map((formItem) => {
-        if (formItem?.type === 'select' || formItem?.type === 'foreginkey') selectFieldValidation();
-        else if (formItem?.type === 'text') textFieldValidation(formItem);
+        if (formItem?.type === 'text' ) textFieldValidation(formItem);
+        else if (formItem?.type === 'number') numberFieldValidation(formItem)
+        else if (formItem?.type === 'manytomany-lists') manyToManyFieldValidation(formItem)
+        else if (formItem?.type === 'select' || formItem?.type === 'foreginkey') selectFieldValidation(formItem)
     })
 
     // if error occured then
@@ -138,14 +170,14 @@ const updateInstance = async ({instance_id, token, showMessage, formData, instan
     // then redirect them to /plans
     .then((response) => {
         // if success
-        if (response.success) successMessage({showMessage, instanceType, instance_id})
+        if (response.success) successMessage({showMessage, instanceType, instance_id, task: 'Update'})
         // if failed
-        else errorMessage({showMessage, instanceType, instance_id})
+        else errorMessage({showMessage, instanceType, instance_id, task: 'Update'})
     })
 
     // if error occured, show this message
     .catch(() => {
-        errorMessage({showMessage, instanceType, instance_id})
+        errorMessage({showMessage, instanceType, instance_id, task: 'Update'})
     })
     
 }
@@ -166,12 +198,12 @@ const deleteInstance = async ({instance_id, token, showMessage, instanceType}) =
         // if success
         if (response.success) successMessage()
         // if failed
-        else errorMessage()
+        else errorMessage({showMessage, instanceType, instance_id, task: 'Delete'})
     })
 
     // if error occured, show this message
     .catch(() => {
-        errorMessage()
+        errorMessage({showMessage, instanceType, instance_id, task: 'Delete'})
     })
     
 }

@@ -34,7 +34,7 @@ export default function EditGrid({data, heading, updateForm, formData}) {
 
     // updating the dropdown field
     const updateSelectFormField = ({selectedOption, fieldIndex}) => {
-        if (formData.choice === formData.default) return null;
+        if (formData.choice === selectedOption) return null;
 
         let newFormData = [...formData];
         newFormData[fieldIndex].choice = selectedOption;

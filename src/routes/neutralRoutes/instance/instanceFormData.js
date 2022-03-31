@@ -1,4 +1,3 @@
-import { getDefaultNormalizer } from '@testing-library/react';
 import validator from 'validator';
 import apiRequest from '../../../functions/apiRequest';
 
@@ -117,6 +116,9 @@ const newManyToManyFormField = async ({data, option, token}) => {
     let choicesList = await getManytomanyListsChoices({endpoints: option.related_endpoint, token}); 
 
     formField.choices = choicesList;
+    formField.validation = option.validation
+    formField.default = data[option.key];
+    
     return formField;
 }
 
@@ -131,6 +133,7 @@ const newForeignFormFeild = async ({data, option, token}) => {
     formField.choices = choicesList;
     formField.default = defaultValue;
     formField.choice = currentChoice;
+    formField.validation = option.validation
 
     return formField;
 }

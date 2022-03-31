@@ -14,48 +14,42 @@ export default function Charts ({serviceStatus}) {
     // Update Charts function
     const updateCharts = () => {
 
-
         const pieChartData = [
-
+            
             {
                 renderUnit: "gb",
                 heading: "Bandwith Usage",
-                total: serviceStatusResponse.bandwidth_max,
-                usage: serviceStatusResponse.bandwidth_used,
+                total: serviceStatusResponse?.bandwidth_max || NaN,
+                usage: serviceStatusResponse?.bandwidth_used || NaN,
             },
-
+            
             {
                 renderUnit: "gb",
                 heading: "Storage Usage",
-                total: serviceStatusResponse.disk_max,
-                usage: serviceStatusResponse.disk_used,
+                total: serviceStatusResponse?.disk_max || NaN,
+                usage: serviceStatusResponse?.disk_used || NaN,
             }, 
-
+            
             {
                 renderUnit: "gb",
                 heading: "Memeory Usage",
-                total: serviceStatusResponse.mem_max,
-                usage: serviceStatusResponse.mem_used,
+                total: serviceStatusResponse?.mem_max || NaN,
+                usage: serviceStatusResponse?.mem_used || NaN,
             }
-
+            
         ]
-
+        
         setChartsList( pieChartData )
 
     }
 
     // Initial Function 
     useEffect(() => {
-
-        if ( serviceStatus?.success ) {
-            
-            setIsServiceStatus(true)
-            updateCharts()
-
-        }
-
+        setIsServiceStatus(serviceStatus.success)
+        updateCharts()
     }, [serviceStatus])
- 
+
+
     return (
 
         <ChartsWrapper>
@@ -85,14 +79,12 @@ export default function Charts ({serviceStatus}) {
 }
 
 const ChartsWrapper = styled.div `
-
     width: 100%;
     column-gap: 40px;
+    margin-bottom: 35px;
+    grid-template-columns: repeat(3, 1fr);
     
     display: grid;
     height: fit-content;
-
     grid-template-rows: auto;
-    grid-template-columns: repeat(3, 1fr);
-
 `;

@@ -9,12 +9,22 @@ export default function NumberGridItem({fieldData, updateFormField, index}) {
 
     // setting up component states
     const [inputValue, setInputValue] = useState('');
+    const [isInputFocused, setIsInputFocused] = useState(false)
 
     // this well update the inputValue to whatever the value of input is
     const handleInputChange = (event) => {
-        if (event.target.value < validation.min) setInputValue(validation.min) 
-        else if (event.target.value > validation.max) setInputValue(validation.max)
+        if (event.target.value === '') setInputValue('')
         else setInputValue(event.target.value); 
+    }
+    
+    // set is input focused to true
+    const handleInputFocus = () => {
+        setIsInputFocused(true)
+    }
+
+    const handleInputBlur = () => {
+        if (inputValue < validation?.min) setInputValue(validation.min) 
+        else if (inputValue > validation?.max) setInputValue(validation.max)
     }
 
     // on inputValue change, we'd like to change the formData
@@ -39,13 +49,15 @@ export default function NumberGridItem({fieldData, updateFormField, index}) {
 
             <InputWrapper>
                 <Input  
+                    type='number'
+                    placeholder={value || 'ex: 1024'}
                     onChange={handleInputChange}
                     value={inputValue} 
-                    placeholder={value || 'ex: 1024'}
                     name={ui.label} 
                     min={validation?.min} 
                     max={validation?.max} 
-                    type='number'
+                    onBlur={handleInputBlur}
+                    onFocus={handleInputFocus}
                 />
             </InputWrapper>
         </MainWrapper>

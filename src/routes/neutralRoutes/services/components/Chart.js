@@ -85,7 +85,7 @@ const ProgressText = styled.span `
   font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 16px;
 
   display: flex;
   align-items: center;

@@ -46,7 +46,7 @@ export default async function service ({ ...props }) {
 
     const serviceInformation = await apiRequest({
         token: token,
-        endpoint: `/api/services/${serviceId}`
+        endpoint: `/core/services/${serviceId}`
     })
 
 
@@ -67,7 +67,7 @@ export default async function service ({ ...props }) {
 
     const serviceConsole = await apiRequest({
         token: token,
-        endpoint: `/api/services/${serviceId}/console_login`
+        endpoint: `/core/services/${serviceId}/console_login`
     })
 
 
@@ -87,7 +87,7 @@ export default async function service ({ ...props }) {
     const serviceStatus = await apiRequest({
         method: 'post',
         token: token,
-        endpoint: `/api/services/${serviceId}/status/`
+        endpoint: `/core/services/${serviceId}/status/`
     })
 
 

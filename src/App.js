@@ -183,6 +183,7 @@ const MainAppWrapper = styled.div `
 
 const AppContent = styled.div `
   overflow-y: scroll;
+  overflow-x: hidden;
 
   width: 100%;
   max-height: calc(100vh - 82px - 35px);
