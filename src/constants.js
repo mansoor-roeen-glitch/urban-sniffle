@@ -3,7 +3,9 @@ const TABLE_LABELS_DATA = {
     plan: ["name", "size", "period", "bandwidth"],
     node: ["name", "size", "period", "bandwidth"],
     template: ["name", "type", "id", "file"],
-    ippool: ["name", "type", "interface", "mask"]
+    ippool: ["name", "type", "interface", "mask"], 
+    ips: ['#', 'IP Address', 'ID', 'Pool', 'Owner'],
+    users: ['User', 'Task', 'Service ID']
 }
 
 const ACTIVE_MACHINE_EXTRA_ACTIONS = [

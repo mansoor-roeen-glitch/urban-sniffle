@@ -2,19 +2,19 @@
 import apiRequest from "../../../functions/apiRequest"
 import {initializeForm} from './instanceFormData';
 
-let successMessage = ({showMessage, instance_id, instanceType, task}) => {
+let successMessage = ({showMessage}) => {
     showMessage({
         success: true,
         title: 'Task Completed',
-        description: `${instanceType} ID: ${instance_id} ${task} completed`,
+        description: `new instance created successfully`,
     })
 }
 
-let errorMessage = ({showMessage, instance_id, instanceType, task}) => {
+let errorMessage = ({showMessage}) => {
     showMessage({
         success: false,
         title: 'Task Failed',
-        description: `${instanceType} ID: ${instance_id} ${task} failed`,
+        description: `failed to create new instance`,
     })
 }
 

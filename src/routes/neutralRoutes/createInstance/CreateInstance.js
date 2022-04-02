@@ -5,14 +5,13 @@ import {formValidation, getFormData} from './functions'
 import { useParams, useNavigate } from 'react-router';
 
 // Components
-import DeleteButton from '../../../components/buttons/DangerActionButton';
 import SubmitButton from '../../../components/buttons/ActionButton';
 import EditGrid from '../../../components/grids/EditGrid';
 import Message from '../../../components/messages/Message';
 import ConfirmAlert from '../../../components/popup/ActionConfirmation';
 import { createInstance } from './functions';
 
-export default function Instance({ subHeader, token, instanceType, optionalAction }) {
+export default function CreateInstance({ subHeader, token, instanceType, optionalAction }) {
     
     let navigate = useNavigate();
 
@@ -21,9 +20,7 @@ export default function Instance({ subHeader, token, instanceType, optionalActio
 
     // a list of inputs/dropdowns
     // this would later be updated based on server response
-    const [instanceDetails, setInstanceDetails] = useState([])
     const [formData, setFormData] = useState([]);
-    const [initialFormData, setInitialFormData] = useState([]);
 
     //  plan detail, loading, error and message states
     const [loading, setLoading] = useState(true)
@@ -32,7 +29,7 @@ export default function Instance({ subHeader, token, instanceType, optionalActio
     const [message, setMessage] = useState()
     const [actionLoading, setActionLoading] = useState()
     const [isFormValid, setIsFormValid] = useState(false)
- 
+
     // reset and clean the message
     const messageCleanup = () => {
         navigate(`/${instanceType}s`)

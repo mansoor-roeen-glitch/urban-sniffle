@@ -32,9 +32,9 @@ export default function AdminRoutes({subHeader, token}) {
       <Route path="/templates/:instance_id/" exact element={<Instance token={token} subHeader={subHeader} instanceType='template' />} />
       <Route path="/create/template/" exact element={<CreateInstance token={token} subHeader={subHeader} instanceType='template' />} />
 
-      <Route path="/ip_pools" exact element={<Instances token={token} subHeader={subHeader} instanceType='ippool' />} />
-      <Route path="/ip_pools/:instance_id/" exact element={<Instance token={token} subHeader={subHeader} instanceType='ippool' />} />
-      <Route path="/create/ip_pool/" exact element={<CreateInstance token={token} subHeader={subHeader} instanceType='ippool' />} />
+      <Route path="/ippools" exact element={<Instances token={token} subHeader={subHeader} instanceType='ippool' />} />
+      <Route path="/ippools/:instance_id/" exact element={<Instance token={token} subHeader={subHeader} instanceType='ippool' />} />
+      <Route path="/create/ippool/" exact element={<CreateInstance token={token} subHeader={subHeader} instanceType='ippool' />} />
 
       <Route path="/logout" exact element={<Logout />} />   
     </Routes>

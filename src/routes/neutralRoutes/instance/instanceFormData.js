@@ -158,6 +158,12 @@ const newFormField = ({data, option}) => {
         return formField
     }
 
+    else if (option.type === 'checkbox') {
+        formField.choices = [{label: 'True', value: true}, {label: 'False', value: false}]
+        formField.default = getSelectDefault({choicesList: formField.choices, defaultValue: option.default})
+        formField.choice = getSelectDefault({choicesList: formField.choices, defaultValue: option.default})
+    }
+
     else if (option.type === "text" || option.type === "number") {
         formField.value = data[option.key]
         formField.validation = option.validation

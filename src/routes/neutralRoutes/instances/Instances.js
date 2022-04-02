@@ -26,7 +26,7 @@ export default function Instances({ token, subHeader, instanceType}) {
     // this function will determain the filter input
     let handleSearchKey = () => {
         if (instanceType === 'service') return 'hostname'
-        else if (instanceType === 'node' || instanceType === 'plan') return 'name'
+        else {return 'name'}
     }
 
     // returns the table labels data depending on instance type
@@ -67,6 +67,8 @@ export default function Instances({ token, subHeader, instanceType}) {
 
     // run "getResults" function
     useEffect( () => {
+        setSearch('')
+        setFoundMatch(false)
         setResults([])
         setLoading(true)
         setError(false)

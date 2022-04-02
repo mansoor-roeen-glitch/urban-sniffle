@@ -97,7 +97,6 @@ const formValidation = ({formData}) => {
     // check if select field is valid or not
     // no validation since there is none required
     const selectFieldValidation = (formItem) => {
-        console.log(formItem.default === formItem.choice)
         if (!Array.isArray(formItem.choices) || formItem.choices === []) {isError = true; return null}
         formItem.default === formItem.choice ? isFormValid = isFormValid : isFormValid = true
     }
@@ -107,7 +106,7 @@ const formValidation = ({formData}) => {
         if (formItem.inputValue === '') return null;
         else if (formItem.inputValue !== '' && formItem.error) isError = true;
         else if (formItem.inputValue !== '' && formItem.inputValue == formItem.value) return null;
-        else if (formItem.inputValue !== '' && formItem.inputValue != formItem.value) {console.log('here'); isFormValid = true};
+        else if (formItem.inputValue !== '' && formItem.inputValue != formItem.value) isFormValid = true;
     }
 
     // checks if no number has been entered
@@ -115,7 +114,7 @@ const formValidation = ({formData}) => {
     const numberFieldValidation = (formItem) => {
         if (formItem.inputValue == '') return null;
         else if (formItem.inputValue != '' && formItem.inputValue === formItem.value) return null;
-        else if (formItem.inputValue != '' && formItem.inputValue != formItem.value) {console.log('here'); isFormValid = true};
+        else if (formItem.inputValue != '' && formItem.inputValue != formItem.value) isFormValid = true;
     }
 
     // map through all form fields, if form field is updated, then set is formValid to true
@@ -124,7 +123,7 @@ const formValidation = ({formData}) => {
         if (formItem?.type === 'text' ) textFieldValidation(formItem);
         else if (formItem?.type === 'number') numberFieldValidation(formItem)
         else if (formItem?.type === 'manytomany-lists') manyToManyFieldValidation(formItem)
-        else if (formItem?.type === 'select' || formItem?.type === 'foreginkey') selectFieldValidation(formItem)
+        else if (formItem?.type === 'select' || formItem?.type === 'foreginkey' || formItem?.type === 'checkbox') selectFieldValidation(formItem)
     })
 
     // if error occured then

@@ -67,7 +67,7 @@ export default function EditGrid({data, heading, updateForm, formData}) {
         else if (gridItem?.type === 'number') {
             return <NumberField fieldData={gridItem} key={index} index={index} updateFormField={updateInputFormField} />}
         // checks if field is float
-        else if (gridItem?.type === 'select' || gridItem.type === 'foreignkey') {
+        else if (gridItem?.type === 'select' || gridItem.type === 'foreignkey' || gridItem.type === 'checkbox') {
             return <SelectField fieldData={gridItem} key={index} index={index} updateFormField={updateSelectFormField} />}
 
         else if (gridItem?.type === 'manytomany-lists') {

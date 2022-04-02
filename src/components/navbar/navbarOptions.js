@@ -48,7 +48,7 @@ export default function navbarOptions (user) {
         },
         {
             text: "Pools",
-            link: "/pools",
+            link: "/ippools",
             icon_path: "plans.svg",
             width: "18px",
             height: "18px"

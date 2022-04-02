@@ -1,6 +1,8 @@
 // Importing Dependencies 
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { TABLE_LABELS_DATA } from '../../../constants';
+import { getDashboardSummaries } from '../../../functions/dashbaordSummaries';
 import GridItemTypeC from './components/GridItemTypeC';
 
 // Importing Components
@@ -11,90 +13,29 @@ import ServerStatisticsComponent from './components/ServerStatisticsComponent';
 
 export default function Dashboard ({token, subHeader}) {
 
-    const [loading, setLoading] = useState()
+    
+    // states... 
+    const [loading, setLoading] = useState(true);
+    const [summary, setSummary] = useState([]);
+    const [ipList, setIpList] = useState([]);
+    const [userList, setUserList] = useState([]);
+    const [ipListTableData, setIpListTableData] = useState([]);
+    const [userListTableData, setUserListTableData] = useState([]);
+    
+    // this function will update the ip_list table and user_list table data
+    // using data from ipList and userList
+    const updateIplistDataAndUserListData = () => {
+        let newIpListTable = [];
+        let newUserList = [];
 
-    // React State Hooks
-    const [countOfServices, setCountOfServices] = useState(0)
-    const [countOfNodes, setCountOfNodes] = useState(0)
-    const [countOfIpv4, setCountOfIpv4] = useState(0)
-    const [countOfIpv6, setCountOfIpv6] = useState(0)
-    const [countOfUsers, setCountOfUsers] = useState(0)
-    const [countOfTemplates, setCountOfTemplates] = useState(0)
-    const [countOfNodeDisks, setCountOfNodeDisks] = useState(0)
+        if (ipList.success && ipList.body !== []) {
+            ipList.body.map((ip, index) => {
+                newIpListTable.push([index + 1, ip.value, ip.id, ip.pool, ip.owner])
+            })
+        }
 
-    const [clusterStorage, setClusterStorage] = useState({
-        totalStorage: 1030,
-        remaining: 900,
-        usage: 130,
-    }) 
-
-    const [clusterRam, setClusterRam] = useState({
-        totalStorage: 1030,
-        remaining: 900,
-        usage: 130,
-    })
-
-
-    // Component Variables
-
-    let tableOneHeaderData = [
-        '#',
-        'IP Address',
-
-        'ID',
-        'Pool',
-        'Owner',
-    ]
-
-
-    let tableTwoHeaderData = [
-        'User',
-        'Task',
-        'Service ID',
-    ]
-
-    let tableOneData = [
-        [
-            '1.',
-            '10.10.10.102',
-
-            '25',
-            '3',
-            '3',
-        ],
-        [
-            '2.',
-            '10.10.10.102',
-
-            '25',
-            '3',
-            '3',
-        ],
-        [
-            '3.',
-            '10.10.10.102',
-
-            '25',
-            '3',
-            '3',
-        ],
-        [
-            '4.',
-            '10.10.10.102',
-
-            '25',
-            '3',
-            '3',
-        ],
-        [
-            '5.',
-            '10.10.10.102',
-
-            '25',
-            '3',
-            '3',
-        ]
-    ]
+        setIpListTableData(newIpListTable)
+    }
 
     let tableTwoData = [
         [
@@ -124,40 +65,58 @@ export default function Dashboard ({token, subHeader}) {
         ],
     ]
 
-
+    // update the tables data
+    useEffect(() => {
+        updateIplistDataAndUserListData()
+    }, [ipList, userList]) 
 
     // update sub-header
     useEffect(() => {
         subHeader([`Admin Dashboard`], loading)
     }, [loading])
 
-    return (
+    // get the admin dashboard data
+    useEffect( async () => {
+        let response = await getDashboardSummaries({token});
 
+        setSummary(response.summary);
+        setIpList(response.ipList);
+        setUserList(response.userList);
+        setLoading(false);
+    }, [])
+
+    // return loading screen
+    if (loading) {
+        return (
+            <h1>loading</h1>
+        )
+    }
+
+    return (
         <Wrapper>
             <InnerWrapper>
                 <ClusterStatisticsWrapper>
 
-
                     {/* Cluster Statistics and extra infromations*/}
-                    <SectionOneComponent />
+                    <SectionOneComponent
+                        dashboardSummariesData={summary?.body || {}}
+                        clusterSummariesData={{}}
+                    />
 
                     {/* Lists of IP addresses and recent tasks */}
                     <SectionTwoComponent 
-                        tableOneHeaderData={tableOneHeaderData}
-                        tableTwoHeaderData={tableTwoHeaderData}
-                        tableOneData={tableOneData}
+                        tableOneHeaderData={TABLE_LABELS_DATA.ips}
+                        tableTwoHeaderData={TABLE_LABELS_DATA.users}
+                        tableOneData={ipListTableData}
                         tableTwoData={tableTwoData}
                     />
 
                     {/* Server Statistics */}
                     <ServerStatisticsComponent />
 
-
                 </ClusterStatisticsWrapper>
             </InnerWrapper>
         </Wrapper>
-    
-
     );
 }
 

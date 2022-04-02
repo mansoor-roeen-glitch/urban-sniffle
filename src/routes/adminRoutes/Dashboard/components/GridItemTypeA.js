@@ -7,7 +7,7 @@ import Svg from '../../../../components/icons/SvgIcon';
 
 
 export default function GridItemTypeA({heading, value, iconSize, iconPath}) {
-  
+
     // Component Variables
     const {iconHeight, iconWidth} = iconSize
 
