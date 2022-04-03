@@ -41,16 +41,27 @@ export default function Console({service, terminalData, status}) {
         // Terminal Initialization
         term.loadAddon(fitAddon);
         term.open(XTerm.current);
+        
+        // if terminal data is missing then show error in terminal
+        if (terminalData.success === false) {
+            term.write('Failed to authenticate, please make sure service is active');
+            fitAddon.fit();     
+
+            // make sure the rest of the code is not gonna run 
+            return null;
+        }
+
         term.write('connecting serial terminal ...')
         fitAddon.fit();
 
         // Terminal Authentication And Connection
-        handleTerminalAuthentication({terminalData, term, terminalStates, terminalState});
+        handleTerminalAuthentication({terminalData: terminalData.body, term, terminalStates, terminalState});
 
     }
 
-    // Use Effect
-    useEffect(handleTerminalInitialization, []);
+    // initialize the terminal ... 
+    useEffect(handleTerminalInitialization, [terminalData]);
+    
 
     return (
         <Wrapper>

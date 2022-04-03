@@ -67,14 +67,14 @@ export default async function service ({ ...props }) {
 
     const serviceConsole = await apiRequest({
         token: token,
-        endpoint: `/core/services/${serviceId}/console_login`
+        method: 'post',
+        endpoint: `/core/services/${serviceId}/console_login/`
     })
 
 
     if ( serviceConsole.success === false ) {
 
         // Handle Error
-
         setError(error.push({
             errorMessage: serviceConsole.error_message,
             status_code: serviceConsole.status_code,
