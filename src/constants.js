@@ -5,7 +5,7 @@ const TABLE_LABELS_DATA = {
     template: ["name", "type", "id", "file"],
     ippool: ["name", "type", "interface", "mask"], 
     ips: ['#', 'IP Address', 'ID', 'Pool', 'Owner'],
-    users: ['User', 'Task', 'Service ID']
+    users: ['#', 'Email', 'Username', 'PK']
 }
 
 const ACTIVE_MACHINE_EXTRA_ACTIONS = [

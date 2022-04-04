@@ -26,44 +26,23 @@ export default function Dashboard ({token, subHeader}) {
     // using data from ipList and userList
     const updateIplistDataAndUserListData = () => {
         let newIpListTable = [];
-        let newUserList = [];
+        let newUserListTable = [];
 
-        if (ipList.success && ipList.body !== []) {
-            ipList.body.map((ip, index) => {
+        if (ipList.success && ipList.body.results !== []) {
+            ipList.body.results.map((ip, index) => {
                 newIpListTable.push([index + 1, ip.value, ip.id, ip.pool, ip.owner])
             })
         }
 
-        setIpListTableData(newIpListTable)
-    }
+        if (userList.success && userList.body.results !== []) {
+            userList.body.results.map((user, index) => {
+                newUserListTable.push([index + 1, user.email, user.username, user.pk])
+            })
+        }
 
-    let tableTwoData = [
-        [
-            'mansoor_01',
-            'Delete',
-            '201'
-        ],
-        [
-            'mansoor_02',
-            'reboot',
-            '201'
-        ],
-        [
-            'mansoor_03',
-            'reboot',
-            '201'
-        ],
-        [
-            'mansoor_04',
-            'shutdown',
-            '201'
-        ],
-        [
-            'mansoor_05',
-            'stoped',
-            '201'
-        ],
-    ]
+        setIpListTableData(newIpListTable)
+        setUserListTableData(newUserListTable)
+    }
 
     // update the tables data
     useEffect(() => {
@@ -78,7 +57,7 @@ export default function Dashboard ({token, subHeader}) {
     // get the admin dashboard data
     useEffect( async () => {
         let response = await getDashboardSummaries({token});
-
+        console.log(response)
         setSummary(response.summary);
         setIpList(response.ipList);
         setUserList(response.userList);
@@ -108,7 +87,7 @@ export default function Dashboard ({token, subHeader}) {
                         tableOneHeaderData={TABLE_LABELS_DATA.ips}
                         tableTwoHeaderData={TABLE_LABELS_DATA.users}
                         tableOneData={ipListTableData}
-                        tableTwoData={tableTwoData}
+                        tableTwoData={userListTableData}
                     />
 
                     {/* Server Statistics */}

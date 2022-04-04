@@ -7,8 +7,9 @@ import GridItemTypeC from './GridItemTypeC';
 
 
 export default function SectionTwoComponent({ ...props }) {
-  
-  
+
+    console.log(props)
+
     const {
         tableOneData,
         tableTwoData,
@@ -40,7 +41,6 @@ export default function SectionTwoComponent({ ...props }) {
 
                 tableHeaderData={tableTwoHeaderData}
                 tableData={tableTwoData}
-                isListOfTasks={true}
                 
                 iconSize={{
                     iconWidth: 20, 

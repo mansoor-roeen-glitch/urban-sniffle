@@ -35,7 +35,7 @@ function handleTerminalConnection ({terminalData, term, terminalState, terminalS
 
             // socket on open event initialization
             socket.onopen = function (e) { 
-                socket.send(`${username}:${response.ticket}\n`);
+                socket.send(username+":" + response.ticket + "\n");
                 terminalState = terminalStates.connected;
             };
 
@@ -46,7 +46,7 @@ function handleTerminalConnection ({terminalData, term, terminalState, terminalS
             // on terminal data change, trigger this event
             term.onData(function(data) {
                 if (terminalState !== terminalState.connected) {
-                    return null;
+                    console.log('TERMINAL-NOT-CONNECTED')
                 }
                 
                 // send data with socket.send
